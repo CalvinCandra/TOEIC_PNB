@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('soal', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_suara')->after('kunci_jawaban');
-            $table->foreign('id_suara')->references('id_suara')->on('suara');
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('level', ['admin', 'petugas', 'peserta'])->after('remember_token');
         });
     }
 
@@ -22,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('soal', function (Blueprint $table) {
-            $table->dropForeign(['id_suara']);
-            $table->dropColumn('id_suara');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('level');
         });
     }
 };
