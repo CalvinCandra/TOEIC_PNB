@@ -14,9 +14,11 @@ class Gambar extends Model
     protected $primaryKey = 'id_gambar';
     protected $fillable = [
         'gambar',
+        'created_at',
+        'update_at',
     ];
 
-    // relasi soal
+    // soal
     public function soal(): BelongsTo
     {
         return $this->belongsTo(Soal::class, 'id_gambar', 'id_gambar');

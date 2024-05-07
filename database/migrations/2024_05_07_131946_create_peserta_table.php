@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('petugas', function (Blueprint $table) {
-            $table->id('id_petugas');
-            $table->string('nama_petugas', 100);
+        Schema::create('peserta', function (Blueprint $table) {
+            $table->id('id_peserta');
+            $table->string('nama_peserta', 100);
+            $table->enum('kelamin', ['L', 'P']);
+            $table->string('jurusan', 100);
             $table->unsignedBigInteger('id_users');
-            $table->foreign('id_users')->references('id_users')->on('users');
+            $table->foreign('id_users')->references('id')->on('users');
+            $table->timestamps();
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('petugas');
+        Schema::dropIfExists('peserta');
     }
 };

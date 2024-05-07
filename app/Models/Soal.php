@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-
 class Soal extends Model
 {
     use HasFactory;
@@ -21,32 +20,34 @@ class Soal extends Model
         'jawaban_c',
         'jawaban_d',
         'kunci_jawaban',
-        'id_suara',
         'id_gambar',
+        'id_audio',
         'id_petugas',
+        'created_at',
+        'update_at',
     ];
 
-    // relasi suara
-    public function suara(): HasOne
-    {
-        return $this->hasOne(Suara::class, 'id_suara', 'id_suara');
-    }
-    
-    // relasi gambar
-    public function gambar(): HasOne
-    {
-        return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar');
-    }
-
-    // relasi petugas
+    // petugas
     public function petugas(): HasOne
     {
         return $this->hasOne(Petugas::class, 'id_petugas', 'id_petugas');
     }
 
-    // relasi pengerjaan
+    // gambar
+    public function gambar(): HasOne
+    {
+        return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar');
+    }
+
+    // audio
+    public function audio(): HasOne
+    {
+        return $this->hasOne(Audio::class, 'id_audio', 'id_audio');
+    }
+
+    // pengerjaan
     public function pengerjaan(): BelongsTo
     {
-        return $this->belongsTo(Pengerjaan::class, 'id_soal', 'id_soal');
+        return $this->belongsTo(Pengerjaan::class, 'id_pengerjaan', 'id_pengerjaan');
     }
 }

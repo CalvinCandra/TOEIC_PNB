@@ -6,21 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Suara extends Model
+class Audio extends Model
 {
     use HasFactory;
 
-    protected $table = 'suara';
-    protected $primaryKey = 'id_suara   ';
+    protected $table = 'audio';
+    protected $primaryKey = 'id_audio';
     protected $fillable = [
-        'suara',
+        'audio',
+        'created_at',
+        'update_at',
     ];
 
-    // relasi soal
+    // soal
     public function soal(): BelongsTo
     {
-        return $this->belongsTo(Soal::class, 'id_suara', 'id_suara');
+        return $this->belongsTo(Soal::class, 'id_audio', 'id_audio');
     }
-
-
 }
