@@ -45,11 +45,11 @@
             <div class="py-3 px-4">
               <span
                 class="block text-sm font-semibold text-gray-900"
-                >Neil Sims</span
+                >{{ auth()->user()->name }}</span
               >
               <span
                 class="block text-sm text-gray-900 truncate"
-                >name@flowbite.com</span
+                >{{ auth()->user()->email }}</span
               >
             </div>
             <ul
@@ -58,7 +58,7 @@
             >
               <li>
                 <a
-                  href="#"
+                  href="{{url('/logout')}}"
                   class="block py-2 px-4 text-sm font-bold hover:bg-gray-100"
                   >Sign out</a
                 >

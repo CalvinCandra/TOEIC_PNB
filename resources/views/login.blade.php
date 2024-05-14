@@ -32,14 +32,31 @@
             </div>
     
             <div class="w-full flex flex-col lg:w-3/5 mx-5 my-5">
-                
+                @if ($message = Session::get('gagal'))
+                    <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <div class="ml-3 text-sm font-medium">
+                            {{ $message }}
+                        </div>
+                    </div>
+                @endif
                 <h1 class="pb-8 text-2xl font-extrabold">Login</h1>
                 <h5 class="mb-2">Enter your email to log in</h5>
 
-                <form action="" method="post" class="flex flex-col w-full h-44 justify-between">
-                    
+                <form action="{{url('/ProsesLogin')}}" method="post" class="flex flex-col w-full h-44 justify-between">
+                    @csrf
                     <input type="email" name="email" id="" class="rounded-2xl bg-slate-50 p-2" placeholder="Enter Your Email">
-                    <input type="password" name="pass" id="" class="rounded-2xl p-2" placeholder="Enter Your Password">
+                    @error('email')
+                        <div class="mb-3 text-sm italic text-red-400">
+                            {{$message}}
+                        </div>
+                    @enderror
+
+                    <input type="password" name="password" id="" class="rounded-2xl p-2" placeholder="Enter Your Password">
+                    @error('password')
+                        <div class="mb-3 text-sm italic text-red-400">
+                            {{$message}}
+                        </div>
+                    @enderror
     
                     <button type="submit" class="bg-sky-500 rounded-2xl py-2 text-white font-semibold hover:bg-sky-600">Continue</button>
                 </form>
