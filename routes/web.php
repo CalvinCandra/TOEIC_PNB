@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PetugasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,14 +15,33 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {
-    return view('login');
+
+// login
+Route::get('/', [AuthController::class, 'index'])->name('login');
+
+// proses Login
+Route::post('/ProsesLogin', [AuthController::class, 'ProsesLogin']);
+
+// logout
+Route::get('/logout', [AuthController::class, 'Logout']);
+
+// ========================================== Grup Admin ==========================================
+// ==================================== Yang Berbau Admin, Dikerjakan di dalam Grup ini ==================================
+Route::group(['middleware' => ['auth', 'level:admin']], function (){
+    // tampilan dashboard
+    Route::get('/admin', [AdminController::class, 'index']);
+
 });
 
-Route::get('/admin', function () {
-    return view('admin.content.dashboard');
+//  ======================================== Grup Petugas =========================================
+Route::group(['middleware' => ['auth', 'level:petugas']], function (){
+    Route::get('/petugas', [PetugasController::class, 'index']);
+
 });
 
-Route::get('/petugas', function () {
-    return view('petugas.content.dashboard');
+// ======================================== Grup Peserta =========================================
+Route::group(['middleware' => ['auth', 'level:peserta']], function (){
+
+
 });
+

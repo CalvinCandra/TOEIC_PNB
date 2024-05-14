@@ -9,12 +9,6 @@
           </button>
 
           <a href="https://flowbite.com" class="flex items-center justify-between mr-4">
-            <!-- <img
-              src="https://flowbite.s3.amazonaws.com/logo.svg"
-              class="mr-3 h-8"
-              alt="Flowbite Logo"
-              loading="lazy"
-            /> -->
             <span class="self-center text-2xl font-semibold whitespace-nowrap">TOEIC</span>
           </a>
         </div>
@@ -45,11 +39,11 @@
             <div class="py-3 px-4">
               <span
                 class="block text-sm font-semibold text-gray-900"
-                >Neil Sims</span
+                >{{ auth()->user()->name }}</span
               >
               <span
                 class="block text-sm text-gray-900 truncate"
-                >name@flowbite.com</span
+                >{{ auth()->user()->email }}</span
               >
             </div>
             <ul
@@ -58,7 +52,7 @@
             >
               <li>
                 <a
-                  href="#"
+                  href="{{url('/logout')}}"
                   class="block py-2 px-4 text-sm font-bold hover:bg-gray-100"
                   >Sign out</a
                 >
