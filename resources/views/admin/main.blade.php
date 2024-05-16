@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('admin.layout.header')
+    @include('layouts.header')
     <title>@yield('Title')</title>
 </head>
 
-<body style="font-family: 'Poppins','sans-serif';">
-    @include('admin.layout.navbar')
-    @include('admin.layout.sidebar')
+<body class="font-Poppins">
+    @include('layouts.dashboard.navbar')
+    @include('layouts.dashboard.sidebar')
     @yield('content')
-    @include('admin.layout.scripts')
+    @include('layouts.dashboard.scripts')
 </body>
 </html>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('petugas.layout.header')
+    @include('layouts.header')
     <title>@yield('Title')</title>
 </head>
 
-<body style="font-family: 'Poppins','sans-serif';">
-    @include('petugas.layout.navbar')
-    @include('petugas.layout.sidebar')
+<body class="font-Poppins">
+    @include('layouts.dashboard.navbar')
+    @include('layouts.dashboard.sidebar')
     @yield('content')
-    @include('petugas.layout.scripts')
+    @include('layouts.dashboard.scripts')
 </body>
 </html>
