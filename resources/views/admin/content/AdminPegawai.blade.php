@@ -2,14 +2,14 @@
 @extends('admin.main')
 
 {{-- judul halaman disini --}}
-@section('Title', 'Dashboard Admin | Participants')
+@section('Title', 'Dashboard Admin | Staff')
 
 {{-- membuat content disini --}}
 @section('content')
 
 {{-- konten --}}
 <section class="p-4 md:ml-64 h-auto pt-20">
-    <h1>Participants Data</h1>
+    <h1>Staff Data</h1>
 
     <div class="p-3 sm:p-5 antialiased">
         @if (count($errors) > 0)
@@ -47,11 +47,11 @@
                 <div class="overflow-x-auto w-full">
                     <div class="flex justify-between">
                         <!-- Modal toggle -->
-                        <button data-modal-target="TambahPeserta" data-modal-toggle="TambahPeserta" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                            Create Participants Data
+                        <button data-modal-target="TambahPetugas" data-modal-toggle="TambahPetugas" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                            Create Staff Data
                         </button>
 
-                        <a href="{{url('/SendMailPesertaAll')}}" class="block text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                        <a href="{{url('/SendMailPetugasAll')}}" class="block text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
                             Send Email
                         </a>
                     </div>
@@ -61,32 +61,22 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-4 py-4 border-2">No</th>
-                                <th scope="col" class="px-4 py-3 border-2">Participants Name</th>
-                                <th scope="col" class="px-4 py-3 border-2">Participants Email</th>
-                                <th scope="col" class="px-4 py-3 border-2">Participants NIM</th>
-                                <th scope="col" class="px-4 py-3 border-2">Gender</th>
-                                <th scope="col" class="px-4 py-3 border-2">Major</th>
+                                <th scope="col" class="px-4 py-3 border-2">Staff Name</th>
+                                <th scope="col" class="px-4 py-3 border-2">Staff Email</th>
                                 <th scope="col" class="px-4 py-3 border-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($peserta as $data)
-                                <tr class="border-b"
+                            @foreach($petugas as $data)
+                                <tr class="border-b dark:border-gray-700"
                                 id="baris{{$loop->iteration}}">
                                     <th class="px-4 py-3 border-2">{{$loop->iteration}}</th>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->nama_peserta}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->email}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->nim}}</td>
-                                    @if ($data->kelamin == 'L')
-                                        <td class="px-4 py-3 border-2">Male</td>
-                                    @else
-                                        <td class="px-4 py-3 border-2">Female</td>
-                                    @endif
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jurusan}}</td>
+                                    <td class="px-4 py-3 border-2">{{$data->nama_petugas}}</td>
+                                    <td class="px-4 py-3 border-2">{{$data->user->email}}</td>
                                     <td class="px-4 py-3 border-2">
                                         <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
                                             <li>
-                                                <a href="{{url('/SendMail/Peserta/'.$data->id_peserta)}}"
+                                                <a href="{{url('/SendMail/Petugas/'.$data->id_petugas)}}"
                                                     class="flex items-center w-full px-4 py-2 text-green-400 hover:bg-gray-100 hover:scale-95">
                                                     <i class="fa-solid fa-paper-plane me-1"></i>
                                                     Send Mail
@@ -94,8 +84,9 @@
                                             </li>
                                             <li>
                                                 <button
-                                                    type="button" data-modal-target="UpdatePeserta{{$data->id_peserta}}"
-                                                    data-modal-toggle="UpdatePeserta{{$data->id_peserta}}"
+                                                    onclick="edit('baris{{$loop->iteration}}', '{{$data->id_petugas}}')"
+                                                    type="button" data-modal-target="UpdatePetugas"
+                                                    data-modal-toggle="UpdatePetugas"
                                                     class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
                                                     <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
                                                     Update
@@ -103,9 +94,9 @@
                                             </li>
                                             <li>
                                                 <button
-                                                    onclick="hapus('baris{{$loop->iteration}}', '{{$data->id_peserta}}')"
-                                                    type="button" data-modal-target="DeletePeserta"
-                                                    data-modal-toggle="DeletePeserta"
+                                                    onclick="hapus('baris{{$loop->iteration}}', '{{$data->id_petugas}}')"
+                                                    type="button" data-modal-target="DeletePetugas"
+                                                    data-modal-toggle="DeletePetugas"
                                                     class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
                                                     <i class="fa-solid fa-trash me-1"></i>
                                                     Delete
@@ -120,7 +111,7 @@
                 </div>
             </div>
             <div class="">
-                {{$peserta->links()}}
+                {{$petugas->links()}}
             </div>
         </div>
     </div>
@@ -129,7 +120,7 @@
 
 
 {{-- Modal Tambah --}}
-<div id="TambahPeserta" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+<div id="TambahPetugas" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-md max-h-full p-4">
         <!-- Modal content -->
@@ -138,11 +129,11 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Create Participants Data
+                    Create Staff Data
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="TambahPeserta">
+                    data-modal-hide="TambahPetugas">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -154,8 +145,9 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/TambahPeserta')}}" method="POST">
+                <form class="space-y-4" action="{{url('/TambahPetugas')}}" method="POST">
                     @csrf
+
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name Full</label>
                         <input type="text" name="name" id="name"
@@ -164,43 +156,10 @@
                     </div>
 
                     <div>
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                        <input type="text" name="email" id="email"
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                        <input type="email" name="email" id="email"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : youremail@gmail.com" required />
-                    </div>
-
-                    <div>
-                        <label for="nim" class="block mb-2 text-sm font-medium text-gray-900">NIM</label>
-                        <input type="number" name="nim" id="nim"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : 221535000" required />
-                    </div>
-
-                    <div>
-                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Major</label>
-                        <select id="countries" name="jurusan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option selected hidden value="">Choose a Major</option>
-                            <option value="Administrasi Bisnis">Administrasi Bisnis</option>
-                            <option value="Akutansi">Akutansi</option>
-                            <option value="Pariwisata">Pariwisata</option>
-                            <option value="Teknik Sipil">Teknik Sipil</option>
-                            <option value="Teknik Mesin">Teknik Mesin</option>
-                            <option value="Teknik Elektro">Teknik Elektro</option>
-                            <option value="Teknologi Informasi">Teknologi Informasi</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Gender</label>
-                        <div class="flex items-center mb-4">
-                            <input type="radio" value="L" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
-                            <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Male</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input id="default-radio-2" type="radio" value="P" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
-                            <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Female</label>
-                        </div>
                     </div>
 
                     <button type="submit"
@@ -213,9 +172,8 @@
 </div>
 {{-- End Modal Tambah --}}
 
-@foreach ($peserta as $data)    
 {{-- Modal Update --}}
-<div id="UpdatePeserta{{$data->id_peserta}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+<div id="UpdatePetugas" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-md max-h-full p-4">
         <!-- Modal content -->
@@ -224,11 +182,11 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Update Participants Data
+                    Update Staff Data
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="UpdatePeserta{{$data->id_peserta}}">
+                    data-modal-hide="UpdatePetugas">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -240,68 +198,23 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/UpdatePeserta')}}" method="POST">
+                <form class="space-y-4" action="{{url('/UpdatePetugas')}}" method="POST">
                     @csrf
 
-                    <input type="hidden" name="id_peserta" value="{{$data->id_peserta}}">
+                    <input type="hidden" name="id_petugas" id="edit-petugas">
 
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name Full</label>
-                        <input type="text" name="name" value="{{$data->nama_peserta}}"
+                        <input type="text" name="name" id="edit-name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : Sopo Jarwo" required />
                     </div>
 
                     <div>
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                        <input type="text" name="email" value="{{$data->user->email}}"
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                        <input type="email" name="email" id="edit-email"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : youremail@gmail.com" required />
-                    </div>
-
-                    <div>
-                        <label for="nim" class="block mb-2 text-sm font-medium text-gray-900">NIM</label>
-                        <input type="number" name="nim" value="{{$data->nim}}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : 221535000" required />
-                    </div>
-
-                    <div>
-                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Major</label>
-                        <select id="countries" name="jurusan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="{{$data->jurusan}}" selected hidden>{{$data->jurusan}}</option>
-                            <option value="Administrasi Bisnis">Administrasi Bisnis</option>
-                            <option value="Akutansi">Akutansi</option>
-                            <option value="Pariwisata">Pariwisata</option>
-                            <option value="Teknik Sipil">Teknik Sipil</option>
-                            <option value="Teknik Mesin">Teknik Mesin</option>
-                            <option value="Teknik Elektro">Teknik Elektro</option>
-                            <option value="Teknologi Informasi">Teknologi Informasi</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Gender</label>
-                        @if ($data->kelamin == 'L')
-                            <div class="flex items-center mb-4">
-                                <input checked type="radio" value="L" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Male</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="radio" value="P" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Female</label>
-                            </div>
-                        @else
-                            <div class="flex items-center mb-4">
-                                <input type="radio" value="L" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Male</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input checked type="radio" value="P" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Female</label>
-                            </div>
-                        @endif
-                        
                     </div>
 
                     <button type="submit"
@@ -313,10 +226,9 @@
     </div>
 </div>
 {{-- End Modal Update --}}
-@endforeach
 
 {{-- Modal Delete --}}
-<div id="DeletePeserta" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+<div id="DeletePetugas" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <!-- Modal content -->
@@ -324,7 +236,7 @@
 
             <button type="button"
                 class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                data-modal-toggle="DeletePeserta">
+                data-modal-toggle="DeletePetugas">
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -338,11 +250,11 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form action="{{url('/DeletePeserta')}}" method="POST">
+                <form action="{{url('/DeletePetugas')}}" method="POST">
                     @csrf
-                    <input type="hidden" id="hapus-peserta" name="id_peserta">
+                    <input type="hidden" id="hapus-petugas" name="id_petugas">
                     
-                    <button data-modal-toggle="DeletePeserta" type="button"
+                    <button data-modal-toggle="DeletePetugas" type="button"
                         class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                         Cancel</button>
                     <input type="submit"
@@ -358,12 +270,20 @@
 
 
 <script>
+    function edit(baris, id) {
+        const td = document.querySelectorAll('#' + baris + ' td');
+
+        document.getElementById('edit-name').value = td[0].innerText
+        document.getElementById('edit-email').value = td[1].innerText
+
+        document.getElementById('edit-petugas').value = id;
+    }
+
     function hapus(baris, id) {
         const td = document.querySelectorAll('#' + baris + ' td');
 
-        document.getElementById('hapus-peserta').value = id;
+        document.getElementById('hapus-petugas').value = id;
     }
 
 </script>
-
 @endsection

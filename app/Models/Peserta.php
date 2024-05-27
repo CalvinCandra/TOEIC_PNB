@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -14,6 +15,8 @@ class Peserta extends Model
     protected $primaryKey = 'id_peserta';
     protected $fillable = [
         'nama_peserta',
+        'nim',
+        'token',
         'kelamin',
         'jurusan',
         'id_users',
@@ -25,5 +28,11 @@ class Peserta extends Model
     public function pengerjaan(): BelongsTo
     {
         return $this->belongsTo(Pengerjaan::class, 'id_peserta', 'id_peserta');
+    }
+
+    // users
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'id_users');
     }
 }

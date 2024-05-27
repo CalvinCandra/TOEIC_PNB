@@ -8,9 +8,7 @@
           <span class="sr-only">Toggle sidebar</span>
         </button>
 
-        <a href="https://flowbite.com" class="flex items-center justify-between mr-4">
-          <span class="self-center text-2xl font-semibold whitespace-nowrap">TOEIC</span>
-        </a>
+        <span class="self-center text-2xl font-semibold whitespace-nowrap">TOEIC</span>
       </div>
       <div class="flex items-center lg:order-2">
 
