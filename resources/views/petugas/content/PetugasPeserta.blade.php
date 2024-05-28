@@ -1,8 +1,8 @@
 {{-- menghubungkan file main --}}
-@extends('admin.main')
+@extends('petugas.main')
 
 {{-- judul halaman disini --}}
-@section('Title', 'Dashboard Admin | Participants')
+@section('Title', 'Dashboard Staff | Participants')
 
 {{-- membuat content disini --}}
 @section('content')
