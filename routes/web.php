@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,8 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
 // ======================================== Grup Peserta =========================================
 // ==================================== Yang Berbau Peserta, Dikerjakan di dalam Grup ini ==================================
 Route::middleware(['auth', 'level:peserta'])->group(function () {
+    // tampilan dashboard (masih test tampilan)
+    Route::get('/peserta', [TestController::class, 'index']);
 
 });
 
