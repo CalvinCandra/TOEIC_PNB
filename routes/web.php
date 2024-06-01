@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LandingControler;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PetugasController;
 
 /*
@@ -17,13 +19,16 @@ use App\Http\Controllers\PetugasController;
 */
 
 // login
-Route::get('/', [AuthController::class, 'index'])->name('login');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
 
 // proses Login
 Route::post('/ProsesLogin', [AuthController::class, 'ProsesLogin']);
 
 // logout
 Route::get('/logout', [AuthController::class, 'Logout']);
+
+// landing page
+Route::get('/', [LandingController::class, 'index']);
 
 // ========================================== Grup Admin ==========================================
 // ==================================== Yang Berbau Admin, Dikerjakan di dalam Grup ini ==================================

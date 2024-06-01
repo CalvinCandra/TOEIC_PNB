@@ -35,10 +35,10 @@ class AuthController extends Controller
                 elseif($level == "petugas"){
                     return redirect('/petugas');
                 }else{
-                    return redirect('/peserta');
+                    return redirect('/');
                 }
             }else{
-                return redirect('/')->with('gagal', 'Username Atau Password Salah !');
+                return redirect('/login')->with('gagal', 'Username Atau Password Salah !');
             }
         }
     }
