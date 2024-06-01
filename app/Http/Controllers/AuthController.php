@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
 {
@@ -30,15 +31,18 @@ class AuthController extends Controller
                 $level = $User->level;
                 
                 //membawa ke halaman sesuai level
-                if($level == "admin")
+                if($level == "admin"){
+                    toast('Login Successful!','success');
                     return redirect('/admin');
-                elseif($level == "petugas"){
+                }elseif($level == "petugas"){
+                    toast('Login Successful!','success');
                     return redirect('/petugas');
                 }else{
-                    return redirect('/');
+                    return redirect('/peserta');
                 }
             }else{
-                return redirect('/login')->with('gagal', 'Username Atau Password Salah !');
+               Alert::error("Failed", "Username Or Password Not Same");
+               return redirect('/login')->with('gagal', 'Username Atau Password Salah !');
             }
         }
     }

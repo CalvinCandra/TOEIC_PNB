@@ -1,8 +1,8 @@
 {{-- menghubungkan file main --}}
-@extends('admin.main')
+@extends('petugas.main')
 
 {{-- judul halaman disini --}}
-@section('Title', 'Dashboard Admin | Participants')
+@section('Title', 'Dashboard Staff | Participants')
 
 {{-- membuat content disini --}}
 @section('content')
@@ -154,7 +154,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/TambahPeserta')}}" method="POST">
+                <form class="space-y-4" action="{{url('/TambahPetugasPeserta')}}" method="POST">
                     @csrf
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name Full</label>
@@ -240,7 +240,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/UpdatePeserta')}}" method="POST">
+                <form class="space-y-4" action="{{url('/UpdatePetugasPeserta')}}" method="POST">
                     @csrf
 
                     <input type="hidden" name="id_peserta" value="{{$data->id_peserta}}">
@@ -338,7 +338,7 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form action="{{url('/DeletePeserta')}}" method="POST">
+                <form action="{{url('/DeletePetugasPeserta')}}" method="POST">
                     @csrf
                     <input type="hidden" id="hapus-peserta" name="id_peserta">
                     

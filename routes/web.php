@@ -1,11 +1,15 @@
 <?php
 
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LandingControler;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +22,13 @@ use App\Http\Controllers\PetugasController;
 |
 */
 
+// Route::get('/test', function () {
+//     return view('vendor.mail.SendMail_Template');
+// });
+
 // login
 Route::get('/login', [AuthController::class, 'index'])->name('login');
+
 
 // proses Login
 Route::post('/ProsesLogin', [AuthController::class, 'ProsesLogin']);
@@ -30,23 +39,54 @@ Route::get('/logout', [AuthController::class, 'Logout']);
 // landing page
 Route::get('/', [LandingController::class, 'index']);
 
+// kirim email petugas persatu
+Route::get('/SendMail/Petugas/{id}', [MailController::class, 'SendPetugas'])->middleware('auth');
+// kirim email petugas sekaligus
+Route::get('/SendMailPetugasAll', [MailController::class, 'SendPetugasAll'])->middleware('auth');
+// kirim email peserta persatu
+Route::get('/SendMail/Peserta/{id}', [MailController::class, 'SendPeserta'])->middleware('auth');
+// kirim email peserta sekaligus
+Route::get('/SendMailPesertaAll', [MailController::class, 'SendPesertaAll'])->middleware('auth');
+
 // ========================================== Grup Admin ==========================================
 // ==================================== Yang Berbau Admin, Dikerjakan di dalam Grup ini ==================================
-Route::group(['middleware' => ['auth', 'level:admin']], function (){
+Route::middleware(['auth', 'level:admin'])->group(function () {
     // tampilan dashboard
     Route::get('/admin', [AdminController::class, 'index']);
 
+    // dashboard Petugas
+    Route::get('/dashPetugas', [AdminController::class, 'dashPetugas']);
+    Route::post('/TambahPetugas', [AdminController::class, 'TambahPetugas']);
+    Route::post('/UpdatePetugas', [AdminController::class, 'UpdatePetugas']);
+    Route::post('/DeletePetugas', [AdminController::class, 'DeletePetugas']);
+
+
+    // dashboard Peserta
+    Route::get('/dashPeserta', [AdminController::class, 'dashPeserta']);
+    Route::post('/TambahPeserta', [AdminController::class, 'TambahPeserta']);
+    Route::post('/UpdatePeserta', [AdminController::class, 'UpdatePeserta']);
+    Route::post('/DeletePeserta', [AdminController::class, 'DeletePeserta']);
 });
 
 //  ======================================== Grup Petugas =========================================
-Route::group(['middleware' => ['auth', 'level:petugas']], function (){
+// ==================================== Yang Berbau Petugas, Dikerjakan di dalam Grup ini ==================================
+Route::middleware(['auth', 'level:petugas'])->group(function () {
+    // tampilan dashboard
     Route::get('/petugas', [PetugasController::class, 'index']);
 
+        // dashboard Peserta
+        Route::get('/dashPetugasPeserta', [PetugasController::class, 'dashPetugasPeserta']);
+        Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
+        Route::post('/UpdatePetugasPeserta', [PetugasController::class, 'UpdatePetugasPeserta']);
+        Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
 });
 
 // ======================================== Grup Peserta =========================================
-Route::group(['middleware' => ['auth', 'level:peserta']], function (){
-
+// ==================================== Yang Berbau Peserta, Dikerjakan di dalam Grup ini ==================================
+Route::middleware(['auth', 'level:peserta'])->group(function () {
+    // tampilan dashboard (masih test tampilan)
+    Route::get('/peserta', [TestController::class, 'index']);
 
 });
+
 

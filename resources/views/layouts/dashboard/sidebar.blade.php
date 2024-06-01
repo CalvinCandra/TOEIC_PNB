@@ -25,21 +25,21 @@
                     <ul id="dropdown-pages" class="hidden py-2 space-y-2">
                     <li>
                         <a
-                        href="#"
+                        href="{{url('/dashPetugas')}}"
                         class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
                         >
                         <i class="fa-solid fa-clipboard-user me-3"></i>
-                        Data Pegawai
+                        Staff Data
                         </a
                         >
                     </li>
                     <li>
                         <a
-                        href="{{url('/adminPeserta')}}"
+                        href="{{url('/dashPeserta')}}"
                         class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
                         >
                         <i class="fa-solid fa-graduation-cap me-2"></i>
-                        Data Peserta
+                        Participants Data
                         </a
                         >
                     </li>
@@ -49,7 +49,7 @@
                 <li>
                     <a href="" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
                     <i class="fa-solid fa-book text-xl text-black"></i>
-                    <span class="ml-4">Soal</span>
+                    <span class="ml-4">Question</span>
                     </a>
                 </li>
                 
@@ -58,43 +58,43 @@
         {{-- Petugas --}}
         @else
             <ul class="space-y-2">
-            <li>
-                <a href="" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
-                <i class="fa-solid fa-house text-xl text-black"></i>
-                <span class="ml-3">Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <button
-                type="button"
-                class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
-                aria-controls="dropdown-pages"
-                data-collapse-toggle="dropdown-pages"
-                >
-                <i class="fa-solid fa-user text-xl text-black"></i>
-                <span class="flex-1 ml-4 text-left whitespace-nowrap">User</span>
-                <i class="fa-solid fa-caret-down"></i>
-                </button>
-                <ul id="dropdown-pages" class="hidden py-2 space-y-2">
                 <li>
-                    <a
-                    href="#"
-                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
-                    >
-                    <i class="fa-solid fa-graduation-cap me-2"></i>
-                    Data Peserta
-                    </a
-                    >
+                    <a href="" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
+                    <i class="fa-solid fa-house text-xl text-black"></i>
+                    <span class="ml-3">Dashboard</span>
+                    </a>
                 </li>
-                </ul>
-            </li>
+                <li>
+                    <button
+                    type="button"
+                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
+                    aria-controls="dropdown-pages"
+                    data-collapse-toggle="dropdown-pages"
+                    >
+                    <i class="fa-solid fa-user text-xl text-black"></i>
+                    <span class="flex-1 ml-4 text-left whitespace-nowrap">User</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                    </button>
+                    <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+                    <li>
+                        <a
+                        href="{{url('/dashPetugasPeserta')}}"
+                        class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
+                        >
+                            <i class="fa-solid fa-graduation-cap me-2"></i>
+                            Participants Data
+                        </a
+                        >
+                    </li>
+                    </ul>
+                </li>
 
-            <li>
-                <a href="" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
-                <i class="fa-solid fa-book text-xl text-black"></i>
-                <span class="ml-4">Soal</span>
-                </a>
-            </li>
+                <li>
+                    <a href="" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
+                    <i class="fa-solid fa-book text-xl text-black"></i>
+                    <span class="ml-4">Question</span>
+                    </a>
+                </li>
             
             </ul>
         @endif
