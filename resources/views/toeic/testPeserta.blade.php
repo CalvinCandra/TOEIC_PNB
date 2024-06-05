@@ -31,6 +31,10 @@
             <div class="bg-[#F3F3F3] mt-8 p-4">
                 <!-- Soal disini (include gambar/audio) -->
                 <img src="{{asset('favicon/img1.jpg')}}" alt="gambar soal" class="max-h-48 pb-2">
+                <audio id="audio" controls>
+                <source src="{{asset('audio/niki.mp3')}}" type="audio/mp3" class="bg-[#023047] text-white">
+                Your browser does not support the audio element.
+            </audio>
                 <p>
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio, incidunt in numquam alias ducimus ut nihil fugit eos maiores minus perferendis quasi corrupti amet! Vero nihil quibusdam nam optio odio!
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio, incidunt in numquam alias ducimus ut nihil fugit eos maiores minus perferendis quasi corrupti amet! Vero nihil quibusdam nam optio odio!
@@ -56,4 +60,22 @@
                 hover:bg-gradient-to-r hover:from-blue-500 hover:via-green-500 hover:to-purple-500 
                 hover:animate-gradient absolute bottom-8">
             </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', (event) => {
+                    // Get the audio element
+                    var audio = document.getElementById('audio');
+
+                    // Add an event listener to handle when the audio is played
+                    audio.addEventListener('play', function() {
+                        // Disable the audio controls after it starts playing
+                        audio.controls = false;
+                    });
+
+                    // Add an event listener to handle when the audio ends
+                    audio.addEventListener('ended', function() {
+                        // Disable the audio controls after it ends
+                        audio.controls = false;
+                    });
+                });
+            </script>
 @endsection
