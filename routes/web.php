@@ -5,9 +5,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\PetugasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,7 +82,17 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
 // ==================================== Yang Berbau Peserta, Dikerjakan di dalam Grup ini ==================================
 Route::middleware(['auth', 'level:peserta'])->group(function () {
     // tampilan dashboard (masih test tampilan)
-    Route::get('/peserta', [TestController::class, 'index']);
+
+    // menampilkan dashboard
+    Route::get('/peserta', [PesertaController::class, 'index']);
+
+    // profile
+    Route::get('/Profil', [PesertaController::class, 'Profil']);
+    Route::post('/UpdateProfil', [PesertaController::class, 'UpdateProfil']);
+
+    // soal
+    Route::get('/dashSoal', [PesertaController::class, 'dashSoal']);
+    Route::get('/soal', [TestController::class, 'index']);
 
 });
 
