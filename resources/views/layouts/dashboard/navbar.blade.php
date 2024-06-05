@@ -7,7 +7,7 @@
           <i class="fa-solid fa-bars"></i>
           <span class="sr-only">Toggle sidebar</span>
         </button>
-
+        <img src="{{asset('favicon/Logo PNB.png')}}" class="h-8 me-2" alt="Logo" />
         <span class="self-center text-2xl font-semibold whitespace-nowrap">TOEIC</span>
       </div>
       <div class="flex items-center lg:order-2">
