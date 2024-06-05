@@ -8,6 +8,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PetugasController;
 
 /*
@@ -26,7 +27,7 @@ use App\Http\Controllers\PetugasController;
 // });
 
 // login
-Route::get('/', [AuthController::class, 'index'])->name('login');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
 
 
 // proses Login
@@ -35,6 +36,8 @@ Route::post('/ProsesLogin', [AuthController::class, 'ProsesLogin']);
 // logout
 Route::get('/logout', [AuthController::class, 'Logout']);
 
+// landing page
+Route::get('/', [LandingController::class, 'index']);
 
 // kirim email petugas persatu
 Route::get('/SendMail/Petugas/{id}', [MailController::class, 'SendPetugas'])->middleware('auth');

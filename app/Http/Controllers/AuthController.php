@@ -41,8 +41,8 @@ class AuthController extends Controller
                     return redirect('/peserta');
                 }
             }else{
-                Alert::error("Failed", "Username Or Password Not Same");
-                return redirect('/');
+               Alert::error("Failed", "Username Or Password Not Same");
+               return redirect('/login')->with('gagal', 'Username Atau Password Salah !');
             }
         }
     }

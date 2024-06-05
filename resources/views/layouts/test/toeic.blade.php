@@ -17,7 +17,7 @@
         </nav>
     </header>
     <div class="flex flex-1 px-3 py-4">
-        <aside class="bg-white p-4 w-1/4 mr-1 rounded overflow-y-auto justify-center">
+        <aside class="bg-white p-4 w-1/4 mr-1 rounded overflow-y-auto justify-center hidden sm:block">
             <!-- Sidebar content -->
             @yield('sidebar')
         </aside>
