@@ -12,7 +12,7 @@
     <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
         <div class="mr-auto place-self-center lg:col-span-7 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
             <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-white dark:text-white">Cobalah Web Simulasi Test TOEIC!</h1>
-            <p class="max-w-2xl mb-6 font-light text-white lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Tingkatkan skor TOEIC Anda dengan mudah dan efektif</p>
+            <p class="max-w-2xl mb-6 font-light text-white lg:mb-8 md:text-lg lg:text-2xl dark:text-gray-400">Tingkatkan skor TOEIC Anda dengan mudah dan efektif</p>
             <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-[#FB8500] hover:bg-[#D97300] focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
                 Mulai Sekarang
                 <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -105,7 +105,7 @@
           </div>
           <div class="flex flex-col items-center mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400 flex-shrink-0 w-full md:w-1/2 lg:w-1/4 xl:w-1/4">
             <img src="{{ asset('img/benefit 2.png') }}" class="max-w-full h-48 object-cover transition-transform duration-300 transform hover:scale-110" alt="Booster Kepercayaan Diri">
-            <span class="block mt-2 w-48 text-center font-bold">Booster Kepercayaan Diri</span>
+            <span class="block mt-2 w-48 text-center font-bold">Booster<br>Kepercayaan Diri</span>
           </div>
           <div class="flex flex-col items-center mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400 flex-shrink-0 w-full md:w-1/2 lg:w-1/4 xl:w-1/4">
             <img src="{{ asset('img/benefit 3.png') }}" class="max-w-full h-48 object-cover transition-transform duration-300 transform hover:scale-110" alt="Asah Kemampuan Bahasa Inggris">
@@ -181,8 +181,8 @@
       <div class="container mx-auto">
         <div class="w-full bg-white shadow-lg p-5 rounded-xl">
           <div>
-            <div class="text-lg font-bold mb-7 text-center">
-              <span>Langkah-Langkah Tes Simulasi</span>
+            <div class="text-xl font-bold mb-7 text-center">
+              <span>Langkah - Langkah Tes Simulasi</span>
             </div>
             <section class="flex flex-wrap justify-between">
               <div class="w-full sm:w-1/2 lg:w-1/5 text-center mb-4 flex flex-col items-center">
@@ -190,10 +190,10 @@
                   <img loading="lazy" decoding="async" width="85" height="85" src="{{ asset('favicon/form.png') }}" alt="">
                 </div>
                 <div class="text-lg font-bold mb-2">
-                  <span>Mengisi data diri</span>
+                  <span>Membaca Intruksi</span>
                 </div>
                 <div class="text-base">
-                  <span>Isi nama lengkap, email<br>dan nomor teleponmu</span>
+                  <span>Ikuti intruksi sebelum tes<br>agar tidak terjadi kesalahan<br>saat mengerjakan tes</span>
                 </div>
               </div>
               <div class="hidden md:flex md:w-1/5 text-center mb-4 items-center justify-center">
