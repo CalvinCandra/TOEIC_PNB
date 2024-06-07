@@ -45,9 +45,15 @@ class Soal extends Model
         return $this->hasOne(Audio::class, 'id_audio', 'id_audio');
     }
 
-    // pengerjaan
-    public function pengerjaan(): BelongsTo
+    // bank
+    public function bank(): HasOne
     {
-        return $this->belongsTo(Pengerjaan::class, 'id_pengerjaan', 'id_pengerjaan');
+        return $this->hasOne(BankSoal::class, 'id_bank', 'id_bank');
+    }
+
+    // kategori
+    public function kategori(): HasOne
+    {
+        return $this->hasOne(Kategori::class, 'id_kategori', 'id_kategori');
     }
 }

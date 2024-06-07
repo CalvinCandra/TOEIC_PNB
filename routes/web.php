@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\TestController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\LandingController;
@@ -26,18 +25,17 @@ use App\Http\Controllers\PetugasController;
 //     return view('vendor.mail.SendMail_Template');
 // });
 
+// landing page
+Route::get('/', [LandingController::class, 'index']);
+
 // login
 Route::get('/login', [AuthController::class, 'index'])->name('login');
-
 
 // proses Login
 Route::post('/ProsesLogin', [AuthController::class, 'ProsesLogin']);
 
 // logout
 Route::get('/logout', [AuthController::class, 'Logout']);
-
-// landing page
-Route::get('/', [LandingController::class, 'index']);
 
 // kirim email petugas persatu
 Route::get('/SendMail/Petugas/{id}', [MailController::class, 'SendPetugas'])->middleware('auth');
@@ -95,7 +93,7 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
 
     // soal
     Route::get('/dashSoal', [PesertaController::class, 'dashSoal']);
-    Route::get('/soal', [TestController::class, 'index']);
+    Route::get('/soal', [PesertaController::class, 'Soal']);
 
 });
 
