@@ -54,4 +54,10 @@ class PesertaController extends Controller
     public function dashSoal(){
         return view('peserta.content.dashSoal');
     }
+
+    // Show Soal
+    public function Soal(){
+        $questions = range(1, 50); // Array with numbers from 1 to 50
+        return view('peserta.Soal.testPeserta', compact('questions'));
+    }
 }

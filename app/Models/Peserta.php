@@ -24,10 +24,10 @@ class Peserta extends Model
         'update_at',
     ];
 
-    // pengerjaan 
-    public function pengerjaan(): BelongsTo
+    // status 
+    public function status(): BelongsTo
     {
-        return $this->belongsTo(Pengerjaan::class, 'id_peserta', 'id_peserta');
+        return $this->belongsTo(Status::class, 'id_peserta', 'id_peserta');
     }
 
     // users
