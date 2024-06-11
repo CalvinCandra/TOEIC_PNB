@@ -18,49 +18,61 @@
         All Question
     </h1>
     <div class="grid max-sm:grid-cols-3 grid-cols-5 gap-2 px-5 py-8 max-sm:px-2 content-center">
-        @foreach ($questions as $question)
-            <a href="#question{{ $question }}" class="bg-[#0066FF] text-white p-2 rounded flex justify-center items-center">{{ $question }}</a>
+        @foreach ($totalQuestions as $index => $questions)
+            <a href="/soal/{{$index + 1}}" class="bg-[#0066FF] text-white p-2 rounded flex justify-center items-center">{{ $questions }}</a>
         @endforeach
+
+
     </div>
 @endsection
 
 @section('content')
-            <h1 class="text-xl font-bold">
-                Reading - Question 1-4
-            </h1>
-            <div class="bg-[#F3F3F3] mt-8 p-4">
-                <!-- Soal disini (include gambar/audio) -->
+    <form action="/soal/actionSoal" method="post">
+        <h1 class="text-xl font-bold">
+            Reading - Question {{$question->id_soal}}
+        </h1>
+        <div class="bg-[#F3F3F3] mt-8 p-4">
+            <!-- Soal disini (include gambar/audio) -->
+            @if (!empty($question->id_gambar))
                 <img src="{{asset('favicon/img1.jpg')}}" alt="gambar soal" class="max-h-48 pb-2">
+            @endif
+            @if (!empty($question->id_audio))
                 <audio id="audio" controls>
                 <source src="{{asset('audio/niki.mp3')}}" type="audio/mp3" class="bg-[#023047] text-white">
                 Your browser does not support the audio element.
-            </audio>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio, incidunt in numquam alias ducimus ut nihil fugit eos maiores minus perferendis quasi corrupti amet! Vero nihil quibusdam nam optio odio!
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio, incidunt in numquam alias ducimus ut nihil fugit eos maiores minus perferendis quasi corrupti amet! Vero nihil quibusdam nam optio odio!
-                </p>
-            </div>
-            <!-- Jawaban -->
-            <div class="mt-2 p-4">
-                <p class="mb-2">Lorem ipsum dolor sit amet consectetur adipisicing? </p>
-                <input type="radio" id="option1" name="options" value="Option 1" class="w-5 h-5 pb-2">
-                <label for="option1">Option 1</label><br>
+            @endif
+        </audio>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus consequuntur enim nobis, voluptate ut sint voluptatem porro excepturi quidem perferendis doloremque, esse eligendi nam. Quisquam tenetur inventore sapiente rerum itaque?
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis, provident? Fugit aspernatur asperiores deserunt laborum rerum repellat quod, ab voluptas eligendi nam temporibus itaque voluptatibus dolorem, ipsum amet, autem nisi.
+            </p>
+        </div>
+        <!-- Save id soal -->
+        <div class="">
+            <input type="hidden" name="id_soal" value="{{ $id_soal }}">
+        </div>
+        <!-- Jawaban -->
+        <div class="mt-2 p-4">
+            <p class="mb-2">{{$question->soal}}</p>
+            <input type="radio" id="optiona" name="optiona" value="a" class="w-5 h-5 pb-2">
+            <label for="option1">{{$question->jawaban_a}}</label><br>
 
-                <input type="radio" id="option2" name="options" value="Option 2" class="w-5 h-5 pb-2">
-                <label for="option2">Option 2</label><br>
+            <input type="radio" id="optionb" name="optionb" value="b" class="w-5 h-5 pb-2">
+            <label for="option2">{{$question->jawaban_b}}</label><br>
 
-                <input type="radio" id="option3" name="options" value="Option 3" class="w-5 h-5 pb-2">
-                <label for="option3">Option 3</label><br>
+            <input type="radio" id="optionc" name="optionc" value="c" class="w-5 h-5 pb-2">
+            <label for="option3">{{$question->jawaban_c}}</label><br>
 
-                <input type="radio" id="option4" name="options" value="Option 4" class="w-5 h-5 pb-2">
-                <label for="option4">Option 4</label><br>
-            </div>
-            <div class="flex justify-end items-end">
-                <input type="submit" value="Next" class="bg-[#0066FF] text-white rounded px-10 py-3 
-                hover:bg-gradient-to-r hover:from-blue-500 hover:via-green-500 hover:to-purple-500 
-                hover:animate-gradient absolute bottom-8">
-            </div>
-            <script>
+            <input type="radio" id="optiond" name="optionsd" value="d" class="w-5 h-5 pb-2">
+            <label for="option4">{{$question->jawaban_d}}</label><br>
+        </div>
+        <div class="flex justify-end items-end">
+            <input type="submit" value="Next" class="bg-[#0066FF] text-white rounded px-10 py-3 
+            hover:bg-gradient-to-r hover:from-blue-500 hover:via-green-500 hover:to-purple-500 
+            hover:animate-gradient absolute bottom-8">
+        </div>
+    </form>
+        <script>
                 document.addEventListener('DOMContentLoaded', (event) => {
                     // Get the audio element
                     var audio = document.getElementById('audio');
