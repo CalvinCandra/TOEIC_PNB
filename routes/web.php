@@ -93,7 +93,8 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
 
     // soal
     Route::get('/dashSoal', [PesertaController::class, 'dashSoal']);
-    Route::get('/soal', [PesertaController::class, 'Soal']);
+    Route::get('/soal/{id}', [PesertaController::class, 'Soal']);
+    Route::post('/soal/actionSoal', [PesertaController::class, 'actionSoal']);
 
 });
 
