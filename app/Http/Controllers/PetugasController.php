@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\BankSoal;
 use App\Models\Peserta;
+use App\Models\Soal;
+use App\Models\Gambar;
+use App\Models\Audio;
+use App\Models\Kategori;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
 
 class PetugasController extends Controller
 {
@@ -155,5 +161,79 @@ class PetugasController extends Controller
             return redirect()->back();
         }
     }
+
+    // tampilan dashboard soal
+    public function dashPetugasSoal(Request $request){
+        $data = BankSoal::all(); // Ambil semua data dari tabel bank_soal
+        return view('petugas.content.petugassoal', compact('data')); // Kirim data ke view
+    }
+
+    // tampilan tambah soal
+    public function TambahPetugasSoal(Request $request){
+        return view('petugas.content.Petugasinputsoal'); 
+    }
+
+    public function indext()
+    {
+        $data = BankSoal::all(); // Ambil semua data dari tabel bank_soal
+        $kategoris = Kategori::all(); // Ambil semua kategori
+
+        dd($data, $kategoris);
+        return view('petugas.content.petugassoal', compact('data', 'kategoris')); // Kirim data ke view
+    }
+
+    public function lihatSoal($idBankSoal)
+    {
+        $soal = Soal::where('id_bank', $idBankSoal)->get();
+        return response()->json($soal);
+    }
+
+
+
+    // menyimpan soal
+    public function simpanSoal(Request $request)
+    {
+        // Validasi data input
+        $request->validate([
+            'soal' => 'required|string',
+            'jawaban_a' => 'required|string',
+            'jawaban_b' => 'required|string',
+            'jawaban_c' => 'required|string',
+            'jawaban_d' => 'required|string',
+            'kunci_jawaban' => 'required|string|in:A,B,C,D',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'audio' => 'nullable|mimes:mp3,wav,aac|max:2048',
+        ]);
+
+        // Menyimpan gambar jika ada
+        $gambar = null;
+        if ($request->hasFile('gambar')) {
+            $gambarPath = $request->file('gambar')->store('gambar', 'public');
+            $gambar = Gambar::create(['gambar' => $gambarPath]);
+        }
+
+        // Menyimpan audio jika ada
+        $audio = null;
+        if ($request->hasFile('audio')) {
+            $audioPath = $request->file('audio')->store('audio', 'public');
+            $audio = Audio::create(['audio' => $audioPath]);
+        }
+
+        // Menyimpan soal ke database
+        Soal::create([
+            'soal' => $request->soal,
+            'jawaban_a' => $request->jawaban_a,
+            'jawaban_b' => $request->jawaban_b,
+            'jawaban_c' => $request->jawaban_c,
+            'jawaban_d' => $request->jawaban_d,
+            'kunci_jawaban' => $request->kunci_jawaban,
+            'id_gambar' => $gambar ? $gambar->id_gambar : null,
+            'id_audio' => $audio ? $audio->id_audio : null,
+            'id_petugas' => Auth::id(), // Mengambil id_petugas dari pengguna yang sedang login
+        ]);
+
+        return redirect()->back()->with('success', 'Soal berhasil disimpan.');
+    }
+
     // ======================================= END PESERTA =====================================
 }

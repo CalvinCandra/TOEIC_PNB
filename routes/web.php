@@ -5,10 +5,17 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\SoalController;
+use App\Http\Controllers\BankSoalController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,17 +32,24 @@ use App\Http\Controllers\PetugasController;
 //     return view('vendor.mail.SendMail_Template');
 // });
 
-// landing page
-Route::get('/', [LandingController::class, 'index']);
-
 // login
 Route::get('/login', [AuthController::class, 'index'])->name('login');
+
 
 // proses Login
 Route::post('/ProsesLogin', [AuthController::class, 'ProsesLogin']);
 
 // logout
 Route::get('/logout', [AuthController::class, 'Logout']);
+
+// landing page
+Route::get('/', [LandingController::class, 'index']);
+
+
+
+Route::get('/dashboard', [BankSoalController::class, 'index'])->name('dashboard');
+Route::post('/bank-soal/create', [BankSoalController::class, 'create'])->name('bank-soal.create');
+
 
 // kirim email petugas persatu
 Route::get('/SendMail/Petugas/{id}', [MailController::class, 'SendPetugas'])->middleware('auth');
@@ -74,6 +88,12 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
 
         // dashboard Peserta
         Route::get('/dashPetugasPeserta', [PetugasController::class, 'dashPetugasPeserta']);
+        Route::get('/dashPetugasSoal', [PetugasController::class, 'dashPetugasSoal']);
+        Route::get('/TambahPetugasSoal', [PetugasController::class, 'TambahPetugasSoal'])->name('tambah-soal');
+        Route::get('/indext', [PetugasController::class, 'indext']);
+        Route::get('/showForm', [PetugasController::class, 'showForm']);
+        Route::get('/lihat-soal/{idBankSoal}', [PetugasController::class, 'lihatSoal']);
+        Route::post('/simpan-soal', [PetugasController::class, 'SimpanSoal'])->name('simpan-soal');
         Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
         Route::post('/UpdatePetugasPeserta', [PetugasController::class, 'UpdatePetugasPeserta']);
         Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
@@ -97,5 +117,3 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
     Route::post('/soal/actionSoal', [PesertaController::class, 'actionSoal']);
 
 });
-
-
