@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Peserta;
+use App\Models\Soal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -56,8 +57,17 @@ class PesertaController extends Controller
     }
 
     // Show Soal
-    public function Soal(){
-        $questions = range(1, 50); // Array with numbers from 1 to 50
-        return view('peserta.Soal.testPeserta', compact('questions'));
+    public function Soal($id){
+        $id_soal = $id;
+        $question = Soal::findOrFail($id);
+        $totalQuestions = range(1, 50); // Array with numbers from 1 to 50
+        return view('peserta.Soal.testPeserta', compact('question', 'totalQuestions', 'id_soal'));
+    }
+
+    //Action soal 
+    public function actionSoal(Request $request){
+        //action soal
+        $id_soal = $request->input('id_soal');
+        var_dump($id_soal);
     }
 }
