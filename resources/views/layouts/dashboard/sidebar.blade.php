@@ -56,7 +56,7 @@
             </ul>
 
         {{-- Petugas --}}
-        @else
+        @elseif(auth()->user()->level == "petugas")
             <ul class="space-y-2">
                 <li>
                     <a href="" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
