@@ -23,6 +23,7 @@ class Soal extends Model
         'id_gambar',
         'id_audio',
         'id_petugas',
+        'id_bank',
         'created_at',
         'update_at',
     ];

@@ -21,8 +21,6 @@
         @foreach ($totalQuestions as $index => $questions)
             <a href="/soal/{{$index + 1}}" class="bg-[#0066FF] text-white p-2 rounded flex justify-center items-center">{{ $questions }}</a>
         @endforeach
-
-
     </div>
 @endsection
 

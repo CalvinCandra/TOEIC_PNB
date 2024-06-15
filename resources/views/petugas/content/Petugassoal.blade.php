@@ -2,7 +2,7 @@
 @extends('petugas.main')
 
 {{-- judul halaman disini --}}
-@section('Title', 'Dashboard Petugas | soal')
+@section('Title', 'Dashboard Petugas | banksoal')
 
 {{-- membuat content disini --}}
 @section('content')
@@ -10,7 +10,7 @@
     <!-- Button to create a new Bank Soal -->
     <div class="flex justify-end mb-4">
         <button id="createBankSoal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Buat Soal
+            + Bank Soal
         </button>
     </div>
 
@@ -24,19 +24,24 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($data as $bankSoal)
+                @foreach($data as $index => $bankSoal)
                 <tr>
                     <td class="py-2 px-4 border-b">{{ $bankSoal->bank }}</td>
                     <td class="py-2 px-4 border-b">
                         <div class="flex justify-end mb-4">
-                            <button class="openModal bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <button class="openModal bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-id_bank="{{$bankSoal->id_bank}}">
                                 Buat Soal
                             </button>
                         </div>
                         <div class="flex justify-end mb-4">
-                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" data-id_bank="{{$bankSoal->id_bank}}">
                                 Hapus Bank Soal
                             </button>
+                        </div>
+                        <div class="flex justify-end mb-4">
+                            <a href="/dashPetugasBankSoal/{{$bankSoal->id_bank}}" class="lihatSoal bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                Detail Soal
+                            </a>
                         </div>
                         <div class="flex justify-end mb-4">
                             <button class="lihatSoal bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" data-id="{{ $bankSoal->id_bank }}">
@@ -66,6 +71,8 @@
                         <div class="mt-2">
                             <form id="formInputSoal" action="{{ route('simpan-soal') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
+                                <!-- Save id bank soal -->
+                                <input type="text" name="id_bank" id="id_bank" >
                                 <div class="mb-4">
                                     <label for="soal" class="block text-gray-700 font-bold mb-2">Soal:</label>
                                     <textarea id="soal" name="soal" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Masukkan soal"></textarea>
@@ -190,6 +197,24 @@
                 }
             });
         });
+
+        $(document).ready(function() {
+            $('.openModal').click(function() {
+                let idBankSoal = $(this).data('id_bank');
+                console.log('Button clicked, id_bank:', idBankSoal);
+                if(idBankSoal !== undefined){
+                    $('#id_bank').val(idBankSoal);
+                    $('#inputSoalModal').removeClass('hidden');
+                } else {
+                    console.error('idBankSoal is undefined');
+                }
+            });
+
+            $('#closeModal').click(function() {
+                $('#inputSoalModal').addClass('hidden');
+            });
+        });
+
 
         $('#createBankSoal').click(function(){
             $.ajax({
