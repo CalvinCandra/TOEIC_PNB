@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Peserta;
 use App\Models\Soal;
+use App\Models\User;
+use App\Models\Status;
+use App\Models\Peserta;
+use App\Models\BankSoal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PesertaController extends Controller
 {
@@ -52,22 +55,34 @@ class PesertaController extends Controller
         }
     }
 
+    // menampilkan dashboard 
     public function dashSoal(){
         return view('peserta.content.dashSoal');
     }
 
-    // Show Soal
-    public function Soal($id){
-        $id_soal = $id;
-        $question = Soal::findOrFail($id);
-        $totalQuestions = range(1, 50); // Array with numbers from 1 to 50
-        return view('peserta.Soal.testPeserta', compact('question', 'totalQuestions', 'id_soal'));
+    public function TokenQuestion(Request $request){
+        // get kode bank
+        $cekBank = BankSoal::where('bank', $request->bankSoal)->first();
+
+        // get data status
+        $peserta = Peserta::where('id_users', auth()->user()->id)->first();
+        $status = Status::where('id_peserta', $peserta->id_peserta)->first();
+
+        // pengecekan apakah kode yang diinput ada pada database atau tidak
+        if($cekBank){
+            // jika token ada, cek apakah user sebelumnya sudah mengerjakan soal ini?
+            if($status->status_pengerjaan == 'Sudah'){
+                Alert::info("Information", "You have previously done the questions");
+                return redirect('/DashboardSoal');
+            }else{
+                $request->session()->put('bank', $cekBank->bank);
+                return redirect('/Reading');
+            }
+        }else{
+            Alert::error("Failed", "Token Question Not Work");
+            return redirect('/DashboardSoal');
+        }
     }
 
-    //Action soal 
-    public function actionSoal(Request $request){
-        //action soal
-        $id_soal = $request->input('id_soal');
-        var_dump($id_soal);
-    }
+
 }

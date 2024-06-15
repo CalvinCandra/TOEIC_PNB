@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Status;
 use App\Models\Peserta;
 use App\Models\Petugas;
 use Illuminate\Support\Str;
@@ -194,6 +195,15 @@ class AdminController extends Controller
                 'kelamin' => $request->kelamin,
                 'jurusan' => $request->jurusan,
                 'id_users' => $User['id'],
+            ]);
+
+            // get id_peserta berdasarkan data yang baru ditambah
+            $Peserta = Peserta::where('id_users', $User['id'])->first();
+
+            // insert data ke table status
+            Status::create([
+                'status_pengerjaan' => 'Belum',
+                'id_peserta' => $Peserta['id_peserta'],
             ]);
     
             DB::commit();

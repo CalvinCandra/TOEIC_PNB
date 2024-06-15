@@ -14,16 +14,19 @@ class Soal extends Model
     protected $table = 'soal';
     protected $primaryKey = 'id_soal';
     protected $fillable = [
+        'text',
         'soal',
         'jawaban_a',
         'jawaban_b',
         'jawaban_c',
         'jawaban_d',
         'kunci_jawaban',
+        'kategori',
         'id_gambar',
         'id_audio',
         'id_petugas',
         'id_bank',
+        'token_soal',
         'created_at',
         'update_at',
     ];

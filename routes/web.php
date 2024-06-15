@@ -5,13 +5,12 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\SoalController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\ResultController;
-use App\Http\Controllers\SoalController;
 use App\Http\Controllers\BankSoalController;
 
 
@@ -29,7 +28,7 @@ use App\Http\Controllers\BankSoalController;
 */
 
 // Route::get('/test', function () {
-//     return view('vendor.mail.SendMail_Template');
+    // return view('peserta.Soal.alert.PesanReading');
 // });
 
 // login
@@ -114,9 +113,26 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
     Route::get('/Profil', [PesertaController::class, 'Profil']);
     Route::post('/UpdateProfil', [PesertaController::class, 'UpdateProfil']);
 
-    // soal
-    Route::get('/dashSoal', [PesertaController::class, 'dashSoal']);
-    Route::get('/soal/{id}', [PesertaController::class, 'Soal']);
-    Route::post('/soal/actionSoal', [PesertaController::class, 'actionSoal']);
+    // dash soal
+    Route::get('/DashboardSoal', [PesertaController::class, 'dashSoal']);
+    Route::get('/TokenQuestion', [PesertaController::class, 'TokenQuestion']);
 
+    // Soal Reading
+    Route::get('/Reading', [SoalController::class, 'Reading']);
+    Route::get('/SoalReading', [SoalController::class, 'GetReading']);
+    Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
+    Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading']);
+    Route::get('/nilaiReading', [SoalController::class, 'GetNilaiReading'])->name('nilaiReading');
+
+    Route::get('/destory', [SoalController::class, 'destory']);
+
+    // Soal Listening
+    Route::get('/Listening', [SoalController::class, 'Listening']);
+    Route::get('/SoalListening', [SoalController::class, 'GetListening']);
+    Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
+    Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening']);
+    Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
+
+    // funcition result sementara
+    Route::get('/Result', [SoalController::class, 'Result']);
 });
