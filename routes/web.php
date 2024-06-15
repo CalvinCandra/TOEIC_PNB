@@ -135,5 +135,4 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
 
     // funcition result sementara
     Route::get('/Result', [SoalController::class, 'Result']);
-
 });
