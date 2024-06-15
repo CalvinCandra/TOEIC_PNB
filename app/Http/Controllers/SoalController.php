@@ -386,8 +386,4 @@ class SoalController extends Controller
         $request->session()->forget('bank');
         return redirect('/DashboardSoal');
     }
-
-
-
-
 }

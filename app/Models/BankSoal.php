@@ -15,7 +15,7 @@ class BankSoal extends Model
     protected $fillable = [
         'bank',
         'created_at',
-        'update_at',
+        'updated_at',
     ];
 
     public function soal(): BelongsTo

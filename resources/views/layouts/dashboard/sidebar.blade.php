@@ -6,7 +6,7 @@
             
             <ul class="space-y-2">
                 <li>
-                    <a href="{{url('/admin')}}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
+                    <a href="" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
                     <i class="fa-solid fa-house text-xl text-black"></i>
                     <span class="ml-3">Dashboard</span>
                     </a>
@@ -56,10 +56,10 @@
             </ul>
 
         {{-- Petugas --}}
-        @elseif(auth()->user()->level == "petugas")
+        @else
             <ul class="space-y-2">
                 <li>
-                    <a href="{{url('/petugas')}}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
+                    <a href="" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
                     <i class="fa-solid fa-house text-xl text-black"></i>
                     <span class="ml-3">Dashboard</span>
                     </a>
@@ -90,7 +90,8 @@
                 </li>
 
                 <li>
-                    <a href="" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
+                    <a href="{{url('/dashPetugasSoal')}}" 
+                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
                     <i class="fa-solid fa-book text-xl text-black"></i>
                     <span class="ml-4">Question</span>
                     </a>

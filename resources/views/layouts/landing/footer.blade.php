@@ -3,13 +3,10 @@
     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between md:items-start text-center md:text-left">
             <div class="mb-6 md:mb-0">
-                <a href="https://www.pnb.ac.id/" class="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start space-y-3 md:space-y-0 md:space-x-3 rtl:space-x-reverse w-full md:w-auto">
-                    <img src="{{ asset('img/PNB.png') }}" class="h-10" alt="PNB Logo">
-                    <div class="flex flex-col items-center md:items-start text-center md:text-left">
-                        <span class="block text-base font-bold whitespace-nowrap text-white">TOEIC SIMULATION</span>
-                        <span class="block text-base text-white">Politeknik Negeri Bali</span>
-                    </div>
-                </a>                
+                <a href="https://flowbite.com/" class="flex items-center justify-center md:justify-start">
+                    <img src="{{ asset('img/PNB.png') }}" class="h-8 mr-3" alt="FlowBite Logo" />
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap text-white dark:text-white">TOEIC</span>
+                </a>
                 <ul class="mt-4 text-white dark:text-gray-400 font-medium max-w-md mx-auto">
                     <li>
                         <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id maxime, sint distinctio natus explicabo placeat dolores totam fugit itaque non nihil sit tenetur vitae adipisci! Rem placeat est velit consequuntur!</h2>
