@@ -94,9 +94,12 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
         Route::get('/showForm', [PetugasController::class, 'showForm']);
         Route::get('/lihat-soal/{idBankSoal}', [PetugasController::class, 'lihatSoal']);
         Route::post('/simpan-soal', [PetugasController::class, 'SimpanSoal'])->name('simpan-soal');
+        Route::put('/update-soal', [PetugasController::class, 'editSoal'])->name('edit-soal');
+        Route::get('/delete-soal/{id_soal}', [PetugasController::class, 'deleteSoal'])->name('delete-soal');
         Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
         Route::post('/UpdatePetugasPeserta', [PetugasController::class, 'UpdatePetugasPeserta']);
         Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
+        Route::get('/dashPetugasBankSoal/{id_banksoal}', [PetugasController::class, 'viewSoal']);
 });
 
 // ======================================== Grup Peserta =========================================
