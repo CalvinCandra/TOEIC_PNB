@@ -38,7 +38,7 @@ class AuthController extends Controller
                     toast('Login Successful!','success');
                     return redirect('/petugas');
                 }else{
-                    return redirect('/');
+                    return redirect('/peserta');
                 }
             }else{
                Alert::error("Failed", "Username Or Password Not Same");

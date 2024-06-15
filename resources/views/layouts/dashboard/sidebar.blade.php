@@ -115,7 +115,7 @@
                 </li>
 
                 <li>
-                    <a href="{{url('/dashSoal')}}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
+                    <a href="{{url('/DashboardSoal')}}" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
                         <i class="fa-solid fa-clipboard-question text-xl text-black"></i>
                     <span class="ml-4">Question</span>
                     </a>

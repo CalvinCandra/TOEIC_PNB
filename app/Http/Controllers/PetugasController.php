@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Status;
 use App\Models\Peserta;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -59,7 +60,7 @@ class PetugasController extends Controller
             ]);
 
             // get id berdasarkan data yang baru ditambah
-            $User = User::select('*')->where('email', $request->email)->first();
+            $User = User::where('email', $request->email)->first();
     
             // Insert data ke table petugas 
             Peserta::create([
@@ -69,6 +70,15 @@ class PetugasController extends Controller
                 'kelamin' => $request->kelamin,
                 'jurusan' => $request->jurusan,
                 'id_users' => $User['id'],
+            ]);
+
+            // get id_peserta berdasarkan data yang baru ditambah
+            $Peserta = Peserta::where('id_users', $User['id'])->first();
+
+            // insert data ke table status
+            Status::create([
+                'status_pengerjaan' => 'Belum',
+                'id_peserta' => $Peserta['id_peserta'],
             ]);
     
             DB::commit();
