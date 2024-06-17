@@ -1,3 +1,4 @@
 *
-!public/
+!public/audio
+!public/gambar
 !.gitignore
