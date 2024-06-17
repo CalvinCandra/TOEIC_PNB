@@ -204,7 +204,7 @@ class SoalController extends Controller
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
 
         // get data soal berdasarkan kategori listening dan id_bank
-        $soalListening = Soal::where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->first();
+        $soalListening = Soal::with('audio')->where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->first();
 
        // set waktu awal quiz menggunakan Carbon
        $quizStartTime = Carbon::now();
@@ -228,14 +228,15 @@ class SoalController extends Controller
 
         // berdasarkan token_soal dan bank soal
         $soalListening = Soal::
-        where('kategori', 'Listening')
+        with('audio')
+        ->where('kategori', 'Listening')
         ->where('token_soal', $token)
         ->where('id_bank', $getBank->id_bank)
         ->first();
 
 
         // get data soal berdasarkan kategori listening dan id_bank
-        $soal = Soal::where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->get();
+        $soal = Soal::with('audio')->where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->get();
 
         // Periksa apakah waktu sudah habis menggunakan Carbon
         $currentTime = Carbon::now(); // get waktu sekarang

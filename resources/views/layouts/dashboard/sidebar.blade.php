@@ -11,18 +11,19 @@
                     <span class="ml-3">Dashboard</span>
                     </a>
                 </li>
+
                 <li>
                     <button
                     type="button"
                     class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
-                    aria-controls="dropdown-pages"
-                    data-collapse-toggle="dropdown-pages"
+                    aria-controls="dropdown-user"
+                    data-collapse-toggle="dropdown-user"
                     >
                     <i class="fa-solid fa-user text-xl text-black"></i>
                     <span class="flex-1 ml-4 text-left whitespace-nowrap">User</span>
                     <i class="fa-solid fa-caret-down"></i>
                     </button>
-                    <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+                    <ul id="dropdown-user" class="hidden py-2 space-y-2">
                     <li>
                         <a
                         href="{{url('/dashPetugas')}}"
@@ -47,10 +48,43 @@
                 </li>
 
                 <li>
-                    <a href="" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
-                    <i class="fa-solid fa-book text-xl text-black"></i>
-                    <span class="ml-4">Question</span>
-                    </a>
+                    <button
+                    type="button"
+                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
+                    aria-controls="dropdown-pages"
+                    data-collapse-toggle="dropdown-pages"
+                    >
+                    <i class="fa-solid fa-book-atlas text-xl text-black"></i>
+                    <span class="flex-1 ml-4 text-left whitespace-nowrap">Question</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                    </button>
+                    <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+                        <li>
+                            <a href="{{url('/dashAdminGambar')}}" 
+                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                            <i class="fa-solid fa-image text-xl text-black"></i>
+                            <span class="ml-4">Image Question</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{url('/dashAdminAudio')}}" 
+                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                            <i class="fa-solid fa-volume-high text-xl text-black"></i>
+                            <span class="ml-4">Audio Question</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{url('/dashAdminSoal')}}" 
+                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                            <i class="fa-solid fa-vault text-xl text-black"></i>
+                            <span class="ml-4">Code Question</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
                 </li>
                 
             </ul>
@@ -68,14 +102,14 @@
                     <button
                     type="button"
                     class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
-                    aria-controls="dropdown-pages"
-                    data-collapse-toggle="dropdown-pages"
+                    aria-controls="dropdown-user"
+                    data-collapse-toggle="dropdown-user"
                     >
                     <i class="fa-solid fa-user text-xl text-black"></i>
                     <span class="flex-1 ml-4 text-left whitespace-nowrap">User</span>
                     <i class="fa-solid fa-caret-down"></i>
                     </button>
-                    <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+                    <ul id="dropdown-user" class="hidden py-2 space-y-2">
                     <li>
                         <a
                         href="{{url('/dashPetugasPeserta')}}"
@@ -90,11 +124,43 @@
                 </li>
 
                 <li>
-                    <a href="{{url('/dashPetugasSoal')}}" 
-                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-l hover:bg-gray-100">
-                    <i class="fa-solid fa-book text-xl text-black"></i>
-                    <span class="ml-4">Question</span>
-                    </a>
+                    <button
+                    type="button"
+                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100"
+                    aria-controls="dropdown-pages"
+                    data-collapse-toggle="dropdown-pages"
+                    >
+                    <i class="fa-solid fa-book-atlas text-xl text-black"></i>
+                    <span class="flex-1 ml-4 text-left whitespace-nowrap">Question</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                    </button>
+                    <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+                        <li>
+                            <a href="{{url('/dashPetugasGambar')}}" 
+                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                            <i class="fa-solid fa-image text-xl text-black"></i>
+                            <span class="ml-4">Image Question</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{url('/dashPetugasAudio')}}" 
+                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                            <i class="fa-solid fa-volume-high text-xl text-black"></i>
+                            <span class="ml-4">Audio Question</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{url('/dashPetugasSoal')}}" 
+                            class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                            <i class="fa-solid fa-vault text-xl text-black"></i>
+                            <span class="ml-4">Code Question</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
                 </li>
             
             </ul>

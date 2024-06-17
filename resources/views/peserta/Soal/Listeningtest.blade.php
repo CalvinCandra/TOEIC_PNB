@@ -54,8 +54,9 @@
                 <!-- Soal disini (include gambar/audio) -->
                 @if (!empty($soalListening->id_audio))
                     <audio id="audio" controls>
-                    <source src="{{asset('audio/dog.wav')}}" type="audio/mp3" class="bg-[#023047] text-white">
-                    Your browser does not support the audio element.
+                        <source src="{{asset('public/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
+                        Your browser does not support the audio element.
+                    </audio>
                 @endif
                 <p>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus consequuntur enim nobis, voluptate ut sint voluptatem porro excepturi quidem perferendis doloremque, esse eligendi nam. Quisquam tenetur inventore sapiente rerum itaque?

@@ -20,7 +20,7 @@
                 <form action="{{url('/ProsesLogin')}}" method="post" class="flex flex-col w-full">
                     @csrf
                     <h5 class="mb-1">Enter your Email</h5>
-                    <input type="email" name="email" id="" class="rounded-full bg-slate-50 p-2" placeholder="Enter Your Email" value="{{old('email')}}">
+                    <input type="email" name="email" id="" class="rounded-full bg-slate-50 p-2 pl-4" placeholder="Enter Your Email" value="{{old('email')}}">
                     @error('email')
                         <div class=" mt-1 text-sm italic text-red-400">
                             {{$message}}
@@ -28,7 +28,7 @@
                     @enderror
 
                     <h5 class="mb-1 mt-5">Enter your Password</h5>
-                    <input type="password" name="password" id="" class="rounded-full p-2" placeholder="Enter Your Password">
+                    <input type="password" name="password" id="" class="rounded-full p-2 pl-4" placeholder="Enter Your Password">
                     @error('password')
                         <div class=" mt-1 text-sm italic text-red-400">
                             {{$message}}
