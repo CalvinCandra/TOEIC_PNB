@@ -14,6 +14,7 @@ class Soal extends Model
     protected $table = 'soal';
     protected $primaryKey = 'id_soal';
     protected $fillable = [
+        'nomor_soal',
         'text',
         'soal',
         'jawaban_a',

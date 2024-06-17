@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Audio;
+use App\Models\Gambar;
 use App\Models\Status;
 use App\Models\Peserta;
 use App\Models\Petugas;
@@ -29,7 +31,7 @@ class AdminController extends Controller
             $petugas = Petugas::with('user')->paginate(15);
         }
         
-        return view('admin.content.AdminPegawai', compact(['petugas']));
+        return view('admin.content.Pegawai.AdminPegawai', compact(['petugas']));
     }
 
     // tambah petugas
@@ -156,7 +158,7 @@ class AdminController extends Controller
             $peserta = Peserta::with('user')->paginate(15);
         }
 
-        return view('admin.content.AdminPeserta', compact(['peserta']));
+        return view('admin.content.Peserta.AdminPeserta', compact(['peserta']));
     }
 
     // tambah peserta
@@ -291,5 +293,404 @@ class AdminController extends Controller
         }
     }
     // ======================================= END PESERTA =====================================
+
+    // ======================================= GAMBAR FOR ADMIN =====================================
+    // tampilan dashboard gambar soal
+    public function dashAdminGambar(Request $request){
+        $search = $request->search;
+
+        if ($search) {
+            $gambar = Gambar::Where('gambar', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $gambar = Gambar::paginate(15);
+        }
+        return view('admin.content.Gambar.gambarAdmin', compact('gambar')); // Kirim data ke view
+    }
+
+    public function TambahGambarAdmin(Request $request){
+        $request->validate([
+            'gambar' => 'mimes:jpg,jpeg,png'
+        ]);
+
+        // get gambar
+        $gambar = $request->file('gambar');
+
+        // buat path
+        $path = 'gambar/' .$gambar->getClientOriginalName();
+
+        // pindahkan ke dalam storage
+        Storage::disk('public')->put($path, file_get_contents($gambar));
+
+        // simpan di database berupa nama
+        Gambar::create([
+            'gambar' => $gambar->getClientOriginalName(),
+        ]);
+        
+        toast('Create Data Successful!','success');
+        return redirect()->back();
+    }
+
+    public function DeleteGambarAdmin(Request $request){
+        if($request->ismethod('post')){
+
+            try {
+                // get dat soal yang menggunakan audio yang mau dihapus dan ubah menjadi null
+                $soal = Soal::where('id_gambar', $request->id_gambar)->update([
+                    'id_gambar' => NULL
+                ]);
+
+                // get data dari database
+                $gambar = Gambar::findOrFail($request->id_gambar)->first();
+
+                // buat path
+                $path = 'gambar/' .$gambar->gambar;
+
+                // hapus data dari storage
+                Storage::disk('public')->delete($path);
+
+                // hapus data dari database
+                Gambar::findOrFail($request->id_gambar)->delete();
+            
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
+    
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+        }
+    }
+    // ======================================= END GAMBAR =====================================
+
+
+    // ======================================= AUDIO FOR ADMIN =====================================
+    // / tampilan dashboard gambar audio
+    public function dashAdminAudio(Request $request){
+        $search = $request->search;
+
+        if ($search) {
+            $audio = Audio::Where('gambar', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $audio = Audio::paginate(15);
+        }
+        return view('admin.content.Audio.audioAdmin', compact('audio')); // Kirim data ke view
+    }
+
+    public function TambahAudioAdmin(Request $request){
+        $request->validate([
+            'audio' => 'mimes:mp3,wav'
+        ]);
+
+        // get gambar
+        $audio = $request->file('audio');
+
+        // buat path
+        $path = 'audio/' .$audio->getClientOriginalName();
+
+        // pindahkan ke dalam storage
+        Storage::disk('public')->put($path, file_get_contents($audio));
+
+        // simpan di database berupa nama
+        Audio::create([
+            'audio' => $audio->getClientOriginalName(),
+        ]);
+        
+        toast('Create Data Successful!','success');
+        return redirect()->back();
+    }
+
+    public function DeleteAudioAdmin(Request $request){
+        if($request->ismethod('post')){
+
+            try {
+                // get dat soal yang menggunakan audio yang mau dihapus dan ubah menjadi null
+                $soal = Soal::where('id_audio', $request->id_audio)->update([
+                    'id_audio' => NULL
+                ]);
+
+                // get data dari database
+                $audio = Audio::findOrFail($request->id_audio)->first();
+
+                // buat path
+                $path = 'audio/' .$audio->audio;
+
+                // hapus data dari storage
+                Storage::disk('public')->delete($path);
+
+                // hapus data dari database
+                Audio::findOrFail($request->id_audio)->delete();
+            
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
+    
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+
+        }
+    }
+    // ======================================= END AUDIO =====================================
+
+
+    // ======================================= BANK SOAL FOR ADMIN =====================================
+    // tampilan dashboard bank soal
+    public function dashAdminSoal(Request $request){
+        $search = $request->search;
+
+        if ($search) {
+            $bank = BankSoal::Where('bank', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $bank = BankSoal::paginate(15);
+        }
+        return view('admin.content.BankSoal.dashbanksoal', compact('bank')); // Kirim data ke view
+    }
+
+    public function TambahBankSoal(Request $request){
+        $request->validate([
+            'bank' => 'unique:bank_soal',
+        ]);
+
+        BankSoal::create([
+            'bank' => $request->bank,
+        ]);
+        
+        toast('Create Data Successful!','success');
+        return redirect()->back();
+    }
+
+    public function UpdateBankSoal(Request $request){
+        $request->validate([
+            'bank' => 'unique:bank_soal',
+        ]);
+
+        if($request->ismethod('post')){
+            BankSoal::where('id_bank', $request->id_bank)->update([
+                'bank' => $request->bank,
+            ]);
+            
+            toast('Update Data Successful!','success');
+            return redirect()->back();
+        }
+
+    }
+
+    public function DeleteBankSoal(Request $request){
+        if($request->ismethod('post')){
+
+            // transaction database
+            try {
+                DB::beginTransaction();
+                
+                // Delete data Soal berdasarkan bank soal
+                Soal::where('id_bank', $request->id_bank)->delete();
+
+                // Delete data bank soal
+                BankSoal::findOrFail($request->id_bank)->delete();
+        
+                DB::commit();
+
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
+
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+        }
+
+    }
+    // ======================================= END BANK SOAL =====================================
+
+
+    // ======================================= SOAL READING =====================================
+    // menampilkan data soal
+    public function dashAdminSoalDetailReading(Request $request, $id){
+        $search = $request->search;
+
+        if ($search) {
+            $soal = Soal::
+            with(['petugas', 'gambar'])
+            ->where('id_bank', $id)
+            ->where('kategori', 'Reading')
+            ->orWhere('nomor', 'LIKE', '%'.$search.'%')
+            ->orWhere('soal', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $soal = Soal::with(['petugas', 'gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->paginate(15);
+        }
+
+        // lempar id_bank ke dalam view
+        $id_bank = $id;
+
+        // get data gambar
+        $gambar = Gambar::all();
+
+        return view('admin.content.SoalReading.dashSoalReading', compact(['soal', 'gambar', 'id_bank'])); // Kirim data ke view
+    }
+
+    // tambah soal
+    public function TambahSoalReadingAdmin(Request $request){
+        $request->validate([
+            'kunci_jawaban' => 'min:1|max:1'
+        ],[
+            'kunci_jawaban.max' => 'Key Must be 1 Letters',
+            'kunci_jawaban.min' => 'Key Must be 1 Letters',
+        ]);
+
+        // generate token otomatis
+        $token_soal = strtoupper(Str::password(5, true, true, false, false));
+
+        Soal::create([
+            'nomor_soal' => $request->nomor_soal,
+            'text' => $request->text,
+            'soal' => $request->soal,
+            'jawaban_a' => $request->jawaban_a,
+            'jawaban_b' => $request->jawaban_b,
+            'jawaban_c' => $request->jawaban_c,
+            'jawaban_d' => $request->jawaban_d,
+            'kunci_jawaban' => strtoupper($request->kunci_jawaban),
+            'kategori' => 'Reading',
+            'id_gambar' => $request->gambar,
+            'id_audio' => NULL,
+            'id_petugas' => 0,
+            'id_bank' => $request->id_bank,
+            'token_soal' => $token_soal,
+        ]);
+
+        toast('Create Data Successful!','success');
+        return redirect()->back();
+        
+    }
+
+    // update soal 
+    public function UpdateSoalReadingAdmin(Request $request){
+        if($request->ismethod('post')){
+
+            Soal::where('id_soal', $request->id_soal)->update([
+                'nomor_soal' => $request->nomor_soal,
+                'text' => $request->text,
+                'soal' => $request->soal,
+                'jawaban_a' => $request->jawaban_a,
+                'jawaban_b' => $request->jawaban_b,
+                'jawaban_c' => $request->jawaban_c,
+                'jawaban_d' => $request->jawaban_d,
+                'kunci_jawaban' => strtoupper($request->kunci_jawaban),
+                'id_gambar' => $request->gambar,
+                'id_petugas' => 0,
+            ]);
+    
+            toast('Update Data Successful!','success');
+            return redirect()->back();
+        }
+    }
+
+    // delete soal
+    public function DeleteSoalReadingAdmin(Request $request){
+        Soal::findOrFail($request->id_soal)->delete();
+        toast('Delete Data Successful!','success');
+        return redirect()->back();
+    }
+    // ======================================= SOAL READING =====================================
+
+    // ======================================= SOAL LISTENING =====================================
+    public function dashAdminSoalDetailListening(Request $request, $id){
+        $search = $request->search;
+
+        if ($search) {
+            $soal = Soal::
+            with(['petugas', 'audio'])
+            ->where('id_bank', $id)
+            ->where('kategori', 'Listening')
+            ->orWhere('nomor', 'LIKE', '%'.$search.'%')
+            ->orWhere('soal', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $soal = Soal::with(['petugas', 'audio'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
+        }
+
+        // lempar id_bank ke dalam view
+        $id_bank = $id;
+
+        // get data gambar
+        $audio = Audio::all();
+
+        return view('admin.content.SoalListening.dashSoalListening', compact(['soal', 'audio', 'id_bank'])); // Kirim data ke view
+    }
+
+    // tambah soal
+    public function TambahSoalListeningAdmin(Request $request){
+        $request->validate([
+            'kunci_jawaban' => 'min:1|max:1'
+        ],[
+            'kunci_jawaban.max' => 'Key Must be 1 Letters',
+            'kunci_jawaban.min' => 'Key Must be 1 Letters',
+        ]);
+
+        // generate token otomatis
+        $token_soal = strtoupper(Str::password(5, true, true, false, false));
+
+        Soal::create([
+            'nomor_soal' => $request->nomor_soal,
+            'text' => $request->text,
+            'soal' => $request->soal,
+            'jawaban_a' => $request->jawaban_a,
+            'jawaban_b' => $request->jawaban_b,
+            'jawaban_c' => $request->jawaban_c,
+            'jawaban_d' => $request->jawaban_d,
+            'kunci_jawaban' => strtoupper($request->kunci_jawaban),
+            'kategori' => 'Listening',
+            'id_gambar' => NULL,
+            'id_audio' => $request->audio,
+            'id_petugas' => 0,
+            'id_bank' => $request->id_bank,
+            'token_soal' => $token_soal,
+        ]);
+
+        toast('Create Data Successful!','success');
+        return redirect()->back();
+        
+    }
+
+    // update soal 
+    public function UpdateSoalListeningAdmin(Request $request){
+        if($request->ismethod('post')){
+
+            Soal::where('id_soal', $request->id_soal)->update([
+                'nomor_soal' => $request->nomor_soal,
+                'text' => $request->text,
+                'soal' => $request->soal,
+                'jawaban_a' => $request->jawaban_a,
+                'jawaban_b' => $request->jawaban_b,
+                'jawaban_c' => $request->jawaban_c,
+                'jawaban_d' => $request->jawaban_d,
+                'kunci_jawaban' => strtoupper($request->kunci_jawaban),
+                'id_audio' => $request->audio,
+                'id_petugas' => 0,
+            ]);
+    
+            toast('Update Data Successful!','success');
+            return redirect()->back();
+        }
+    }
+
+    // delete soal
+    public function DeleteSoalListeningAdmin(Request $request){
+        Soal::findOrFail($request->id_soal)->delete();
+        toast('Delete Data Successful!','success');
+        return redirect()->back();
+    }
+    // ======================================= END SOAL LISTENING =====================================
 
 }
