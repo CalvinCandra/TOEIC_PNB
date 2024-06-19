@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Nilai;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -7,14 +8,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PetugasController;
-use App\Http\Controllers\ResultController;
 use App\Http\Controllers\BankSoalController;
-
-
-
+use App\Models\Soal;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::post('/TambahBankSoal', [AdminController::class, 'TambahBankSoal']);
     Route::post('/UpdateBankSoal', [AdminController::class, 'UpdateBankSoal']);
     Route::post('/DeleteBankSoal', [AdminController::class, 'DeleteBankSoal']);
-    
+
     // menampilkan detail soal reading
     Route::get('/dashAdminSoalDetailReading/{id}', [AdminController::class, 'dashAdminSoalDetailReading']);
     Route::post('/TambahSoalReadingAdmin', [AdminController::class, 'TambahSoalReadingAdmin']);
@@ -113,40 +113,39 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     // tampilan dashboard
     Route::get('/petugas', [PetugasController::class, 'index']);
 
-        // Peserta
-        Route::get('/dashPetugasPeserta', [PetugasController::class, 'dashPetugasPeserta']);
-        Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
-        Route::post('/UpdatePetugasPeserta', [PetugasController::class, 'UpdatePetugasPeserta']);
-        Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
+    // Peserta
+    Route::get('/dashPetugasPeserta', [PetugasController::class, 'dashPetugasPeserta']);
+    Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
+    Route::post('/UpdatePetugasPeserta', [PetugasController::class, 'UpdatePetugasPeserta']);
+    Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
 
-        // Gambar
-        Route::get('/dashPetugasGambar', [PetugasController::class, 'dashPetugasGambar']);
-        Route::post('/TambahGambarPetugas', [PetugasController::class, 'TambahGambarPetugas']);
-        Route::post('/DeleteGambarPetugas', [PetugasController::class, 'DeleteGambarPetugas']);
+    // Gambar
+    Route::get('/dashPetugasGambar', [PetugasController::class, 'dashPetugasGambar']);
+    Route::post('/TambahGambarPetugas', [PetugasController::class, 'TambahGambarPetugas']);
+    Route::post('/DeleteGambarPetugas', [PetugasController::class, 'DeleteGambarPetugas']);
 
-        // audio
-        Route::get('/dashPetugasAudio', [PetugasController::class, 'dashPetugasAudio']);
-        Route::post('/TambahAudioPetugas', [PetugasController::class, 'TambahAudioPetugas']);
-        Route::post('/DeleteAudioPetugas', [PetugasController::class, 'DeleteAudioPetugas']);
+    // audio
+    Route::get('/dashPetugasAudio', [PetugasController::class, 'dashPetugasAudio']);
+    Route::post('/TambahAudioPetugas', [PetugasController::class, 'TambahAudioPetugas']);
+    Route::post('/DeleteAudioPetugas', [PetugasController::class, 'DeleteAudioPetugas']);
 
-        // Soal
-        Route::get('/dashPetugasSoal', [PetugasController::class, 'dashPetugasSoal']);
-        Route::post('/TambahBankSoal', [PetugasController::class, 'TambahBankSoal']);
-        Route::post('/UpdateBankSoal', [PetugasController::class, 'UpdateBankSoal']);
-        Route::post('/DeleteBankSoal', [PetugasController::class, 'DeleteBankSoal']);
-        
-        // menampilkan detail soal reading
-        Route::get('/dashPetugasSoalDetailReading/{id}', [PetugasController::class, 'dashPetugasSoalDetailReading']);
-        Route::post('/TambahSoalReadingPetugas', [PetugasController::class, 'TambahSoalReadingPetugas']);
-        Route::post('/UpdateSoalReadingPetugas', [PetugasController::class, 'UpdateSoalReadingPetugas']);
-        Route::post('/DeleteSoalReadingPetugas', [PetugasController::class, 'DeleteSoalReadingPetugas']);
+    // Soal
+    Route::get('/dashPetugasSoal', [PetugasController::class, 'dashPetugasSoal']);
+    Route::post('/TambahBankSoal', [PetugasController::class, 'TambahBankSoal']);
+    Route::post('/UpdateBankSoal', [PetugasController::class, 'UpdateBankSoal']);
+    Route::post('/DeleteBankSoal', [PetugasController::class, 'DeleteBankSoal']);
 
-        // menampilkan detail soal Listening
-        Route::get('/dashPetugasSoalDetailListening/{id}', [PetugasController::class, 'dashPetugasSoalDetailListening']);
-        Route::post('/TambahSoalListeningPetugas', [PetugasController::class, 'TambahSoalListeningPetugas']);
-        Route::post('/UpdateSoalListeningPetugas', [PetugasController::class, 'UpdateSoalListeningPetugas']);
-        Route::post('/DeleteSoalListeningPetugas', [PetugasController::class, 'DeleteSoalListeningPetugas']);
+    // menampilkan detail soal reading
+    Route::get('/dashPetugasSoalDetailReading/{id}', [PetugasController::class, 'dashPetugasSoalDetailReading']);
+    Route::post('/TambahSoalReadingPetugas', [PetugasController::class, 'TambahSoalReadingPetugas']);
+    Route::post('/UpdateSoalReadingPetugas', [PetugasController::class, 'UpdateSoalReadingPetugas']);
+    Route::post('/DeleteSoalReadingPetugas', [PetugasController::class, 'DeleteSoalReadingPetugas']);
 
+    // menampilkan detail soal Listening
+    Route::get('/dashPetugasSoalDetailListening/{id}', [PetugasController::class, 'dashPetugasSoalDetailListening']);
+    Route::post('/TambahSoalListeningPetugas', [PetugasController::class, 'TambahSoalListeningPetugas']);
+    Route::post('/UpdateSoalListeningPetugas', [PetugasController::class, 'UpdateSoalListeningPetugas']);
+    Route::post('/DeleteSoalListeningPetugas', [PetugasController::class, 'DeleteSoalListeningPetugas']);
 });
 
 // ======================================== Grup Peserta =========================================
@@ -182,5 +181,5 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
     Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
 
     // funcition result sementara
-    Route::get('/Result', [SoalController::class, 'Result']);
+    Route::get('/Result', [NilaiController::class, 'Result']);
 });

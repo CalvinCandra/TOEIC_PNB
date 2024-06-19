@@ -1,0 +1,123 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Nilai;
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+class NilaiSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $scores = [
+            ['jawaban_benar' => 1, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 2, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 3, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 4, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 5, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 6, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 7, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 8, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 9, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 10, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 11, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 12, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 13, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 14, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 15, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 16, 'skor_listening' => 5, 'skor_reading' => 5],
+            ['jawaban_benar' => 17, 'skor_listening' => 10, 'skor_reading' => 5],
+            ['jawaban_benar' => 18, 'skor_listening' => 15, 'skor_reading' => 5],
+            ['jawaban_benar' => 19, 'skor_listening' => 20, 'skor_reading' => 5],
+            ['jawaban_benar' => 20, 'skor_listening' => 25, 'skor_reading' => 5],
+            ['jawaban_benar' => 21, 'skor_listening' => 30, 'skor_reading' => 10],
+            ['jawaban_benar' => 22, 'skor_listening' => 35, 'skor_reading' => 15],
+            ['jawaban_benar' => 23, 'skor_listening' => 40, 'skor_reading' => 20],
+            ['jawaban_benar' => 24, 'skor_listening' => 45, 'skor_reading' => 25],
+            ['jawaban_benar' => 25, 'skor_listening' => 50, 'skor_reading' => 30],
+            ['jawaban_benar' => 26, 'skor_listening' => 55, 'skor_reading' => 35],
+            ['jawaban_benar' => 27, 'skor_listening' => 60, 'skor_reading' => 40],
+            ['jawaban_benar' => 28, 'skor_listening' => 70, 'skor_reading' => 45],
+            ['jawaban_benar' => 29, 'skor_listening' => 80, 'skor_reading' => 55],
+            ['jawaban_benar' => 30, 'skor_listening' => 85, 'skor_reading' => 60],
+            ['jawaban_benar' => 31, 'skor_listening' => 90, 'skor_reading' => 65],
+            ['jawaban_benar' => 32, 'skor_listening' => 95, 'skor_reading' => 70],
+            ['jawaban_benar' => 33, 'skor_listening' => 100, 'skor_reading' => 75],
+            ['jawaban_benar' => 34, 'skor_listening' => 105, 'skor_reading' => 80],
+            ['jawaban_benar' => 35, 'skor_listening' => 115, 'skor_reading' => 85],
+            ['jawaban_benar' => 36, 'skor_listening' => 125, 'skor_reading' => 90],
+            ['jawaban_benar' => 37, 'skor_listening' => 135, 'skor_reading' => 95],
+            ['jawaban_benar' => 38, 'skor_listening' => 140, 'skor_reading' => 105],
+            ['jawaban_benar' => 39, 'skor_listening' => 150, 'skor_reading' => 115],
+            ['jawaban_benar' => 40, 'skor_listening' => 160, 'skor_reading' => 120],
+            ['jawaban_benar' => 41, 'skor_listening' => 170, 'skor_reading' => 125],
+            ['jawaban_benar' => 42, 'skor_listening' => 175, 'skor_reading' => 130],
+            ['jawaban_benar' => 43, 'skor_listening' => 180, 'skor_reading' => 135],
+            ['jawaban_benar' => 44, 'skor_listening' => 190, 'skor_reading' => 140],
+            ['jawaban_benar' => 45, 'skor_listening' => 200, 'skor_reading' => 145],
+            ['jawaban_benar' => 46, 'skor_listening' => 205, 'skor_reading' => 155],
+            ['jawaban_benar' => 47, 'skor_listening' => 215, 'skor_reading' => 160],
+            ['jawaban_benar' => 48, 'skor_listening' => 220, 'skor_reading' => 170],
+            ['jawaban_benar' => 49, 'skor_listening' => 225, 'skor_reading' => 175],
+            ['jawaban_benar' => 50, 'skor_listening' => 230, 'skor_reading' => 185],
+            ['jawaban_benar' => 51, 'skor_listening' => 235, 'skor_reading' => 195],
+            ['jawaban_benar' => 52, 'skor_listening' => 245, 'skor_reading' => 205],
+            ['jawaban_benar' => 53, 'skor_listening' => 255, 'skor_reading' => 210],
+            ['jawaban_benar' => 54, 'skor_listening' => 260, 'skor_reading' => 215],
+            ['jawaban_benar' => 55, 'skor_listening' => 265, 'skor_reading' => 220],
+            ['jawaban_benar' => 56, 'skor_listening' => 275, 'skor_reading' => 230],
+            ['jawaban_benar' => 57, 'skor_listening' => 285, 'skor_reading' => 240],
+            ['jawaban_benar' => 58, 'skor_listening' => 290, 'skor_reading' => 245],
+            ['jawaban_benar' => 59, 'skor_listening' => 295, 'skor_reading' => 250],
+            ['jawaban_benar' => 60, 'skor_listening' => 300, 'skor_reading' => 255],
+            ['jawaban_benar' => 61, 'skor_listening' => 310, 'skor_reading' => 260],
+            ['jawaban_benar' => 62, 'skor_listening' => 320, 'skor_reading' => 270],
+            ['jawaban_benar' => 63, 'skor_listening' => 325, 'skor_reading' => 275],
+            ['jawaban_benar' => 64, 'skor_listening' => 330, 'skor_reading' => 280],
+            ['jawaban_benar' => 65, 'skor_listening' => 335, 'skor_reading' => 285],
+            ['jawaban_benar' => 66, 'skor_listening' => 340, 'skor_reading' => 290],
+            ['jawaban_benar' => 67, 'skor_listening' => 345, 'skor_reading' => 295],
+            ['jawaban_benar' => 68, 'skor_listening' => 350, 'skor_reading' => 295],
+            ['jawaban_benar' => 69, 'skor_listening' => 355, 'skor_reading' => 300],
+            ['jawaban_benar' => 70, 'skor_listening' => 360, 'skor_reading' => 310],
+            ['jawaban_benar' => 71, 'skor_listening' => 365, 'skor_reading' => 315],
+            ['jawaban_benar' => 72, 'skor_listening' => 370, 'skor_reading' => 320],
+            ['jawaban_benar' => 73, 'skor_listening' => 375, 'skor_reading' => 325],
+            ['jawaban_benar' => 74, 'skor_listening' => 385, 'skor_reading' => 330],
+            ['jawaban_benar' => 75, 'skor_listening' => 395, 'skor_reading' => 335],
+            ['jawaban_benar' => 76, 'skor_listening' => 400, 'skor_reading' => 340],
+            ['jawaban_benar' => 77, 'skor_listening' => 405, 'skor_reading' => 345],
+            ['jawaban_benar' => 78, 'skor_listening' => 415, 'skor_reading' => 355],
+            ['jawaban_benar' => 79, 'skor_listening' => 420, 'skor_reading' => 360],
+            ['jawaban_benar' => 80, 'skor_listening' => 425, 'skor_reading' => 370],
+            ['jawaban_benar' => 81, 'skor_listening' => 430, 'skor_reading' => 375],
+            ['jawaban_benar' => 82, 'skor_listening' => 435, 'skor_reading' => 385],
+            ['jawaban_benar' => 83, 'skor_listening' => 440, 'skor_reading' => 390],
+            ['jawaban_benar' => 84, 'skor_listening' => 445, 'skor_reading' => 395],
+            ['jawaban_benar' => 85, 'skor_listening' => 450, 'skor_reading' => 400],
+            ['jawaban_benar' => 86, 'skor_listening' => 455, 'skor_reading' => 405],
+            ['jawaban_benar' => 87, 'skor_listening' => 460, 'skor_reading' => 415],
+            ['jawaban_benar' => 88, 'skor_listening' => 465, 'skor_reading' => 420],
+            ['jawaban_benar' => 89, 'skor_listening' => 475, 'skor_reading' => 425],
+            ['jawaban_benar' => 90, 'skor_listening' => 480, 'skor_reading' => 435],
+            ['jawaban_benar' => 91, 'skor_listening' => 485, 'skor_reading' => 440],
+            ['jawaban_benar' => 92, 'skor_listening' => 490, 'skor_reading' => 450],
+            ['jawaban_benar' => 93, 'skor_listening' => 495, 'skor_reading' => 455],
+            ['jawaban_benar' => 94, 'skor_listening' => 495, 'skor_reading' => 460],
+            ['jawaban_benar' => 95, 'skor_listening' => 495, 'skor_reading' => 470],
+            ['jawaban_benar' => 96, 'skor_listening' => 495, 'skor_reading' => 475],
+            ['jawaban_benar' => 97, 'skor_listening' => 495, 'skor_reading' => 485],
+            ['jawaban_benar' => 98, 'skor_listening' => 495, 'skor_reading' => 485],
+            ['jawaban_benar' => 99, 'skor_listening' => 495, 'skor_reading' => 490],
+            ['jawaban_benar' => 100, 'skor_listening' => 495, 'skor_reading' => 495],
+        ];
+
+        foreach ($scores as $nilai) {
+            Nilai::create($nilai);
+        }
+    }
+}
