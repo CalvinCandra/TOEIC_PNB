@@ -1,12 +1,12 @@
 {{-- Navbar --}}
 <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="{{ asset('img/PNB.png') }}" class="h-10" alt="PNB Logo">
             <div class="flex flex-col items-center">
                 <span class="block text-base font-bold whitespace-nowrap dark:text-white flex-grow flex-basis-0">TOEIC
                     SIMULATION</span>
-                <span class="block text-sm text-gray-500 flex-grow flex-basis-0">Politeknik Negeri Bali</span>
+                <span class="block text-base text-gray-500 flex-grow flex-basis-0">Politeknik Negeri Bali</span>
             </div>
         </a>
         <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -28,6 +28,10 @@
                             <span class="block text-sm text-gray-900 truncate">{{ auth()->user()->email }}</span>
                         </div>
                         <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
+                            <li>
+                                <a href="{{ url('/peserta') }}"
+                                    class="block py-2 px-4 text-sm font-bold hover:bg-gray-100">Dashboard</a>
+                            </li>
                             <li>
                                 <a href="{{ url('/logout') }}"
                                     class="block py-2 px-4 text-sm font-bold hover:bg-gray-100">Sign out</a>
@@ -52,7 +56,8 @@
             </button>
         </div>
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-            <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul
+                class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li>
                     <a href="#home" id="nav-home" class="nav-link block py-2 px-3 rounded md:p-0">Home</a>
                 </li>
@@ -66,7 +71,8 @@
                     <li class="block md:hidden mt-4 mb-3 ml-3">
                         <div class="flex items-center space-x-3">
                             <div class="w-8 h-8 rounded-full overflow-hidden bg-white shadow-md">
-                                <img class="w-full" src="{{ asset('profile/profile.png') }}" alt="user photo" loading="lazy" />
+                                <img class="w-full" src="{{ asset('profile/profile.png') }}" alt="user photo"
+                                    loading="lazy" />
                             </div>
                             <div>
                                 <span class="block text-sm font-semibold text-gray-900">{{ auth()->user()->name }}</span>
@@ -75,11 +81,16 @@
                         </div>
                     </li>
                     <li class="block md:hidden">
+                        <a href="{{ url('/peserta') }}"
+                            class="block py-2 px-3 rounded font-bold text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:text-blue-500">Dashboard</a>
+                    </li>
+                    <li class="block md:hidden">
                         <a href="{{ url('/logout') }}"
-                           class="block py-2 px-3 rounded font-bold text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:text-blue-500">Sign Out</a>
+                            class="block py-2 px-3 rounded font-bold text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:text-blue-500">Sign
+                            Out</a>
                     </li>
                 @endauth
             </ul>
-        </div>        
+        </div>
     </div>
 </nav>
