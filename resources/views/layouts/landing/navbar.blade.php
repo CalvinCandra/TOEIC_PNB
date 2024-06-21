@@ -28,10 +28,16 @@
                             <span class="block text-sm text-gray-900 truncate">{{ auth()->user()->email }}</span>
                         </div>
                         <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
+                            {{-- pemilihan dashboard sesuai level --}}
                             <li>
-                                <a href="{{ url('/peserta') }}"
-                                    class="block py-2 px-4 text-sm font-bold hover:bg-gray-100">Dashboard</a>
+                                <a
+                                @if (auth()->user()->level == 'admin') href="{{url('/admin')}}"
+                                @elseif (auth()->user()->level == 'petugas') href="{{url('/petugas')}}"
+                                @elseif (auth()->user()->level == 'peserta') href="{{url('/peserta')}}"
+                                @endif
+                                class="block py-2 px-4 text-sm hover:bg-gray-100">Dashboard</a>
                             </li>
+
                             <li>
                                 <a href="{{ url('/logout') }}"
                                     class="block py-2 px-4 text-sm font-bold hover:bg-gray-100">Sign out</a>
@@ -80,9 +86,14 @@
                             </div>
                         </div>
                     </li>
-                    <li class="block md:hidden">
-                        <a href="{{ url('/peserta') }}"
-                            class="block py-2 px-3 rounded font-bold text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:text-blue-500">Dashboard</a>
+                   {{-- pemilihan dashboard sesuai level --}}
+                    <li>
+                        <a
+                        @if (auth()->user()->level == 'admin') href="{{url('/admin')}}"
+                        @elseif (auth()->user()->level == 'petugas') href="{{url('/petugas')}}"
+                        @elseif (auth()->user()->level == 'peserta') href="{{url('/peserta')}}"
+                        @endif
+                        class="block py-2 px-4 text-sm hover:bg-gray-100">Dashboard</a>
                     </li>
                     <li class="block md:hidden">
                         <a href="{{ url('/logout') }}"

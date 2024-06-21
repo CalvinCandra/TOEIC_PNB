@@ -156,7 +156,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Create Bank Question Data
+                    Create Question Data
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -180,8 +180,8 @@
                     <div>
                         <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number Question<span class="text-red-500">*</span></label>
                         <input type="number" name="nomor_soal"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : 1" required />
+                            class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            value="{{$nomor}}" readonly />
                     </div>
 
                     <div>
@@ -224,15 +224,19 @@
 
                     <div>
                         <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span class="text-red-500">*</span></label>
-                        <input type="text" name="kunci_jawaban"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : A" required />
+                        <select id="countries" name="kunci_jawaban" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                            <option selected hidden value="">Choose a Key</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
                     </div>
 
                     <div class="">
-                        <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an Image (Opsional)</label>
+                        <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Image (Opsional)</label>
                         <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                            <option selected hidden value="">Choose a Image</option>
+                            <option selected hidden value="">-- Choose a File Image --</option>
                             @foreach ($gambar as $item)
                                 <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
                             @endforeach
@@ -259,7 +263,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Update Participants Data
+                    Update Question Data
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -279,13 +283,6 @@
                     @csrf
 
                     <input type="hidden" name="id_soal" value="{{$data->id_soal}}">
-
-                    <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number Question<span class="text-red-500">*</span></label>
-                        <input type="number" name="nomor_soal" value="{{$data->nomor_soal}}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : 1" required />
-                    </div>
 
                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
@@ -327,20 +324,24 @@
 
                     <div>
                         <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span class="text-red-500">*</span></label>
-                        <input type="text" name="kunci_jawaban" value="{{$data->kunci_jawaban}}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : A" required />
+                        <select id="countries" name="kunci_jawaban" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                            <option selected hidden value="{{$data->kunci_jawaban}}">{{$data->kunci_jawaban}}</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
                     </div>
 
                     <div class="">
-                        <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an Image</label>
+                        <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Image</label>
                         <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
                             @php
                                 $Gambar = Gambar::where('id_gambar', $data->id_gambar)->first();
                             @endphp
 
                             @if (!$data->id_gambar)
-                                <option selected hidden value="">Choose a Image</option>
+                                <option selected hidden value="">-- Choose a File Image --</option>
                                 @foreach ($gambar as $item)
                                     <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
                                 @endforeach
