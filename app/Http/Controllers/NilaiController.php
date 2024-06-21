@@ -5,15 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\Nilai;
 use App\Models\Peserta;
 use Illuminate\Http\Request;
+use App\Mail\ResultMail;
+use Illuminate\Support\Facades\Mail;
 
 class NilaiController extends Controller
 {
-    // function untuk penilaian
+    // Function untuk penilaian
     public function Result(Request $request)
     {
         // Pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
+        }
+
+        // Cek apakah email sudah dikirim di sesi ini
+        if ($request->session()->has('email_sent')) {
+            return view('peserta.Result', [
+                'peserta' => $request->session()->get('peserta'),
+                'skorReading' => $request->session()->get('skorReading'),
+                'skorListening' => $request->session()->get('skorListening'),
+                'totalSkor' => $request->session()->get('totalSkor'),
+                'kategori' => $request->session()->get('kategori'),
+                'rangeSkor' => $request->session()->get('rangeSkor'),
+                'detail' => $request->session()->get('detail'),
+            ]);
         }
 
         $Readingbenar = $request->session()->get('benarReading');
@@ -38,10 +53,33 @@ class NilaiController extends Controller
 
         $peserta = Peserta::with('user')->where('id_users', auth()->user()->id)->first();
 
-        return view('result1', compact('peserta', 'skorReading', 'skorListening', 'totalSkor', 'kategori', 'rangeSkor', 'detail'));
+        // Mengirimkan email hasil tes
+        Mail::to($peserta->user->email)->send(new ResultMail(
+            $peserta->nama_peserta,
+            $peserta->user->email,
+            $peserta->nim,
+            $peserta->jurusan,
+            $skorReading,
+            $skorListening,
+            $totalSkor,
+            $kategori,
+            $rangeSkor
+        ));
+
+        // Simpan data ke dalam session
+        $request->session()->put('email_sent', true);
+        $request->session()->put('peserta', $peserta);
+        $request->session()->put('skorReading', $skorReading);
+        $request->session()->put('skorListening', $skorListening);
+        $request->session()->put('totalSkor', $totalSkor);
+        $request->session()->put('kategori', $kategori);
+        $request->session()->put('rangeSkor', $rangeSkor);
+        $request->session()->put('detail', $detail);
+
+        return view('peserta.Result', compact('peserta', 'skorReading', 'skorListening', 'totalSkor', 'kategori', 'rangeSkor', 'detail'));
     }
 
-    // function untuk penentu kategori berdasarkan total skor
+    // Function untuk penentu kategori berdasarkan total skor
     private function determineCategory($totalSkor)
     {
         if ($totalSkor >= 905 && $totalSkor <= 990) {
@@ -58,6 +96,8 @@ class NilaiController extends Controller
             return ['kategori' => 'Memorised Proficiency', 'range' => '185-250', 'detail' => 'This range of values indicates that individuals have very limited ability in English. They may only be able to remember and repeat information that is already known with very limited. They can understand a few simple sentences and may communicate in very limited contexts, but their English language skills are significantly limited.'];
         } elseif ($totalSkor >= 10 && $totalSkor <= 180) {
             return ['kategori' => 'No Useful Proficiency', 'range' => '10-180', 'detail' => 'This range of values indicates that individuals do not have a useful ability in English for practical purposes. They may not be able to understand or communicate in English in a useful context. People with values here may have only basic knowledge or no knowledge of English at all.'];
+        } elseif ($totalSkor < 10) {
+            return ['kategori' => 'No Proficiency', 'range' => '5-0', 'detail' => 'This score range indicates that individuals have no practical proficiency in English. They may not be able to understand or communicate in English at all. People with scores in this range may have no knowledge of English or have not yet started learning it.'];
         }
     }
 }

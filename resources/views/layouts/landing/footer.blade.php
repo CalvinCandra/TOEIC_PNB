@@ -14,10 +14,10 @@
                 </a>
                 <ul class="mt-4 text-white dark:text-gray-400 font-medium max-w-md mx-auto">
                     <li>
-                        <h2>Selamat datang di situs Simulasi TOEIC PNB, platform yang membantu Anda mempersiapkan diri
-                            untuk tes TOEIC. Kami menyediakan simulasi tes untuk
-                            meningkatkan kemampuan bahasa Inggris Anda dalam konteks bisnis dan profesional.<br>Hubungi
-                            kami di info@toeicpnb.com untuk informasi lebih lanjut.</h2>
+                        <h2>Welcome to the TOEIC Simulation PNB website, a platform designed to help you prepare for the
+                            TOEIC test. We provide test simulations to enhance your English language proficiency in
+                            business and professional contexts.<br>Contact us at info@toeicpnb.com for more information.
+                        </h2>
                     </li>
                 </ul>
             </div>

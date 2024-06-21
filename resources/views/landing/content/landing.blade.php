@@ -14,12 +14,12 @@
                     class="mr-auto place-self-center lg:col-span-7 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
                     <h1
                         class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-white dark:text-white">
-                        Cobalah Web Simulasi Test TOEIC!</h1>
+                        Try the Web TOEIC Test Simulation!</h1>
                     <p class="max-w-2xl mb-6 font-light text-white lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-                        Tingkatkan skor TOEIC Anda dengan mudah dan efektif</p>
+                        Improve your TOEIC score easily and effectively</p>
                     <a href="{{ url('/DashboardSoal') }}"
                         class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-[#FB8500] hover:bg-[#D97300] focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
-                        Mulai Sekarang
+                        Starting Now
                         <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -42,12 +42,13 @@
                 <h1
                     class="mb-4 text-3xl font-extrabold tracking-tight leading-none text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
                     What is TOEIC?</h1>
-                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">TOEIC
-                    adalah singkatan dari Test of English for International Communication. Tes ini dirancang untuk mengukur
-                    kemampuan seseorang dalam menggunakan bahasa Inggris dalam konteks profesional.</p>
+                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">TOEIC is
+                    an acronym for Test of English for International Communication. The test is designed to measure a
+                    person's ability to use English in a professional context. It is widely used by companies and
+                    organizations to assess the English language proficiency of their employees and job applicants.</p>
 
-                <div class="mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg">
-                    <span class="font-extrabold text-gray-900 uppercase lg:text-3xl text-2xl">Mengapa TOEIC Penting?</span>
+                <div class="mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg ">
+                    <span class="font-extrabold text-gray-900 uppercase lg:text-3xl text-2xl">Why TOEIC is Important?</span>
 
                     <!-- Carousel tampilan mobile -->
                     <div class="lg:hidden w-full mt-8">
@@ -57,38 +58,37 @@
                                 <!-- Item 1 -->
                                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
                                     <div class="flex flex-col items-center justify-center h-full">
-                                        <span class="font-bold mt-4 text-gray-700 dark:text-gray-400">Standar Kebutuhan
-                                            Industri</span>
-                                        <img src="{{ asset('img/benefit 1.png') }}"
-                                            class="block w-full h-full object-contain" alt="Standar Kebutuhan Industri">
+                                        <img src="{{ asset('img/benefit 1.png') }}" class="block w- h-3/4 object-contain"
+                                            alt="Standar Kebutuhan Industri">
+                                        <span class="font-bold mb-2 text-gray-700 dark:text-gray-400">Industry Requirements
+                                            Standard</span>
                                     </div>
                                 </div>
                                 <!-- Item 2 -->
                                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
                                     <div class="flex flex-col items-center justify-center h-full">
-                                        <span class="font-bold mt-4 text-gray-700 dark:text-gray-400">Booster Kepercayaan
-                                            Diri</span>
-                                        <img src="{{ asset('img/benefit 2.png') }}"
-                                            class="block w-full h-full object-contain" alt="Booster Kepercayaan Diri">
+                                        <img src="{{ asset('img/benefit 2.png') }}" class="block w-3/4 h-3/4 object-contain"
+                                            alt="Booster Kepercayaan Diri">
+                                        <span class="font-bold mb-2 text-gray-700 dark:text-gray-400">Self-Confidence
+                                            Booster</span>
                                     </div>
                                 </div>
                                 <!-- Item 3 -->
                                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
                                     <div class="flex flex-col items-center justify-center h-full">
-                                        <span class="font-bold mt-4 text-gray-700 dark:text-gray-400">Asah Kemampuan Bahasa
-                                            Inggris</span>
-                                        <img src="{{ asset('img/benefit 3.png') }}"
-                                            class="block w-full h-full object-contain" alt="Asah Kemampuan Bahasa Inggris">
+                                        <img src="{{ asset('img/benefit 3.png') }}" class="block w-3/4 h-3/4 object-contain"
+                                            alt="Asah Kemampuan Bahasa Inggris">
+                                        <span class="font-bold mb-2 text-gray-700 dark:text-gray-400">Improve Your English
+                                            Skills</span>
                                     </div>
                                 </div>
                                 <!-- Item 4 -->
                                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
                                     <div class="flex flex-col items-center justify-center h-full">
-                                        <span class="font-bold mt-4 text-gray-700 dark:text-gray-400">Meningkatkan Skill
-                                            Komunikasi</span>
-                                        <img src="{{ asset('img/benefit 4.png') }}"
-                                            class="block w-full h-full object-contain"
+                                        <img src="{{ asset('img/benefit 4.png') }}" class="block w-3/4 h-3/4 object-contain"
                                             alt="Menonjolkan Kemampuan Komunikasi">
+                                        <span class="font-bold mb-2 text-gray-700 dark:text-gray-400">Improve Communication
+                                            Skill</span>
                                     </div>
                                 </div>
                             </div>
@@ -143,28 +143,28 @@
                             <img src="{{ asset('img/benefit 1.png') }}"
                                 class="max-w-full h-48 object-cover transition-transform duration-300 transform hover:scale-110"
                                 alt="Standar Kebutuhan Industri">
-                            <span class="block mt-2 w-48 text-center font-bold">Standar Kebutuhan Industri</span>
+                            <span class="block mt-2 w-48 text-center font-bold">Industry Requirements Standard</span>
                         </div>
                         <div
                             class="flex flex-col items-center mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400 flex-shrink-0 w-full md:w-1/2 lg:w-1/4 xl:w-1/4">
                             <img src="{{ asset('img/benefit 2.png') }}"
                                 class="max-w-full h-48 object-cover transition-transform duration-300 transform hover:scale-110"
                                 alt="Booster Kepercayaan Diri">
-                            <span class="block mt-2 w-48 text-center font-bold">Booster<br>Kepercayaan Diri</span>
+                            <span class="block mt-2 w-48 text-center font-bold">Self-Confidence<br>Booster</span>
                         </div>
                         <div
                             class="flex flex-col items-center mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400 flex-shrink-0 w-full md:w-1/2 lg:w-1/4 xl:w-1/4">
                             <img src="{{ asset('img/benefit 3.png') }}"
                                 class="max-w-full h-48 object-cover transition-transform duration-300 transform hover:scale-110"
                                 alt="Asah Kemampuan Bahasa Inggris">
-                            <span class="block mt-2 w-48 text-center font-bold">Asah Kemampuan Bahasa Inggris</span>
+                            <span class="block mt-2 w-48 text-center font-bold">Improve Your English Skills</span>
                         </div>
                         <div
                             class="flex flex-col items-center mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400 flex-shrink-0 w-full md:w-1/2 lg:w-1/4 xl:w-1/4">
                             <img src="{{ asset('img/benefit 4.png') }}"
                                 class="max-w-full h-48 object-cover transition-transform duration-300 transform hover:scale-110"
                                 alt="Menonjolkan Kemampuan Komunikasi">
-                            <span class="block mt-2 w-48 text-center font-bold">Meningkatkan Skill Komunikasi</span>
+                            <span class="block mt-2 w-48 text-center font-bold">Improve Communication Skill</span>
                         </div>
                     </div>
                 </div>
@@ -186,24 +186,24 @@
 
         {{-- konten utama --}}
         <div class="relative flex flex-col justify-center items-center z-10 h-full">
-            <div class="relative w-full mx-auto py-8 px-4 sm:px-8 lg:px-56 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="relative w-full mx-auto py-8 px-4 sm:px-8 lg:px-56 grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
                 {{-- konten teks --}}
                 <div class="flex flex-col justify-center text-white text-center lg:text-left px-4">
-                    <h2 class="text-3xl lg:text-4xl font-extrabold mb-4">Cakupan Tes<br>Simulasi TOEIC</h2>
-                    <span class="text-lg lg:text-xl">Tes simulasi TOEIC ini meliputi bagian</span>
+                    <h2 class="text-3xl lg:text-4xl font-extrabold mb-4">TOEIC Simulation<br>Test Coverage</h2>
+                    <span class="text-lg lg:text-xl">This TOEIC simulation test covers part</span>
                 </div>
-                {{-- Konten kotak informasi reading --}}
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    {{-- Konten kotak informasi reading --}}
                     <div class="bg-white text-gray-800 p-6 rounded-lg shadow-lg">
                         <h3 class="text-xl font-bold mb-4 text-center">Reading</h3>
                         <ul class="list-none space-y-2">
                             <li class="flex items-center">
                                 <i class="fas fa-circle text-black mr-3"></i>
-                                <span>50 pertanyaan</span>
+                                <span>50 questions</span>
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-circle text-black mr-3"></i>
-                                <span>100 menit</span>
+                                <span>100 minutes</span>
                             </li>
                         </ul>
                     </div>
@@ -213,11 +213,11 @@
                         <ul class="list-none space-y-2">
                             <li class="flex items-center">
                                 <i class="fas fa-circle text-black mr-3"></i>
-                                <span>50 pertanyaan</span>
+                                <span>50 questions</span>
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-circle text-black mr-3"></i>
-                                <span>100 menit</span>
+                                <span>100 minutes</span>
                             </li>
                         </ul>
                     </div>
@@ -225,12 +225,12 @@
             </div>
 
             {{-- tahapan tes --}}
-            <div class="relative z-20 mt-10 mb-5 w-full px-4 sm:px-8 md:px-16 lg:px-[225px]">
+            <div class="relative z-20 mt-16 mb-5 w-full px-4 sm:px-8 md:px-16 lg:px-[225px]">
                 <div class="container mx-auto">
                     <div class="w-full bg-white shadow-lg p-5 rounded-xl">
                         <div>
                             <div class="text-lg font-bold mb-7 text-center">
-                                <span>Langkah-Langkah Tes Simulasi</span>
+                                <span>Steps for Simulation Test</span>
                             </div>
                             <section class="flex flex-wrap justify-between">
                                 <div class="w-full sm:w-1/2 lg:w-1/5 text-center mb-4 flex flex-col items-center">
@@ -239,10 +239,10 @@
                                             src="{{ asset('favicon/form.png') }}" alt="">
                                     </div>
                                     <div class="text-lg font-bold mb-2">
-                                        <span>Periksa data diri</span>
+                                        <span>Follow Test Rules</span>
                                     </div>
                                     <div class="text-base">
-                                        <span>Pastikan data diri anda<br>baik nama dan email benar</span>
+                                        <span>Understand and follow the test rules for smooth testing</span>
                                     </div>
                                 </div>
                                 <div class="hidden md:flex md:w-1/5 text-center mb-4 items-center justify-center">
@@ -257,11 +257,11 @@
                                             src="{{ asset('favicon/create.png') }}" alt="">
                                     </div>
                                     <div class="text-lg font-bold mb-2">
-                                        <span>Mengerjakan tes</span>
+                                        <span>Work the Test</span>
                                     </div>
                                     <div class="text-base">
-                                        <span><i>Reading</i> dan <i>Listening</i> dengan <b>estimasi waktu<br>200
-                                                menit</b></span>
+                                        <span><i>Reading</i> and <i>Listening</i> with an <b>estimated time of 200
+                                                minutes</b></span>
                                     </div>
                                 </div>
                                 <div class="hidden md:flex md:w-1/5 text-center mb-4 items-center justify-center">
@@ -276,10 +276,10 @@
                                             src="{{ asset('favicon/share.png') }}" alt="">
                                     </div>
                                     <div class="text-lg font-bold mb-2">
-                                        <span>Membagikan hasil tes</span>
+                                        <span>Sharing Test Results</span>
                                     </div>
                                     <div class="text-base">
-                                        <span>Tunjukkan hasil tesmu di <i>social media!</i></span>
+                                        <span>Share your test results on social media!</i></span>
                                     </div>
                                 </div>
                             </section>
@@ -302,7 +302,7 @@
                             class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 bg-white border border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100"
                             data-accordion-target="#accordion-collapse-body-1" aria-expanded="false"
                             aria-controls="accordion-collapse-body-1">
-                            <span class="flex-grow text-center">Mengapa TOEIC?</span>
+                            <span class="flex-grow text-center">Why TOEIC?</span>
                             <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0 transition-transform duration-300"
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
@@ -314,12 +314,12 @@
                     <div id="accordion-collapse-body-1" class="hidden overflow-hidden transition-all duration-300"
                         aria-labelledby="accordion-collapse-heading-1">
                         <div class="p-5 border border-t-0 border-gray-200 bg-gray-50 s">
-                            <p class="mb-2 text-gray-500">Tes TOEIC merupakan alat yang sangat berguna bagi individu yang
-                                ingin membuktikan kemampuan bahasa Inggris mereka dalam konteks profesional. Ini membantu
-                                meningkatkan peluang karir, memberikan pengakuan global, dan memberikan penilaian yang
-                                objektif atas keterampilan bahasa Inggris. Bagi perusahaan, tes ini merupakan cara yang
-                                andal untuk menilai dan meningkatkan keterampilan komunikasi karyawan mereka, yang pada
-                                akhirnya berkontribusi pada kesuksesan bisnis secara keseluruhan.</p>
+                            <p class="mb-2 text-gray-500">The TOEIC test is a very useful tool for individuals who want to
+                                prove their English language skills in a professional context. It helps enhance career
+                                opportunities, provides global recognition, and offers an objective assessment of English
+                                language proficiency. For companies, this test is a reliable way to evaluate and improve
+                                their employees' communication skills, ultimately contributing to overall business success.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -331,7 +331,7 @@
                             class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 bg-white border border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100"
                             data-accordion-target="#accordion-collapse-body-2" aria-expanded="false"
                             aria-controls="accordion-collapse-body-2">
-                            <span class="flex-grow text-center">Bisakah saya melakukan tes di rumah?</span>
+                            <span class="flex-grow text-center">Can I take the test at home?</span>
                             <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0 transition-transform duration-300"
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
@@ -343,10 +343,10 @@
                     <div id="accordion-collapse-body-2" class="hidden overflow-hidden transition-all duration-300"
                         aria-labelledby="accordion-collapse-heading-2">
                         <div class="p-5 border border-t-0 border-gray-200 bg-gray-50">
-                            <p class="mb-2 text-gray-500">Anda dapat dengan mudah melakukan tes simulasi TOEIC dari
-                                kenyamanan rumah Anda. Cukup siapkan koneksi internet yang stabil, lalu ikuti instruksi yang
-                                telah disediakan untuk memulai tes. Dengan metode ini, Anda bisa berlatih kapan saja dan
-                                mempersiapkan diri dengan lebih baik untuk ujian sesungguhnya.</p>
+                            <p class="mb-2 text-gray-500">You can easily take a simulated TOEIC test from the comfort of
+                                your home. Simply ensure you have a stable internet connection, then follow the provided
+                                instructions to start the test. With this method, you can practice anytime and prepare
+                                yourself better for the actual exam.</p>
                         </div>
                     </div>
                 </div>
@@ -358,7 +358,7 @@
                             class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 bg-white border border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100"
                             data-accordion-target="#accordion-collapse-body-3" aria-expanded="false"
                             aria-controls="accordion-collapse-body-3">
-                            <span class="flex-grow text-center">Apakah saya akan mendapat seritifikat?</span>
+                            <span class="flex-grow text-center">Will I receive a certificate?</span>
                             <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0 transition-transform duration-300"
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
@@ -370,10 +370,10 @@
                     <div id="accordion-collapse-body-3" class="hidden overflow-hidden transition-all duration-300"
                         aria-labelledby="accordion-collapse-heading-3">
                         <div class="p-5 border border-t-0 border-gray-200 bg-gray-50">
-                            <p class="mb-2 text-gray-500">Untuk tes simulasi TOEIC ini, Anda tidak akan mendapatkan
-                                sertifikat. Namun, Anda akan menerima nilai tes yang dilakukan dan dikirimkan melalui email,
-                                memungkinkan Anda untuk berbagi hasilnya di media sosial. Selain itu, Anda juga akan
-                                diberikan penjelasan tentang jawaban yang salah dan benar.</p>
+                            <p class="mb-2 text-gray-500">For this simulated TOEIC test, you will not receive a
+                                certificate. However, you will receive your test scores, which will be sent to you via
+                                email, allowing you to share your results on social media. Additionally, you will be
+                                provided with explanations for both correct and incorrect answers.</p>
                         </div>
                     </div>
                 </div>
@@ -385,7 +385,7 @@
                             class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 bg-white border border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100"
                             data-accordion-target="#accordion-collapse-body-4" aria-expanded="false"
                             aria-controls="accordion-collapse-body-4">
-                            <span class="flex-grow text-center">Apakah data hasil tes akan di berikan?</span>
+                            <span class="flex-grow text-center">Will the test result data be provided?</span>
                             <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0 transition-transform duration-300"
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
@@ -397,10 +397,10 @@
                     <div id="accordion-collapse-body-4" class="hidden overflow-hidden transition-all duration-300"
                         aria-labelledby="accordion-collapse-heading-4">
                         <div class="p-5 border border-t-0 border-gray-200 bg-gray-50">
-                            <p class="mb-2 text-gray-500">Ya, data hasil tes akan disediakan, dan Anda bisa melihatnya
-                                langsung di website atau melalui email dari kami. Hasil tes akan diterima setelah Anda
-                                selesai mengerjakan tes. Selain itu, Anda juga akan diberitahu kategori nilai yang Anda
-                                peroleh.</p>
+                            <p class="mb-2 text-gray-500">Yes, the test result data will be provided, and you can view it
+                                directly on the website or through an email from us. You will receive your test results once
+                                you have completed the test. Additionally, you will be informed of the score category you
+                                have achieved.</p>
                         </div>
                     </div>
                 </div>

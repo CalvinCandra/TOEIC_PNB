@@ -1,16 +1,16 @@
 <nav class="bg-white border-b border-gray-200 px-4 py-2 fixed left-0 right-0 top-0 z-50">
     <div class="flex flex-wrap justify-between items-center">
-      <div class="flex justify-start items-center">
-        <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation" aria-controls="drawer-navigation"
-          class="py-2 px-3 mr-2 text-gray-900 rounded-lg cursor-pointer md:hidden hover:text-gray-900 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100"
-        >
-          <i class="fa-solid fa-bars"></i>
-          <span class="sr-only">Toggle sidebar</span>
-        </button>
+        <div class="flex justify-start items-center">
+            <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation"
+                aria-controls="drawer-navigation"
+                class="py-2 px-3 mr-2 text-gray-900 rounded-lg cursor-pointer md:hidden hover:text-gray-900 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100">
+                <i class="fa-solid fa-bars"></i>
+                <span class="sr-only">Toggle sidebar</span>
+            </button>
 
-        <span class="self-center text-2xl font-semibold whitespace-nowrap">TOEIC</span>
-      </div>
-      <div class="flex items-center lg:order-2">
+            <span class="self-center text-2xl font-semibold whitespace-nowrap">TOEIC</span>
+        </div>
+        <div class="flex items-center lg:order-2">
 
         <button
           type="button"
@@ -64,6 +64,5 @@
             </li>
           </ul>
         </div>
-      </div>
     </div>
-  </nav>
+</nav>
