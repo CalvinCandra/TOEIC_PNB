@@ -9,7 +9,7 @@
 
 {{-- konten --}}
 <section class="p-4 md:ml-64 h-auto pt-20">
-    <h1>Image Question</h1>
+    <h1>File Image Question</h1>
 
 
     <div class="p-3 sm:p-5 antialiased">
@@ -49,7 +49,7 @@
                     <div class="flex justify-between">
                         <!-- Modal toggle -->
                         <button data-modal-target="TambahGambar" data-modal-toggle="TambahGambar" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                            Create Image Question
+                            Add File Image
                         </button>
                     </div>
 
@@ -71,7 +71,7 @@
                                     <td class="px-4 py-3 border-2">{{$data->gambar}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">
                                         <a class="" href="{{ asset('storage/gambar/'.$data->gambar) }}" data-lightbox="example-1" target="__blank" id='link-foto'>
-                                            <h1 class="text-sky-500 italic font-weight-bold hover:underline">Lihat Foto</h1>
+                                            <h1 class="text-sky-500 italic font-weight-bold hover:underline">See Image</h1>
                                         </a>
                                     </td>
                                     <td class="px-4 py-3 border-2">
@@ -113,7 +113,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Create Image Question Data
+                    Add Image Question
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
