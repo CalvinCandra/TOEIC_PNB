@@ -49,7 +49,7 @@
                     <div class="flex justify-between">
                         <!-- Modal toggle -->
                         <button data-modal-target="TambahAudio" data-modal-toggle="TambahAudio" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                            Create Audio Question
+                            Add Audio
                         </button>
                     </div>
 
@@ -114,7 +114,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Create Image Question Data
+                    Add File Audio
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"

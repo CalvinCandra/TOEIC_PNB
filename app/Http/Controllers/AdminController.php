@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Soal;
 use App\Models\User;
 use App\Models\Audio;
 use App\Models\Gambar;
 use App\Models\Status;
 use App\Models\Peserta;
 use App\Models\Petugas;
+use App\Models\BankSoal;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -167,8 +169,8 @@ class AdminController extends Controller
             'email' => 'email|unique:users',
             'nim' => 'min:10|max:10|unique:peserta'
         ],[
-            'nim.max' => 'NIM Must be 3 Letters',
-            'nim.min' => 'NIM Must be 3 Letters',
+            'nim.max' => 'NIM Must be 10 Letters',
+            'nim.min' => 'NIM Must be 10 Letters',
         ]);
 
         // generate password otomatis
@@ -227,8 +229,8 @@ class AdminController extends Controller
         $request->validate([
             'nim' => 'min:10|max:10'
         ],[
-            'nim.max' => 'NIM Must be 3 Letters',
-            'nim.min' => 'NIM Must be 3 Letters',
+            'nim.max' => 'NIM Must be 10 Letters',
+            'nim.min' => 'NIM Must be 10 Letters',
         ]);
 
         // get data petugas
@@ -273,6 +275,9 @@ class AdminController extends Controller
         // transaction database
         try {
             DB::beginTransaction();
+
+            // DELETE data status berdasarkan id_peserta
+            Status::where('id_peserta', $request->id_peserta)->delete();
             
             // DELETE data ke table petugas 
             Peserta::findOrFail($request->id_peserta)->delete();
@@ -537,17 +542,21 @@ class AdminController extends Controller
         // get data gambar
         $gambar = Gambar::all();
 
-        return view('admin.content.SoalReading.dashSoalReading', compact(['soal', 'gambar', 'id_bank'])); // Kirim data ke view
+        // get penomoran otomatis
+        $penomoran = Soal::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('nomor_soal', 'desc')->first();
+
+        // jika blm ada soal
+        if($penomoran == null){
+            $nomor = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $nomor = intval($penomoran->nomor_soal) + 1;
+        }
+
+        return view('admin.content.SoalReading.dashSoalReading', compact(['soal', 'gambar', 'id_bank', 'nomor'])); // Kirim data ke view
     }
 
     // tambah soal
     public function TambahSoalReadingAdmin(Request $request){
-        $request->validate([
-            'kunci_jawaban' => 'min:1|max:1'
-        ],[
-            'kunci_jawaban.max' => 'Key Must be 1 Letters',
-            'kunci_jawaban.min' => 'Key Must be 1 Letters',
-        ]);
 
         // generate token otomatis
         $token_soal = strtoupper(Str::password(5, true, true, false, false));
@@ -626,17 +635,21 @@ class AdminController extends Controller
         // get data gambar
         $audio = Audio::all();
 
-        return view('admin.content.SoalListening.dashSoalListening', compact(['soal', 'audio', 'id_bank'])); // Kirim data ke view
+        // get penomoran otomatis
+        $penomoran = Soal::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('nomor_soal', 'desc')->first();
+
+        // jika blm ada soal
+        if($penomoran == null){
+            $nomor = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $nomor = intval($penomoran->nomor_soal) + 1;
+        }
+
+        return view('admin.content.SoalListening.dashSoalListening', compact(['soal', 'audio', 'id_bank', 'nomor'])); // Kirim data ke view
     }
 
     // tambah soal
     public function TambahSoalListeningAdmin(Request $request){
-        $request->validate([
-            'kunci_jawaban' => 'min:1|max:1'
-        ],[
-            'kunci_jawaban.max' => 'Key Must be 1 Letters',
-            'kunci_jawaban.min' => 'Key Must be 1 Letters',
-        ]);
 
         // generate token otomatis
         $token_soal = strtoupper(Str::password(5, true, true, false, false));

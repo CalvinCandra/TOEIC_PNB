@@ -2,7 +2,7 @@
 @extends('admin.main')
 
 {{-- judul halaman disini --}}
-@section('Title', 'Dashboard Admin | Question')
+@section('Title', 'Dashboard Admin | Bank Question')
 
 {{-- membuat content disini --}}
 @section('content')
@@ -48,7 +48,7 @@
                     <div class="flex justify-between">
                         <!-- Modal toggle -->
                         <button data-modal-target="TambahBankSoal" data-modal-toggle="TambahBankSoal" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                            Create Question Reading
+                            Create Bank Question
                         </button>
                     </div>
 
@@ -70,14 +70,14 @@
                                     <td class="px-4 py-3 border-2">
                                         <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
                                             <li>
-                                                <a href="{{url("/dashPetugasSoalDetailReading"."/".$data->id_bank)}}"
+                                                <a href="{{url("/dashAdminSoalDetailReading"."/".$data->id_bank)}}"
                                                     class="flex items-center w-full px-4 py-2 text-lime-400 hover:bg-gray-100 hover:scale-95">
                                                     <i class="fa-solid fa-plus me-1"></i>
                                                     Question Reading
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="{{url("/dashPetugasSoalDetailListening"."/".$data->id_bank)}}"
+                                                <a href="{{url("/dashAdminSoalDetailListening"."/".$data->id_bank)}}"
                                                     class="flex items-center w-full px-4 py-2 text-green-400 hover:bg-gray-100 hover:scale-95">
                                                     <i class="fa-solid fa-plus me-1"></i>
                                                     Question Listening
@@ -90,7 +90,7 @@
                                                     data-modal-toggle="UpdateBank"
                                                     class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
                                                     <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
-                                                    Rename Code
+                                                    Rename Bank
                                                 </button>
                                             </li>
                                             <li>
@@ -152,7 +152,7 @@
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code Question</label>
                         <input type="text" name="bank" id="name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : AKSNDS" required />
+                            placeholder="Example : KD-1A" required />
                     </div>
 
                     <button type="submit"
@@ -174,7 +174,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Update Participants Data
+                    Update Bank Question
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -199,7 +199,7 @@
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code Question</label>
                         <input type="text" name="bank" id="edit-Codebank"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : Sopo Jarwo" required />
+                            placeholder="Example : KD-1A" required />
                     </div>
 
                     <button type="submit"

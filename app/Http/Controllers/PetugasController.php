@@ -48,8 +48,8 @@ class PetugasController extends Controller
             'email' => 'email|unique:users',
             'nim' => 'min:10|max:10|unique:peserta'
         ],[
-            'nim.max' => 'NIM Must be 3 Letters',
-            'nim.min' => 'NIM Must be 3 Letters',
+            'nim.max' => 'NIM Must be 10 Letters',
+            'nim.min' => 'NIM Must be 10 Letters',
         ]);
 
         // generate password otomatis
@@ -108,8 +108,8 @@ class PetugasController extends Controller
         $request->validate([
             'nim' => 'min:10|max:10'
         ],[
-            'nim.max' => 'NIM Must be 3 Letters',
-            'nim.min' => 'NIM Must be 3 Letters',
+            'nim.max' => 'NIM Must be 10 Letters',
+            'nim.min' => 'NIM Must be 10 Letters',
         ]);
 
         // get data petugas
@@ -418,17 +418,21 @@ class PetugasController extends Controller
         // get data gambar
         $gambar = Gambar::all();
 
-        return view('petugas.content.SoalReading.dashSoalReading', compact(['soal', 'gambar', 'id_bank'])); // Kirim data ke view
+        // get penomoran otomatis
+        $penomoran = Soal::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('nomor_soal', 'desc')->first();
+
+        // jika blm ada soal
+        if($penomoran == null){
+            $nomor = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $nomor = intval($penomoran->nomor_soal) + 1;
+        }
+
+        return view('petugas.content.SoalReading.dashSoalReading', compact(['soal', 'gambar', 'id_bank', 'nomor'])); // Kirim data ke view
     }
 
     // tambah soal
     public function TambahSoalReadingPetugas(Request $request){
-        $request->validate([
-            'kunci_jawaban' => 'min:1|max:1'
-        ],[
-            'kunci_jawaban.max' => 'Key Must be 1 Letters',
-            'kunci_jawaban.min' => 'Key Must be 1 Letters',
-        ]);
 
         // generate token otomatis
         $token_soal = strtoupper(Str::password(5, true, true, false, false));
@@ -513,17 +517,21 @@ class PetugasController extends Controller
         // get data gambar
         $audio = Audio::all();
 
-        return view('petugas.content.SoalListening.dashSoalListening', compact(['soal', 'audio', 'id_bank'])); // Kirim data ke view
+        // get penomoran otomatis
+        $penomoran = Soal::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('nomor_soal', 'desc')->first();
+
+        // jika blm ada soal
+        if($penomoran == null){
+            $nomor = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $nomor = intval($penomoran->nomor_soal) + 1;
+        }
+
+        return view('petugas.content.SoalListening.dashSoalListening', compact(['soal', 'audio', 'id_bank', 'nomor'])); // Kirim data ke view
     }
 
     // tambah soal
     public function TambahSoalListeningPetugas(Request $request){
-        $request->validate([
-            'kunci_jawaban' => 'min:1|max:1'
-        ],[
-            'kunci_jawaban.max' => 'Key Must be 1 Letters',
-            'kunci_jawaban.min' => 'Key Must be 1 Letters',
-        ]);
 
         // generate token otomatis
         $token_soal = strtoupper(Str::password(5, true, true, false, false));

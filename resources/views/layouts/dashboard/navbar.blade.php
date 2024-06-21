@@ -50,6 +50,13 @@
           >
             <li>
               <a
+                href="{{url('/')}}"
+                class="block py-2 px-4 text-sm hover:bg-gray-100"
+                >Landing</a
+              >
+            </li>
+            <li>
+              <a
                 href="{{url('/logout')}}"
                 class="block py-2 px-4 text-sm font-bold hover:bg-gray-100"
                 >Sign out</a
