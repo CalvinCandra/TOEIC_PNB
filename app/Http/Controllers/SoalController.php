@@ -350,8 +350,13 @@ class SoalController extends Controller
         $JumlahBenar = $Benar;
         $Jumlahsalah = $Salah;
 
+        // put data listening
         $request->session()->put('benarListening', $JumlahBenar);
         $request->session()->put('salahListening', $Jumlahsalah);
+
+        // put again data reading
+        $request->session()->put('benarReading', $request->session()->get('benarReading'));
+        $request->session()->put('salahReading', $request->session()->get('salahReading'));
 
         // ubah status peserta menjadi sudah selesai
         Status::where('id_peserta', $peserta->id_peserta)->update([
@@ -390,6 +395,7 @@ class SoalController extends Controller
         $request->session()->forget('benarListening');
         $request->session()->forget('salahListening');
         $request->session()->forget('bank');
+        $request->session()->forget('email_sent');
         return redirect('/DashboardSoal');
     }
 }
