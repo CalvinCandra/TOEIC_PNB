@@ -53,10 +53,14 @@
         
             <!-- Soal disini (include gambar/audio) -->
             @if (!empty($soalListening->id_audio))
+                @if (!$audioPlayed)
                 <audio id="audio" controls>
                     <source src="{{asset('storage/audio/'.$soalListening->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
                     Your browser does not support the audio element.
                 </audio>
+                @else
+                    <p>Audio has already played</p>
+                @endif
             @endif
             <div class="bg-[#F3F3F3] mt-3 p-4 rounded">
                 @if ($soalListening->text != null)    
@@ -102,6 +106,7 @@
         </form>
     @endif
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         const audioElement = document.getElementById('audio');
       
@@ -111,14 +116,30 @@
         // Event listener for audio play event
         audioElement.addEventListener('play', () => {
           playCount++; // Increment play count
+          console.log(playCount);
       
           // Limit plays to two
           if (playCount >= 2) {
+            console.log(playCount);
+
             // Disable playback controls
             audioElement.controls = false;
-      
+            
             // Display message or perform other actions
             alert("You have reached the maximum playback limit.");
+
+            //run ajax
+            console.log('action');
+            $.ajax({
+                url: '/set-audio-played',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log(response.status);
+                    }
+            });
           }
         });
     </script>

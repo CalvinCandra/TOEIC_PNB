@@ -3,7 +3,7 @@
 <head>
     @include('layouts.header')
     <title>@yield('title')</title>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script type="text/javascript">
         window.history.forward(1);
     </script>

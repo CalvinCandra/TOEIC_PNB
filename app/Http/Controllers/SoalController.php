@@ -204,6 +204,10 @@ class SoalController extends Controller
             return redirect('/DashboardSoal');
         }
 
+        if ($request->session()->get('audio_played') == !null) {
+            $request->session()->forget('audio_played');
+        }
+
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
 
@@ -250,7 +254,10 @@ class SoalController extends Controller
         // kirim waktu ke blade agar bisa dikondisikan
         $request->session()->put('waktu', $remainingTime);
 
-        return view('peserta.Soal.Listeningtest', compact(['soalListening', 'soal']));
+        //set session for audio
+        $audioPlayed = $request->session()->get('audio_played', false);
+
+        return view('peserta.Soal.Listeningtest', compact(['soalListening', 'soal', 'audioPlayed']));
     }
 
     // proses menjawab untuk reading
@@ -274,6 +281,9 @@ class SoalController extends Controller
 
             // get jawaban peserta
             $jawaban = $request->jawaban;
+
+            //reset the audio session
+            $request->session()->forget('audio_played');
 
             if ($request->tombol == 'next') {
                 // insert data kedalam database
@@ -397,5 +407,11 @@ class SoalController extends Controller
         $request->session()->forget('bank');
         $request->session()->forget('email_sent');
         return redirect('/DashboardSoal');
+    }
+
+    public function setAudioPlayed(Request $request)
+    {
+        $request->session()->put('audio_played', true);
+        return response()->json(['status' => 'success']);
     }
 }
