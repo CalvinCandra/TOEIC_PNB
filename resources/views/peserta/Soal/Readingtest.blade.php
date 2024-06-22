@@ -50,7 +50,7 @@
             <h1 class="text-xl font-bold">
                 Reading - Question {{$soalReading->nomor_soal}}
             </h1>
-            <div class="bg-[#F3F3F3] mt-8 p-4">
+            <div class="bg-[#F3F3F3] mt-8 p-4 rounded">
                 <!-- Soal disini (include gambar/audio) -->
                 @if (!empty($soalReading->id_gambar))
                     <img src="{{asset('favicon/img1.jpg')}}" alt="gambar soal" class="max-h-48 pb-2">
@@ -58,7 +58,7 @@
 
                 {{-- jika ada text, maka tampilkan --}}
                 @if ($soalReading->text != null)    
-                    <div class="h-72 overflow-y-auto">
+                    <div class="overflow-y-auto">
                         <p>
                             {{$soalReading->text}}
                         </p>
@@ -88,15 +88,11 @@
 
             @if ($soalReading->nomor_soal != count($soal))
                 <div class="flex justify-end items-end">
-                    <button type="submit" name="tombol" value="next" class="bg-[#0066FF] text-white rounded px-10 py-3 
-                    hover:bg-gradient-to-r hover:from-blue-500 hover:via-green-500 hover:to-purple-500 
-                    hover:animate-gradient absolute bottom-8">Next</button>
+                    <button type="submit" name="tombol" value="next" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white absolute bottom-8">Next</button>
                 </div>
             @else    
                 <div class="flex justify-end items-end">
-                    <button type="submit" name="tombol" value="Submit" class="bg-[#0066FF] text-white rounded px-10 py-3 
-                    hover:bg-gradient-to-r hover:from-blue-500 hover:via-green-500 hover:to-purple-500 
-                    hover:animate-gradient absolute bottom-8">Submit</button>
+                    <button type="submit" name="tombol" value="Submit" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white absolute bottom-8">Submit</button>
                 </div>
             @endif
 

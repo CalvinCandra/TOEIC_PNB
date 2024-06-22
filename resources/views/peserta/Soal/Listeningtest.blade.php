@@ -50,7 +50,7 @@
             <h1 class="text-xl font-bold">
                 Listening - Question {{$soalListening->nomor_soal}}
             </h1>
-            <div class="bg-[#F3F3F3] mt-8 p-4">
+            <div class="bg-[#F3F3F3] mt-8 p-4 rounded">
                 <!-- Soal disini (include gambar/audio) -->
                 @if (!empty($soalListening->id_audio))
                     <audio id="audio" controls>
@@ -58,10 +58,13 @@
                         Your browser does not support the audio element.
                     </audio>
                 @endif
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus consequuntur enim nobis, voluptate ut sint voluptatem porro excepturi quidem perferendis doloremque, esse eligendi nam. Quisquam tenetur inventore sapiente rerum itaque?
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis, provident? Fugit aspernatur asperiores deserunt laborum rerum repellat quod, ab voluptas eligendi nam temporibus itaque voluptatibus dolorem, ipsum amet, autem nisi.
-                </p>
+                @if ($soalListening->text != null)    
+                    <div class="overflow-y-auto">
+                        <p>
+                            {{$soalListening->text}}
+                        </p>
+                    </div>
+                @endif
             </div>
             <!-- Save id soal -->
             <div class="">
@@ -86,15 +89,11 @@
 
             @if ($soalListening->nomor_soal != count($soal))
                 <div class="flex justify-end items-end">
-                    <button type="submit" name="tombol" value="next" class="bg-[#0066FF] text-white rounded px-10 py-3 
-                    hover:bg-gradient-to-r hover:from-blue-500 hover:via-green-500 hover:to-purple-500 
-                    hover:animate-gradient absolute bottom-8">Next</button>
+                    <button type="submit" name="tombol" value="next" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white absolute bottom-8">Next</button>
                 </div>
             @else    
                 <div class="flex justify-end items-end">
-                    <button type="submit" name="tombol" value="Submit" class="bg-[#0066FF] text-white rounded px-10 py-3 
-                    hover:bg-gradient-to-r hover:from-blue-500 hover:via-green-500 hover:to-purple-500 
-                    hover:animate-gradient absolute bottom-8">Submit</button>
+                    <button type="submit" name="tombol" value="Submit" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white absolute bottom-8">Submit</button>
                 </div>
             @endif
 
