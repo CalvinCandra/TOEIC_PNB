@@ -13,7 +13,7 @@
                     <!-- Header -->
                     <tr>
                         <td class="header" style="background-color: #023047; padding: 30px; text-align: center; color: white; font-size: 24px;">
-                            TOEIC POLITEKNIK NEGER BALI
+                            TOEIC POLITEKNIK NEGERI BALI
                         </td>
                     </tr>
 

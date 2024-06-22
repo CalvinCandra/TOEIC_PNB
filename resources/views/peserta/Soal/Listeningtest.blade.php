@@ -47,17 +47,17 @@
     @else    
         <form action="{{url('/ProsesJawabListening')}}" method="post">
             @csrf
-            <h1 class="text-xl font-bold">
+            <h1 class="text-xl font-bold mb-5">
                 Listening - Question {{$soalListening->nomor_soal}}
             </h1>
-            <div class="bg-[#F3F3F3] mt-8 p-4">
-                <!-- Soal disini (include gambar/audio) -->
-                @if (!empty($soalListening->id_audio))
-                    <audio id="audio" controls>
-                        <source src="{{asset('public/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
-                        Your browser does not support the audio element.
-                    </audio>
-                @endif
+            <!-- Soal disini (include gambar/audio) -->
+            @if (!empty($soalListening->id_audio))
+                <audio id="audio" controls>
+                    <source src="{{asset('storage/audio/'.$soalListening->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
+                    Your browser does not support the audio element.
+                </audio>
+            @endif
+            <div class="bg-[#F3F3F3] mt-3 p-4">
                 <p>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus consequuntur enim nobis, voluptate ut sint voluptatem porro excepturi quidem perferendis doloremque, esse eligendi nam. Quisquam tenetur inventore sapiente rerum itaque?
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis, provident? Fugit aspernatur asperiores deserunt laborum rerum repellat quod, ab voluptas eligendi nam temporibus itaque voluptatibus dolorem, ipsum amet, autem nisi.

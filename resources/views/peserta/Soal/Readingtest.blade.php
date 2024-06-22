@@ -50,18 +50,17 @@
             <h1 class="text-xl font-bold">
                 Reading - Question {{$soalReading->nomor_soal}}
             </h1>
-            <div class="bg-[#F3F3F3] mt-8 p-4">
-                <!-- Soal disini (include gambar/audio) -->
-                @if (!empty($soalReading->id_gambar))
-                    <img src="{{asset('favicon/img1.jpg')}}" alt="gambar soal" class="max-h-48 pb-2">
-                @endif
-
+            <!-- Soal disini (include gambar/audio) -->
+            @if (!empty($soalReading->id_gambar))
+                <img src="{{asset('storage/gambar/'.$soalReading->gambar->gambar)}}" alt="gambar soal" class="max-h-48 pb-2 mt-3">
+            @endif
+            <div class="bg-[#F3F3F3] mt-2 p-4">
                 {{-- jika ada text, maka tampilkan --}}
                 @if ($soalReading->text != null)    
-                    <div class="h-72 overflow-y-auto">
-                        <p>
+                    <div class="h-52 overflow-auto">
+                        <p class="">
                             {{$soalReading->text}}
-                        </p>
+                        </p>   
                     </div>
                 @endif
             </div>

@@ -90,9 +90,9 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
 
     // Soal
     Route::get('/dashAdminSoal', [AdminController::class, 'dashAdminSoal']);
-    Route::post('/TambahBankSoal', [AdminController::class, 'TambahBankSoal']);
-    Route::post('/UpdateBankSoal', [AdminController::class, 'UpdateBankSoal']);
-    Route::post('/DeleteBankSoal', [AdminController::class, 'DeleteBankSoal']);
+    Route::post('/TambahBankSoalAdmin', [AdminController::class, 'TambahBankSoalAdmin']);
+    Route::post('/UpdateBankSoalAdmin', [AdminController::class, 'UpdateBankSoalAdmin']);
+    Route::post('/DeleteBankSoalAdmin', [AdminController::class, 'DeleteBankSoalAdmin']);
 
     // menampilkan detail soal reading
     Route::get('/dashAdminSoalDetailReading/{id}', [AdminController::class, 'dashAdminSoalDetailReading']);

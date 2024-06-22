@@ -23,6 +23,13 @@ class PesertaController extends Controller
     }
 
     public function UpdateProfil(Request $request){
+        $request->validate([
+            'nim' => 'min:10|max:10'
+        ],[
+            'nim.max' => 'NIM Must be 10 Letters',
+            'nim.min' => 'NIM Must be 10 Letters',
+        ]);
+
         if($request->ismethod('post')){
             // transaction database
         try {

@@ -107,7 +107,11 @@
                                         <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
                                     @endif
 
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->petugas->nama_petugas}}</td>
+                                    @if (!$data->id_petugas == null)
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->petugas->nama_petugas}}</td>
+                                    @else 
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">Admin</td>
+                                    @endif
                                     
                                     <td class="px-4 py-3 border-2">
                                         <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
@@ -287,9 +291,9 @@
 
                     <div>
                         <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number Question<span class="text-red-500">*</span></label>
-                        <input type="number" name="nomor_soal" value="{{$data->nomor_soal}}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : 1" required />
+                        <input type="number" name="nomor_soal"
+                            class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            value="{{$data->nomor_soal}}" readonly />
                     </div>
 
                     <div>
@@ -343,7 +347,7 @@
 
                     <div class="">
                         <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Audio</label>
-                        <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
+                        <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                             @php
                                 $Audio = Audio::where('id_audio', $data->id_audio)->first();
                             @endphp
@@ -357,8 +361,8 @@
                                 <option selected hidden value="{{$Audio->id_audio}}">{{ $Audio->audio }}</option>
                                 @foreach ($audio as $item)
                                     <option value="{{$item->id_audio}}">{{$item->audio}}</option>
-                                    <option value="">Remove Audio From Question</option>
                                 @endforeach
+                                <option value="">Remove Audio From Question</option>
                             @endif
                         </select>
                     </div>

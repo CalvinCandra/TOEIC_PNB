@@ -13,7 +13,7 @@
 
 {{-- konten --}}
 <section class="p-4 md:ml-64 h-auto pt-20">
-    <a href="{{url('/dashPetugasAdmin')}}" class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+    <a href="{{url('/dashAdminSoal')}}" class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
         Back
     </a>
     <h1>Question Listening Data</h1>
@@ -107,7 +107,11 @@
                                         <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
                                     @endif
 
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->petugas->nama_petugas}}</td>
+                                    @if (!$data->id_petugas == null)
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->petugas->nama_petugas}}</td>
+                                    @else 
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">Admin</td>
+                                    @endif
                                     
                                     <td class="px-4 py-3 border-2">
                                         <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
@@ -286,6 +290,13 @@
                     <input type="hidden" name="id_soal" value="{{$data->id_soal}}">
 
                     <div>
+                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number Question<span class="text-red-500">*</span></label>
+                        <input type="number" name="nomor_soal"
+                            class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            value="{{$data->nomor_soal}}" readonly />
+                    </div>
+
+                    <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
                         <textarea rows="5" name="text" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="You can leave it blank">{{$data->text}}</textarea>
                     </div>
@@ -336,7 +347,7 @@
 
                     <div class="">
                         <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Audio</label>
-                        <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
+                        <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                             @php
                                 $Audio = Audio::where('id_audio', $data->id_audio)->first();
                             @endphp
@@ -350,8 +361,8 @@
                                 <option selected hidden value="{{$Audio->id_audio}}">{{ $Audio->audio }}</option>
                                 @foreach ($audio as $item)
                                     <option value="{{$item->id_audio}}">{{$item->audio}}</option>
-                                    <option value="">Remove Audio From Question</option>
                                 @endforeach
+                                <option value="">Remove Audio From Question</option>
                             @endif
                         </select>
                     </div>

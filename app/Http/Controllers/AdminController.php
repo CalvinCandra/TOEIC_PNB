@@ -259,6 +259,7 @@ class AdminController extends Controller
             // Update data ke table petugas 
             Peserta::where('id_peserta', $request->id_peserta)->update([
                 'nama_peserta' => $request->name,
+                'nim' => $request->nim,
                 'kelamin' => $request->kelamin,
                 'jurusan' => $request->jurusan,
             ]);
@@ -475,7 +476,7 @@ class AdminController extends Controller
         return view('admin.content.BankSoal.dashbanksoal', compact('bank')); // Kirim data ke view
     }
 
-    public function TambahBankSoal(Request $request)
+    public function TambahBankSoalAdmin(Request $request)
     {
         $request->validate([
             'bank' => 'unique:bank_soal',
@@ -489,7 +490,7 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
-    public function UpdateBankSoal(Request $request)
+    public function UpdateBankSoalAdmin(Request $request)
     {
         $request->validate([
             'bank' => 'unique:bank_soal',
@@ -505,7 +506,7 @@ class AdminController extends Controller
         }
     }
 
-    public function DeleteBankSoal(Request $request)
+    public function DeleteBankSoalAdmin(Request $request)
     {
         if ($request->ismethod('post')) {
 
@@ -589,7 +590,7 @@ class AdminController extends Controller
             'kategori' => 'Reading',
             'id_gambar' => $request->gambar,
             'id_audio' => NULL,
-            'id_petugas' => 0,
+            'id_petugas' => NULL,
             'id_bank' => $request->id_bank,
             'token_soal' => $token_soal,
         ]);
@@ -613,7 +614,7 @@ class AdminController extends Controller
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
                 'id_gambar' => $request->gambar,
-                'id_petugas' => 0,
+                'id_petugas' => NULL,
             ]);
 
             toast('Update Data Successful!', 'success');
@@ -683,7 +684,7 @@ class AdminController extends Controller
             'kategori' => 'Listening',
             'id_gambar' => NULL,
             'id_audio' => $request->audio,
-            'id_petugas' => 0,
+            'id_petugas' => NULL,
             'id_bank' => $request->id_bank,
             'token_soal' => $token_soal,
         ]);
@@ -707,7 +708,7 @@ class AdminController extends Controller
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
                 'id_audio' => $request->audio,
-                'id_petugas' => 0,
+                'id_petugas' => NULL,
             ]);
 
             toast('Update Data Successful!', 'success');

@@ -128,6 +128,7 @@ class PetugasController extends Controller
             // Update data ke table peserta 
             Peserta::where('id_peserta', $request->id_peserta)->update([
                 'nama_peserta' => $request->name,
+                'nim' => $request->nim,
                 'kelamin' => $request->kelamin,
                 'jurusan' => $request->jurusan,
             ]);
@@ -154,6 +155,9 @@ class PetugasController extends Controller
         // transaction database
         try {
             DB::beginTransaction();
+
+            // DELETE data status berdasarkan id_peserta
+            Status::where('id_peserta', $request->id_peserta)->delete();
             
             // Delete data ke table peserta 
             Peserta::findOrFail($request->id_peserta)->delete();
@@ -216,7 +220,7 @@ class PetugasController extends Controller
         if($request->ismethod('post')){
 
             try {
-                // get dat soal yang menggunakan audio yang mau dihapus dan ubah menjadi null
+                // get dat soal yang menggunakan gambar yang mau dihapus dan ubah menjadi null
                 $soal = Soal::where('id_gambar', $request->id_gambar)->update([
                     'id_gambar' => NULL
                 ]);

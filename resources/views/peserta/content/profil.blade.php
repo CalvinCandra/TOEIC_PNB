@@ -10,6 +10,15 @@
 <main class="p-5 md:ml-64 md:px-14 h-auto pt-20">
 
     <div class="my-6"> 
+        @if (count($errors) > 0)
+            <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li class="ml-3 text-sm font-medium">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
       <h1 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Participant Profile</h1>
       <p>Please check whether the data below is correct or not. If not, please edit the following data.</p>
 

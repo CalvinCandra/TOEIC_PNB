@@ -87,7 +87,7 @@
                         </div>
                     </li>
                    {{-- pemilihan dashboard sesuai level --}}
-                    <li>
+                    <li class="block md:hidden">
                         <a
                         @if (auth()->user()->level == 'admin') href="{{url('/admin')}}"
                         @elseif (auth()->user()->level == 'petugas') href="{{url('/petugas')}}"

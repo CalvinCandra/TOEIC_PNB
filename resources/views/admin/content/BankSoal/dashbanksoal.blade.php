@@ -146,7 +146,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/TambahBankSoal')}}" method="POST">
+                <form class="space-y-4" action="{{url('/TambahBankSoalAdmin')}}" method="POST">
                     @csrf
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code Question</label>
@@ -190,7 +190,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/UpdateBankSoal')}}" method="POST">
+                <form class="space-y-4" action="{{url('/UpdateBankSoalAdmin')}}" method="POST">
                     @csrf
 
                     <input type="hidden" name="id_bank" id="edit-bank">
@@ -235,7 +235,7 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form action="{{url('/DeleteBankSoal')}}" method="POST">
+                <form action="{{url('/DeleteBankSoalAdmin')}}" method="POST">
                     @csrf
                     <input type="hidden" id="hapus-bank" name="id_bank">
                     
