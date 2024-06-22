@@ -16,7 +16,8 @@
                     <li>
                         <h2>Welcome to the TOEIC Simulation PNB website, a platform designed to help you prepare for the
                             TOEIC test. We provide test simulations to enhance your English language proficiency in
-                            business and professional contexts.<br>Contact us at info@toeicpnb.com for more information.
+                            business and professional contexts.<br>Contact us at simulationtoeic@gmail.com for more
+                            information.
                         </h2>
                     </li>
                 </ul>

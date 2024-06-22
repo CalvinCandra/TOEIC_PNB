@@ -277,7 +277,7 @@
                 </p>
                 <p>
                     If you have any further questions, please contact us via email at
-                    toeicpnb@gmail.com.
+                    simulationtoeic@gmail.com.
                 </p>
             </div>
             <div class="end">

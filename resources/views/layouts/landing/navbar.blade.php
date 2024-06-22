@@ -30,12 +30,10 @@
                         <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
                             {{-- pemilihan dashboard sesuai level --}}
                             <li>
-                                <a
-                                @if (auth()->user()->level == 'admin') href="{{url('/admin')}}"
-                                @elseif (auth()->user()->level == 'petugas') href="{{url('/petugas')}}"
-                                @elseif (auth()->user()->level == 'peserta') href="{{url('/peserta')}}"
-                                @endif
-                                class="block py-2 px-4 text-sm hover:bg-gray-100">Dashboard</a>
+                                <a @if (auth()->user()->level == 'admin') href="{{ url('/admin') }}"
+                                @elseif (auth()->user()->level == 'petugas') href="{{ url('/petugas') }}"
+                                @elseif (auth()->user()->level == 'peserta') href="{{ url('/peserta') }}" @endif
+                                    class="block py-2 px-4 text-sm hover:bg-gray-100">Dashboard</a>
                             </li>
 
                             <li>
@@ -86,14 +84,12 @@
                             </div>
                         </div>
                     </li>
-                   {{-- pemilihan dashboard sesuai level --}}
-                    <li>
-                        <a
-                        @if (auth()->user()->level == 'admin') href="{{url('/admin')}}"
-                        @elseif (auth()->user()->level == 'petugas') href="{{url('/petugas')}}"
-                        @elseif (auth()->user()->level == 'peserta') href="{{url('/peserta')}}"
-                        @endif
-                        class="block py-2 px-4 text-sm hover:bg-gray-100">Dashboard</a>
+                    {{-- pemilihan dashboard sesuai level --}}
+                    <li class="block md:hidden mt-3">
+                        <a @if (auth()->user()->level == 'admin') href="{{ url('/admin') }}"
+                        @elseif (auth()->user()->level == 'petugas') href="{{ url('/petugas') }}"
+                        @elseif (auth()->user()->level == 'peserta') href="{{ url('/peserta') }}" @endif
+                            class="block py-2 px-3 hover:bg-gray-100">Dashboard</a>
                     </li>
                     <li class="block md:hidden">
                         <a href="{{ url('/logout') }}"
