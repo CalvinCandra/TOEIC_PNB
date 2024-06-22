@@ -14,176 +14,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class SoalController extends Controller
 {
-    // =========================================================================================== READING
-    // menampikan aturan
-    public function Reading(Request $request)
-    {
-        // pengecekan session
-        if ($request->session()->get('bank') == null) {
-            return redirect('/DashboardSoal');
-        }
-
-        return view("peserta.Soal.ReadingAturan");
-    }
-
-    // get data soal untuk yang pertama
-    public function GetReading(Request $request)
-    {
-        // pengecekan session
-        if ($request->session()->get('bank') == null) {
-            return redirect('/DashboardSoal');
-        }
-
-        // get data bank
-        $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
-
-        // get data soal berdasarkan kategori reading dan bank soal
-        $soalReading = Soal::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
-
-        // set waktu awal quiz menggunakan Carbon
-        $quizStartTime = Carbon::now();
-        $quizEndTime = $quizStartTime->copy()->addMilliseconds(60 * 60 * 1000); // Menambahkan 60 menit ke waktu awal dengan milliseconds
-
-        // kirim dalam bentuk session
-        $request->session()->put('quizEndTime', $quizEndTime);
-
-        return redirect("/SoalReading" . "/" . $soalReading->token_soal);
-    }
-
-    // get data soal berdasarkan nomor
-    public function SoalReading(Request $request, $token)
-    {
-        // pengecekan session
-        if ($request->session()->get('bank') == null) {
-            return redirect('/DashboardSoal');
-        }
-
-        // get data bank
-        $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
-
-        // berdasarkan nomor_soal dan bank soal
-        $soalReading = Soal::where('kategori', 'Reading')
-            ->where('token_soal', $token)
-            ->where('id_bank', $getBank->id_bank)
-            ->first();
-
-        // get data soal keseluruhan berdasarkan kategori dan id_bank
-        $soal = Soal::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->get();
-
-        // Periksa apakah waktu sudah habis menggunakan Carbon
-        $currentTime = Carbon::now(); // get waktu sekarang
-        $quizEndTime = $request->session()->get('quizEndTime'); // ambil waktu akhir, yang dikirim sebelumnya
-        $remainingTime = $currentTime->diffInSeconds($quizEndTime); // hitung selisih
-
-        // kirim waktu ke blade agar bisa dikondisikan
-        $request->session()->put('waktu', $remainingTime);
-
-        return view('peserta.Soal.Readingtest', compact(['soalReading', 'soal']));
-    }
-
-    // proses menjawab untuk reading
-    public function ProsesJawabReading(Request $request)
-    {
-        // pengecekan session
-        if ($request->session()->get('bank') == null) {
-            return redirect('/DashboardSoal');
-        }
-
-        if ($request->ismethod('post')) {
-            // get data bank
-            $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
-
-            // get data peserta
-            $peserta = Peserta::where('id_users', auth()->user()->id)->first();
-            $user = $peserta->id_peserta;
-
-            // get id_soal pada form
-            $idSoal = $request->id_soal;
-
-            // get jawaban peserta
-            $jawaban = $request->jawaban;
-
-            if ($request->tombol == 'next') {
-                // insert data kedalam database
-                JawabanPeserta::create([
-                    'id_peserta' => $user,
-                    'id_soal' => $idSoal,
-                    'jawaban' => $jawaban,
-                ]);
-
-                // get data soal berdasarkan id_soal dan id_bank
-                $soal = Soal::where('id_soal', $idSoal)->where('id_bank', $getBank->id_bank)->first();
-                // memilih soal selanjutnya
-                $soalReading = Soal::where('nomor_soal', $soal->nomor_soal + 1)->where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
-
-                return redirect("/SoalReading" . "/" . $soalReading->token_soal);
-            } else {
-                // insert data kedalam database
-                JawabanPeserta::create([
-                    'id_peserta' => $user,
-                    'id_soal' => $idSoal,
-                    'jawaban' => $jawaban,
-                ]);
-
-                return redirect()->route('nilaiReading');
-            }
-        }
-    }
-
-    public function GetNilaiReading(Request $request)
-    {
-        // pengecekan session
-        if ($request->session()->get('bank') == null) {
-            return redirect('/DashboardSoal');
-        }
-
-        // get data bank
-        $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
-
-        // get data peserta
-        $peserta = Peserta::where('id_users', auth()->user()->id)->first();
-
-        // mengambil data jawaban yang diinput berdasarkan id_peserta, kategori soal
-        $getJawaban = JawabanPeserta::where('id_peserta', $peserta->id_peserta)->get();
-
-        // get data soal berdasarkan kategori dan bank soal
-        $soalReading = Soal::where('kategori', 'Reading')
-            ->where('id_bank', $getBank->id_bank)
-            ->get();
-
-        // variabel buat nilai
-        $Benar = 0;
-        $Salah = 0;
-
-        foreach ($soalReading as $soal) {
-            foreach ($getJawaban as $userJawaban) {
-                if ($soal->id_soal == $userJawaban->id_soal) {
-                    if ($soal->kunci_jawaban === $userJawaban->jawaban) {
-                        $Benar++;
-                    } else {
-                        $Salah++;
-                    }
-                }
-            }
-        }
-
-        $JumlahBenar = $Benar;
-        $Jumlahsalah = $Salah;
-
-        // menghapus data sebelumnya di database
-        JawabanPeserta::where('id_peserta', $peserta->id_peserta)->delete();
-
-        // kirim nilai dalam bentuk session
-        $request->session()->put('benarReading', $JumlahBenar);
-        $request->session()->put('salahReading', $Jumlahsalah);
-
-        //hapus ession waktu sebelumnya
-        $request->session()->forget('waktu');
-        $request->session()->forget('quizEndTime');
-
-        return redirect('/Listening');
-    }
-
     // ============================================================================================= LISTENING
     // function menampikan aturan
     public function Listening(Request $request)
@@ -216,7 +46,8 @@ class SoalController extends Controller
 
         // set waktu awal quiz menggunakan Carbon
         $quizStartTime = Carbon::now();
-        $quizEndTime = $quizStartTime->copy()->addMilliseconds(60 * 60 * 1000); // Menambahkan 60 menit ke waktu awal dengan milliseconds
+        // (m * d * md)
+        $quizEndTime = $quizStartTime->copy()->addMilliseconds(45 * 60 * 1000); // Menambahkan 45 menit ke waktu awal dengan milliseconds
 
         // kirim dalam bentuk session
         $request->session()->put('quizEndTime', $quizEndTime);
@@ -380,22 +211,179 @@ class SoalController extends Controller
         $request->session()->forget('quizEndTime');
 
 
-        return redirect('/Result');
+        return redirect('/Reading');
     }
 
-    // function testing penilaian
-    // public function Result(Request $request){
-    //     // pengecekan session
-    //     if($request->session()->get('bank') == null){
-    //         return redirect('/DashboardSoal');
-    //     }
+    // =========================================================================================== READING
+    // menampikan aturan
+    public function Reading(Request $request)
+    {
+        // pengecekan session
+        if ($request->session()->get('bank') == null) {
+            return redirect('/DashboardSoal');
+        }
 
-    //     $Readingbenar = $request->session()->get('benarReading');
-    //     $Readingsalah = $request->session()->get('salahReading');
-    //     $Listeningbenar = $request->session()->get('benarListening');
-    //     $Listeningsalah = $request->session()->get('salahListening');
-    //     return view('peserta.Result', compact(['Readingbenar', 'Readingsalah', 'Listeningbenar', 'Listeningsalah']));
-    // }
+        return view("peserta.Soal.ReadingAturan");
+    }
+
+    // get data soal untuk yang pertama
+    public function GetReading(Request $request)
+    {
+        // pengecekan session
+        if ($request->session()->get('bank') == null) {
+            return redirect('/DashboardSoal');
+        }
+
+        // get data bank
+        $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+
+        // get data soal berdasarkan kategori reading dan bank soal
+        $soalReading = Soal::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
+
+        // set waktu awal quiz menggunakan Carbon
+        $quizStartTime = Carbon::now();
+        //(m * d * md)
+        $quizEndTime = $quizStartTime->copy()->addMilliseconds(75 * 60 * 1000); // Menambahkan 75 menit ke waktu awal dengan milliseconds
+
+        // kirim dalam bentuk session
+        $request->session()->put('quizEndTime', $quizEndTime);
+
+        return redirect("/SoalReading" . "/" . $soalReading->token_soal);
+    }
+
+    // get data soal berdasarkan nomor
+    public function SoalReading(Request $request, $token)
+    {
+        // pengecekan session
+        if ($request->session()->get('bank') == null) {
+            return redirect('/DashboardSoal');
+        }
+
+        // get data bank
+        $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+
+        // berdasarkan nomor_soal dan bank soal
+        $soalReading = Soal::where('kategori', 'Reading')
+            ->where('token_soal', $token)
+            ->where('id_bank', $getBank->id_bank)
+            ->first();
+
+        // get data soal keseluruhan berdasarkan kategori dan id_bank
+        $soal = Soal::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->get();
+
+        // Periksa apakah waktu sudah habis menggunakan Carbon
+        $currentTime = Carbon::now(); // get waktu sekarang
+        $quizEndTime = $request->session()->get('quizEndTime'); // ambil waktu akhir, yang dikirim sebelumnya
+        $remainingTime = $currentTime->diffInSeconds($quizEndTime); // hitung selisih
+
+        // kirim waktu ke blade agar bisa dikondisikan
+        $request->session()->put('waktu', $remainingTime);
+
+        return view('peserta.Soal.Readingtest', compact(['soalReading', 'soal']));
+    }
+
+    // proses menjawab untuk reading
+    public function ProsesJawabReading(Request $request)
+    {
+        // pengecekan session
+        if ($request->session()->get('bank') == null) {
+            return redirect('/DashboardSoal');
+        }
+
+        if ($request->ismethod('post')) {
+            // get data bank
+            $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+
+            // get data peserta
+            $peserta = Peserta::where('id_users', auth()->user()->id)->first();
+            $user = $peserta->id_peserta;
+
+            // get id_soal pada form
+            $idSoal = $request->id_soal;
+
+            // get jawaban peserta
+            $jawaban = $request->jawaban;
+
+            if ($request->tombol == 'next') {
+                // insert data kedalam database
+                JawabanPeserta::create([
+                    'id_peserta' => $user,
+                    'id_soal' => $idSoal,
+                    'jawaban' => $jawaban,
+                ]);
+
+                // get data soal berdasarkan id_soal dan id_bank
+                $soal = Soal::where('id_soal', $idSoal)->where('id_bank', $getBank->id_bank)->first();
+                // memilih soal selanjutnya
+                $soalReading = Soal::where('nomor_soal', $soal->nomor_soal + 1)->where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
+
+                return redirect("/SoalReading" . "/" . $soalReading->token_soal);
+            } else {
+                // insert data kedalam database
+                JawabanPeserta::create([
+                    'id_peserta' => $user,
+                    'id_soal' => $idSoal,
+                    'jawaban' => $jawaban,
+                ]);
+
+                return redirect()->route('nilaiReading');
+            }
+        }
+    }
+
+    public function GetNilaiReading(Request $request)
+    {
+        // pengecekan session
+        if ($request->session()->get('bank') == null) {
+            return redirect('/DashboardSoal');
+        }
+
+        // get data bank
+        $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+
+        // get data peserta
+        $peserta = Peserta::where('id_users', auth()->user()->id)->first();
+
+        // mengambil data jawaban yang diinput berdasarkan id_peserta, kategori soal
+        $getJawaban = JawabanPeserta::where('id_peserta', $peserta->id_peserta)->get();
+
+        // get data soal berdasarkan kategori dan bank soal
+        $soalReading = Soal::where('kategori', 'Reading')
+            ->where('id_bank', $getBank->id_bank)
+            ->get();
+
+        // variabel buat nilai
+        $Benar = 0;
+        $Salah = 0;
+
+        foreach ($soalReading as $soal) {
+            foreach ($getJawaban as $userJawaban) {
+                if ($soal->id_soal == $userJawaban->id_soal) {
+                    if ($soal->kunci_jawaban === $userJawaban->jawaban) {
+                        $Benar++;
+                    } else {
+                        $Salah++;
+                    }
+                }
+            }
+        }
+
+        $JumlahBenar = $Benar;
+        $Jumlahsalah = $Salah;
+
+        // menghapus data sebelumnya di database
+        JawabanPeserta::where('id_peserta', $peserta->id_peserta)->delete();
+
+        // kirim nilai dalam bentuk session
+        $request->session()->put('benarReading', $JumlahBenar);
+        $request->session()->put('salahReading', $Jumlahsalah);
+
+        //hapus ession waktu sebelumnya
+        $request->session()->forget('waktu');
+        $request->session()->forget('quizEndTime');
+
+        return redirect('/Result');
+    }
 
     // penghancur session
     public function destory(Request $request)

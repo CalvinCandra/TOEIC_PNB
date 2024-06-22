@@ -83,7 +83,7 @@ class PesertaController extends Controller
                 return redirect('/DashboardSoal');
             }else{
                 $request->session()->put('bank', $cekBank->bank);
-                return redirect('/Reading');
+                return redirect('/Listening');
             }
         }else{
             Alert::error("Failed", "Token Question Not Work");

@@ -160,9 +160,10 @@ class AdminController extends Controller
         $search = $request->search;
 
         if ($search) {
-            $peserta = Peserta::with('user')
+            $peserta = Peserta::with(['user', 'status'])
                 ->where('nama_peserta', 'LIKE', '%' . $search . '%')
                 ->orWhere('jurusan', 'LIKE', '%' . $search . '%')
+                ->orWhere('status_pengerjaan', 'LIKE', '%' . $search . '%')
                 ->paginate();
         } else {
             $peserta = Peserta::with('user')->paginate(15);
@@ -262,6 +263,11 @@ class AdminController extends Controller
                 'nim' => $request->nim,
                 'kelamin' => $request->kelamin,
                 'jurusan' => $request->jurusan,
+            ]);
+
+            // update status
+            Status::where('id_peserta', $request->id_peserta)->update([
+                'status_pengerjaan' => $request->status_pengerjaan,
             ]);
 
             DB::commit();

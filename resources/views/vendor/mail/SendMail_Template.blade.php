@@ -12,7 +12,7 @@
                 <table class="content" width="600" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; border: 1px solid #cccccc;">
                     <!-- Header -->
                     <tr>
-                        <td class="header" style="background-color: #023047; padding: 30px; text-align: center; color: white; font-size: 24px;">
+                        <td class="header" style="background-color: #023047; padding: 30px; text-align: center; color: white; font-size: 24px; border-radius: 8px 8px 0 0;">
                             TOEIC POLITEKNIK NEGERI BALI
                         </td>
                     </tr>
