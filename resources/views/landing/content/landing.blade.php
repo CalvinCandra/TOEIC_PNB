@@ -52,7 +52,7 @@
 
                     <!-- Carousel tampilan mobile -->
                     <div class="lg:hidden w-full mt-8">
-                        <div id="default-carousel" class="relative w-full" data-carousel="slide">
+                        <div id="default-carousel" class="relative w-full z-10" data-carousel="slide">
                             <!-- Carousel wrapper -->
                             <div class="relative h-80 overflow-hidden rounded-lg md:h-96">
                                 <!-- Item 1 -->
