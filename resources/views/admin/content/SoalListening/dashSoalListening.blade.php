@@ -112,9 +112,6 @@
                                             </td>
                                         @endif
 
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->petugas->nama_petugas }}
-                                        </td>
-
                                       @if (!$data->id_petugas == null)
                                           <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->petugas->nama_petugas}}</td>
                                       @else 

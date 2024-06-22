@@ -66,6 +66,7 @@
                                 <th scope="col" class="px-4 py-3 border-2">Participants NIM</th>
                                 <th scope="col" class="px-4 py-3 border-2">Gender</th>
                                 <th scope="col" class="px-4 py-3 border-2">Major</th>
+                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status</th>
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Actions</th>
                             </tr>
                         </thead>
@@ -83,6 +84,13 @@
                                         <td class="px-4 py-3 border-2">Female</td>
                                     @endif
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jurusan}}</td>
+
+                                    @if ($data->status->status_pengerjaan == 'Sudah')
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">Done</td>
+                                    @else
+                                        <td class="px-4 py-3 border-2">Yet</td>
+                                    @endif
+
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">
                                         <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
                                             <li>
@@ -277,6 +285,20 @@
                             <option value="Teknik Mesin">Teknik Mesin</option>
                             <option value="Teknik Elektro">Teknik Elektro</option>
                             <option value="Teknologi Informasi">Teknologi Informasi</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Question Work Status</label>
+                        <select id="countries" name="status_pengerjaan"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                            @if ($data->status->status_pengerjaan == 'Sudah')
+                                <option selected hidden value="{{ $data->status->status_pengerjaan }}">Done</option>
+                            @else
+                                <option selected hidden value="{{ $data->status->status_pengerjaan }}">Yet</option>
+                            @endif
+                            <option value="Sudah">Done</option>
+                            <option value="Belum">Yet</option>
                         </select>
                     </div>
 

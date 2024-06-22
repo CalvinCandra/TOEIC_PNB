@@ -11,7 +11,7 @@
 
         /* Reset some default browser styling */
         body {
-            font-family: "Poppins", sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
@@ -36,7 +36,7 @@
 
         /* Header styles */
         .header {
-            background-color: #219ebc;
+            background-color: #023047;
             /* Warna latar belakang header */
             color: #ffffff;
             text-align: center;
@@ -50,6 +50,8 @@
             padding-left: 20px;
             padding-right: 20px;
             padding-top: 5px;
+            border-collapse: collapse; 
+            border: 1px solid #cccccc;
             /* Reduce top padding to move content closer to header */
         }
 
@@ -79,7 +81,7 @@
         }
 
         th {
-            background-color: #219ebc;
+            background-color: #023047;
             color: white;
         }
 

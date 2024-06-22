@@ -132,6 +132,11 @@ class PetugasController extends Controller
                 'kelamin' => $request->kelamin,
                 'jurusan' => $request->jurusan,
             ]);
+
+            // update status
+            Status::where('id_peserta', $request->id_peserta)->update([
+                'status_pengerjaan' => $request->status_pengerjaan,
+            ]);
     
             DB::commit();
 

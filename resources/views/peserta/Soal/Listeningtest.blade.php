@@ -143,4 +143,35 @@
           }
         });
     </script>
+
+    {{-- Countdown --}}
+    <script>
+        // Set durasi countdown (45 menit dalam milidetik)
+        const countdownDuration = 45 * 60 * 1000;
+
+        // Ambil waktu mulai dari localStorage
+        const quizStartTime = parseInt(localStorage.getItem("quizStartTime"));
+        const endTime = quizStartTime + countdownDuration;
+
+        // Hentikan countdown sebelumnya (jika ada)
+        clearInterval(window.x);
+
+        // Perbarui countdown setiap detik
+        window.x = setInterval(function() {
+            const currentTime = Date.now();
+            const remainingTime = endTime - currentTime;
+            const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+            document.getElementById("countdown").innerHTML = `${hours} h : ${minutes} m : ${seconds} s`;
+            if (remainingTime < 0) {
+                clearInterval(window.x);
+                setTimeout(refreshPage, 100);
+            }
+        }, 100);
+
+        function refreshPage() {
+            window.location.reload(true); // Menggunakan parameter true untuk merefresh dari server
+        }
+    </script>
 @endsection

@@ -12,7 +12,7 @@
     <div class="my-6"> 
         <ol class="relative border-s border-black">
             <li class="mb-10 ms-10">
-                <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white -left-[14.3px]">
+                <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white -left-[14.5px]">
                     <img class="rounded-full shadow-lg" src="{{asset('favicon/Logo PNB.png')}}" alt="Bonnie image"/>
                 </span>
                 <div class="items-center justify-between p-4 bg-white border border-sky-300 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
@@ -20,7 +20,7 @@
                 </div>
             </li>
             <li class="mb-10 ms-10">            
-                <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white -left-[14.3px]">
+                <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white -left-[14.5px]">
                     <img class="rounded-full shadow-lg" src="{{asset('favicon/Logo PNB.png')}}" alt="Bonnie image"/>
                 </span>
                 <div class="items-center justify-between p-4 bg-white border border-sky-300 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
@@ -28,7 +28,7 @@
                 </div>
             </li>
             <li class="mb-10 ms-10">
-                <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white -left-[14.3px]">
+                <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white -left-[14.5px]">
                     <img class="rounded-full shadow-lg" src="{{asset('favicon/Logo PNB.png')}}" alt="Jese Leos image"/>
                 </span>
                 <div class="items-center justify-between p-4 bg-white border border-sky-300 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
@@ -36,7 +36,7 @@
                 </div>
             </li>
             <li class="mb-10 ms-10">            
-                <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white -left-[14.3px]">
+                <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white -left-[14.5px]">
                     <img class="rounded-full shadow-lg" src="{{asset('favicon/Logo PNB.png')}}" alt="Bonnie image"/>
                 </span>
                 <div class="items-center justify-between p-4 bg-white border border-sky-300 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
@@ -44,7 +44,7 @@
                 </div>
             </li>
             <li class="mb-10 ms-10">            
-                <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white -left-[14.3px]">
+                <span class="absolute flex items-center justify-center w-7 h-7 bg-blue-100 rounded-full -start-3 ring-8 ring-white -left-[14.5px]">
                     <img class="rounded-full shadow-lg" src="{{asset('favicon/Logo PNB.png')}}" alt="Bonnie image"/>
                 </span>
                 <div class="items-center justify-between p-4 bg-white border border-sky-300 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
