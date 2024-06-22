@@ -52,17 +52,17 @@
             </h1>
         
             <!-- Soal disini (include gambar/audio) -->
-            @if (!empty($soalListening->id_audio))
-                @if (!$audioPlayed)
-                <audio id="audio" controls>
-                    <source src="{{asset('storage/audio/'.$soalListening->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
-                    Your browser does not support the audio element.
-                </audio>
-                @else
-                    <p>Audio has already played</p>
+            <div class="bg-[#F3F3F3] mt-2 p-4 overflow-auto rounded max-h-[32rem] sm:max-h-80">
+                @if (!empty($soalListening->id_audio))
+                    @if (!$audioPlayed)
+                    <audio id="audio" controls>
+                        <source src="{{asset('storage/audio/'.$soalListening->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
+                        Your browser does not support the audio element.
+                    </audio>
+                    @else
+                        <p>Audio has already played</p>
+                    @endif
                 @endif
-            @endif
-            <div class="bg-[#F3F3F3] mt-3 p-4 rounded">
                 @if ($soalListening->text != null)    
                     <div class="h-52 overflow-y-auto">
                         <p>
