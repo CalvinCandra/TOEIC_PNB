@@ -66,7 +66,7 @@
                                 <th scope="col" class="px-4 py-3 border-2">Participants NIM</th>
                                 <th scope="col" class="px-4 py-3 border-2">Gender</th>
                                 <th scope="col" class="px-4 py-3 border-2">Major</th>
-                                <th scope="col" class="px-4 py-3 border-2">Actions</th>
+                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,7 +83,7 @@
                                         <td class="px-4 py-3 border-2">Female</td>
                                     @endif
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jurusan}}</td>
-                                    <td class="px-4 py-3 border-2">
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">
                                         <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
                                             <li>
                                                 <a href="{{url('/SendMail/Peserta/'.$data->id_peserta)}}"

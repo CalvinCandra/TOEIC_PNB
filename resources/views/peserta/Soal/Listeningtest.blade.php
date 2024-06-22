@@ -47,24 +47,26 @@
     @else    
         <form action="{{url('/ProsesJawabListening')}}" method="post">
             @csrf
-            <h1 class="text-xl font-bold">
+            <h1 class="text-xl font-bold mb-5">
                 Listening - Question {{$soalListening->nomor_soal}}
             </h1>
-            <div class="bg-[#F3F3F3] mt-8 p-4 rounded">
-                <!-- Soal disini (include gambar/audio) -->
-                @if (!empty($soalListening->id_audio))
-                    <audio id="audio" controls>
-                        <source src="{{asset('public/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
-                        Your browser does not support the audio element.
-                    </audio>
-                @endif
+        
+            <!-- Soal disini (include gambar/audio) -->
+            @if (!empty($soalListening->id_audio))
+                <audio id="audio" controls>
+                    <source src="{{asset('storage/audio/'.$soalListening->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
+                    Your browser does not support the audio element.
+                </audio>
+            @endif
+            <div class="bg-[#F3F3F3] mt-3 p-4 rounded">
                 @if ($soalListening->text != null)    
-                    <div class="overflow-y-auto">
+                    <div class="h-52 overflow-y-auto">
                         <p>
                             {{$soalListening->text}}
                         </p>
                     </div>
                 @endif
+                
             </div>
             <!-- Save id soal -->
             <div class="">

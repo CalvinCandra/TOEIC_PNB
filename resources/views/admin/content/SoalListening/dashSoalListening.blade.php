@@ -11,29 +11,26 @@
 {{-- membuat content disini --}}
 @section('content')
 
-    {{-- konten --}}
-    <section class="p-4 md:ml-64 h-auto pt-20">
-        <a href="{{ url('/dashAdminSoal') }}"
-            class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
-            type="button">
-            Back
-        </a>
-        <h1>Question Listening Data</h1>
+{{-- konten --}}
+<section class="p-4 md:ml-64 h-auto pt-20">
+    <a href="{{url('/dashAdminSoal')}}" class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+        Back
+    </a>
+    <h1>Question Listening Data</h1>
 
 
-        <div class="p-3 sm:p-5 antialiased">
-            @if (count($errors) > 0)
-                <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                    role="alert">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li class="ml-3 text-sm font-medium">{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-3">
-                <!-- search form -->
+    <div class="p-3 sm:p-5 antialiased">
+        @if (count($errors) > 0)
+            <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li class="ml-3 text-sm font-medium">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-3">
+            <!-- search form -->
                 <div class="w-full">
                     <form class="flex items-center" method="GET">
                         <label for="simple-search" class="sr-only">Search</label>
@@ -118,33 +115,39 @@
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->petugas->nama_petugas }}
                                         </td>
 
-                                        <td class="px-4 py-3 border-2">
-                                            <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
-                                                <li>
-                                                    <button type="button"
-                                                        data-modal-target="UpdateSoal{{ $data->id_soal }}"
-                                                        data-modal-toggle="UpdateSoal{{ $data->id_soal }}"
-                                                        class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
-                                                        <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
-                                                        Update
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button
-                                                        onclick="hapus('baris{{ $data->nomor_soal }}', '{{ $data->id_soal }}')"
-                                                        type="button" data-modal-target="DeleteSoal"
-                                                        data-modal-toggle="DeleteSoal"
-                                                        class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
-                                                        <i class="fa-solid fa-trash me-1"></i>
-                                                        Delete
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                      @if (!$data->id_petugas == null)
+                                          <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->petugas->nama_petugas}}</td>
+                                      @else 
+                                          <td class="px-4 py-3 border-2 whitespace-nowrap">Admin</td>
+                                      @endif
+
+                                      <td class="px-4 py-3 border-2">
+                                          <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
+                                              <li>
+                                                  <button
+                                                      type="button" data-modal-target="UpdateSoal{{$data->id_soal}}"
+                                                      data-modal-toggle="UpdateSoal{{$data->id_soal}}"
+                                                      class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
+                                                      <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
+                                                      Update
+                                                  </button>
+                                              </li>
+                                              <li>
+                                                  <button
+                                                      onclick="hapus('baris{{$data->nomor_soal}}', '{{$data->id_soal}}')"
+                                                      type="button" data-modal-target="DeleteSoal"
+                                                      data-modal-toggle="DeleteSoal"
+                                                      class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
+                                                      <i class="fa-solid fa-trash me-1"></i>
+                                                      Delete
+                                                  </button>
+                                              </li>
+                                          </ul>
+                                      </td>
+                                  </tr>
+                              @endforeach
+                          </tbody>
+                      </table>
                     </div>
                 </div>
                 <div class="">
@@ -307,6 +310,13 @@
                             @csrf
 
                             <input type="hidden" name="id_soal" value="{{ $data->id_soal }}">
+                            
+                             <div>
+                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number Question<span class="text-red-500">*</span></label>
+                                <input type="number" name="nomor_soal"
+                                    class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    value="{{$data->nomor_soal}}" readonly />
+                            </div>
 
                             <div>
                                 <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
@@ -370,11 +380,8 @@
                             </div>
 
                             <div class="">
-                                <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File
-                                    Audio</label>
-                                <select id="countries" name="audio"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                    required>
+                                <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Audio</label>
+                                <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                     @php
                                         $Audio = Audio::where('id_audio', $data->id_audio)->first();
                                     @endphp
@@ -382,15 +389,14 @@
                                     @if (!$data->id_audio)
                                         <option selected hidden value="">Choose a File Audio</option>
                                         @foreach ($audio as $item)
-                                            <option value="{{ $item->id_audio }}">{{ $item->audio }}</option>
+                                            <option value="{{$item->id_audio}}">{{$item->audio}}</option>
                                         @endforeach
                                     @else
-                                        <option selected hidden value="{{ $Audio->id_audio }}">{{ $Audio->audio }}
-                                        </option>
+                                        <option selected hidden value="{{$Audio->id_audio}}">{{ $Audio->audio }}</option>
                                         @foreach ($audio as $item)
-                                            <option value="{{ $item->id_audio }}">{{ $item->audio }}</option>
-                                            <option value="">Remove Audio From Question</option>
+                                            <option value="{{$item->id_audio}}">{{$item->audio}}</option>
                                         @endforeach
+                                        <option value="">Remove Audio From Question</option>
                                     @endif
                                 </select>
                             </div>

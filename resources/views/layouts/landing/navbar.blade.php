@@ -84,6 +84,7 @@
                             </div>
                         </div>
                     </li>
+
                     {{-- pemilihan dashboard sesuai level --}}
                     <li class="block md:hidden mt-3">
                         <a @if (auth()->user()->level == 'admin') href="{{ url('/admin') }}"
@@ -91,6 +92,7 @@
                         @elseif (auth()->user()->level == 'peserta') href="{{ url('/peserta') }}" @endif
                             class="block py-2 px-3 hover:bg-gray-100">Dashboard</a>
                     </li>
+                    
                     <li class="block md:hidden">
                         <a href="{{ url('/logout') }}"
                             class="block py-2 px-3 rounded font-bold text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:text-blue-500">Sign

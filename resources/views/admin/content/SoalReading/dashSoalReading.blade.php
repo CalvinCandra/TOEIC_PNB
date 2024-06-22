@@ -99,14 +99,18 @@
                                     @if (!$data->id_gambar == null)
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">
                                             <a class="" href="{{ asset('storage/gambar/'.$data->gambar->gambar) }}" data-lightbox="example-1" target="__blank" id='link-foto'>
-                                                <h1 class="text-sky-500 italic font-weight-bold hover:underline">Lihat Foto</h1>
+                                                <h1 class="text-sky-500 italic font-weight-bold hover:underline">See Image</h1>
                                             </a>
                                         </td>
                                     @else 
                                         <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
                                     @endif
 
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->petugas->nama_petugas}}</td>
+                                    @if (!$data->id_petugas == null)
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->petugas->nama_petugas}}</td>
+                                    @else 
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">Admin</td>
+                                    @endif
                                     
                                     <td class="px-4 py-3 border-2">
                                         <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
@@ -285,6 +289,13 @@
                     <input type="hidden" name="id_soal" value="{{$data->id_soal}}">
 
                     <div>
+                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number Question<span class="text-red-500">*</span></label>
+                        <input type="number" name="nomor_soal"
+                            class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            value="{{$data->nomor_soal}}" readonly />
+                    </div>
+
+                    <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
                         <textarea rows="5" name="text" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="You can leave it blank">{{$data->text}}</textarea>
                     </div>
@@ -335,7 +346,7 @@
 
                     <div class="">
                         <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Image</label>
-                        <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
+                        <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                             @php
                                 $Gambar = Gambar::where('id_gambar', $data->id_gambar)->first();
                             @endphp
@@ -349,8 +360,8 @@
                                 <option selected hidden value="{{$Gambar->id_gambar}}">{{ $Gambar->gambar }}</option>
                                 @foreach ($gambar as $item)
                                     <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
-                                    <option value="">Remove Image From Question</option>
                                 @endforeach
+                                <option value="">Remove Image From Question</option>
                             @endif
                         </select>
                     </div>

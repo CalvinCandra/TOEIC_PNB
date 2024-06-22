@@ -27,7 +27,7 @@ class Level
                 redirect('/peserta');
             }
         }else{
-            return abort('404');
+            return response()->view('errors.akses');
         }
         
     }
