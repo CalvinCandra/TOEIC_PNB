@@ -52,14 +52,14 @@
             </h1>
             
             <!-- Soal disini (include gambar/audio) -->
-            @if (!empty($soalReading->id_gambar))
-                <img src="{{asset('storage/gambar/'.$soalReading->gambar->gambar)}}" alt="gambar soal" class="max-h-48 pb-2 mt-3">
-            @endif
             
-            <div class="bg-[#F3F3F3] mt-2 p-4">
+            <div class="bg-[#F3F3F3] mt-2 p-4 overflow-auto rounded max-h-[32rem] sm:max-h-80">
+                @if (!empty($soalReading->id_gambar))
+                    <img src="{{asset('storage/gambar/'.$soalReading->gambar->gambar)}}" alt="gambar soal" class="max-h-40 pb-2 mt-3">
+                @endif
                 {{-- jika ada text, maka tampilkan --}}
                 @if ($soalReading->text != null)    
-                    <div class="h-52 overflow-auto">
+                    <div class="">
                         <p class="">
                             {{$soalReading->text}}
                         </p>   
