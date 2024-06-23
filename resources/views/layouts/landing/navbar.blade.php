@@ -5,7 +5,7 @@
             <img src="{{ asset('img/PNB.png') }}" class="h-10" alt="PNB Logo">
             <div class="flex flex-col items-center">
                 <span class="block text-base font-bold whitespace-nowrap dark:text-white flex-grow flex-basis-0">TOEIC
-                    SIMULATION</span>
+                    ASSESSMENT</span>
                 <span class="block text-base text-gray-500 flex-grow flex-basis-0">Politeknik Negeri Bali</span>
             </div>
         </a>
@@ -92,7 +92,7 @@
                         @elseif (auth()->user()->level == 'peserta') href="{{ url('/peserta') }}" @endif
                             class="block py-2 px-3 hover:bg-gray-100">Dashboard</a>
                     </li>
-                    
+
                     <li class="block md:hidden">
                         <a href="{{ url('/logout') }}"
                             class="block py-2 px-3 rounded font-bold text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:text-blue-500">Sign

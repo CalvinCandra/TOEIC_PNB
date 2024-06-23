@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     @include('layouts.header')
     <title>@yield('title')</title>
@@ -8,12 +9,17 @@
         window.history.forward(1);
     </script>
 </head>
+
 <body class="min-h-screen flex flex-col bg-[#E0E0E0]">
     <header class="bg-white py-4 shadow w-full">
         <nav class="flex items-center justify-between px-10">
             <div class="flex justify-between items-center">
-                <img src="{{asset('favicon/Logo PNB.png')}}" alt="Logo PNB" class="max-h-10 pe-2">
-                <h1 class="font-bold text-xl">TOEIC</h1>
+                <img src="{{ asset('img/PNB.png') }}" alt="" class="h-10">
+                <div class="flex flex-col items-center ml-2">
+                    <span class="block text-sm font-bold whitespace-nowrap dark:text-white flex-grow flex-basis-0">TOEIC
+                        ASSESSMENT</span>
+                    <span class="block text-sm text-gray-500 flex-grow flex-basis-0">Politeknik Negeri Bali</span>
+                </div>
             </div>
             <div class="flex items-center">
                 @yield('timer')
@@ -31,14 +37,15 @@
         </main>
     </div>
 
-    
+
     {{-- matiin fungsi back pada browser --}}
     <script>
         history.replaceState(null, null, document.URL);
-        window.addEventListener('popstate', function () {
+        window.addEventListener('popstate', function() {
             history.replaceState(null, null, document.URL);
         });
     </script>
 
 </body>
+
 </html>

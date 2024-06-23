@@ -50,7 +50,7 @@
             padding-left: 20px;
             padding-right: 20px;
             padding-top: 5px;
-            border-collapse: collapse; 
+            border-collapse: collapse;
             border: 1px solid #cccccc;
             /* Reduce top padding to move content closer to header */
         }
@@ -187,7 +187,7 @@
             <div class="desk">
                 <p>
                     Congratulations on successfully completing the TOEIC simulation test
-                    at TOEIC SIMULATION PNB. Your accomplishment marks an important step
+                    at TOEIC ASSESSMENT Politeknik Negeri Bali. Your accomplishment marks an important step
                     forward in your preparation for the actual TOEIC exam.
                 </p>
                 <p>
@@ -283,11 +283,11 @@
                 </p>
             </div>
             <div class="end">
-                <p>Thank you and warm regards,<br />TOEIC Simulation Team</p>
+                <p>Thank you and warm regards,<br />TOEIC Assessment Team</p>
                 <hr />
             </div>
             <p class="footer" style="color: #6b6b6b">
-                copyright 2024 | TOEIC SIMULATION PNB
+                copyright 2024 | TOEIC ASSESSMENT PNB
             </p>
         </div>
     </div>
