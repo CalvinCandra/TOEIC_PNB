@@ -199,6 +199,7 @@ class PetugasController extends Controller
     }
 
     public function TambahGambarPetugas(Request $request){
+        // Validasi request
         $request->validate([
             'gambar' => 'mimes:jpg,jpeg,png'
         ]);
@@ -207,49 +208,58 @@ class PetugasController extends Controller
         $gambar = $request->file('gambar');
 
         // buat path
-        $path = 'gambar/' .$gambar->getClientOriginalName();
+        $path = 'gambar/' . $gambar->getClientOriginalName();
 
-        // pindahkan ke dalam storage
+        // Periksa apakah gambar dengan nama yang sama sudah ada di database
+        $gambarDatabase = Gambar::where('gambar', $gambar->getClientOriginalName())->exists();
+
+        if ($gambarDatabase) {
+            Alert::error("Failed", "File Image Exists");
+            return redirect()->back();
+        }
+
+        // Pindahkan ke dalam storage
         Storage::disk('public')->put($path, file_get_contents($gambar));
 
-        // simpan di database berupa nama
+        // Simpan di database berupa nama
         Gambar::create([
             'gambar' => $gambar->getClientOriginalName(),
         ]);
-        
-        toast('Create Data Successful!','success');
+
+        toast('Create Data Successful!', 'success');
         return redirect()->back();
     }
 
     public function DeleteGambarPetugas(Request $request){
-        if($request->ismethod('post')){
-
+        if ($request->isMethod('post')) {
+            DB::beginTransaction();
+    
             try {
-                // get dat soal yang menggunakan gambar yang mau dihapus dan ubah menjadi null
-                $soal = Soal::where('id_gambar', $request->id_gambar)->update([
-                    'id_gambar' => NULL
-                ]);
-
-                // get data dari database
-                $gambar = Gambar::findOrFail($request->id_gambar)->first();
-
-                // buat path
-                $path = 'gambar/' .$gambar->gambar;
-
-                // hapus data dari storage
-                Storage::disk('public')->delete($path);
-
-                // hapus data dari database
-                Gambar::findOrFail($request->id_gambar)->delete();
-            
-                toast('Deleted Data Successful!','success');
+                // Update data soal yang menggunakan gambar menjadi null
+                Soal::where('id_gambar', $request->id_gambar)->update(['id_gambar' => NULL]);
+    
+                // Get data gambar dari database
+                $gambar = Gambar::findOrFail($request->id_gambar);
+    
+                // Tentukan path dari file gambar yang ingin dihapus
+                $path = "public/gambar/" . $gambar->gambar;
+                
+                // Hapus file dari storage
+                if (Storage::exists($path)) {
+                    Storage::delete($path);
+                }
+    
+                // Hapus data gambar dari database
+                $gambar->delete();
+    
+                DB::commit();
+    
+                toast('Deleted Data Successful!', 'success');
                 return redirect()->back();
-
             } catch (\Throwable $th) {
-                throw $th;
                 DB::rollBack();
     
-                toast('Something Went Wrong!','error');
+                toast('Something Went Wrong!', 'error');
                 return redirect()->back();
             }
         }
@@ -276,56 +286,64 @@ class PetugasController extends Controller
             'audio' => 'mimes:mp3,wav'
         ]);
 
-        // get gambar
+        // get audio
         $audio = $request->file('audio');
 
         // buat path
-        $path = 'audio/' .$audio->getClientOriginalName();
+        $path = 'audio/' . $audio->getClientOriginalName();
 
-        // pindahkan ke dalam storage
+        // Periksa apakah audio dengan nama yang sama sudah ada di database
+        $audioDatabase = Audio::where('audio', $audio->getClientOriginalName())->exists();
+
+        if ($audioDatabase) {
+            Alert::error("Failed", "File audio Exists");
+            return redirect()->back();
+        }
+
+        // Pindahkan ke dalam storage
         Storage::disk('public')->put($path, file_get_contents($audio));
 
-        // simpan di database berupa nama
+        // Simpan di database berupa nama
         Audio::create([
             'audio' => $audio->getClientOriginalName(),
         ]);
-        
-        toast('Create Data Successful!','success');
+
+        toast('Create Data Successful!', 'success');
         return redirect()->back();
     }
 
     public function DeleteAudioPetugas(Request $request){
-        if($request->ismethod('post')){
-
+        if ($request->isMethod('post')) {
+            DB::beginTransaction();
+    
             try {
-                // get dat soal yang menggunakan audio yang mau dihapus dan ubah menjadi null
-                $soal = Soal::where('id_audio', $request->id_audio)->update([
-                    'id_audio' => NULL
-                ]);
-
-                // get data dari database
-                $audio = Audio::findOrFail($request->id_audio)->first();
-
-                // buat path
-                $path = 'audio/' .$audio->audio;
-
-                // hapus data dari storage
-                Storage::disk('public')->delete($path);
-
-                // hapus data dari database
-                Audio::findOrFail($request->id_audio)->delete();
-            
-                toast('Deleted Data Successful!','success');
+                // Update data soal yang menggunakan gambar menjadi null
+                Soal::where('id_audio', $request->id_audio)->update(['id_audio' => NULL]);
+    
+                // Get data gambar dari database
+                $audio = Audio::findOrFail($request->id_audio);
+    
+                // Tentukan path dari file gambar yang ingin dihapus
+                $path = "public/audio/" . $audio->audio;
+                
+                // Hapus file dari storage
+                if (Storage::exists($path)) {
+                    Storage::delete($path);
+                }
+    
+                // Hapus data audio dari database
+                $audio->delete();
+    
+                DB::commit();
+    
+                toast('Deleted Data Successful!', 'success');
                 return redirect()->back();
-
             } catch (\Throwable $th) {
-                throw $th;
                 DB::rollBack();
     
-                toast('Something Went Wrong!','error');
+                toast('Something Went Wrong!', 'error');
                 return redirect()->back();
             }
-
         }
     }
     // ======================================= END AUDIO =====================================
