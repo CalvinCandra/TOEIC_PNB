@@ -193,31 +193,31 @@
                     <span class="text-lg lg:text-xl">This TOEIC simulation test covers part</span>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    {{-- Konten kotak informasi reading --}}
-                    <div class="bg-white text-gray-800 p-6 rounded-lg shadow-lg">
-                        <h3 class="text-xl font-bold mb-4 text-center">Reading</h3>
-                        <ul class="list-none space-y-2">
-                            <li class="flex items-center">
-                                <i class="fas fa-circle text-black mr-3"></i>
-                                <span>50 questions</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-circle text-black mr-3"></i>
-                                <span>100 minutes</span>
-                            </li>
-                        </ul>
-                    </div>
                     {{-- Konten kotak informasi Listening --}}
                     <div class="bg-white text-gray-800 p-6 rounded-lg shadow-lg">
                         <h3 class="text-xl font-bold mb-4 text-center">Listening</h3>
                         <ul class="list-none space-y-2">
                             <li class="flex items-center">
                                 <i class="fas fa-circle text-black mr-3"></i>
-                                <span>50 questions</span>
+                                <span>100 questions</span>
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-circle text-black mr-3"></i>
-                                <span>100 minutes</span>
+                                <span>45 minutes</span>
+                            </li>
+                        </ul>
+                    </div>
+                    {{-- Konten kotak informasi reading --}}
+                    <div class="bg-white text-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-4 text-center">Reading</h3>
+                        <ul class="list-none space-y-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-circle text-black mr-3"></i>
+                                <span>100 questions</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-circle text-black mr-3"></i>
+                                <span>75 minutes</span>
                             </li>
                         </ul>
                     </div>
@@ -260,7 +260,7 @@
                                         <span>Work the Test</span>
                                     </div>
                                     <div class="text-base">
-                                        <span><i>Reading</i> and <i>Listening</i> with an <b>estimated time of 200
+                                        <span><i>Listening</i> and <i>Reading</i> with an <b>estimated time of 120
                                                 minutes</b></span>
                                     </div>
                                 </div>

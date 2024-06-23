@@ -8,13 +8,13 @@
                     <div class="flex flex-col items-center">
                         <span
                             class="block text-base font-bold whitespace-nowrap text-white flex-grow flex-basis-0">TOEIC
-                            SIMULATION</span>
+                            ASSESSMENT</span>
                         <span class="block text-base text-white flex-grow flex-basis-0">Politeknik Negeri Bali</span>
                     </div>
                 </a>
                 <ul class="mt-4 text-white dark:text-gray-400 font-medium max-w-md mx-auto">
                     <li>
-                        <h2>Welcome to the TOEIC Simulation PNB website, a platform designed to help you prepare for the
+                        <h2>Welcome to the TOEIC Assessment PNB website, a platform designed to help you prepare for the
                             TOEIC test. We provide test simulations to enhance your English language proficiency in
                             business and professional contexts.<br>Contact us at simulationtoeic@gmail.com for more
                             information.
@@ -49,8 +49,8 @@
         </div>
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <div class="sm:flex sm:items-center sm:justify-between text-center">
-            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">copyright 2024 | TOEIC FOR
-                HOSPITALITY</span>
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">copyright 2024 | TOEIC
+                ASSESSMENT Politeknik Negeri Bali</span>
         </div>
     </div>
 </footer>

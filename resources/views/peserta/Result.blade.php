@@ -30,7 +30,7 @@
         <p class="text-2xl md:flex md:justify-between md:items-start text-center md:text-left">Hi,
             {{ $peserta->nama_peserta }}</p>
         <p class="mt-2 font-bold text-4xl md:flex md:justify-between md:items-start text-center md:text-left">Here's a
-            simulation of the toeic test you did.</p>
+            simulation of the TOEIC test you did.</p>
         <p class="text-lg pt-1 md:flex md:justify-between md:items-start text-center md:text-left">See the scores and
             results you've obtained in Starting TOEIC test</p>
         <p
