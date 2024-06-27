@@ -73,7 +73,8 @@ class NilaiController extends Controller
             'kategori' => $kategori,
             'rangeSkor' => $rangeSkor,
             'detail' => $detail,
-        ]);
+        ])->setPaper('a4', 'portrait')
+        ->setOption('isRemoteEnabled', true);
 
         $pdfPath = storage_path('app/public/') . 'Result_' . $peserta->nim . '_' . Str::random(5) . '.pdf';
         $pdf->save($pdfPath);

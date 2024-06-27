@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="margin: 0px; padding:0px;">
 
 <head>
     <meta charset="UTF-8" />
@@ -11,8 +11,6 @@
         body {
             font-family: "Poppins", Arial, sans-serif;
             line-height: 1.6;
-            margin: 0;
-            padding: 0;
             background-color: #f0f0f0;
         }
 
@@ -40,6 +38,7 @@
 
         .content {
             padding: 0 20px 0;
+            margin: 0 20px;
         }
 
         h2 {
