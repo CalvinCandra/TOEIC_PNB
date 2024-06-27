@@ -3,11 +3,12 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Attachment;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ResultMail extends Mailable
 {
@@ -22,11 +23,12 @@ class ResultMail extends Mailable
     public $totalSkor;
     public $kategori;
     public $rangeSkor;
+    public $pdfPath;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($nama_peserta, $email, $nim, $jurusan, $skorReading, $skorListening, $totalSkor, $kategori, $rangeSkor)
+    public function __construct($nama_peserta, $email, $nim, $jurusan, $skorReading, $skorListening, $totalSkor, $kategori, $rangeSkor, $pdfPath)
     {
         $this->nama_peserta = $nama_peserta;
         $this->email = $email;
@@ -37,6 +39,7 @@ class ResultMail extends Mailable
         $this->totalSkor = $totalSkor;
         $this->kategori = $kategori;
         $this->rangeSkor = $rangeSkor;
+        $this->pdfPath = $pdfPath;
     }
 
     /**
@@ -66,6 +69,8 @@ class ResultMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return [
+            Attachment::fromPath($this->pdfPath)->as('TOEIC_Result.pdf')->withMime('application/pdf'),
+        ];
     }
 }

@@ -223,12 +223,12 @@
                     <span class="value">: {{ $kategori }}</span>
                 </p>
                 <p>
-                    <span class="label">Reading Score</span>
-                    <span class="value">: {{ $skorReading }}</span>
-                </p>
-                <p>
                     <span class="label">Listening Score</span>
                     <span class="value">: {{ $skorListening }}</span>
+                </p>
+                <p>
+                    <span class="label">Reading Score</span>
+                    <span class="value">: {{ $skorReading }}</span>
                 </p>
                 <p>
                     <span class="label">Total Score</span>
