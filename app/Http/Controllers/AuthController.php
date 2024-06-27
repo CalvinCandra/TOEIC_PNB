@@ -23,26 +23,40 @@ class AuthController extends Controller
                 'password' => ['required']
             ]);
 
-            if (Auth::attempt($data)) {
-    
-                $request->session()->regenerate();
-                
-                $User = User::where('email', $request->email)->first();
-                $level = $User->level;
-                
-                //membawa ke halaman sesuai level
-                if($level == "admin"){
-                    toast('Login Successful!','success');
+            if(auth()->check()){
+                $user = auth()->user();
+                if($user->level == 'admin'){
+                    Alert::info("Failed", "If you have already logged in, please log out first");
                     return redirect('/admin');
-                }elseif($level == "petugas"){
-                    toast('Login Successful!','success');
+                }elseif($user->level == 'petugas'){
+                    Alert::info("Failed", "If you have already logged in, please log out first");
                     return redirect('/petugas');
                 }else{
+                    Alert::info("Failed", "If you have already logged in, please log out first");
                     return redirect('/peserta');
                 }
             }else{
-               Alert::error("Failed", "Username Or Password Not Same");
-               return redirect('/login')->with('gagal', 'Username Atau Password Salah !');
+                if (Auth::attempt($data)) {
+    
+                    $request->session()->regenerate();
+                    
+                    $User = User::where('email', $request->email)->first();
+                    $level = $User->level;
+                    
+                    //membawa ke halaman sesuai level
+                    if($level == "admin"){
+                        toast('Login Successful!','success');
+                        return redirect('/admin');
+                    }elseif($level == "petugas"){
+                        toast('Login Successful!','success');
+                        return redirect('/petugas');
+                    }else{
+                        return redirect('/peserta');
+                    }
+                }else{
+                   Alert::error("Failed", "Username Or Password Not Same");
+                   return redirect('/login')->with('gagal', 'Username Atau Password Salah !');
+                }
             }
         }
     }

@@ -21,10 +21,12 @@
     </h1>
     <div class="grid max-sm:grid-cols-3 grid-cols-5 gap-2 px-5 py-8 max-sm:px-2 content-center">
         @foreach ($soal as $questions)
-            <div class="bg-[#0066FF] text-white p-2 rounded flex justify-center items-center">{{ $questions->nomor_soal }}</div>
+            @if ($questions->nomor_soal < $soalListening->nomor_soal)
+                <div class="bg-[#0066FF] text-white p-2 rounded flex justify-center items-center" id="nomor-soal">{{ $questions->nomor_soal }}</div>
+            @else
+                <div class="bg-[#989B9C] text-white p-2 rounded flex justify-center items-center" id="nomor-soal">{{ $questions->nomor_soal }}</div>
+            @endif
         @endforeach
-
-
     </div>
 @endsection
 
@@ -48,7 +50,7 @@
         <form action="{{url('/ProsesJawabListening')}}" method="post">
             @csrf
             <h1 class="text-xl font-bold mb-5">
-                Listening - Question {{$soalListening->nomor_soal}}
+                Listening - Question <span id="currentQuestion">{{$soalListening->nomor_soal}}</span>
             </h1>
         
             <!-- Soal disini (include gambar/audio) -->
@@ -95,11 +97,11 @@
 
             @if ($soalListening->nomor_soal != count($soal))
                 <div class="flex justify-end items-end">
-                    <button type="submit" name="tombol" value="next" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white absolute bottom-8">Next</button>
+                    <button type="submit" name="tombol" value="next" id="nextButton" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white absolute bottom-8">Next</button>
                 </div>
             @else    
                 <div class="flex justify-end items-end">
-                    <button type="submit" name="tombol" value="Submit" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white absolute bottom-8">Submit</button>
+                    <button type="submit" name="tombol" value="Submit" id="submitButton" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white absolute bottom-8">Submit</button>
                 </div>
             @endif
 
@@ -147,7 +149,7 @@
     {{-- Countdown --}}
     <script>
         // Set durasi countdown (45 menit dalam milidetik)
-        const countdownDuration = 45 * 60 * 1000;
+        const countdownDuration =45 * 60 * 1000;
 
         // Ambil waktu mulai dari localStorage
         const quizStartTime = parseInt(localStorage.getItem("quizStartTime"));
@@ -174,4 +176,38 @@
             window.location.reload(true); // Menggunakan parameter true untuk merefresh dari server
         }
     </script>
+
+    <script>
+        // menghentikan countdown ketika tombol submit ditekan
+        document.getElementById("submitButton").addEventListener("click", function() {
+            clearInterval(window.x);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentQuestionIndex = 1; // Mulai dari soal 1
+            const totalQuestions = document.getElementById('nomor-soal').length;
+            
+            const updateQuestion = (newIndex) => {
+                // Ubah warna soal sebelumnya
+                const prevQuestionItem = document.getElementById(`nomor-soal[data-soal="${currentQuestionIndex}"]`);
+                prevQuestionItem.classList.remove('bg-[989B9C]');
+                prevQuestionItem.classList.add('bg-[#0066FF]'); // Ganti warna sesuai kebutuhan
+                
+                // Update current question index
+                currentQuestionIndex = currentQuestionIndex++;
+                
+                // Update display question number
+                document.getElementById('currentQuestion').textContent = currentQuestionIndex;
+            };
+            
+            document.getElementById('nextButton').addEventListener('click', function() {
+                if (currentQuestionIndex < totalQuestions) {
+                    updateQuestion(currentQuestionIndex + 1);
+                }
+            });
+        });
+    </script>
+
 @endsection

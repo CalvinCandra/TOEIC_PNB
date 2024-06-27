@@ -106,10 +106,10 @@
                                         <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
                                     @endif
 
-                                    @if (!$data->id_petugas == null)
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->petugas->nama_petugas}}</td>
+                                    @if (!$data->id_users == null)
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->name}}</td>
                                     @else 
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">Admin</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
                                     @endif
                                     
                                     <td class="px-4 py-3 border-2">

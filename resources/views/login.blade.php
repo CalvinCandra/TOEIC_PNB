@@ -15,20 +15,19 @@
     
             <div class="w-full flex flex-col lg:w-2/4 mx-5 my-5 lg:mt-14">
 
-                <h1 class="pb-8 text-2xl font-extrabold">Login</h1>
+                <h1 class="pb-8 text-4xl mb-2 md:mb-0 mb:text-5xl font-extrabold text-center uppercase">Login</h1>
 
                 <form action="{{url('/ProsesLogin')}}" method="post" class="flex flex-col w-full">
                     @csrf
-                    <h5 class="mb-1">Enter your Email</h5>
-                    <input type="email" name="email" id="" class="rounded-full bg-slate-50 p-2 pl-4" placeholder="Enter Your Email" value="{{old('email')}}">
+                    <h5 class="mb-1">Enter your email to log in.</h5>
+                    <input type="email" name="email" id="" class="rounded-lg bg-[#F3F4F6] pl-3 border-none focus:ring-2 placeholder:italic" placeholder="Your Email" value="{{old('email')}}">
                     @error('email')
                         <div class=" mt-1 text-sm italic text-red-400">
                             {{$message}}
                         </div>
                     @enderror
 
-                    <h5 class="mb-1 mt-5">Enter your Password</h5>
-                    <input type="password" name="password" id="" class="rounded-full p-2 pl-4" placeholder="Enter Your Password">
+                    <input type="password" name="password" id="" class="rounded-lg bg-[#F3F4F6] pl-3 mt-5 border-none focus:ring-2 placeholder:italic" placeholder="Your Password">
                     @error('password')
                         <div class=" mt-1 text-sm italic text-red-400">
                             {{$message}}

@@ -21,12 +21,6 @@ class Petugas extends Model
         'update_at',
     ];
 
-    // soal
-    public function soal(): BelongsTo
-    {
-        return $this->belongsTo(Soal::class, 'id_petugas', 'id_petugas');
-    }
-
     // users
     public function user(): HasOne
     {

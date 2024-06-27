@@ -23,8 +23,12 @@
     </h1>
     <div class="grid max-sm:grid-cols-3 grid-cols-5 gap-2 px-5 py-8 max-sm:px-2 content-center">
         @foreach ($soal as $questions)
-            <div class="bg-[#0066FF] text-white p-2 rounded flex justify-center items-center">{{ $questions->nomor_soal }}</div>
-        @endforeach
+        @if ($questions->nomor_soal < $soalReading->nomor_soal)
+            <div class="bg-[#0066FF] text-white p-2 rounded flex justify-center items-center" id="nomor-soal">{{ $questions->nomor_soal }}</div>
+        @else
+            <div class="bg-[#989B9C] text-white p-2 rounded flex justify-center items-center" id="nomor-soal">{{ $questions->nomor_soal }}</div>
+        @endif
+    @endforeach
     </div>
 @endsection
 
@@ -93,7 +97,7 @@
                 </div>
             @else    
                 <div class="flex justify-end items-end">
-                    <button type="submit" name="tombol" value="Submit" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white absolute bottom-8">Submit</button>
+                    <button type="submit" name="tombol" value="Submit" id="submitButton" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white absolute bottom-8">Submit</button>
                 </div>
             @endif
 
@@ -130,5 +134,12 @@
         function refreshPage() {
             window.location.reload(true); // Menggunakan parameter true untuk merefresh dari server
         }
+    </script>
+
+    <script>
+        // menghentikan countdown ketika tombol submit ditekan
+        document.getElementById("submitButton").addEventListener("click", function() {
+            clearInterval(window.x);
+        });
     </script>
 @endsection
