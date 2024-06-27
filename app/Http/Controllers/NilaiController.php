@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Nilai;
 use App\Models\Peserta;
-use Illuminate\Http\Request;
 use App\Mail\ResultMail;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 
 class NilaiController extends Controller
@@ -32,7 +34,9 @@ class NilaiController extends Controller
         }
 
         $Readingbenar = $request->session()->get('benarReading');
+        $Readingsalah = $request->session()->get('salahReading');
         $Listeningbenar = $request->session()->get('benarListening');
+        $Listeningsalah = $request->session()->get('salahListening');
 
         // Mencocokkan nilai benar dengan skala nilai di database
         $nilaiReading = Nilai::where('jawaban_benar', $Readingbenar)->first();
@@ -53,6 +57,27 @@ class NilaiController extends Controller
 
         $peserta = Peserta::with('user')->where('id_users', auth()->user()->id)->first();
 
+        // Generate PDF
+        $pdf = PDF::loadView('vendor.pdf.result', [
+            'nama_peserta' => $peserta->nama_peserta,
+            'email' => $peserta->user->email,
+            'nim' => $peserta->nim,
+            'jurusan' => $peserta->jurusan,
+            'skorReading' => $skorReading,
+            'benarReading' => $Readingbenar,
+            'salahReading' => $Readingsalah,
+            'skorListening' => $skorListening,
+            'benarListening' => $Listeningbenar,
+            'salahListening' => $Listeningsalah,
+            'totalSkor' => $totalSkor,
+            'kategori' => $kategori,
+            'rangeSkor' => $rangeSkor,
+            'detail' => $detail,
+        ]);
+
+        $pdfPath = storage_path('app/public/') . 'Result_' . $peserta->nim . '_' . Str::random(5) . '.pdf';
+        $pdf->save($pdfPath);
+
         // Mengirimkan email hasil tes
         Mail::to($peserta->user->email)->send(new ResultMail(
             $peserta->nama_peserta,
@@ -63,7 +88,8 @@ class NilaiController extends Controller
             $skorListening,
             $totalSkor,
             $kategori,
-            $rangeSkor
+            $rangeSkor,
+            $pdfPath
         ));
 
         // Simpan data ke dalam session
