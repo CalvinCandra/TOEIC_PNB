@@ -429,14 +429,14 @@ class PetugasController extends Controller
 
         if ($search) {
             $soal = Soal::
-            with(['petugas', 'gambar'])
+            with(['user', 'gambar'])
             ->where('id_bank', $id)
             ->where('kategori', 'Reading')
             ->orWhere('nomor', 'LIKE', '%'.$search.'%')
             ->orWhere('soal', 'LIKE', '%'.$search.'%')
             ->paginate();
         } else {
-            $soal = Soal::with(['petugas', 'gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->paginate(15);
+            $soal = Soal::with(['user', 'gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->paginate(15);
         }
 
         // lempar id_bank ke dalam view
@@ -464,9 +464,6 @@ class PetugasController extends Controller
         // generate token otomatis
         $token_soal = strtoupper(Str::password(5, true, true, false, false));
 
-        // get data petugas
-        $petugas = Petugas::where('id_users', auth()->user()->id)->first();
-
         Soal::create([
             'nomor_soal' => $request->nomor_soal,
             'text' => $request->text,
@@ -479,7 +476,7 @@ class PetugasController extends Controller
             'kategori' => 'Reading',
             'id_gambar' => $request->gambar,
             'id_audio' => NULL,
-            'id_petugas' => $petugas->id_petugas,
+            'id_users' => auth()->user()->id,
             'id_bank' => $request->id_bank,
             'token_soal' => $token_soal,
         ]);
@@ -493,9 +490,6 @@ class PetugasController extends Controller
     public function UpdateSoalReadingPetugas(Request $request){
         if($request->ismethod('post')){
 
-            // get data petugas
-            $petugas = Petugas::where('id_users', auth()->user()->id)->first();
-
             Soal::where('id_soal', $request->id_soal)->update([
                 'nomor_soal' => $request->nomor_soal,
                 'text' => $request->text,
@@ -506,7 +500,7 @@ class PetugasController extends Controller
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
                 'id_gambar' => $request->gambar,
-                'id_petugas' => $petugas->id_petugas,
+                'id_users' => auth()->user()->id,
             ]);
     
             toast('Update Data Successful!','success');
@@ -528,14 +522,14 @@ class PetugasController extends Controller
 
         if ($search) {
             $soal = Soal::
-            with(['petugas', 'audio'])
+            with(['user', 'audio'])
             ->where('id_bank', $id)
             ->where('kategori', 'Listening')
             ->orWhere('nomor', 'LIKE', '%'.$search.'%')
             ->orWhere('soal', 'LIKE', '%'.$search.'%')
             ->paginate();
         } else {
-            $soal = Soal::with(['petugas', 'audio'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
+            $soal = Soal::with(['user', 'audio'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
         }
 
         // lempar id_bank ke dalam view
@@ -563,9 +557,6 @@ class PetugasController extends Controller
         // generate token otomatis
         $token_soal = strtoupper(Str::password(5, true, true, false, false));
 
-        // get data petugas
-        $petugas = Petugas::where('id_users', auth()->user()->id)->first();
-
         Soal::create([
             'nomor_soal' => $request->nomor_soal,
             'text' => $request->text,
@@ -578,7 +569,7 @@ class PetugasController extends Controller
             'kategori' => 'Listening',
             'id_gambar' => NULL,
             'id_audio' => $request->audio,
-            'id_petugas' => $petugas->id_petugas,
+            'id_users' => auth()->user()->id,
             'id_bank' => $request->id_bank,
             'token_soal' => $token_soal,
         ]);
@@ -592,9 +583,6 @@ class PetugasController extends Controller
     public function UpdateSoalListeningPetugas(Request $request){
         if($request->ismethod('post')){
 
-            // get data petugas
-            $petugas = Petugas::where('id_users', auth()->user()->id)->first();
-
             Soal::where('id_soal', $request->id_soal)->update([
                 'nomor_soal' => $request->nomor_soal,
                 'text' => $request->text,
@@ -605,7 +593,7 @@ class PetugasController extends Controller
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
                 'id_audio' => $request->audio,
-                'id_petugas' => $petugas->id_petugas,
+                'id_users' => auth()->user()->id,
             ]);
     
             toast('Update Data Successful!','success');

@@ -25,17 +25,17 @@ class Soal extends Model
         'kategori',
         'id_gambar',
         'id_audio',
-        'id_petugas',
+        'id_users',
         'id_bank',
         'token_soal',
         'created_at',
         'update_at',
     ];
 
-    // petugas
-    public function petugas(): HasOne
+    // user
+    public function user(): HasOne
     {
-        return $this->hasOne(Petugas::class, 'id_petugas', 'id_petugas');
+        return $this->hasOne(User::class, 'id', 'id_users');
     }
 
     // gambar

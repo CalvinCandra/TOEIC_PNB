@@ -113,6 +113,11 @@ class SoalController extends Controller
             // get jawaban peserta
             $jawaban = $request->jawaban;
 
+            // jika tidak menjawaba
+            if($jawaban == null){
+                $jawaban = 'N';
+            }
+
             //reset the audio session
             $request->session()->forget('audio_played');
 
@@ -303,6 +308,11 @@ class SoalController extends Controller
 
             // get jawaban peserta
             $jawaban = $request->jawaban;
+
+            // jika tidak menjawaba
+            if($jawaban == null){
+                $jawaban = 'N';
+            }
 
             if ($request->tombol == 'next') {
                 // insert data kedalam database

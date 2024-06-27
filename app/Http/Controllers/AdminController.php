@@ -126,18 +126,22 @@ class AdminController extends Controller
     {
 
         // get data petugas
-        $petugas = Petugas::select('*')->where('id_petugas', $request->id_petugas)->first();
+        $petugas = Petugas::where('id_petugas', $request->id_petugas)->first();
 
         // transaction database
         try {
             DB::beginTransaction();
+
+            // delete petugas dari soal
+            Soal::where('id_users', $petugas['id_users'])->update([
+                'id_users' => NULL,
+            ]);
 
             // Delete data ke table petugas 
             Petugas::findOrFail($request->id_petugas)->delete();
 
             // Delete data ke table users 
             User::findOrFail($petugas['id_users'])->delete();
-
 
             DB::commit();
 
@@ -569,14 +573,14 @@ class AdminController extends Controller
         $search = $request->search;
 
         if ($search) {
-            $soal = Soal::with(['petugas', 'gambar'])
+            $soal = Soal::with(['user', 'gambar'])
                 ->where('id_bank', $id)
                 ->where('kategori', 'Reading')
                 ->orWhere('nomor', 'LIKE', '%' . $search . '%')
                 ->orWhere('soal', 'LIKE', '%' . $search . '%')
                 ->paginate();
         } else {
-            $soal = Soal::with(['petugas', 'gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->paginate(15);
+            $soal = Soal::with(['user', 'gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->paginate(15);
         }
 
         // lempar id_bank ke dalam view
@@ -616,7 +620,7 @@ class AdminController extends Controller
             'kategori' => 'Reading',
             'id_gambar' => $request->gambar,
             'id_audio' => NULL,
-            'id_petugas' => NULL,
+            'id_users' => auth()->user()->id,
             'id_bank' => $request->id_bank,
             'token_soal' => $token_soal,
         ]);
@@ -628,6 +632,7 @@ class AdminController extends Controller
     // update soal 
     public function UpdateSoalReadingAdmin(Request $request)
     {
+
         if ($request->ismethod('post')) {
 
             Soal::where('id_soal', $request->id_soal)->update([
@@ -640,7 +645,7 @@ class AdminController extends Controller
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
                 'id_gambar' => $request->gambar,
-                'id_petugas' => NULL,
+                'id_users' => auth()->user()->id,
             ]);
 
             toast('Update Data Successful!', 'success');
@@ -663,14 +668,14 @@ class AdminController extends Controller
         $search = $request->search;
 
         if ($search) {
-            $soal = Soal::with(['petugas', 'audio'])
+            $soal = Soal::with(['user', 'audio'])
                 ->where('id_bank', $id)
                 ->where('kategori', 'Listening')
                 ->orWhere('nomor', 'LIKE', '%' . $search . '%')
                 ->orWhere('soal', 'LIKE', '%' . $search . '%')
                 ->paginate();
         } else {
-            $soal = Soal::with(['petugas', 'audio'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
+            $soal = Soal::with(['user', 'audio'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
         }
 
         // lempar id_bank ke dalam view
@@ -710,7 +715,7 @@ class AdminController extends Controller
             'kategori' => 'Listening',
             'id_gambar' => NULL,
             'id_audio' => $request->audio,
-            'id_petugas' => NULL,
+            'id_users' => auth()->user()->id,
             'id_bank' => $request->id_bank,
             'token_soal' => $token_soal,
         ]);
@@ -734,7 +739,7 @@ class AdminController extends Controller
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
                 'id_audio' => $request->audio,
-                'id_petugas' => NULL,
+                'id_users' => auth()->user()->id,
             ]);
 
             toast('Update Data Successful!', 'success');

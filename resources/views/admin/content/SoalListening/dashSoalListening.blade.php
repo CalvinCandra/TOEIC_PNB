@@ -102,8 +102,7 @@
                                         @if (!$data->id_audio == null)
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">
                                                 <audio id="audio" controls>
-                                                    <source src="{{ asset('storage/audio/' . $data->audio->audio) }}"
-                                                        type="audio/mp3" class="bg-[#023047] text-white">
+                                                    <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
                                                     Your browser does not support the audio element.
                                                 </audio>
                                             </td>
@@ -112,10 +111,10 @@
                                             </td>
                                         @endif
 
-                                      @if (!$data->id_petugas == null)
-                                          <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->petugas->nama_petugas}}</td>
+                                      @if (!$data->id_users == null)
+                                            <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->name}}</td>
                                       @else 
-                                          <td class="px-4 py-3 border-2 whitespace-nowrap">Admin</td>
+                                            <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
                                       @endif
 
                                       <td class="px-4 py-3 border-2">
@@ -256,13 +255,11 @@
                         </div>
 
                         <div class="">
-                            <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File
-                                Audio (Opsional)</label>
-                            <select id="countries" name="audio"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                            <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Audio (Opsional)</label>
+                            <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                 <option selected hidden value="">-- Choose a File Audio --</option>
                                 @foreach ($audio as $item)
-                                    <option value="{{ $item->id_audio }}">{{ $item->audio }}</option>
+                                    <option value="{{$item->id_audio}}">{{$item->audio}}</option>
                                 @endforeach
                             </select>
                         </div>
