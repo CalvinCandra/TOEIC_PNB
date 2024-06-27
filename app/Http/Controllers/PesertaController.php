@@ -30,6 +30,18 @@ class PesertaController extends Controller
             'nim.min' => 'NIM Must be 10 Letters',
         ]);
 
+         // get data peserta
+         $peserta = Peserta::where('id_users', auth()->user()->id)->first();
+ 
+         // cek jika user mengubah email atau tidak
+         if($request->nim !== $peserta->nim){
+             // Periksa nim ada yang sama atau tidak saat update data baru
+             $NimPeserta = Peserta::where('nim', $request->nim)->exists();
+             if ($NimPeserta) {
+                 return redirect()->back()->withErrors("Nim already exists");
+             }
+         }
+
         if($request->ismethod('post')){
             // transaction database
         try {

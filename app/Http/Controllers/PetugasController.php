@@ -112,8 +112,26 @@ class PetugasController extends Controller
             'nim.min' => 'NIM Must be 10 Letters',
         ]);
 
-        // get data petugas
-        $peserta = Peserta::select('*')->where('id_peserta', $request->id_peserta)->first();
+         // get data peserta
+         $peserta = Peserta::with('user')->where('id_peserta', $request->id_peserta)->first();
+
+         // cek jika user mengubah email atau tidak
+         if($request->email !== $peserta->user->email){
+             // Periksa email ada yang sama atau tidak saat update data baru
+             $EmailUser = User::where('email', $request->email)->exists();
+             if ($EmailUser) {
+                 return redirect()->back()->withErrors("Email already exists");
+             }
+         }
+ 
+         // cek jika user mengubah email atau tidak
+         if($request->nim !== $peserta->nim){
+             // Periksa nim ada yang sama atau tidak saat update data baru
+             $NimPeserta = Peserta::where('nim', $request->nim)->exists();
+             if ($NimPeserta) {
+                 return redirect()->back()->withErrors("Nim already exists");
+             }
+         }
 
         // transaction database
         try {
@@ -214,8 +232,7 @@ class PetugasController extends Controller
         $gambarDatabase = Gambar::where('gambar', $gambar->getClientOriginalName())->exists();
 
         if ($gambarDatabase) {
-            Alert::error("Failed", "File Image Exists");
-            return redirect()->back();
+            return redirect()->back()->withErrors("File Image Exists");
         }
 
         // Pindahkan ke dalam storage
@@ -296,8 +313,7 @@ class PetugasController extends Controller
         $audioDatabase = Audio::where('audio', $audio->getClientOriginalName())->exists();
 
         if ($audioDatabase) {
-            Alert::error("Failed", "File audio Exists");
-            return redirect()->back();
+            return redirect()->back()->withErrors("File Audio Exists");
         }
 
         // Pindahkan ke dalam storage
@@ -559,7 +575,7 @@ class PetugasController extends Controller
 
         Soal::create([
             'nomor_soal' => $request->nomor_soal,
-            'text' => $request->text,
+            'text' => NULL,
             'soal' => $request->soal,
             'jawaban_a' => $request->jawaban_a,
             'jawaban_b' => $request->jawaban_b,
@@ -585,7 +601,7 @@ class PetugasController extends Controller
 
             Soal::where('id_soal', $request->id_soal)->update([
                 'nomor_soal' => $request->nomor_soal,
-                'text' => $request->text,
+                'text' => NULL,
                 'soal' => $request->soal,
                 'jawaban_a' => $request->jawaban_a,
                 'jawaban_b' => $request->jawaban_b,
