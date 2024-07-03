@@ -14,7 +14,7 @@
                     class="mr-auto place-self-center lg:col-span-7 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
                     <h1
                         class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-white dark:text-white">
-                        Try the Web TOEIC Test Simulation!</h1>
+                        Try the TOEIC Test Simulation!</h1>
                     <p class="max-w-2xl mb-6 font-light text-white lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
                         Improve your TOEIC score easily and effectively</p>
                     <a href="{{ url('/DashboardSoal') }}"
@@ -48,7 +48,7 @@
                     organizations to assess the English language proficiency of their employees and job applicants.</p>
 
                 <div class="mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg ">
-                    <span class="font-extrabold text-gray-900 uppercase lg:text-3xl text-2xl">Why TOEIC is Important?</span>
+                    <span class="font-extrabold text-gray-900 uppercase lg:text-3xl text-2xl">Why is TOEIC Important?</span>
 
                     <!-- Carousel tampilan mobile -->
                     <div class="lg:hidden w-full mt-8">
@@ -343,8 +343,8 @@
                     <div id="accordion-collapse-body-2" class="hidden overflow-hidden transition-all duration-300"
                         aria-labelledby="accordion-collapse-heading-2">
                         <div class="p-5 border border-t-0 border-gray-200 bg-gray-50">
-                            <p class="mb-2 text-gray-500">You can easily take a simulated TOEIC test from the comfort of
-                                your home. Simply ensure you have a stable internet connection, then follow the provided
+                            <p class="mb-2 text-gray-500">You can easily take a simulated TOEIC test from 
+                                home. Simply ensure you have a stable internet connection, then follow the provided
                                 instructions to start the test. With this method, you can practice anytime and prepare
                                 yourself better for the actual exam.</p>
                         </div>
@@ -371,7 +371,7 @@
                         aria-labelledby="accordion-collapse-heading-3">
                         <div class="p-5 border border-t-0 border-gray-200 bg-gray-50">
                             <p class="mb-2 text-gray-500">For this simulated TOEIC test, you will not receive a
-                                certificate. However, you will receive your test scores, which will be sent to you via
+                                certificate. However, you will receive your test scores prediction, which will be sent to you via
                                 email, allowing you to share your results on social media. Additionally, you will be
                                 provided with explanations for both correct and incorrect answers.</p>
                         </div>

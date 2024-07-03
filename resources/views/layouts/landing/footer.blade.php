@@ -14,9 +14,9 @@
                 </a>
                 <ul class="mt-4 text-white dark:text-gray-400 font-medium max-w-md mx-auto">
                     <li>
-                        <h2>Welcome to the TOEIC Assessment PNB website, a platform designed to help you prepare for the
+                        <h2>Welcome to the TOEIC Assessment PNB website by Unit Penunjang Akademik Bahasa Politeknik Negeri Bali, a platform designed to help you prepare for the
                             TOEIC test. We provide test simulations to enhance your English language proficiency in
-                            business and professional contexts.<br>Contact us at simulationtoeic@gmail.com for more
+                            business and professional contexts.<br>Contact us at language-center@pnb.ac.id for more
                             information.
                         </h2>
                     </li>

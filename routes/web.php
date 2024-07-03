@@ -75,6 +75,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     // dashboard Peserta
     Route::get('/dashPeserta', [AdminController::class, 'dashPeserta']);
     Route::post('/TambahPeserta', [AdminController::class, 'TambahPeserta']);
+    Route::post('/TambahPesertaExcelAdmin', [AdminController::class, 'TambahPesertaExcel']);
     Route::post('/UpdatePeserta', [AdminController::class, 'UpdatePeserta']);
     Route::post('/DeletePeserta', [AdminController::class, 'DeletePeserta']);
 
@@ -116,6 +117,7 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     // Peserta
     Route::get('/dashPetugasPeserta', [PetugasController::class, 'dashPetugasPeserta']);
     Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
+    Route::post('/TambahPesertaExcelPetugas', [PetugasController::class, 'TambahPesertaExcel']);
     Route::post('/UpdatePetugasPeserta', [PetugasController::class, 'UpdatePetugasPeserta']);
     Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
 
