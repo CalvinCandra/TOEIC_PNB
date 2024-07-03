@@ -42,19 +42,25 @@
                     </form>
                 </div>
             {{-- end search --}}
+            <div class="lg:flex mt-5 lg:justify-between">
+                <!-- Modal toggle -->
+                <div class="flex">
+                    <button data-modal-target="TambahPeserta" data-modal-toggle="TambahPeserta" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                        Create Participants Data
+                    </button>
+                    <button data-modal-target="TambahPesertaExcel" data-modal-toggle="TambahPesertaExcel" class=" mx-2 block text-white bg-sky-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                        Create With Excel
+                    </button>
+                </div>
+                
+
+                <a href="{{url('/SendMailPesertaAll')}}" class="block text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5 w-32" type="button">
+                    Send Email
+                </a>
+            </div>
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
 
                 <div class="overflow-x-auto w-full">
-                    <div class="flex justify-between">
-                        <!-- Modal toggle -->
-                        <button data-modal-target="TambahPeserta" data-modal-toggle="TambahPeserta" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                            Create Participants Data
-                        </button>
-
-                        <a href="{{url('/SendMailPesertaAll')}}" class="block text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                            Send Email
-                        </a>
-                    </div>
 
                     <!-- table data -->
                     <table class="w-full text-sm text-left text-gray-500 table-auto">
@@ -133,6 +139,48 @@
 </section>
 {{-- end konten --}}
 
+
+{{-- Modal Tambah Excel --}}
+<div id="TambahPesertaExcel" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full p-4">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow">
+
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
+                <h3 class="text-xl font-semibold text-gray-900">
+                    Create Participants Data
+                </h3>
+                <button type="button"
+                    class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="TambahPesertaExcel">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="p-4 md:p-5">
+                <form class="space-y-4" action="{{url('/TambahPesertaExcelAdmin')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">File Excel</label>
+                        <input accept="" name="file" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" required>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- End Modal Tambah Excel --}}
 
 {{-- Modal Tambah --}}
 <div id="TambahPeserta" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
