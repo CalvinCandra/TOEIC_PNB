@@ -243,32 +243,24 @@
                     <th>Category</th>
                 </tr>
                 <tr>
-                    <td>10-180</td>
-                    <td>No Useful Proficiency</td>
+                    <td>0 - 220</td>
+                    <td>Basic user - Breakthrough A1</td>
                 </tr>
                 <tr>
-                    <td>185 -250</td>
-                    <td>Memorised Proficiency</td>
+                    <td>225 - 545</td>
+                    <td>Basic user - Waystage A2</td>
                 </tr>
                 <tr>
-                    <td>255 - 400</td>
-                    <td>Elementary Proficiency</td>
+                    <td>550 - 780</td>
+                    <td>Independent user - Threshold B1</td>
                 </tr>
                 <tr>
-                    <td>405 - 600</td>
-                    <td>Elementary Proficiency Plus</td>
+                    <td>785 - 940</td>
+                    <td>Independent user - Vantage B2</td>
                 </tr>
                 <tr>
-                    <td>605 - 780</td>
-                    <td>Limited Working Proficiency</td>
-                </tr>
-                <tr>
-                    <td>785 - 900</td>
-                    <td>Working Proficiency Plus</td>
-                </tr>
-                <tr>
-                    <td>905 - 990</td>
-                    <td>International Proficiency</td>
+                    <td>945 - 990</td>
+                    <td>Proficient user - Effective Operational Proficiency C1</td>
                 </tr>
             </table>
             <div class="desk">

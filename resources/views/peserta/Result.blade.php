@@ -123,7 +123,7 @@
                     data-active-classes="bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                     data-inactive-classes="text-gray-500 dark:text-gray-400">
 
-                    <!-- International Proficiency -->
+                    <!-- Proficient user - Effective Operational Proficiency C1 -->
                     <h2 id="accordion-flush-heading-1">
                         <button type="button"
                             class="flex items-center justify-between w-full py-3 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
@@ -131,10 +131,10 @@
                             aria-controls="accordion-flush-body-1">
                             <div class="text-left">
                                 <p class="text-xl text-gray-500 font-semibold">
-                                    International Proficiency</p>
+                                    Proficient user - Effective Operational Proficiency C1</p>
                                 <p class="text-sm text-[#219EBC] font-bold">TOEIC
                                     score
-                                    range of 905 - 990</p>
+                                    range of 945 - 990</p>
                             </div>
                             <svg data-accordion-icon
                                 class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300" aria-hidden="true"
@@ -147,19 +147,16 @@
                     <div id="accordion-flush-body-1" class="hidden flex-grow"
                         aria-labelledby="accordion-flush-heading-1">
                         <div class="py-4 border-b border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">This range of values indicates that the
-                                individual has a very high ability to speak English. They are able to communicate
-                                smoothly
-                                and effectively in a variety of professional and academic contexts. People in this
-                                category
-                                can easily understand complex texts, follow quick conversations, and express themselves
-                                clearly and persuasively. They can interact with native and non-native English speakers
-                                with
-                                confidence, using extensive vocabulary and complex sentence structure.</p>
+                            <p class="mb-2 text-gray-500 dark:text-gray-400">Can understand a wide range of demanding,
+                                longer texts, and recognise implicit meaning. Can express him/ herself fluently and
+                                spontaneously without much obvious searching for expressions. Can use language flexibly
+                                and effectively for social, academic and professional purposes. Can produce clear,
+                                well-structured, detailed text on complex subjects, showing controlled use of
+                                organisational patterns, connectors and cohesive devices.</p>
                         </div>
                     </div>
 
-                    <!-- Working Proficiency Plus -->
+                    <!-- Independent user - Vantage B2 -->
                     <h2 id="accordion-flush-heading-2">
                         <button type="button"
                             class="flex items-center justify-between w-full py-3 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
@@ -167,10 +164,10 @@
                             aria-controls="accordion-flush-body-2">
                             <div class="text-left">
                                 <p class="text-xl text-gray-500 font-semibold">
-                                    Working Proficiency Plus</p>
+                                    Independent user - Vantage B2</p>
                                 <p class="text-sm text-[#219EBC] font-bold">TOEIC
                                     score
-                                    range of 785 - 900</p>
+                                    range of 785 - 940</p>
                             </div>
                             <svg data-accordion-icon
                                 class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300"
@@ -183,16 +180,17 @@
                     </h2>
                     <div id="accordion-flush-body-2" class="hidden" aria-labelledby="accordion-flush-heading-2">
                         <div class="py-5 border-b border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">This range of values indicates excellent
-                                English proficiency for professional needs. Individuals in this category are able to
-                                communicate smoothly in various work and daily life situations. They can understand
-                                relatively complex texts, follow in-depth discussions, and convey ideas clearly and
-                                organizedly. They may still require a little adaptation to interact in very formal or
-                                technical situations, but generally they can perform English tasks well.</p>
+                            <p class="mb-2 text-gray-500 dark:text-gray-400">Can understand the main ideas of complex
+                                text on both concrete and abstract topics, including technical discussions in his/her
+                                field of specialisation. Can interact with a degree of fluency and spontaneity that
+                                makes regular interaction with native speakers quite possible without strain for either
+                                party. Can produce clear, detailed text on a wide range of subjects and explain a
+                                viewpoint on a topical issue giving the advantages and disadvantages of various options.
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Limited Working Proficiency -->
+                    <!-- Independent user - Threshold B1 -->
                     <h2 id="accordion-flush-heading-3">
                         <button type="button"
                             class="flex items-center justify-between w-full py-3 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
@@ -200,10 +198,10 @@
                             aria-controls="accordion-flush-body-3">
                             <div class="text-left">
                                 <p class="text-xl text-gray-500 font-semibold">
-                                    Limited Working Proficiency</p>
+                                    Independent user - Threshold B1</p>
                                 <p class="text-sm text-[#219EBC] font-bold">TOEIC
                                     score
-                                    range of 605 - 780</p>
+                                    range of 550 - 780</p>
                             </div>
                             <svg data-accordion-icon
                                 class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300"
@@ -216,17 +214,16 @@
                     </h2>
                     <div id="accordion-flush-body-3" class="hidden" aria-labelledby="accordion-flush-heading-3">
                         <div class="py-5 border-b border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">This range of values reflects an adequate
-                                English language proficiency for basic work situations. People with values in this
-                                category
-                                may be able to communicate in everyday contexts and may be capable of completing simple
-                                tasks using English. They can understand clear instructions and participate in not too
-                                complex conversations, although they may have difficulty with more technical material or
-                                in-depth discussions.</p>
+                            <p class="mb-2 text-gray-500 dark:text-gray-400">Can understand the main points of clear
+                                standard input on familiar matters regularly encountered in work, school, leisure, etc.
+                                Can deal with most situations likely to arise whilst travelling in an area where the
+                                language is spoken. Can produce simple connected text on topics which are familiar or of
+                                personal interest. Can describe experiences and events, dreams, hopes and ambitions and
+                                briefly give reasons and explanations for opinions and plans.</p>
                         </div>
                     </div>
 
-                    <!-- Elementary Proficiency Plus -->
+                    <!-- Basic user - Waystage A2 -->
                     <h2 id="accordion-flush-heading-4">
                         <button type="button"
                             class="flex items-center justify-between w-full py-3 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
@@ -234,10 +231,10 @@
                             aria-controls="accordion-flush-body-4">
                             <div class="text-left">
                                 <p class="text-xl text-gray-500 font-semibold">
-                                    Elementary Proficiency Plus</p>
+                                    Basic user - Waystage A2</p>
                                 <p class="text-sm text-[#219EBC] font-bold">TOEIC
                                     score
-                                    range of 405 - 600</p>
+                                    range of 225 - 545</p>
                             </div>
                             <svg data-accordion-icon
                                 class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300"
@@ -250,19 +247,16 @@
                     </h2>
                     <div id="accordion-flush-body-4" class="hidden" aria-labelledby="accordion-flush-heading-4">
                         <div class="py-5 border-b border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">This range of values indicates basic
-                                English
-                                skills. Individuals with values here may have a basic understanding of the English
-                                structure
-                                and commonly used vocabulary. They can understand simple texts and communicate in
-                                limited
-                                contexts, such as talking about everyday topics or routine work tasks. They may need
-                                extra
-                                time to process more complex information or to express ideas clearly.</p>
+                            <p class="mb-2 text-gray-500 dark:text-gray-400">Can understand sentences and frequently
+                                used expressions related to areas of most immediate relevance (e.g. very basic personal
+                                and family information, shopping, local geography, employment). Can communicate in
+                                simple and routine tasks requiring a simple and direct exchange of information on
+                                familiar and routine matters. Can describe in simple terms aspects of his/her
+                                background, immediate environment and matters in areas of immediate need.</p>
                         </div>
                     </div>
 
-                    <!-- Elementary Proficiency -->
+                    <!-- Basic user - Breakthrough A1 -->
                     <h2 id="accordion-flush-heading-5">
                         <button type="button"
                             class="flex items-center justify-between w-full py-3 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
@@ -270,10 +264,10 @@
                             aria-controls="accordion-flush-body-5">
                             <div class="text-left">
                                 <p class="text-xl text-gray-500 font-semibold">
-                                    Elementary Proficiency</p>
+                                    Basic user - Breakthrough A1</p>
                                 <p class="text-sm text-[#219EBC] font-bold">TOEIC
                                     score
-                                    range of 255 - 400</p>
+                                    range of 0 - 220</p>
                             </div>
                             <svg data-accordion-icon
                                 class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300"
@@ -286,80 +280,12 @@
                     </h2>
                     <div id="accordion-flush-body-5" class="hidden" aria-labelledby="accordion-flush-heading-5">
                         <div class="py-5 border-b border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">This range of values reflects very limited
-                                English skills. Individuals with values here may be able to understand simple sentences
-                                and
-                                participate in very limited conversations. They may be able to perform basic tasks such
-                                as
-                                filling out forms or delivering very general information, but they will have difficulty
-                                understanding longer or more complex texts.</p>
-                        </div>
-                    </div>
-
-                    <!-- Memorised Proficiency -->
-                    <h2 id="accordion-flush-heading-6">
-                        <button type="button"
-                            class="flex items-center justify-between w-full py-3 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
-                            data-accordion-target="#accordion-flush-body-6" aria-expanded="false"
-                            aria-controls="accordion-flush-body-6">
-                            <div class="text-left">
-                                <p class="text-xl text-gray-500 font-semibold">
-                                    Memorised Proficiency</p>
-                                <p class="text-sm text-[#219EBC] font-bold">TOEIC
-                                    score
-                                    range of 185 - 250</p>
-                            </div>
-                            <svg data-accordion-icon
-                                class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300"
-                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="M9 5 5 1 1 5" />
-                            </svg>
-                        </button>
-                    </h2>
-                    <div id="accordion-flush-body-6" class="hidden" aria-labelledby="accordion-flush-heading-6">
-                        <div class="py-5 border-b border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">This range of values indicates that
-                                individuals have very limited ability in English. They may only be able to remember and
-                                repeat information that is already known with very limited. They can understand a few
-                                simple
-                                sentences and may communicate in very limited contexts, but their English language
-                                skills
-                                are significantly limited.</p>
-                        </div>
-                    </div>
-
-                    <!-- No Useful Proficiency -->
-                    <h2 id="accordion-flush-heading-7">
-                        <button type="button"
-                            class="flex items-center justify-between w-full py-3 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3"
-                            data-accordion-target="#accordion-flush-body-7" aria-expanded="false"
-                            aria-controls="accordion-flush-body-7">
-                            <div class="text-left">
-                                <p class="text-xl text-gray-500 font-semibold">
-                                    No Useful Proficiency</p>
-                                <p class="text-sm text-[#219EBC] font-bold">TOEIC
-                                    score
-                                    range of 10 - 180</p>
-                            </div>
-                            <svg data-accordion-icon
-                                class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300"
-                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="M9 5 5 1 1 5" />
-                            </svg>
-                        </button>
-                    </h2>
-                    <div id="accordion-flush-body-7" class="hidden" aria-labelledby="accordion-flush-heading-7">
-                        <div class="py-5">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400">This range of values indicates that
-                                individuals do not have a useful ability in English for practical purposes. They may not
-                                be
-                                able to understand or communicate in English in a useful context. People with values
-                                here
-                                may have only basic knowledge or no knowledge of English at all.</p>
+                            <p class="mb-2 text-gray-500 dark:text-gray-400">Can understand and use familiar everyday
+                                expressions and very basic phrases aimed at the satisfaction of needs of a concrete
+                                type. Can introduce him/herself and others and can ask and answer questions about
+                                personal details such as where he/she lives, people he/she knows and things he/she has.
+                                Can interact in a simple way provided the other person talks slowly and clearly and is
+                                prepared to help.</p>
                         </div>
                     </div>
 
