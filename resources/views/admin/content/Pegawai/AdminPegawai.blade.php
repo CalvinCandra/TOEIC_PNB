@@ -42,19 +42,19 @@
                     </form>
                 </div>
             {{-- end search --}}
+            <div class="flex justify-between mt-5">
+                <!-- Modal toggle -->
+                <button data-modal-target="TambahPetugas" data-modal-toggle="TambahPetugas" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                    Create Staff Data
+                </button>
+
+                <a href="{{url('/SendMailPetugasAll')}}" class="block text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5 w-32" type="button">
+                    Send Email
+                </a>
+            </div>
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
 
                 <div class="overflow-x-auto w-full">
-                    <div class="flex justify-between">
-                        <!-- Modal toggle -->
-                        <button data-modal-target="TambahPetugas" data-modal-toggle="TambahPetugas" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                            Create Staff Data
-                        </button>
-
-                        <a href="{{url('/SendMailPetugasAll')}}" class="block text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                            Send Email
-                        </a>
-                    </div>
 
                     <!-- table data -->
                     <table class="w-full text-sm text-left text-gray-500 table-auto">

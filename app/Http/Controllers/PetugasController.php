@@ -11,11 +11,13 @@ use App\Models\Peserta;
 use App\Models\Petugas;
 use App\Models\BankSoal;
 use App\Models\Kategori;
+use App\Imports\UserImport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -100,6 +102,19 @@ class PetugasController extends Controller
             toast('Something Went Wrong!','error');
             return redirect()->back();
         }
+    }
+
+    // tambah peserta
+    public function TambahPesertaExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,xls,xlsx',
+        ]);
+
+        Excel::import(new UserImport, $request->file);
+
+        toast('Create Data Success', 'success');
+        return redirect()->back();
     }
 
     // update peserta

@@ -10,6 +10,7 @@ use App\Models\Status;
 use App\Models\Peserta;
 use App\Models\Petugas;
 use App\Models\BankSoal;
+use App\Imports\UserImport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -244,6 +246,19 @@ class AdminController extends Controller
             toast('Something Went Wrong!', 'error');
             return redirect()->back();
         }
+    }
+
+    // tambah peserta
+    public function TambahPesertaExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,xls,xlsx',
+        ]);
+
+        Excel::import(new UserImport, $request->file);
+
+        toast('Create Data Success', 'success');
+        return redirect()->back();
     }
 
     // update peserta

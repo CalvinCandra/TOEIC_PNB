@@ -42,15 +42,15 @@
                     </form>
                 </div>
             {{-- end search --}}
+            <div class="flex mt-5 justify-between">
+                <!-- Modal toggle -->
+                <button data-modal-target="TambahBankSoal" data-modal-toggle="TambahBankSoal" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                    Create Bank Question
+                </button>
+            </div>
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
 
                 <div class="overflow-x-auto w-full">
-                    <div class="flex justify-between">
-                        <!-- Modal toggle -->
-                        <button data-modal-target="TambahBankSoal" data-modal-toggle="TambahBankSoal" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                            Create Bank Question
-                        </button>
-                    </div>
 
                     <!-- table data -->
                     <table class="w-full text-sm text-left text-gray-500 table-auto">
