@@ -4,7 +4,7 @@
         <div class="md:flex md:justify-between md:items-start text-center md:text-left">
             <div class="mb-6 md:mb-0">
                 <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
-                    <img src="{{ asset('img/PNB.png') }}" class="h-10" alt="PNB Logo">
+                    <img src="{{ asset('img/logo unit.png') }}" class="h-10" alt="PNB Logo">
                     <div class="flex flex-col items-center">
                         <span
                             class="block text-base font-bold whitespace-nowrap text-white flex-grow flex-basis-0">TOEIC
@@ -31,20 +31,16 @@
         </div>
         <!-- Social Media Icons -->
         <div class="flex mt-6 space-x-6 justify-center">
-            <a href="https://www.facebook.com/PoltekBali/" target="_blank" class="text-gray-400 hover:text-white">
+            <a href="https://www.facebook.com/share/kFw5xf3e4BEJupMd/?mibextid=LQQJ4d" target="_blank"
+                class="text-gray-400 hover:text-white">
                 <i class="fab fa-facebook-f"></i>
             </a>
-            <a href="https://www.youtube.com/c/PoliteknikNegeriBaliOfficial" target="_blank"
-                class="text-gray-400 hover:text-white">
+            <a href="https://bit.ly/3LhbsEl" target="_blank" class="text-gray-400 hover:text-white">
                 <i class="fab fa-youtube"></i>
             </a>
-            <a href="https://www.instagram.com/politeknik_negeri_bali" target="_blank"
+            <a href="https://www.instagram.com/unitbahasapnb?igsh=MW12YnExd3FnYW12Ng==" target="_blank"
                 class="text-gray-400 hover:text-white">
                 <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.linkedin.com/school/politeknik-negeri-bali/?originalSubdomain=id" target="_blank"
-                class="text-gray-400 hover:text-white">
-                <i class="fab fa-linkedin-in"></i>
             </a>
         </div>
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />

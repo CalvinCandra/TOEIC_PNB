@@ -74,7 +74,7 @@ class NilaiController extends Controller
             'rangeSkor' => $rangeSkor,
             'detail' => $detail,
         ])->setPaper('a4', 'portrait')
-        ->setOption('isRemoteEnabled', true);
+            ->setOption('isRemoteEnabled', true);
 
         $pdfPath = storage_path('app/public/') . 'Result_' . $peserta->nim . '_' . Str::random(5) . '.pdf';
         $pdf->save($pdfPath);
@@ -109,22 +109,16 @@ class NilaiController extends Controller
     // Function untuk penentu kategori berdasarkan total skor
     private function determineCategory($totalSkor)
     {
-        if ($totalSkor >= 905 && $totalSkor <= 990) {
-            return ['kategori' => 'International Proficiency', 'range' => '905-990', 'detail' => 'This range of values indicates that the individual has a very high ability to speak English. They are able to communicate smoothly and effectively in a variety of professional and academic contexts. People in this category can easily understand complex texts, follow quick conversations, and express themselves clearly and persuasively. They can interact with native and non-native English speakers with confidence, using extensive vocabulary and complex sentence structure.'];
-        } elseif ($totalSkor >= 785 && $totalSkor <= 900) {
-            return ['kategori' => 'Working Proficiency Plus', 'range' => '785-900', 'detail' => 'This range of values indicates excellent English proficiency for professional needs. Individuals in this category are able to communicate smoothly in various work and daily life situations. They can understand relatively complex texts, follow in-depth discussions, and convey ideas clearly and organizedly. They may still require a little adaptation to interact in very formal or technical situations, but generally they can perform English tasks well.'];
-        } elseif ($totalSkor >= 605 && $totalSkor <= 780) {
-            return ['kategori' => 'Limited Working Proficiency', 'range' => '605-780', 'detail' => 'This range of values reflects an adequate English language proficiency for basic work situations. People with values in this category may be able to communicate in everyday contexts and may be capable of completing simple tasks using English. They can understand clear instructions and participate in not too complex conversations, although they may have difficulty with more technical material or in-depth discussions.'];
-        } elseif ($totalSkor >= 405 && $totalSkor <= 600) {
-            return ['kategori' => 'Elementary Proficiency Plus', 'range' => '405-600', 'detail' => 'This range of values indicates basic English skills. Individuals with values here may have a basic understanding of the English structure and commonly used vocabulary. They can understand simple texts and communicate in limited contexts, such as talking about everyday topics or routine work tasks. They may need extra time to process more complex information or to express ideas clearly.'];
-        } elseif ($totalSkor >= 255 && $totalSkor <= 400) {
-            return ['kategori' => 'Elementary Proficiency', 'range' => '255-400', 'detail' => 'This range of values reflects very limited English skills. Individuals with values here may be able to understand simple sentences and participate in very limited conversations. They may be able to perform basic tasks such as filling out forms or delivering very general information, but they will have difficulty understanding longer or more complex texts.'];
-        } elseif ($totalSkor >= 185 && $totalSkor <= 250) {
-            return ['kategori' => 'Memorised Proficiency', 'range' => '185-250', 'detail' => 'This range of values indicates that individuals have very limited ability in English. They may only be able to remember and repeat information that is already known with very limited. They can understand a few simple sentences and may communicate in very limited contexts, but their English language skills are significantly limited.'];
-        } elseif ($totalSkor >= 10 && $totalSkor <= 180) {
-            return ['kategori' => 'No Useful Proficiency', 'range' => '10-180', 'detail' => 'This range of values indicates that individuals do not have a useful ability in English for practical purposes. They may not be able to understand or communicate in English in a useful context. People with values here may have only basic knowledge or no knowledge of English at all.'];
-        } elseif ($totalSkor < 10) {
-            return ['kategori' => 'No Proficiency', 'range' => '5-0', 'detail' => 'This score range indicates that individuals have no practical proficiency in English. They may not be able to understand or communicate in English at all. People with scores in this range may have no knowledge of English or have not yet started learning it.'];
+        if ($totalSkor >= 945 && $totalSkor <= 990) {
+            return ['kategori' => 'Proficient user - Effective Operational Proficiency C1', 'range' => '945 - 990', 'detail' => 'Can understand a wide range of demanding, longer texts, and recognise implicit meaning. Can express him/ herself fluently and spontaneously without much obvious searching for expressions. Can use language flexibly and effectively for social, academic and professional purposes. Can produce clear, well-structured, detailed text on complex subjects, showing controlled use of organisational patterns, connectors and cohesive devices.'];
+        } elseif ($totalSkor >= 785 && $totalSkor <= 940) {
+            return ['kategori' => 'Independent user - Vantage B2', 'range' => '785 - 940', 'detail' => 'Can understand the main ideas of complex text on both concrete and abstract topics, including technical discussions in his/her field of specialisation. Can interact with a degree of fluency and spontaneity that makes regular interaction with native speakers quite possible without strain for either party. Can produce clear, detailed text on a wide range of subjects and explain a viewpoint on a topical issue giving the advantages and disadvantages of various options.'];
+        } elseif ($totalSkor >= 550 && $totalSkor <= 780) {
+            return ['kategori' => 'Independent user - Threshold B1', 'range' => '550 - 780', 'detail' => 'Can understand the main points of clear standard input on familiar matters regularly encountered in work, school, leisure, etc. Can deal with most situations likely to arise whilst travelling in an area where the language is spoken. Can produce simple connected text on topics which are familiar or of personal interest. Can describe experiences and events, dreams, hopes and ambitions and briefly give reasons and explanations for opinions and plans.'];
+        } elseif ($totalSkor >= 225 && $totalSkor <= 545) {
+            return ['kategori' => 'Basic user - Waystage A2', 'range' => '225 - 545', 'detail' => 'Can understand sentences and frequently used expressions related to areas of most immediate relevance (e.g. very basic personal and family information, shopping, local geography, employment). Can communicate in simple and routine tasks requiring a simple and direct exchange of information on familiar and routine matters. Can describe in simple terms aspects of his/her background, immediate environment and matters in areas of immediate need.'];
+        } elseif ($totalSkor >= 0 && $totalSkor <= 220) {
+            return ['kategori' => 'Basic user - Breakthrough A1', 'range' => '0 - 220', 'detail' => 'Can understand and use familiar everyday expressions and very basic phrases aimed at the satisfaction of needs of a concrete type. Can introduce him/herself and others and can ask and answer questions about personal details such as where he/she lives, people he/she knows and things he/she has. Can interact in a simple way provided the other person talks slowly and clearly and is prepared to help.'];
         }
     }
 }

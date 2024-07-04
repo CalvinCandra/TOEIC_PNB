@@ -2,7 +2,7 @@
 <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="{{ asset('img/PNB.png') }}" class="h-10" alt="PNB Logo">
+            <img src="{{ asset('img/logo unit.png') }}" class="h-10" alt="Logo Unit PNB">
             <div class="flex flex-col items-center">
                 <span class="block text-base font-bold whitespace-nowrap dark:text-white flex-grow flex-basis-0">TOEIC
                     ASSESSMENT</span>
