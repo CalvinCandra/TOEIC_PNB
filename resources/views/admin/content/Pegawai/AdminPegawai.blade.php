@@ -6,7 +6,6 @@
 
 {{-- membuat content disini --}}
 @section('content')
-
 {{-- konten --}}
 <section class="p-4 md:ml-64 h-auto pt-20">
     <h1>Staff Data</h1>
@@ -118,7 +117,6 @@
 </section>
 {{-- end konten --}}
 
-
 {{-- Modal Tambah --}}
 <div id="TambahPetugas" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -145,7 +143,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/TambahPetugas')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/TambahPetugas')}}" method="POST">
                     @csrf
 
                     <div>
@@ -162,7 +160,7 @@
                             placeholder="Example : youremail@gmail.com" required />
                     </div>
 
-                    <button type="submit"
+                    <button id="tambah" type="submit"
                         class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
 
                 </form>
@@ -198,7 +196,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/UpdatePetugas')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/UpdatePetugas')}}" method="POST" >
                     @csrf
 
                     <input type="hidden" name="id_petugas" id="edit-petugas">
@@ -217,8 +215,8 @@
                             placeholder="Example : youremail@gmail.com" required />
                     </div>
 
-                    <button type="submit"
-                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                    <button id="update" type="submit"
+                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
 
                 </form>
             </div>
@@ -250,24 +248,22 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form action="{{url('/DeletePetugas')}}" method="POST">
+                <form class="modal-form" action="{{url('/DeletePetugas')}}" method="POST">
                     @csrf
                     <input type="hidden" id="hapus-petugas" name="id_petugas">
                     
                     <button data-modal-toggle="DeletePetugas" type="button"
                         class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                         Cancel</button>
-                    <input type="submit"
+                    <button type="submit"
                         class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-                        value="Yes, I'm Sure!">
+                        >Yes, I'm Sure!</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 {{-- End Modal Delete --}}
-
-
 
 <script>
     function edit(baris, id) {

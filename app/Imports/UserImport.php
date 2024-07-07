@@ -47,6 +47,8 @@ class UserImport implements ToModel, WithHeadingRow
             'token' => $password,
             'kelamin' => $kelamin,
             'jurusan' => $row['jurusan'],
+            'skor_listening' => 0,
+            'skor_reading' => 0,
             'id_users' => $user['id'],
         ]);
 

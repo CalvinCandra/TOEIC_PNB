@@ -23,4 +23,10 @@ class Gambar extends Model
     {
         return $this->belongsTo(Soal::class, 'id_gambar', 'id_gambar');
     }
+    
+    // part
+    public function part(): BelongsTo
+    {
+        return $this->belongsTo(Part::class, 'id_gambar', 'id_gambar');
+    }
 }

@@ -6,6 +6,7 @@
 
 @php
     use App\Models\Audio;
+    use App\Models\Gambar;
 @endphp
 
 {{-- membuat content disini --}}
@@ -72,6 +73,7 @@
                                     <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[150px]">OPtion C</th>
                                     <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[150px]">OPtion D</th>
                                     <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Key</th>
+                                    <th scope="col" class="px-4 py-3 border-2">Image</th>
                                     <th scope="col" class="px-4 py-3 border-2">Audio</th>
                                     <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Staff</th>
                                     <th scope="col" class="px-4 py-3 border-2">Actions</th>
@@ -94,6 +96,16 @@
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_c }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_d }}</td>
                                         <td class="px-4 py-3 border-2">{{ $data->kunci_jawaban }}</td>
+
+                                        @if (!$data->id_gambar == null)
+                                            <td class="px-4 py-3 border-2 whitespace-nowrap">
+                                                <a class="" href="{{ asset('storage/gambar/'.$data->gambar->gambar) }}" data-lightbox="example-1" target="__blank" id='link-foto'>
+                                                    <h1 class="text-sky-500 italic font-weight-bold hover:underline">See Image</h1>
+                                                </a>
+                                            </td>
+                                        @else 
+                                            <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
+                                        @endif
 
                                         @if (!$data->id_audio == null)
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">
@@ -177,7 +189,7 @@
 
                 <!-- Modal body -->
                 <div class="p-4 md:p-5">
-                    <form class="space-y-4" action="{{ url('/TambahSoalListeningAdmin') }}" method="POST">
+                    <form class="space-y-4 modal-form" action="{{ url('/TambahSoalListeningAdmin') }}" method="POST">
                         @csrf
                         {{-- ambil id_bank --}}
                         <input type="hidden" value="{{ $id_bank }}" name="id_bank">
@@ -243,6 +255,16 @@
                         </div>
 
                         <div class="">
+                            <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Image (Opsional)</label>
+                            <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                <option selected hidden value="">-- Choose a File Image --</option>
+                                @foreach ($gambar as $item)
+                                    <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="">
                             <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Audio (Opsional)</label>
                             <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                 <option selected hidden value="">-- Choose a File Audio --</option>
@@ -288,7 +310,7 @@
 
                     <!-- Modal body -->
                     <div class="p-4 md:p-5">
-                        <form class="space-y-4" action="{{ url('/UpdateSoalListeningAdmin') }}" method="POST">
+                        <form class="space-y-4 modal-form" action="{{ url('/UpdateSoalListeningAdmin') }}" method="POST">
                             @csrf
 
                             <input type="hidden" name="id_soal" value="{{ $data->id_soal }}">
@@ -354,6 +376,28 @@
                             </div>
 
                             <div class="">
+                                <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Image</label>
+                                <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                    @php
+                                        $Gambar = Gambar::where('id_gambar', $data->id_gambar)->first();
+                                    @endphp
+        
+                                    @if (!$data->id_gambar)
+                                        <option selected hidden value="">-- Choose a File Image --</option>
+                                        @foreach ($gambar as $item)
+                                            <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
+                                        @endforeach
+                                    @else
+                                        <option selected hidden value="{{$Gambar->id_gambar}}">{{ $Gambar->gambar }}</option>
+                                        @foreach ($gambar as $item)
+                                            <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
+                                        @endforeach
+                                        <option value="">Remove Image From Question</option>
+                                    @endif
+                                </select>
+                            </div>
+
+                            <div class="">
                                 <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Audio</label>
                                 <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                     @php
@@ -409,7 +453,7 @@
 
                 <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
                 <div class="flex justify-center items-center space-x-4">
-                    <form action="{{ url('/DeleteSoalListeningAdmin') }}" method="POST">
+                    <form class="modal-form" action="{{ url('/DeleteSoalListeningAdmin') }}" method="POST">
                         @csrf
                         <input type="hidden" id="hapus-soal" name="id_soal">
 

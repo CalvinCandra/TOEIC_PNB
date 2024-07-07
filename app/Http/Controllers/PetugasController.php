@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Part;
 use App\Models\Soal;
 use App\Models\User;
 use App\Models\Audio;
@@ -79,6 +80,8 @@ class PetugasController extends Controller
                 'token' => $password,
                 'kelamin' => $request->kelamin,
                 'jurusan' => $request->jurusan,
+                'skor_listening' => 0,
+                'skor_reading' => 0,
                 'id_users' => $User['id'],
             ]);
 
@@ -452,6 +455,182 @@ class PetugasController extends Controller
     }
     // ======================================= END BANK SOAL =====================================
 
+    // ======================================= PART SOAL READING =====================================
+    // dash
+    public function dashPetugasPartReading(Request $request, $id)
+    {
+        $search = $request->search;
+
+        if ($search) {
+            $part = Part::with(['bank','gambar'])
+                ->where('id_bank', $id)
+                ->where('kategori', 'Reading')
+                ->orWhere('part', 'LIKE', '%' . $search . '%')
+                ->paginate();
+        } else {
+            $part = Part::with(['bank','gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->paginate(15);
+        }
+
+        // lempar id_bank ke dalam view
+        $id_bank = $id;
+
+        // get data gambar
+        $gambar = Gambar::all();
+
+        // get penomoran otomatis
+        $tanda = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('tanda', 'desc')->first();
+
+        // jika blm ada soal
+        if($tanda == null){
+            $nomor = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $nomor = intval($tanda->tanda) + 1;
+        }
+
+        return view('petugas.content.Part.partReading', compact(['part','id_bank','gambar','nomor'])); // Kirim data ke view
+    }
+
+    // tambah
+    public function TambahReadingPartPetugas(Request $request){
+
+        // generate token otomatis
+        $token_part = strtoupper(Str::password(5, true, true, false, false));
+
+        Part::create([
+            'part' => $request->part,
+            'kategori' => 'Reading',
+            'petunjuk' => $request->petunjuk,
+            'dari_nomor' => $request->dari_nomor,
+            'sampai_nomor' => $request->sampai_nomor,
+            'token_part' => $token_part,
+            'id_bank' => $request->id_bank,
+            'id_gambar' => $request->gambar,
+            'id_audio' => NULL,
+        ]);
+
+        toast('Create Data Successful!', 'success');
+        return redirect()->back();
+    }
+
+    // update part 
+    public function UpdateReadingPartPetugas(Request $request)
+    {
+        if ($request->ismethod('post')) {
+
+            Part::where('id_part', $request->id_part)->update([
+                'part' => $request->part,
+                'kategori' => 'Reading',
+                'petunjuk' => $request->petunjuk,
+                'dari_nomor' => $request->dari_nomor,
+                'sampai_nomor' => $request->sampai_nomor,
+                'id_bank' => $request->id_bank,
+                'id_gambar' => $request->gambar,
+                'id_audio' => NULL,
+            ]);
+
+            toast('Update Data Successful!', 'success');
+            return redirect()->back();
+        }
+    }
+
+    // delete soal
+    public function DeleteReadingPartPetugas(Request $request)
+    {
+        Part::findOrFail($request->id_part)->delete();
+        toast('Delete Data Successful!', 'success');
+        return redirect()->back();
+    }
+    // ======================================= END PART SOAL READING =====================================
+
+    // ======================================= PART SOAL LISTENING =====================================
+    // dash
+    public function dashPetugasPartListening(Request $request, $id)
+    {
+        $search = $request->search;
+
+        if ($search) {
+            $part = Part::with(['bank','audio','gambar'])
+                ->where('id_bank', $id)
+                ->where('kategori', 'Listening')
+                ->orWhere('part', 'LIKE', '%' . $search . '%')
+                ->paginate();
+        } else {
+            $part = Part::with(['bank','audio','gambar'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
+        }
+
+        // lempar id_bank ke dalam view
+        $id_bank = $id;
+
+        // get data gambar
+        $gambar = Gambar::all();
+
+        // get data audio
+        $audio = Audio::all();
+
+        // get penomoran otomatis
+        $tanda = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('tanda', 'desc')->first();
+
+        // jika blm ada soal
+        if($tanda == null){
+            $nomor = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $nomor = intval($tanda->tanda) + 1;
+        }
+
+        return view('petugas.content.Part.partListening', compact(['part','id_bank','gambar','audio','$nomor'])); // Kirim data ke view
+    }
+
+    // tambah
+    public function TambahListeningPartPetugas(Request $request){
+
+        // generate token otomatis
+        $token_part = strtoupper(Str::password(5, true, true, false, false));
+
+        Part::create([
+            'part' => $request->part,
+            'kategori' => 'Listening',
+            'petunjuk' => $request->petunjuk,
+            'dari_nomor' => $request->dari_nomor,
+            'sampai_nomor' => $request->sampai_nomor,
+            'token_part' => $token_part,
+            'id_bank' => $request->id_bank,
+            'id_gambar' => $request->gambar,
+            'id_audio' => $request->audio,
+        ]);
+
+        toast('Create Data Successful!', 'success');
+        return redirect()->back();
+    }
+
+    // update part 
+    public function UpdateListeningPartPetugas(Request $request)
+    {
+        if ($request->ismethod('post')) {
+
+            Part::where('id_part', $request->id_part)->update([
+                'part' => $request->part,
+                'kategori' => 'Listening',
+                'petunjuk' => $request->petunjuk,
+                'dari_nomor' => $request->dari_nomor,
+                'sampai_nomor' => $request->sampai_nomor,
+                'id_bank' => $request->id_bank,
+                'id_gambar' => $request->gambar,
+                'id_audio' => $request->audio,
+            ]);
+
+            toast('Update Data Successful!', 'success');
+            return redirect()->back();
+        }
+    }
+
+    // delete soal
+    public function DeleteListeningPartPetugas(Request $request)
+    {
+        Part::findOrFail($request->id_part)->delete();
+        toast('Delete Data Successful!', 'success');
+        return redirect()->back();
+    }
+    // ======================================= END PART SOAL READING =====================================
 
     // ======================================= SOAL READING =====================================
     // menampilkan data soal

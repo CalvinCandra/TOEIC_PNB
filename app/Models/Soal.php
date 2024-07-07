@@ -27,7 +27,6 @@ class Soal extends Model
         'id_audio',
         'id_users',
         'id_bank',
-        'token_soal',
         'created_at',
         'update_at',
     ];
