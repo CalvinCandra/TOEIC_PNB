@@ -13,7 +13,7 @@
     <h5 class="mb-2 text-2xl font-bold tracking-tight">TOEIC</h5>
     <p class="font-normal text-gray-700">TOEIC is a popular English quiz, because this quiz certificate can be used in various places.</p>
   </button> --}}
-        <a href="#" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
+        <a data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
             class="relative flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 group">
             <img class="object-cover w-full rounded-t-lg h- md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
                 src="{{ asset('img/English.png') }}" alt="">
@@ -84,5 +84,13 @@
             history.replaceState(null, null, document.URL);
         });
     </script>
+
+    {{-- <script>
+        // Matikan tombol back di browser
+        history.pushState(null, null, window.location.href);
+        window.onpopstate = function(event) {
+            history.go(1); // Kembali ke halaman saat ini jika tombol back ditekan
+        };
+    </script> --}}
 
 @endsection

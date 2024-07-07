@@ -22,4 +22,10 @@ class BankSoal extends Model
     {
         return $this->belongsTo(Soal::class, 'id_bank', 'id_bank');
     }
+
+     // part
+     public function part(): BelongsTo
+     {
+         return $this->belongsTo(Part::class, 'id_bank', 'id_bank');
+     }
 }

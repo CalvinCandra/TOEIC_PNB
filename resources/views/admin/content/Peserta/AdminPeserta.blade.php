@@ -73,6 +73,9 @@
                                 <th scope="col" class="px-4 py-3 border-2">Gender</th>
                                 <th scope="col" class="px-4 py-3 border-2">Major</th>
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status</th>
+                                <th scope="col" class="px-4 py-3 border-2">Score Listening</th>
+                                <th scope="col" class="px-4 py-3 border-2">Score Reading</th>
+                                <th scope="col" class="px-4 py-3 border-2">Total Score</th>
                                 <th scope="col" class="px-4 py-3 border-2">Actions</th>
                             </tr>
                         </thead>
@@ -95,6 +98,11 @@
                                     @else
                                         <td class="px-4 py-3 border-2">Yet</td>
                                     @endif
+
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening}}</td>
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_reading}}</td>
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening + $data->skor_reading}}</td>
+
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">
                                         <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
                                             <li>
@@ -166,7 +174,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/TambahPesertaExcelAdmin')}}" method="POST" enctype="multipart/form-data">
+                <form class="space-y-4 modal-form" action="{{url('/TambahPesertaExcelAdmin')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">File Excel</label>
@@ -208,7 +216,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/TambahPeserta')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/TambahPeserta')}}" method="POST">
                     @csrf
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name Full</label>
@@ -294,7 +302,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/UpdatePeserta')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/UpdatePeserta')}}" method="POST">
                     @csrf
 
                     <input type="hidden" name="id_peserta" value="{{$data->id_peserta}}">
@@ -406,7 +414,7 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form action="{{url('/DeletePeserta')}}" method="POST">
+                <form class="modal-form" action="{{url('/DeletePeserta')}}" method="POST">
                     @csrf
                     <input type="hidden" id="hapus-peserta" name="id_peserta">
                     

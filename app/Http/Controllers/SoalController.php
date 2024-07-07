@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Part;
 use App\Models\Soal;
+use App\Models\Nilai;
 use App\Models\Status;
 use App\Models\Peserta;
 use App\Models\BankSoal;
@@ -26,7 +28,7 @@ class SoalController extends Controller
         return view("peserta.Soal.ListeningAturan");
     }
 
-    // function get data soal untuk yang pertama
+    // function get data part untuk yang pertama
     public function GetListening(Request $request)
     {
         // pengecekan session
@@ -42,7 +44,7 @@ class SoalController extends Controller
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
 
         // get data soal berdasarkan kategori listening dan id_bank
-        $soalListening = Soal::with('audio')->where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->first();
+        $PartListening = Part::where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->first();
 
         // set waktu awal quiz menggunakan Carbon
         $quizStartTime = Carbon::now();
@@ -52,10 +54,18 @@ class SoalController extends Controller
         // kirim dalam bentuk session
         $request->session()->put('quizEndTime', $quizEndTime);
 
-        return redirect("/SoalListening" . "/" . $soalListening->token_soal);
+        // get data peserta
+        $peserta = Peserta::where('id_users', auth()->user()->id)->first();
+
+        // ubah status peserta menjadi sudah selesai
+        // Status::where('id_peserta', $peserta->id_peserta)->update([
+        //     'status_pengerjaan' => 'Sudah'
+        // ]);
+
+        return redirect("/SoalListening" . "/" . $PartListening->token_part);
     }
 
-    // function get data soal berdasarkan nomor
+    // function get data part berdasarkan nomor
     public function SoalListening(Request $request, $token)
     {
         // pengecekan session
@@ -66,16 +76,23 @@ class SoalController extends Controller
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
 
+        // get data part berdasarkan token
+        $part = Part::with(['audio','gambar'])->where('kategori', 'Listening')->where('token_part', $token)->first();
+
+        // get all data Part berdasarkan id_bank
+        $GetAllPart = Part::where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->get();
+
         // berdasarkan token_soal dan bank soal
-        $soalListening = Soal::with('audio')
-            ->where('kategori', 'Listening')
-            ->where('token_soal', $token)
-            ->where('id_bank', $getBank->id_bank)
-            ->first();
-
-
-        // get data soal berdasarkan kategori listening dan id_bank
-        $soal = Soal::with('audio')->where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->get();
+        $soalListening = Soal::with('audio','gambar')
+            ->join('bank_soal', 'bank_soal.id_bank' ,'=', 'soal.id_bank')
+            ->join('part', 'part.id_bank' ,'=', 'bank_soal.id_bank')
+            ->where('part.kategori', 'Listening')
+            ->where('soal.kategori', 'Listening')
+            ->where('part.token_part', $token)
+            ->where('part.id_bank', $getBank->id_bank)
+            ->whereBetween('soal.nomor_soal', [$part->dari_nomor, $part->sampai_nomor])
+            ->select('soal.*')
+            ->get();
 
         // Periksa apakah waktu sudah habis menggunakan Carbon
         $currentTime = Carbon::now(); // get waktu sekarang
@@ -88,10 +105,10 @@ class SoalController extends Controller
         //set session for audio
         $audioPlayed = $request->session()->get('audio_played', false);
 
-        return view('peserta.Soal.Listeningtest', compact(['soalListening', 'soal', 'audioPlayed']));
+        return view('peserta.Soal.Listeningtest', compact(['soalListening', 'audioPlayed','part', 'GetAllPart']));
     }
 
-    // proses menjawab untuk reading
+    // proses menjawab untuk listening
     public function ProsesJawabListening(Request $request)
     {
         // pengecekan session
@@ -113,36 +130,34 @@ class SoalController extends Controller
             // get jawaban peserta
             $jawaban = $request->jawaban;
 
-            // jika tidak menjawaba
-            if($jawaban == null){
-                $jawaban = 'N';
-            }
-
             //reset the audio session
             $request->session()->forget('audio_played');
 
+            foreach ($request->id_soal as $idSoal) {
+                // get jawaban user
+                $jawaban = $request->jawaban[$idSoal] ?? 'N'; // jika tidak menjawab
+    
+                // insert data kedalam database
+                JawabanPeserta::create([
+                    'id_peserta' => $user,
+                    'id_soal' => $idSoal,
+                    'jawaban' => $jawaban,
+                ]);
+            }
+
             if ($request->tombol == 'next') {
-                // insert data kedalam database
-                JawabanPeserta::create([
-                    'id_peserta' => $user,
-                    'id_soal' => $idSoal,
-                    'jawaban' => $jawaban,
-                ]);
 
+                // get data part berdasarkan id_part dan id_bank
+                $part = Part::where('id_part', $request->id_part)->where('id_bank', $getBank->id_bank)->first();
 
-                // get data soal berdasarkan id_soal dan id_bank
-                $soal = Soal::where('id_soal', $idSoal)->where('id_bank', $getBank->id_bank)->first();
-                // memilih soal selanjutnya
-                $soalListening = Soal::where('nomor_soal', $soal->nomor_soal + 1)->where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->first();
+                // memilih part selanjutnya
+                $PartNext = Part::where('tanda', $part->tanda+1)->where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->first();
 
-                return redirect("/SoalListening" . "/" . $soalListening->token_soal);
+                return redirect("/SoalListening" . "/" . $PartNext->token_part);
             } else {
-                // insert data kedalam database
-                JawabanPeserta::create([
-                    'id_peserta' => $user,
-                    'id_soal' => $idSoal,
-                    'jawaban' => $jawaban,
-                ]);
+                //hapus ession waktu sebelumnya
+                $request->session()->forget('waktu');
+                $request->session()->forget('quizEndTime');
 
                 return redirect()->route('nilaiListening');
             }
@@ -204,17 +219,23 @@ class SoalController extends Controller
         $request->session()->put('benarReading', $request->session()->get('benarReading'));
         $request->session()->put('salahReading', $request->session()->get('salahReading'));
 
-        // ubah status peserta menjadi sudah selesai
-        Status::where('id_peserta', $peserta->id_peserta)->update([
-            'status_pengerjaan' => 'Sudah'
-        ]);
-
         // menghapus data sebelumnya di database
         JawabanPeserta::where('id_peserta', $peserta->id_peserta)->delete();
-        //hapus ession waktu sebelumnya
+
+        // Mencocokkan nilai benar dengan skala nilai di database
+        $nilaiListening = Nilai::where('jawaban_benar', $JumlahBenar)->first();
+
+        // Jika tidak ditemukan, default skor ke 0
+        $skorListening = $nilaiListening ? $nilaiListening->skor_listening : 0;
+
+        // update database
+        $peserta->update([
+            'skor_listening' => $skorListening,
+        ]);
+
+        //hapus session waktu sebelumnya
         $request->session()->forget('waktu');
         $request->session()->forget('quizEndTime');
-
 
         return redirect('/Reading');
     }
@@ -242,8 +263,8 @@ class SoalController extends Controller
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
 
-        // get data soal berdasarkan kategori reading dan bank soal
-        $soalReading = Soal::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
+        // get data soal berdasarkan kategori listening dan id_bank
+        $PartListening = Part::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
 
         // set waktu awal quiz menggunakan Carbon
         $quizStartTime = Carbon::now();
@@ -253,7 +274,7 @@ class SoalController extends Controller
         // kirim dalam bentuk session
         $request->session()->put('quizEndTime', $quizEndTime);
 
-        return redirect("/SoalReading" . "/" . $soalReading->token_soal);
+        return redirect("/SoalReading" . "/" . $PartListening->token_part);
     }
 
     // get data soal berdasarkan nomor
@@ -267,14 +288,23 @@ class SoalController extends Controller
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
 
-        // berdasarkan nomor_soal dan bank soal
-        $soalReading = Soal::where('kategori', 'Reading')
-            ->where('token_soal', $token)
-            ->where('id_bank', $getBank->id_bank)
-            ->first();
+        // get data part berdasarkan token
+        $part = Part::with(['audio','gambar'])->where('kategori', 'Reading')->where('token_part', $token)->first();
 
-        // get data soal keseluruhan berdasarkan kategori dan id_bank
-        $soal = Soal::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->get();
+        // get all data Part berdasarkan id_bank
+        $GetAllPart = Part::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->get();
+
+        // berdasarkan token_soal dan bank soal
+        $soalReading = Soal::with('audio','gambar')
+            ->join('bank_soal', 'bank_soal.id_bank' ,'=', 'soal.id_bank')
+            ->join('part', 'part.id_bank' ,'=', 'bank_soal.id_bank')
+            ->where('part.kategori', 'Reading')
+            ->where('soal.kategori', 'Reading')
+            ->where('part.token_part', $token)
+            ->where('part.id_bank', $getBank->id_bank)
+            ->whereBetween('soal.nomor_soal', [$part->dari_nomor, $part->sampai_nomor])
+            ->select('soal.*')
+            ->get();
 
         // Periksa apakah waktu sudah habis menggunakan Carbon
         $currentTime = Carbon::now(); // get waktu sekarang
@@ -284,7 +314,7 @@ class SoalController extends Controller
         // kirim waktu ke blade agar bisa dikondisikan
         $request->session()->put('waktu', $remainingTime);
 
-        return view('peserta.Soal.Readingtest', compact(['soalReading', 'soal']));
+        return view('peserta.Soal.Readingtest', compact(['soalReading', 'part', 'GetAllPart']));
     }
 
     // proses menjawab untuk reading
@@ -309,33 +339,32 @@ class SoalController extends Controller
             // get jawaban peserta
             $jawaban = $request->jawaban;
 
-            // jika tidak menjawaba
-            if($jawaban == null){
-                $jawaban = 'N';
+            foreach ($request->id_soal as $idSoal) {
+                // get jawaban user
+                $jawaban = $request->jawaban[$idSoal] ?? 'N'; // jika tidak menjawab
+    
+                // insert data kedalam database
+                JawabanPeserta::create([
+                    'id_peserta' => $user,
+                    'id_soal' => $idSoal,
+                    'jawaban' => $jawaban,
+                ]);
             }
 
             if ($request->tombol == 'next') {
-                // insert data kedalam database
-                JawabanPeserta::create([
-                    'id_peserta' => $user,
-                    'id_soal' => $idSoal,
-                    'jawaban' => $jawaban,
-                ]);
+                
+                // get data part berdasarkan id_part dan id_bank
+                $part = Part::where('id_part', $request->id_part)->where('id_bank', $getBank->id_bank)->first();
 
-                // get data soal berdasarkan id_soal dan id_bank
-                $soal = Soal::where('id_soal', $idSoal)->where('id_bank', $getBank->id_bank)->first();
-                // memilih soal selanjutnya
-                $soalReading = Soal::where('nomor_soal', $soal->nomor_soal + 1)->where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
+                // memilih part selanjutnya
+                $PartNext = Part::where('tanda', $part->tanda+1)->where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
 
-                return redirect("/SoalReading" . "/" . $soalReading->token_soal);
+                return redirect("/SoalReading" . "/" . $PartNext->token_part);
             } else {
-                // insert data kedalam database
-                JawabanPeserta::create([
-                    'id_peserta' => $user,
-                    'id_soal' => $idSoal,
-                    'jawaban' => $jawaban,
-                ]);
-
+                //hapus ession waktu sebelumnya
+                $request->session()->forget('waktu');
+                $request->session()->forget('quizEndTime');
+                
                 return redirect()->route('nilaiReading');
             }
         }
@@ -392,6 +421,17 @@ class SoalController extends Controller
         $request->session()->forget('waktu');
         $request->session()->forget('quizEndTime');
 
+        // Mencocokkan nilai benar dengan skala nilai di database
+        $nilaiReading = Nilai::where('jawaban_benar', $JumlahBenar)->first();
+
+        // Jika tidak ditemukan, default skor ke 0
+        $skorReading = $nilaiReading ? $nilaiReading->skor_reading : 0;
+
+        // update database
+        $peserta->update([
+            'skor_reading' => $skorReading,
+        ]);
+
         return redirect('/Result');
     }
 
@@ -404,6 +444,8 @@ class SoalController extends Controller
         $request->session()->forget('salahListening');
         $request->session()->forget('bank');
         $request->session()->forget('email_sent');
+        $request->session()->forget('email_sent');
+        $request->session()->forget('quizEndTime');
         return redirect('/DashboardSoal');
     }
 

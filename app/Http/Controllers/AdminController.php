@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Part;
 use App\Models\Soal;
 use App\Models\User;
 use App\Models\Audio;
@@ -16,9 +17,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
-use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -223,6 +224,8 @@ class AdminController extends Controller
                 'token' => $password,
                 'kelamin' => $request->kelamin,
                 'jurusan' => $request->jurusan,
+                'skor_listening' => 0,
+                'skor_reading' => 0,
                 'id_users' => $User['id'],
             ]);
 
@@ -605,6 +608,184 @@ class AdminController extends Controller
     // ======================================= END BANK SOAL =====================================
 
 
+    // ======================================= PART SOAL READING =====================================
+    // dash
+    public function dashAdminPartReading(Request $request, $id)
+    {
+        $search = $request->search;
+
+        if ($search) {
+            $part = Part::with(['bank','gambar'])
+                ->where('id_bank', $id)
+                ->where('kategori', 'Reading')
+                ->orWhere('part', 'LIKE', '%' . $search . '%')
+                ->paginate();
+        } else {
+            $part = Part::with(['bank','gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->paginate(15);
+        }
+
+        // lempar id_bank ke dalam view
+        $id_bank = $id;
+
+        // get data gambar
+        $gambar = Gambar::all();
+
+        // get penomoran otomatis
+        $tanda = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('tanda', 'desc')->first();
+
+        // jika blm ada soal
+        if($tanda == null){
+            $nomor = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $nomor = intval($tanda->tanda) + 1;
+        }
+
+        return view('admin.content.Part.partReading', compact(['part','id_bank','gambar','nomor'])); // Kirim data ke view
+    }
+
+    // tambah
+    public function TambahReadingPartAdmin(Request $request){
+
+        // generate token otomatis
+        $token_part = strtoupper(Str::password(5, true, true, false, false));
+
+        Part::create([
+            'part' => $request->part,
+            'kategori' => 'Reading',
+            'petunjuk' => $request->petunjuk,
+            'dari_nomor' => $request->dari_nomor,
+            'sampai_nomor' => $request->sampai_nomor,
+            'token_part' => $token_part,
+            'id_bank' => $request->id_bank,
+            'id_gambar' => $request->gambar,
+            'id_audio' => NULL,
+        ]);
+
+        toast('Create Data Successful!', 'success');
+        return redirect()->back();
+    }
+
+    // update part 
+    public function UpdateReadingPartAdmin(Request $request)
+    {
+        if ($request->ismethod('post')) {
+
+            Part::where('id_part', $request->id_part)->update([
+                'part' => $request->part,
+                'kategori' => 'Reading',
+                'petunjuk' => $request->petunjuk,
+                'dari_nomor' => $request->dari_nomor,
+                'sampai_nomor' => $request->sampai_nomor,
+                'id_bank' => $request->id_bank,
+                'id_gambar' => $request->gambar,
+                'id_audio' => NULL,
+            ]);
+
+            toast('Update Data Successful!', 'success');
+            return redirect()->back();
+        }
+    }
+
+    // delete soal
+    public function DeleteReadingPartAdmin(Request $request)
+    {
+        Part::findOrFail($request->id_part)->delete();
+        toast('Delete Data Successful!', 'success');
+        return redirect()->back();
+    }
+    // ======================================= END PART SOAL READING =====================================
+
+    // ======================================= PART SOAL LISTENING =====================================
+    // dash
+    public function dashAdminPartListening(Request $request, $id)
+    {
+        $search = $request->search;
+
+        if ($search) {
+            $part = Part::with(['bank','audio','gambar'])
+                ->where('id_bank', $id)
+                ->where('kategori', 'Listening')
+                ->orWhere('part', 'LIKE', '%' . $search . '%')
+                ->paginate();
+        } else {
+            $part = Part::with(['bank','audio','gambar'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
+        }
+
+        // lempar id_bank ke dalam view
+        $id_bank = $id;
+
+        // get data gambar
+        $gambar = Gambar::all();
+
+        // get data audio
+        $audio = Audio::all();
+
+        // get penomoran otomatis
+        $tanda = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('tanda', 'desc')->first();
+
+        // jika blm ada soal
+        if($tanda == null){
+            $nomor = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $nomor = intval($tanda->tanda) + 1;
+        }
+
+        return view('admin.content.Part.partListening', compact(['part','id_bank','gambar','audio','$nomor'])); // Kirim data ke view
+    }
+
+    // tambah
+    public function TambahListeningPartAdmin(Request $request){
+
+        // generate token otomatis
+        $token_part = strtoupper(Str::password(5, true, true, false, false));
+
+        Part::create([
+            'part' => $request->part,
+            'kategori' => 'Listening',
+            'petunjuk' => $request->petunjuk,
+            'dari_nomor' => $request->dari_nomor,
+            'sampai_nomor' => $request->sampai_nomor,
+            'token_part' => $token_part,
+            'id_bank' => $request->id_bank,
+            'id_gambar' => $request->gambar,
+            'id_audio' => $request->audio,
+        ]);
+
+        toast('Create Data Successful!', 'success');
+        return redirect()->back();
+    }
+
+    // update part 
+    public function UpdateListeningPartAdmin(Request $request)
+    {
+        if ($request->ismethod('post')) {
+
+            Part::where('id_part', $request->id_part)->update([
+                'part' => $request->part,
+                'kategori' => 'Listening',
+                'petunjuk' => $request->petunjuk,
+                'dari_nomor' => $request->dari_nomor,
+                'sampai_nomor' => $request->sampai_nomor,
+                'id_bank' => $request->id_bank,
+                'id_gambar' => $request->gambar,
+                'id_audio' => $request->audio,
+            ]);
+
+            toast('Update Data Successful!', 'success');
+            return redirect()->back();
+        }
+    }
+
+    // delete soal
+    public function DeleteListeningPartAdmin(Request $request)
+    {
+        Part::findOrFail($request->id_part)->delete();
+        toast('Delete Data Successful!', 'success');
+        return redirect()->back();
+    }
+    // ======================================= END PART SOAL READING =====================================
+
+
     // ======================================= SOAL READING =====================================
     // menampilkan data soal
     public function dashAdminSoalDetailReading(Request $request, $id)
@@ -644,9 +825,6 @@ class AdminController extends Controller
     // tambah soal
     public function TambahSoalReadingAdmin(Request $request){
 
-        // generate token otomatis
-        $token_soal = strtoupper(Str::password(5, true, true, false, false));
-
         Soal::create([
             'nomor_soal' => $request->nomor_soal,
             'text' => $request->text,
@@ -661,7 +839,6 @@ class AdminController extends Controller
             'id_audio' => NULL,
             'id_users' => auth()->user()->id,
             'id_bank' => $request->id_bank,
-            'token_soal' => $token_soal,
         ]);
 
         toast('Create Data Successful!', 'success');
@@ -707,14 +884,14 @@ class AdminController extends Controller
         $search = $request->search;
 
         if ($search) {
-            $soal = Soal::with(['user', 'audio'])
+            $soal = Soal::with(['user', 'audio','gambar'])
                 ->where('id_bank', $id)
                 ->where('kategori', 'Listening')
                 ->orWhere('nomor', 'LIKE', '%' . $search . '%')
                 ->orWhere('soal', 'LIKE', '%' . $search . '%')
                 ->paginate();
         } else {
-            $soal = Soal::with(['user', 'audio'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
+            $soal = Soal::with(['user', 'audio','gambar'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
         }
 
         // lempar id_bank ke dalam view
@@ -722,6 +899,9 @@ class AdminController extends Controller
 
         // get data gambar
         $audio = Audio::all();
+
+        // get data gambar
+        $gambar = Gambar::all();
 
         // get penomoran otomatis
         $penomoran = Soal::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('nomor_soal', 'desc')->first();
@@ -733,14 +913,11 @@ class AdminController extends Controller
             $nomor = intval($penomoran->nomor_soal) + 1;
         }
 
-        return view('admin.content.SoalListening.dashSoalListening', compact(['soal', 'audio', 'id_bank', 'nomor'])); // Kirim data ke view
+        return view('admin.content.SoalListening.dashSoalListening', compact(['soal', 'audio', 'gambar', 'id_bank', 'nomor'])); // Kirim data ke view
     }
 
     // tambah soal
     public function TambahSoalListeningAdmin(Request $request){
-
-        // generate token otomatis
-        $token_soal = strtoupper(Str::password(5, true, true, false, false));
 
         Soal::create([
             'nomor_soal' => $request->nomor_soal,
@@ -752,11 +929,10 @@ class AdminController extends Controller
             'jawaban_d' => $request->jawaban_d,
             'kunci_jawaban' => strtoupper($request->kunci_jawaban),
             'kategori' => 'Listening',
-            'id_gambar' => NULL,
+            'id_gambar' => $request->gambar,
             'id_audio' => $request->audio,
             'id_users' => auth()->user()->id,
             'id_bank' => $request->id_bank,
-            'token_soal' => $token_soal,
         ]);
 
         toast('Create Data Successful!', 'success');
@@ -777,6 +953,7 @@ class AdminController extends Controller
                 'jawaban_c' => $request->jawaban_c,
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
+                'id_gambar' => $request->gambar,
                 'id_audio' => $request->audio,
                 'id_users' => auth()->user()->id,
             ]);

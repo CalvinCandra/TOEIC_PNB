@@ -27,8 +27,8 @@ use App\Models\Soal;
 |
 */
 
-// Route::get('/test', function () {
-//     return view('petugas.content.dashbanksoal');
+// Route::post('/test', function () {
+//     return "Hello";
 // });
 
 // login
@@ -71,7 +71,6 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::post('/UpdatePetugas', [AdminController::class, 'UpdatePetugas']);
     Route::post('/DeletePetugas', [AdminController::class, 'DeletePetugas']);
 
-
     // dashboard Peserta
     Route::get('/dashPeserta', [AdminController::class, 'dashPeserta']);
     Route::post('/TambahPeserta', [AdminController::class, 'TambahPeserta']);
@@ -94,6 +93,19 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::post('/TambahBankSoalAdmin', [AdminController::class, 'TambahBankSoalAdmin']);
     Route::post('/UpdateBankSoalAdmin', [AdminController::class, 'UpdateBankSoalAdmin']);
     Route::post('/DeleteBankSoalAdmin', [AdminController::class, 'DeleteBankSoalAdmin']);
+
+    // part soal reading
+    Route::get('/dashAdminPartReading/{id}', [AdminController::class, 'dashAdminPartReading']);
+    Route::post('/TambahPartReadingAdmin', [AdminController::class, 'TambahReadingPartAdmin']);
+    Route::post('/UpdatePartReadingAdmin', [AdminController::class, 'UpdateReadingPartAdmin']);
+    Route::post('/DeletePartReadingAdmin', [AdminController::class, 'DeleteReadingPartAdmin']);
+
+    // part soal listening
+    Route::get('/dashAdminPartListening/{id}', [AdminController::class, 'dashAdminPartListening']);
+    Route::post('/TambahPartListeningAdmin', [AdminController::class, 'TambahListeningPartAdmin']);
+    Route::post('/UpdatePartListeningAdmin', [AdminController::class, 'UpdateListeningPartAdmin']);
+    Route::post('/DeletePartListeningAdmin', [AdminController::class, 'DeleteListeningPartAdmin']);
+    
 
     // menampilkan detail soal reading
     Route::get('/dashAdminSoalDetailReading/{id}', [AdminController::class, 'dashAdminSoalDetailReading']);
@@ -136,6 +148,18 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     Route::post('/TambahBankSoal', [PetugasController::class, 'TambahBankSoal']);
     Route::post('/UpdateBankSoal', [PetugasController::class, 'UpdateBankSoal']);
     Route::post('/DeleteBankSoal', [PetugasController::class, 'DeleteBankSoal']);
+
+    // part soal reading
+    Route::get('/dashPetugasPartReading/{id}', [PetugasController::class, 'dashPetugasPartReading']);
+    Route::post('/TambahPartReadingPetugas', [PetugasController::class, 'TambahReadingPartPetugas']);
+    Route::post('/UpdatePartReadingPetugas', [PetugasController::class, 'UpdateReadingPartPetugas']);
+    Route::post('/DeletePartReadingPetugas', [PetugasController::class, 'DeleteReadingPartPetugas']);
+
+    // part soal listening
+    Route::get('/dashPetugasPartListening/{id}', [PetugasController::class, 'dashPetugasPartListening']);
+    Route::post('/TambahPartListeningPetugas', [PetugasController::class, 'TambahListeningPartPetugas']);
+    Route::post('/UpdatePartListeningPetugas', [PetugasController::class, 'UpdateListeningPartPetugas']);
+    Route::post('/DeletePartListeningPetugas', [PetugasController::class, 'DeleteListeningPartPetugas']);
 
     // menampilkan detail soal reading
     Route::get('/dashPetugasSoalDetailReading/{id}', [PetugasController::class, 'dashPetugasSoalDetailReading']);
