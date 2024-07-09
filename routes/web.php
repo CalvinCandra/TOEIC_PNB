@@ -205,7 +205,8 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
     Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
     Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening']);
     Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
-    Route::post('/set-audio-played', [SoalController::class, 'setAudioPlayed']);
+    Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed']);
+    Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed']);
 
     // funcition result sementara
     Route::get('/Result', [NilaiController::class, 'Result']);

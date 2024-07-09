@@ -750,6 +750,9 @@ class PetugasController extends Controller
         // get data gambar
         $audio = Audio::all();
 
+        // get data gambar
+        $gambar = Gambar::all();
+
         // get penomoran otomatis
         $penomoran = Soal::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('nomor_soal', 'desc')->first();
 
@@ -760,7 +763,7 @@ class PetugasController extends Controller
             $nomor = intval($penomoran->nomor_soal) + 1;
         }
 
-        return view('petugas.content.SoalListening.dashSoalListening', compact(['soal', 'audio', 'id_bank', 'nomor'])); // Kirim data ke view
+        return view('petugas.content.SoalListening.dashSoalListening', compact(['soal', 'audio', 'id_bank', 'nomor', 'gambar'])); // Kirim data ke view
     }
 
     // tambah soal
@@ -779,7 +782,7 @@ class PetugasController extends Controller
             'jawaban_d' => $request->jawaban_d,
             'kunci_jawaban' => strtoupper($request->kunci_jawaban),
             'kategori' => 'Listening',
-            'id_gambar' => NULL,
+            'id_gambar' => $request->gambar,
             'id_audio' => $request->audio,
             'id_users' => auth()->user()->id,
             'id_bank' => $request->id_bank,
@@ -805,6 +808,7 @@ class PetugasController extends Controller
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
                 'id_audio' => $request->audio,
+                'id_gambar' => $request->gambar,
                 'id_users' => auth()->user()->id,
             ]);
     
