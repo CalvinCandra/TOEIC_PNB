@@ -656,6 +656,7 @@ class AdminController extends Controller
             'dari_nomor' => $request->dari_nomor,
             'sampai_nomor' => $request->sampai_nomor,
             'token_part' => $token_part,
+            'tanda' => $request->tanda,
             'id_bank' => $request->id_bank,
             'id_gambar' => $request->gambar,
             'id_audio' => NULL,
@@ -730,7 +731,7 @@ class AdminController extends Controller
             $nomor = intval($tanda->tanda) + 1;
         }
 
-        return view('admin.content.Part.partListening', compact(['part','id_bank','gambar','audio','$nomor'])); // Kirim data ke view
+        return view('admin.content.Part.partListening', compact(['part','id_bank','gambar','audio','nomor'])); // Kirim data ke view
     }
 
     // tambah
@@ -746,6 +747,7 @@ class AdminController extends Controller
             'dari_nomor' => $request->dari_nomor,
             'sampai_nomor' => $request->sampai_nomor,
             'token_part' => $token_part,
+            'tanda' => $request->tanda,
             'id_bank' => $request->id_bank,
             'id_gambar' => $request->gambar,
             'id_audio' => $request->audio,
