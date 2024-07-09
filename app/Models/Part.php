@@ -19,6 +19,7 @@ class Part extends Model
         'sampai_nomor',
         'kategori',
         'token_part',
+        'tanda',
         'id_bank',
         'id_gambar',
         'id_audio',

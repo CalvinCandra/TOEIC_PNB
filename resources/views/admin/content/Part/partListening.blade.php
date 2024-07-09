@@ -174,6 +174,8 @@
 
                      {{-- ambil id_bank --}}
                      <input type="hidden" value="{{$id_bank}}" name="id_bank">
+                     {{-- get tanda --}}
+                     <input type="hidden" value="{{$nomor}}" name="tanda">
 
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Part</label>
