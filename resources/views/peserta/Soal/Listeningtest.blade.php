@@ -50,7 +50,7 @@
                 <input type="hidden" name="id_part" value="{{ $part->id_part}}">
             </div>
 
-            <!-- Soal disini (include gambar/audio) -->
+            <!-- Part Direction -->
             <div class="border rounded-xl relative z-30 text-justify block" id="petunjuk">
                 {{-- judul --}}
                 <h1 class="text-xl font-bold mb-5 bg-[#D7E1FB] p-3 rounded-t-lg border-b">
@@ -62,16 +62,14 @@
 
                 {{-- gambar atau audio --}}
                 <div class="mx-4">
-                    @if (!empty($part->id_audio))
-                        @if (!$audioPlayed)
-                        <audio id="audio" controls>
-                            <source src="{{asset('storage/audio/'.$part->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
-                            Your browser does not support the audio element.
-                        </audio>
+                        @if (!$audioPart)
+                            <audio id="audiopart" data-id-soal="" controls>
+                                <source src="{{asset('storage/audio/'.$part->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
+                                Your browser does not support the audio element.
+                            </audio>
                         @else
                             <p>Audio has already played</p>
                         @endif
-                    @endif
                     @if (!empty($part->id_gambar))
                         <img src="{{asset('storage/gambar/'.$part->gambar->gambar)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
                     @endif
@@ -84,7 +82,7 @@
                     <div class="border rounded-lg relative z-30 text-justify mt-10 mb-5">
                         <!-- Save id soal -->
                         <div class="">
-                            <input type="hidden" name="id_soal[]" value="{{ $data->id_soal }}">
+                            <input type="hidden" id="id_soal[]" name="id_soal[]" value="{{ $data->id_soal }}">
                         </div>
 
                         {{-- judul --}}
@@ -94,16 +92,14 @@
 
                         {{-- gambar atau audio --}}
                         <div class="mx-4">
-                            @if (!empty($data->id_audio))
-                                @if (!$audioPlayed)
-                                <audio id="audio" controls>
-                                    <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
-                                    Your browser does not support the audio element.
-                                </audio>
-                                @else
-                                    <p>Audio has already played</p>
-                                @endif
-                            @endif
+                        @if (isset($audioSessions[$data->id_soal]) && !$audioSessions[$data->id_soal])
+                            <audio class="audio" data-id-soal="{{ $data->id_soal }}" controls>
+                                <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
+                                Your browser does not support the audio element.
+                            </audio>
+                        @else
+                            <p>Audio has already played</p>
+                        @endif
 
                             @if (!empty($data->id_gambar))
                                 <img src="{{asset('storage/gambar/'.$data->gambar->gambar)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
@@ -147,43 +143,6 @@
     </form>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <script>
-        const audioElement = document.getElementById('audio');
-      
-        // Counter to track the number of plays
-        let playCount = 0;
-      
-        // Event listener for audio play event
-        audioElement.addEventListener('play', () => {
-          playCount++; // Increment play count
-          console.log(playCount);
-      
-          // Limit plays to two
-          if (playCount >= 2) {
-            console.log(playCount);
-
-            // Disable playback controls
-            audioElement.controls = false;
-            
-            // Display message or perform other actions
-            alert("You have reached the maximum playback limit.");
-
-            //run ajax
-            console.log('action');
-            $.ajax({
-                url: '/set-audio-played',
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    console.log(response.status);
-                    }
-            });
-          }
-        });
-    </script>
 
     {{-- Countdown --}}
     <script>
@@ -223,4 +182,143 @@
             clearInterval(window.x);
         });
     </script>
+
+    <!-- 
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('DOM fully loaded and parsed');
+                const audioElements = document.querySelectorAll('.audio');
+                console.log('Found audio elements:', audioElements);
+
+                audioElements.forEach(audioElement => {
+                    const soalId = audioElement.getAttribute('data-id-soal');
+                    console.log(`Audio element for soal ${soalId}`);
+                    let playCount = 0;
+
+                    audioElement.addEventListener('play', () => {
+                        playCount++; // Increment play count
+                        console.log(`Play count for soal ${soalId}: ${playCount}`);
+
+                        // Limit plays to two
+                        if (playCount >= 2) {
+                            console.log(`Play limit reached for soal ${soalId}`);
+
+                            // Disable playback controls
+                            audioElement.controls = false;
+
+                            // Display message or perform other actions
+                            alert("You have reached the maximum playback limit.");
+
+                            // Run AJAX
+                            console.log('Sending AJAX request to set audio played for soal', soalId);
+                            $.ajax({
+                                url: `/set-audio-played/${soalId}`,
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                success: function(response) {
+                                    console.log(response.status);
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('AJAX error:', error);
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+    -->
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('DOM fully loaded and parsed');
+        const audioElements = document.querySelectorAll('.audio');
+        console.log('Found audio elements:', audioElements.length);
+
+        //audiopart
+        const audiopart = document.getElementById('audiopart');
+        console.log('Found audiopart:', audiopart);
+        let count = 0;
+
+        //function for part audio
+        audiopart.addEventListener('play', () => {
+                console.log(`Play event triggered for part}`); // Debug log
+                count++; // Increment play count
+                console.log(`Play count for soal : ${count}`); // Debug log
+
+                // Limit plays to two
+                if (count >= 2) {
+                    console.log(`Play limit reached for soal`); // Debug log
+
+                    // Display message or perform other actions
+                    alert("You have reached the maximum playback limit.");
+
+                    // Run AJAX
+                    console.log('Sending AJAX request to set audio played for part'); // Debug log
+                    $.ajax({
+                        url: `/set-audio-played`,
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            console.log(response.status); // Debug log
+                            audioElement.remove();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('AJAX error:', error); // Debug log
+                        }
+                    });
+                }
+        });
+
+        //Function for every question
+        audioElements.forEach(audioElement => {
+            const soalId = audioElement.getAttribute('data-id-soal');
+            console.log(`Audio element for soal ${soalId}`);
+            let playCount = 0;
+
+            audioElement.addEventListener('play', () => {
+                console.log(`Play event triggered for soal ${soalId}`); // Debug log
+                playCount++; // Increment play count
+                console.log(`Play count for soal ${soalId}: ${playCount}`); // Debug log
+
+                // Limit plays to two
+                if (playCount >= 2) {
+                    console.log(`Play limit reached for soal ${soalId}`); // Debug log
+
+                    // Display message or perform other actions
+                    alert("You have reached the maximum playback limit.");
+
+                    // Run AJAX
+                    console.log('Sending AJAX request to set audio played for soal', soalId); // Debug log
+                    $.ajax({
+                        url: `/set-audio-played/${soalId}`,
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            console.log(response.status); // Debug log
+                            audioElement.remove();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('AJAX error:', error); // Debug log
+                        }
+                    });
+                }
+            });
+
+            // Add a load event listener to ensure the audio is fully loaded
+            audioElement.addEventListener('loadeddata', () => {
+                console.log(`Audio loaded for soal ${soalId}`); // Debug log
+            });
+        });
+
+
+    });
+    </script>
+
 @endsection
