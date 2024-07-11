@@ -66,41 +66,69 @@
                                 id="baris{{$loop->iteration}}">
                                     <th class="px-4 py-3 border-2">{{$loop->iteration}}</th>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->bank}}</td>
-                                    <td class="px-4 py-3 border-2">
-                                        <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
-                                            <li>
-                                                <a href="{{url("/dashPetugasSoalDetailReading"."/".$data->id_bank)}}"
-                                                    class="flex items-center w-full px-4 py-2 text-lime-400 hover:bg-gray-100 hover:scale-95">
-                                                    <i class="fa-solid fa-plus me-1"></i>
-                                                    Question Reading
-                                                </a>
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">
+                                        <ul class="lg:block py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
+                                            <h1 class="font-semibold text-md">For Reading :</h1>
+                                            <li class="lg:flex">
+                                                <div class="">
+                                                    <a href="{{url("/dashPetugasPartReading"."/".$data->id_bank)}}"
+                                                        class="flex items-center w-full px-4 py-2 text-yellow-300 hover:bg-gray-100 hover:scale-95">
+                                                        <i class="fa-solid fa-plus me-1"></i>
+                                                        Add Part Reading
+                                                    </a>
+                                                </div>
+
+                                                <div class="">
+                                                    <a href="{{url("/dashPetugasSoalDetailReading"."/".$data->id_bank)}}"
+                                                        class="flex items-center w-full px-4 py-2 text-yellow-300 hover:bg-gray-100 hover:scale-95">
+                                                        <i class="fa-solid fa-clipboard-question me-1"></i>
+                                                        Add Question Reading
+                                                    </a>
+                                                </div>
                                             </li>
-                                            <li>
-                                                <a href="{{url("/dashPetugasSoalDetailListening"."/".$data->id_bank)}}"
-                                                    class="flex items-center w-full px-4 py-2 text-green-400 hover:bg-gray-100 hover:scale-95">
-                                                    <i class="fa-solid fa-plus me-1"></i>
-                                                    Question Listening
-                                                </a>
+
+                                            <h1 class="font-semibold text-md mt-3">For Listening :</h1>
+                                            <li class="lg:flex">
+                                                <div class="">
+                                                    <a href="{{url("/dashPetugasPartListening"."/".$data->id_bank)}}"
+                                                        class="flex items-center w-full px-4 py-2 text-purple-700 hover:bg-gray-100 hover:scale-95">
+                                                        <i class="fa-solid fa-plus me-1"></i>
+                                                        Add Part Listening
+                                                    </a>
+                                                </div>
+
+                                                <div class="">
+                                                    <a href="{{url("/dashPetugasSoalDetailListening"."/".$data->id_bank)}}"
+                                                        class="flex items-center w-full px-4 py-2 text-purple-700 hover:bg-gray-100 hover:scale-95">
+                                                        <i class="fa-solid fa-clipboard-question me-1"></i>
+                                                        Add Question Listening
+                                                    </a>
+                                                </div>
                                             </li>
-                                            <li>
-                                                <button
-                                                    onclick="edit('baris{{$loop->iteration}}', '{{$data->id_bank}}')"
-                                                    type="button" data-modal-target="UpdateBank"
-                                                    data-modal-toggle="UpdateBank"
-                                                    class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
-                                                    <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
-                                                    Rename Code
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    onclick="hapus('baris{{$loop->iteration}}', '{{$data->id_bank}}')"
-                                                    type="button" data-modal-target="DeleteBank"
-                                                    data-modal-toggle="DeleteBank"
-                                                    class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
-                                                    <i class="fa-solid fa-trash me-1"></i>
-                                                    Delete Bank Question
-                                                </button>
+
+                                            <h1 class="font-semibold text-md mt-3">Other :</h1>
+                                            <li class="lg:flex">
+                                                <div class="">
+                                                    <button
+                                                        onclick="edit('baris{{$loop->iteration}}', '{{$data->id_bank}}')"
+                                                        type="button" data-modal-target="UpdateBank"
+                                                        data-modal-toggle="UpdateBank"
+                                                        class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
+                                                        <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
+                                                        Rename Bank
+                                                    </button>
+                                                </div>
+
+                                                <div class="">
+                                                    <button
+                                                        onclick="hapus('baris{{$loop->iteration}}', '{{$data->id_bank}}')"
+                                                        type="button" data-modal-target="DeleteBank"
+                                                        data-modal-toggle="DeleteBank"
+                                                        class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
+                                                        <i class="fa-solid fa-trash me-1"></i>
+                                                        Delete Bank Question
+                                                    </button>
+                                                </div>
                                             </li>
                                         </ul>
                                     </td>
@@ -120,7 +148,7 @@
 
 
 {{-- Modal Tambah --}}
-<div id="TambahBankSoal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+<div id="TambahBankSoal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" 
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-md max-h-full p-4">
         <!-- Modal content -->
@@ -145,7 +173,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/TambahBankSoal')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/TambahBankSoal')}}" method="POST">
                     @csrf
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code Question</label>
@@ -189,7 +217,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/UpdateBankSoal')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/UpdateBankSoal')}}" method="POST">
                     @csrf
 
                     <input type="hidden" name="id_bank" id="edit-bank">
@@ -234,7 +262,7 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form action="{{url('/DeleteBankSoal')}}" method="POST">
+                <form class="modal-form" action="{{url('/DeleteBankSoal')}}" method="POST">
                     @csrf
                     <input type="hidden" id="hapus-bank" name="id_bank">
                     

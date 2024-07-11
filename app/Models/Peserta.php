@@ -19,6 +19,8 @@ class Peserta extends Model
         'token',
         'kelamin',
         'jurusan',
+        'skor_listening',
+        'skor_reading',
         'id_users',
         'created_at',
         'update_at',

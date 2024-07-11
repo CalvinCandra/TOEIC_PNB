@@ -18,6 +18,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+    <script type="text/javascript">
+        window.history.forward(1);
+    </script>
+
     <title>Reading</title>
 </head>
 
@@ -73,14 +77,15 @@
 
             <div class="flex-warp md:flex md:justify-between md:items-center">
                 <p class="my-4 md:my-0"><span class="font-bold">Note :</span> Timer start when you start the test</p>
-                <a href="{{url('/SoalReading')}}" type="button" onclick="startQuiz()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Start Test Reading</a>
+                <button id="startQuizButton" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Start Test Reading</button>
             </div>
         </div>
     </div>
     
+    {{-- matiin fungsi back pada browser --}}
     <script>
         history.replaceState(null, null, document.URL);
-        window.addEventListener('popstate', function () {
+        window.addEventListener('popstate', function() {
             history.replaceState(null, null, document.URL);
         });
     </script>
@@ -91,12 +96,22 @@
             const now = Date.now();
             // Simpan waktu mulai di localStorage
             localStorage.setItem("quizStartTime", Date.now().toString());
-            clearInterval(x); // Hentikan countdown sebelumnya (jika ada)
+            // Hentikan countdown sebelumnya (jika ada)
+            if (typeof x != 'undefined') {
+                clearInterval(x);
+            }
+
+            // URL tujuan
+            const targetUrl = "{{url('/SoalReading')}}"; // Ubah URL sesuai dengan yang dibutuhkan
+
+            // Arahkan browser ke URL tersebut
+            // window.location.href = targetUrl;
+            window.location.replace(targetUrl);
         }
+
+         // Tambahkan event listener ke tombol dengan id "startQuizButton"
+         document.getElementById("startQuizButton").addEventListener("click", startQuiz);
     </script>
-
-
-    
 
 </body>
 

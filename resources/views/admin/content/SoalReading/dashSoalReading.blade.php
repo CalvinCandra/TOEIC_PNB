@@ -13,7 +13,7 @@
 
 {{-- konten --}}
 <section class="p-4 md:ml-64 h-auto pt-20">
-    <a href="{{url('/dashAdminSoal')}}" class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+    <a href="{{url("/dashAdminSoal")}}" class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
         Back
     </a>
     <h1>Question Reading Data</h1>
@@ -180,7 +180,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/TambahSoalReadingAdmin')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/TambahSoalReadingAdmin')}}" method="POST">
                     @csrf
                     {{-- ambil id_bank --}}
                     <input type="hidden" value="{{$id_bank}}" name="id_bank">
@@ -287,7 +287,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/UpdateSoalReadingAdmin')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/UpdateSoalReadingAdmin')}}" method="POST">
                     @csrf
 
                     <input type="hidden" name="id_soal" value="{{$data->id_soal}}">
@@ -404,7 +404,7 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form action="{{url('/DeleteSoalReadingAdmin')}}" method="POST">
+                <form class="modal-form" action="{{url('/DeleteSoalReadingAdmin')}}" method="POST">
                     @csrf
                     <input type="hidden" id="hapus-soal" name="id_soal">
                     

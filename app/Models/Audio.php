@@ -23,4 +23,10 @@ class Audio extends Model
     {
         return $this->belongsTo(Soal::class, 'id_audio', 'id_audio');
     }
+    
+    // part
+    public function part(): BelongsTo
+    {
+        return $this->belongsTo(Part::class, 'id_audio', 'id_audio');
+    }
 }

@@ -130,7 +130,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{url('/TambahAudioPetugas')}}" method="POST" enctype="multipart/form-data">
+                <form class="space-y-4 modal-form" action="{{url('/TambahAudioPetugas')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload Audio</label>
@@ -169,7 +169,7 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form action="{{url('/DeleteAudioPetugas')}}" method="POST">
+                <form class="modal-form" action="{{url('/DeleteAudioPetugas')}}" method="POST">
                     @csrf
                     <input type="hidden" id="hapus-audio" name="id_audio">
                     

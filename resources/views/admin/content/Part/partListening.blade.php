@@ -1,24 +1,24 @@
 {{-- menghubungkan file main --}}
-@extends('petugas.main')
+@extends('admin.main')
 
 {{-- judul halaman disini --}}
-@section('Title', 'Dashboard Staff | Question')
+@section('Title', 'Dashboard Admin | Part Question')
 
 @php
-    use App\Models\Audio;
     use App\Models\Gambar;
+    use App\Models\Audio;
 @endphp
+
 
 {{-- membuat content disini --}}
 @section('content')
 
 {{-- konten --}}
 <section class="p-4 md:ml-64 h-auto pt-20">
-    <a href="{{url('/dashPetugasSoal')}}" class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+    <a href="{{url('/dashAdminSoal')}}" class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
         Back
     </a>
-    <h1>Question Listening Data</h1>
-
+    <h1>Part Question Listening</h1>
 
     <div class="p-3 sm:p-5 antialiased">
         @if (count($errors) > 0)
@@ -51,13 +51,12 @@
                     </form>
                 </div>
             {{-- end search --}}
-            <div class="flex justify-between mt-5">
+            <div class="flex mt-5 justify-between">
                 <!-- Modal toggle -->
-                <button data-modal-target="TambahSoal" data-modal-toggle="TambahSoal" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                    Create Question
+                <button data-modal-target="TambahPartListening" data-modal-toggle="TambahPartListening" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                    Create Part
                 </button>
             </div>
-
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
 
                 <div class="overflow-x-auto w-full">
@@ -66,38 +65,23 @@
                     <table class="w-full text-sm text-left text-gray-500 table-auto">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-4 py-4 border-2 whitespace-nowrap">Nomor</th>
-                                <th scope="row" class="px-4 py-3 border-2 whitespace-nowrap pe-[300px]">Supporting sentences</th>
-                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[300px]">Question</th>
-                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[150px]">Option A</th>
-                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[150px]">OPtion B</th>
-                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[150px]">OPtion C</th>
-                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[150px]">OPtion D</th>
-                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Key</th>
+                                <th scope="col" class="px-4 py-4 border-2">No</th>
+                                <th scope="col" class="px-4 py-3 border-2">Part</th>
+                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[300px]">Derection</th>
+                                <th scope="col" class="px-4 py-3 border-2">Part For Number</th>
                                 <th scope="col" class="px-4 py-3 border-2">Image</th>
                                 <th scope="col" class="px-4 py-3 border-2">Audio</th>
-                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Staff</th>
                                 <th scope="col" class="px-4 py-3 border-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($soal as $data)
-                                <tr class="border-b" id="baris{{$data->nomor_soal}}">
-
-                                    <td class="px-4 py-3 border-2">{{$data->nomor_soal}}</td>
-
-                                    @if (!$data->text == null)
-                                        <td class="px-4 py-3 border-2">{{$data->text}}</td>
-                                    @else 
-                                        <td class="px-4 py-3 border-2 italic text-slate-300">Nothing</td>
-                                    @endif
-
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->soal}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jawaban_a}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jawaban_b}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jawaban_c}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jawaban_d}}</td>
-                                    <td class="px-4 py-3 border-2">{{$data->kunci_jawaban}}</td>
+                            @foreach($part as $data)
+                                <tr class="border-b"
+                                id="baris{{$loop->iteration}}">
+                                    <th class="px-4 py-3 border-2">{{$loop->iteration}}</th>
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->part}}</td>
+                                    <td class="px-4 py-3 border-2">{{$data->petunjuk}}</td>
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->dari_nomor}} - {{$data->sampai_nomor}}</td>
 
                                     @if (!$data->id_gambar == null)
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">
@@ -110,7 +94,7 @@
                                     @endif
 
                                     @if (!$data->id_audio == null)
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">
+                                        <td class="px-4 py-3 border-2">
                                             <audio id="audio" controls>
                                                 <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
                                                 Your browser does not support the audio element.
@@ -120,31 +104,26 @@
                                         <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
                                     @endif
 
-                                    @if (!$data->id_users == null)
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->name}}</td>
-                                    @else 
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
-                                    @endif
-                                    
-                                    <td class="px-4 py-3 border-2">
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">
                                         <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
                                             <li>
                                                 <button
-                                                    type="button" data-modal-target="UpdateSoal{{$data->id_soal}}"
-                                                    data-modal-toggle="UpdateSoal{{$data->id_soal}}"
+                                                    onclick="edit('baris{{$loop->iteration}}', '{{$data->id_part}}')"
+                                                    type="button" data-modal-target="UpdatePart{{$data->id_part}}"
+                                                    data-modal-toggle="UpdatePart{{$data->id_part}}"
                                                     class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
                                                     <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
-                                                    Update
+                                                    Rename Part
                                                 </button>
                                             </li>
                                             <li>
                                                 <button
-                                                    onclick="hapus('baris{{$data->nomor_soal}}', '{{$data->id_soal}}')"
-                                                    type="button" data-modal-target="DeleteSoal"
-                                                    data-modal-toggle="DeleteSoal"
+                                                    onclick="hapus('baris{{$loop->iteration}}', '{{$data->id_part}}')"
+                                                    type="button" data-modal-target="DeletePart"
+                                                    data-modal-toggle="DeletePart"
                                                     class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
                                                     <i class="fa-solid fa-trash me-1"></i>
-                                                    Delete
+                                                    Delete Part
                                                 </button>
                                             </li>
                                         </ul>
@@ -156,7 +135,7 @@
                 </div>
             </div>
             <div class="">
-                {{$soal->links()}}
+                {{$part->links()}}
             </div>
         </div>
     </div>
@@ -165,20 +144,20 @@
 
 
 {{-- Modal Tambah --}}
-<div id="TambahSoal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+<div id="TambahPartListening" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-4xl max-h-full">
+    <div class="relative w-full max-w-lg max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow">
 
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Create Question Data
+                    Create Part
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="TambahSoal">
+                    data-modal-hide="TambahPartListening">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -190,65 +169,43 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4 modal-form" action="{{url('/TambahSoalListeningPetugas')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/TambahPartListeningAdmin')}}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    {{-- ambil id_bank --}}
-                    <input type="hidden" value="{{$id_bank}}" name="id_bank">
+
+                     {{-- ambil id_bank --}}
+                     <input type="hidden" value="{{$id_bank}}" name="id_bank">
+                     {{-- get tanda --}}
+                     <input type="hidden" value="{{$nomor}}" name="tanda">
 
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number Question<span class="text-red-500">*</span></label>
-                        <input type="number" name="nomor_soal"
-                            class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            value="{{$nomor}}" readonly />
-                    </div>
-
-                    <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
-                        <textarea rows="5" name="text" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="You can leave it blank"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Question<span class="text-red-500">*</span></label>
-                        <textarea id="message" name="soal" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write question here" required></textarea>
-                    </div>
-
-                    <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option A<span class="text-red-500">*</span></label>
-                        <input type="text" name="jawaban_a"
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Part</label>
+                        <input type="text" name="part" id="name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : This is answer a" required />
+                            placeholder="Example : Part 1" required />
                     </div>
 
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option B<span class="text-red-500">*</span></label>
-                        <input type="text" name="jawaban_b"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : This is answer b" required />
+                        <label class="block mb-2 text-sm font-semibold text-gray-900">Direction</label>
+                        <textarea rows="5" name="petunjuk" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="You can leave it blank"></textarea>
                     </div>
 
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option C<span class="text-red-500">*</span></label>
-                        <input type="text" name="jawaban_c"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : This is answer c" required />
-                    </div>
+                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number<span class="text-red-500">*</span></label>
+                        <div class="flex">
+                            <div class="flex items-center">
+                                <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">From</label>
+                                <input type="text" name="dari_nomor"
+                                    class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    placeholder="Example : 1" required />
+                            </div>
 
-                    <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option D<span class="text-red-500">*</span></label>
-                        <input type="text" name="jawaban_d"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : This is answer d" required />
-                    </div>
-
-                    <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span class="text-red-500">*</span></label>
-                        <select id="countries" name="kunci_jawaban" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                            <option selected hidden value="">-- Choose a Key --</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                        </select>
+                            <div class="flex items-center">
+                                <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">To</label>
+                                <input type="text" name="sampai_nomor"
+                                    class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    placeholder="Example : 5" required />
+                            </div>
+                        </div>
                     </div>
 
                     <div class="">
@@ -260,7 +217,7 @@
                             @endforeach
                         </select>
                     </div>
-
+                    
                     <div class="">
                         <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Audio (Opsional)</label>
                         <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
@@ -270,9 +227,9 @@
                             @endforeach
                         </select>
                     </div>
-                    
+
                     <button type="submit"
-                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                 </form>
             </div>
         </div>
@@ -280,9 +237,9 @@
 </div>
 {{-- End Modal Tambah --}}
 
-@foreach ($soal as $data)    
+@foreach ($part as $data)    
 {{-- Modal Update --}}
-<div id="UpdateSoal{{$data->id_soal}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+<div id="UpdatePart{{$data->id_part}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-4xl max-h-full">
         <!-- Modal content -->
@@ -291,11 +248,11 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Update Question Data
+                    Update Part
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="UpdateSoal{{$data->id_soal}}">
+                    data-modal-hide="UpdatePart{{$data->id_part}}">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -307,65 +264,43 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4 modal-form" action="{{url('/UpdateSoalListeningPetugas')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/UpdatePartListeningAdmin')}}" method="POST">
                     @csrf
 
-                    <input type="hidden" name="id_soal" value="{{$data->id_soal}}">
+                    <input type="hidden" value="{{$data->id_part}}" name="id_part" id="">
+
+                    {{-- ambil id_bank --}}
+                    <input type="hidden" value="{{$id_bank}}" name="id_bank">
 
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number Question<span class="text-red-500">*</span></label>
-                        <input type="number" name="nomor_soal"
-                            class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            value="{{$data->nomor_soal}}" readonly />
-                    </div>
-
-                    <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
-                        <textarea rows="5" name="text" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="You can leave it blank">{{$data->text}}</textarea>
-                    </div>
-
-                    <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Question<span class="text-red-500">*</span></label>
-                        <textarea id="message" name="soal" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write question here" required>{{$data->soal}}</textarea>
-                    </div>
-
-                    <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option A<span class="text-red-500">*</span></label>
-                        <input type="text" name="jawaban_a" value="{{$data->jawaban_a}}"
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Part</label>
+                        <input type="text" value="{{$data->part}}" name="part" id="name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : This is answer a" required />
+                            placeholder="Example : Part 1" required />
                     </div>
 
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option B<span class="text-red-500">*</span></label>
-                        <input type="text" name="jawaban_b" value="{{$data->jawaban_b}}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : This is answer b" required />
+                        <label class="block mb-2 text-sm font-semibold text-gray-900">Direction</label>
+                        <textarea rows="5" name="petunjuk" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="You can leave it blank">{{$data->petunjuk}}</textarea>
                     </div>
 
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option C<span class="text-red-500">*</span></label>
-                        <input type="text" name="jawaban_c" value="{{$data->jawaban_c}}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : This is answer c" required />
-                    </div>
+                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number<span class="text-red-500">*</span></label>
+                        <div class="flex">
+                            <div class="flex items-center">
+                                <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">From</label>
+                                <input type="text" name="dari_nomor" value="{{$data->dari_nomor}}"
+                                    class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    placeholder="Example : 1" required />
+                            </div>
 
-                    <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option D<span class="text-red-500">*</span></label>
-                        <input type="text" name="jawaban_d" value="{{$data->jawaban_d}}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : This is answer d" required />
-                    </div>
-
-                    <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span class="text-red-500">*</span></label>
-                        <select id="countries" name="kunci_jawaban" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                            <option selected hidden value="{{$data->kunci_jawaban}}">{{$data->kunci_jawaban}}</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                        </select>
+                            <div class="flex items-center">
+                                <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">To</label>
+                                <input type="text" name="sampai_nomor" value="{{$data->sampai_nomor}}"
+                                    class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    placeholder="Example : 5" required />
+                            </div>
+                        </div>
                     </div>
 
                     <div class="">
@@ -398,7 +333,7 @@
                             @endphp
 
                             @if (!$data->id_audio)
-                                <option selected hidden value="">-- Choose a File Audio --</option>
+                                <option selected hidden value="">Choose a File Audio</option>
                                 @foreach ($audio as $item)
                                     <option value="{{$item->id_audio}}">{{$item->audio}}</option>
                                 @endforeach
@@ -413,7 +348,7 @@
                     </div>
 
                     <button type="submit"
-                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
 
                 </form>
             </div>
@@ -424,7 +359,7 @@
 @endforeach
 
 {{-- Modal Delete --}}
-<div id="DeleteSoal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+<div id="DeletePart" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <!-- Modal content -->
@@ -432,7 +367,7 @@
 
             <button type="button"
                 class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                data-modal-toggle="DeleteSoal">
+                data-modal-toggle="DeletePart">
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -446,15 +381,15 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form class="modal-form" action="{{url('/DeleteSoalListeningPetugas')}}" method="POST">
+                <form class="modal-form" action="{{url('/DeletePartListeningAdmin')}}" method="POST">
                     @csrf
-                    <input type="hidden" id="hapus-soal" name="id_soal">
+                    <input type="hidden" id="hapus-part" name="id_part">
                     
-                    <button data-modal-toggle="DeleteSoal" type="button"
-                        class="py-2 px-3 text-sm font-semibold text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
+                    <button data-modal-toggle="DeletePart" type="button"
+                        class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                         Cancel</button>
                     <input type="submit"
-                        class="py-2 px-3 text-sm font-semibold text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
                         value="Yes, I'm Sure!">
                 </form>
             </div>
@@ -463,12 +398,14 @@
 </div>
 {{-- End Modal Delete --}}
 
+
+
 <script>
 
     function hapus(baris, id) {
         const td = document.querySelectorAll('#' + baris + ' td');
 
-        document.getElementById('hapus-soal').value = id;
+        document.getElementById('hapus-part').value = id;
     }
 
 </script>
