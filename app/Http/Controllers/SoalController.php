@@ -36,14 +36,6 @@ class SoalController extends Controller
             return redirect('/DashboardSoal');
         }
 
-        if ($request->session()->get('audio_sessions') == !null) {
-            $request->session()->forget('audio_sessions');
-        }
-
-        if ($request->session()->get('audio_part') == !null) {
-            $request->session()->forget('audio_part');
-        }
-
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
 
@@ -106,23 +98,7 @@ class SoalController extends Controller
         // kirim waktu ke blade agar bisa dikondisikan
         $request->session()->put('waktu', $remainingTime);
 
-        //set session untuk setiap soal memiliki audio
-        $audioSessions = $request->session()->get('audio_sessions', []);
-        foreach ($soalListening as $soal) {
-            if ($soal->audio) {
-                if (!isset($audioSessions[$soal->id_soal])) {
-                    $audioSessions[$soal->id_soal] = false; // Initialize audio status to false
-                }
-            }
-        }
-
-        $audioPart = $request->session()->get('audio_part', false);
-
-        $request->session()->put('audio_sessions', $audioSessions);
-
-        
-
-        return view('peserta.Soal.Listeningtest', compact(['soalListening', 'audioSessions', 'audioPart', 'part', 'GetAllPart']));
+        return view('peserta.Soal.Listeningtest', compact(['soalListening', 'part', 'GetAllPart']));
     }
 
     // proses menjawab untuk listening
@@ -146,9 +122,6 @@ class SoalController extends Controller
 
             // get jawaban peserta
             $jawaban = $request->jawaban;
-
-            //reset the audio session
-            $request->session()->forget('audio_played');
 
             foreach ($request->id_soal as $idSoal) {
                 // get jawaban user
@@ -466,23 +439,5 @@ class SoalController extends Controller
         return redirect('/DashboardSoal');
     }
 
-    public function setPartAudioPlayed(Request $request){
-        $request->session()->put('audio_part', true);
-        return response()->json(['status' => 'success']);
-    }
-
-    public function setAudioPlayed(Request $request, $soalId)
-    {
-        // Get the current audio sessions from the session
-        $audioSessions = $request->session()->get('audio_sessions', []);
-
-        // Update the specific soal's audio status to true
-        if (isset($audioSessions[$soalId])) {
-            $audioSessions[$soalId] = true;
-            $request->session()->put('audio_sessions', $audioSessions);
-            return response()->json(['status' => 'success']);
-        }
-
-        return response()->json(['status' => 'error', 'message' => 'Soal ID not found'], 404);
-    }
+    
 }
