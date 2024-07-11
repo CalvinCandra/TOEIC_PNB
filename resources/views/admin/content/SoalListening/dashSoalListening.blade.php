@@ -5,7 +5,7 @@
 @section('Title', 'Dashboard Admin | Question')
 
 @php
-    use App\Models\Audio;
+    // use App\Models\Audio;
     use App\Models\Gambar;
 @endphp
 
@@ -74,7 +74,7 @@
                                     <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[150px]">OPtion D</th>
                                     <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Key</th>
                                     <th scope="col" class="px-4 py-3 border-2">Image</th>
-                                    <th scope="col" class="px-4 py-3 border-2">Audio</th>
+                                    {{-- <th scope="col" class="px-4 py-3 border-2">Audio</th> --}}
                                     <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Staff</th>
                                     <th scope="col" class="px-4 py-3 border-2">Actions</th>
                                 </tr>
@@ -107,7 +107,7 @@
                                             <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
                                         @endif
 
-                                        @if (!$data->id_audio == null)
+                                        {{-- @if (!$data->id_audio == null)
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">
                                                 <audio id="audio" controls>
                                                     <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
@@ -117,7 +117,7 @@
                                         @else
                                             <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing
                                             </td>
-                                        @endif
+                                        @endif --}}
 
                                       @if (!$data->id_users == null)
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->name}}</td>
@@ -264,7 +264,7 @@
                             </select>
                         </div>
 
-                        <div class="">
+                        {{-- <div class="">
                             <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Audio (Opsional)</label>
                             <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                 <option selected hidden value="">-- Choose a File Audio --</option>
@@ -272,7 +272,7 @@
                                     <option value="{{$item->id_audio}}">{{$item->audio}}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
 
                         <button type="submit"
                             class="w-full text-white bg-sky-800 hover:bg-sky-950 font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
@@ -397,7 +397,7 @@
                                 </select>
                             </div>
 
-                            <div class="">
+                            {{-- <div class="">
                                 <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Audio</label>
                                 <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                     @php
@@ -417,7 +417,7 @@
                                         <option value="">Remove Audio From Question</option>
                                     @endif
                                 </select>
-                            </div>
+                            </div> --}}
 
                             <button type="submit"
                                 class="w-full text-white bg-sky-800 hover:bg-sky-950 font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>

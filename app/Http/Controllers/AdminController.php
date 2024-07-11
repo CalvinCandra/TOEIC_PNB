@@ -589,6 +589,9 @@ class AdminController extends Controller
                 // Delete data Soal berdasarkan bank soal
                 Soal::where('id_bank', $request->id_bank)->delete();
 
+                // Delete Part Soal berdasarkan bank soal
+                Part::where('id_bank', $request->id_bank)->delete();
+
                 // Delete data bank soal
                 BankSoal::findOrFail($request->id_bank)->delete();
 
@@ -640,7 +643,17 @@ class AdminController extends Controller
             $nomor = intval($tanda->tanda) + 1;
         }
 
-        return view('admin.content.Part.partReading', compact(['part','id_bank','gambar','nomor'])); // Kirim data ke view
+        // nomor soal for part
+        $nomorSoal = Part::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('sampai_nomor', 'desc')->first();
+
+        // jika blm ada soal
+        if($nomorSoal == null){
+            $angka = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $angka = intval($nomorSoal->sampai_nomor) + 1;
+        }
+
+        return view('admin.content.Part.partReading', compact(['part','id_bank','gambar','nomor','angka'])); // Kirim data ke view
     }
 
     // tambah
@@ -731,7 +744,17 @@ class AdminController extends Controller
             $nomor = intval($tanda->tanda) + 1;
         }
 
-        return view('admin.content.Part.partListening', compact(['part','id_bank','gambar','audio','nomor'])); // Kirim data ke view
+        // nomor soal for part
+        $nomorSoal = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('sampai_nomor', 'desc')->first();
+
+        // jika blm ada soal
+        if($nomorSoal == null){
+            $angka = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $angka = intval($nomorSoal->sampai_nomor) + 1;
+        }
+
+        return view('admin.content.Part.partListening', compact(['part','id_bank','gambar','audio','nomor','angka'])); // Kirim data ke view
     }
 
     // tambah
@@ -932,7 +955,8 @@ class AdminController extends Controller
             'kunci_jawaban' => strtoupper($request->kunci_jawaban),
             'kategori' => 'Listening',
             'id_gambar' => $request->gambar,
-            'id_audio' => $request->audio,
+            // 'id_audio' => $request->audio,
+            'id_audio' => NULL,
             'id_users' => auth()->user()->id,
             'id_bank' => $request->id_bank,
         ]);
@@ -956,7 +980,8 @@ class AdminController extends Controller
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
                 'id_gambar' => $request->gambar,
-                'id_audio' => $request->audio,
+                'id_audio' => NULL,
+                // 'id_audio' => $request->audio,
                 'id_users' => auth()->user()->id,
             ]);
 
