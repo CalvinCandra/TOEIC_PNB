@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\Peserta;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -19,6 +20,18 @@ class UserImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
+        // Dapatkan data Peserta berdasarkan NIM
+        $peserta = Peserta::where('nim', $row['nim'])->first();
+
+        // Dapatkan data User berdasarkan email
+        $user = User::where('email', $row['email'])->first();
+
+        // Jika salah satu dari mereka ditemukan, batalkan inputan
+        if ($peserta !== null || $user !== null) {
+            Session::flash('gagal', 'Email or NIM already exists: ' . $row['email'] . ' / ' . $row['nim']);
+            return null;
+        }
+
         // generate password otomatis
         $password = strtoupper(Str::password(8, true, false, false, false));
 

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -260,8 +261,13 @@ class AdminController extends Controller
 
         Excel::import(new UserImport, $request->file);
 
-        toast('Create Data Success', 'success');
-        return redirect()->back();
+        if (Session::has('gagal')) {
+            return redirect()->back()->with('gagal', Session::get('gagal'));
+        } else {
+            toast('Create Data Success', 'success');
+            return redirect()->back();
+        }
+
     }
 
     // update peserta
