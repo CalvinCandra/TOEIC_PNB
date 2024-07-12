@@ -116,8 +116,12 @@ class PetugasController extends Controller
 
         Excel::import(new UserImport, $request->file);
 
-        toast('Create Data Success', 'success');
-        return redirect()->back();
+        if (Session::has('gagal')) {
+            return redirect()->back()->with('gagal', Session::get('gagal'));
+        } else {
+            toast('Create Data Success', 'success');
+            return redirect()->back();
+        }
     }
 
     // update peserta

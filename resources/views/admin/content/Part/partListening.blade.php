@@ -196,7 +196,7 @@
                                 <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">From</label>
                                 <input type="number" name="dari_nomor" min="1" value="{{$angka}}"
                                     class="mx-2 mb-2 bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                    placeholder="Example : 1" required disabled/>
+                                    placeholder="Example : 1" required readonly/>
                             </div>
 
                             <div class="flex items-center">

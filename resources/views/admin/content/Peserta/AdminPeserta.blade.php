@@ -21,6 +21,13 @@
                 </ul>
             </div>
         @endif
+        @if(session('gagal'))
+            <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <ul>
+                    <li class="ml-3 text-sm font-medium">{{ session('gagal') }}</li>
+                </ul>
+            </div>
+        @endif
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-3">
             <!-- search form -->
                 <div class="w-full">
