@@ -513,6 +513,18 @@ class PetugasController extends Controller
         // generate token otomatis
         $token_part = strtoupper(Str::password(5, true, true, false, false));
 
+         // get part berdasarkan id_bank
+         $partSame = Part::where('part', $request->part)->where('kategori', 'Reading')->where('id_bank', $request->id_bank)->first();
+         // validasi nama part
+         if($partSame){
+             return redirect()->back()->witherrors('Part Already Exsits');
+         }
+ 
+         // validasi jika inputan sampai nomor lebih kecil dari nomor
+         if($request->dari_nomor >= $request->sampai_nomor){
+             return redirect()->back()->witherrors('Please input the question number correctly');
+         }
+
         Part::create([
             'part' => $request->part,
             'kategori' => 'Reading',
@@ -533,6 +545,27 @@ class PetugasController extends Controller
     // update part 
     public function UpdateReadingPartPetugas(Request $request)
     {
+ 
+        // validasi jika inputan sampai nomor lebih kecil dari nomor
+        if($request->dari_nomor >= $request->sampai_nomor){
+            return redirect()->back()->witherrors('Please input the question number correctly');
+        }
+
+         // Ambil part yang sesuai dengan id_part yang diberikan
+        $CekPart = Part::where('id_part', $request->id_part)->first();
+
+        // Cek jika nama part yang diinputkan sama dengan part sebelumnya yang ada di database
+        if ($CekPart && $CekPart->part != $request->part) { // Jika nama part yang diinputkan berbeda dengan nama part sebelumny
+            $partSame = Part::where('part', $request->part)
+                            ->where('kategori', 'Reading')
+                            ->where('id_bank', $request->id_bank)
+                            ->first();
+            // cek kembali apakah inputan yang berbeda ada yang sama dengan part lainnya
+            if ($partSame) {
+                return redirect()->back()->withErrors('Part Already Exists');
+            }
+        }
+
         if ($request->ismethod('post')) {
 
             Part::where('id_part', $request->id_part)->update([
@@ -614,6 +647,18 @@ class PetugasController extends Controller
         // generate token otomatis
         $token_part = strtoupper(Str::password(5, true, true, false, false));
 
+        // get part berdasarkan id_bank
+        $partSame = Part::where('part', $request->part)->where('kategori', 'Listening')->where('id_bank', $request->id_bank)->first();
+        // validasi nama part
+        if($partSame){
+            return redirect()->back()->witherrors('Part Already Exsits');
+        }
+
+        // validasi jika inputan sampai nomor lebih kecil dari nomor
+        if($request->dari_nomor >= $request->sampai_nomor){
+            return redirect()->back()->witherrors('Please input the question number correctly');
+        }
+
         Part::create([
             'part' => $request->part,
             'kategori' => 'Listening',
@@ -634,6 +679,27 @@ class PetugasController extends Controller
     // update part 
     public function UpdateListeningPartPetugas(Request $request)
     {
+
+        // validasi jika inputan sampai nomor lebih kecil dari nomor
+        if($request->dari_nomor >= $request->sampai_nomor){
+            return redirect()->back()->witherrors('Please input the question number correctly');
+        }
+
+         // Ambil part yang sesuai dengan id_part yang diberikan
+        $CekPart = Part::where('id_part', $request->id_part)->first();
+
+        // Cek jika nama part yang diinputkan sama dengan part sebelumnya yang ada di database
+        if ($CekPart && $CekPart->part != $request->part) { // Jika nama part yang diinputkan berbeda dengan nama part sebelumny
+            $partSame = Part::where('part', $request->part)
+                            ->where('kategori', 'Listening')
+                            ->where('id_bank', $request->id_bank)
+                            ->first();
+            // cek kembali apakah inputan yang berbeda ada yang sama dengan part lainnya
+            if ($partSame) {
+                return redirect()->back()->withErrors('Part Already Exists');
+            }
+        }
+
         if ($request->ismethod('post')) {
 
             Part::where('id_part', $request->id_part)->update([
