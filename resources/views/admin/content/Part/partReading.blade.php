@@ -174,7 +174,7 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Direction</label>
-                        <textarea rows="5" name="petunjuk" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="You can leave it blank"></textarea>
+                        <textarea rows="5" name="petunjuk" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Direction" required></textarea>
                     </div>
 
                     <div>
@@ -182,9 +182,9 @@
                         <div class="flex">
                             <div class="flex items-center">
                                 <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">From</label>
-                                <input type="text" name="dari_nomor"
-                                    class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                    placeholder="Example : 1" required />
+                                <input type="number" name="dari_nomor" min="1" value="{{$angka}}"
+                                    class="mx-2 mb-2 bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    placeholder="Example : 1" required readonly/>
                             </div>
 
                             <div class="flex items-center">
@@ -259,7 +259,7 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Direction</label>
-                        <textarea rows="5" name="petunjuk" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="You can leave it blank">{{$data->petunjuk}}</textarea>
+                        <textarea rows="5" name="petunjuk" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Direction" required>{{$data->petunjuk}}</textarea>
                     </div>
 
                     <div>
@@ -267,14 +267,14 @@
                         <div class="flex">
                             <div class="flex items-center">
                                 <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">From</label>
-                                <input type="text" name="dari_nomor" value="{{$data->dari_nomor}}"
+                                <input type="number" name="dari_nomor" min="1" value="{{$data->dari_nomor}}"
                                     class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     placeholder="Example : 1" required />
                             </div>
 
                             <div class="flex items-center">
                                 <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">To</label>
-                                <input type="text" name="sampai_nomor" value="{{$data->sampai_nomor}}"
+                                <input type="number" name="sampai_nomor" min="1" value="{{$data->sampai_nomor}}"
                                     class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     placeholder="Example : 5" required />
                             </div>

@@ -90,7 +90,12 @@
                                         <td class="px-4 py-3 border-2 italic text-slate-300">Nothing</td>
                                     @endif
 
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->soal}}</td>
+                                    @if (!$data->soal == null)
+                                        <td class="px-4 py-3 border-2">{{$data->soal}}</td>
+                                    @else 
+                                        <td class="px-4 py-3 border-2 italic text-slate-300">Nothing</td>
+                                    @endif
+
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jawaban_a}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jawaban_b}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jawaban_c}}</td>
@@ -191,12 +196,12 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
-                        <textarea rows="5" name="text" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="You can leave it blank"></textarea>
+                        <textarea rows="5" name="text" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Supporting sentences"></textarea>
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Question<span class="text-red-500">*</span></label>
-                        <textarea id="message" name="soal" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write question here" required></textarea>
+                        <label class="block mb-2 text-sm font-semibold text-gray-900">Question</label>
+                        <textarea id="message" name="soal" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write question here"></textarea>
                     </div>
 
                     <div>

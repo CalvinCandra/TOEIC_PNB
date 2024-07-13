@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -260,8 +261,13 @@ class AdminController extends Controller
 
         Excel::import(new UserImport, $request->file);
 
-        toast('Create Data Success', 'success');
-        return redirect()->back();
+        if (Session::has('gagal')) {
+            return redirect()->back()->with('gagal', Session::get('gagal'));
+        } else {
+            toast('Create Data Success', 'success');
+            return redirect()->back();
+        }
+
     }
 
     // update peserta
@@ -589,6 +595,9 @@ class AdminController extends Controller
                 // Delete data Soal berdasarkan bank soal
                 Soal::where('id_bank', $request->id_bank)->delete();
 
+                // Delete Part Soal berdasarkan bank soal
+                Part::where('id_bank', $request->id_bank)->delete();
+
                 // Delete data bank soal
                 BankSoal::findOrFail($request->id_bank)->delete();
 
@@ -640,7 +649,17 @@ class AdminController extends Controller
             $nomor = intval($tanda->tanda) + 1;
         }
 
-        return view('admin.content.Part.partReading', compact(['part','id_bank','gambar','nomor'])); // Kirim data ke view
+        // nomor soal for part
+        $nomorSoal = Part::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('sampai_nomor', 'desc')->first();
+
+        // jika blm ada soal
+        if($nomorSoal == null){
+            $angka = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $angka = intval($nomorSoal->sampai_nomor) + 1;
+        }
+
+        return view('admin.content.Part.partReading', compact(['part','id_bank','gambar','nomor','angka'])); // Kirim data ke view
     }
 
     // tambah
@@ -648,6 +667,18 @@ class AdminController extends Controller
 
         // generate token otomatis
         $token_part = strtoupper(Str::password(5, true, true, false, false));
+
+        // get part berdasarkan id_bank
+        $partSame = Part::where('part', $request->part)->where('kategori', 'Reading')->where('id_bank', $request->id_bank)->first();
+        // validasi nama part
+        if($partSame){
+            return redirect()->back()->witherrors('Part Already Exsits');
+        }
+
+        // validasi jika inputan sampai nomor lebih kecil dari nomor
+        if($request->dari_nomor >= $request->sampai_nomor){
+            return redirect()->back()->witherrors('Please input the question number correctly');
+        }
 
         Part::create([
             'part' => $request->part,
@@ -669,6 +700,26 @@ class AdminController extends Controller
     // update part 
     public function UpdateReadingPartAdmin(Request $request)
     {
+        // validasi jika inputan sampai nomor lebih kecil dari nomor
+        if($request->dari_nomor >= $request->sampai_nomor){
+            return redirect()->back()->witherrors('Please input the question number correctly');
+        }
+
+         // Ambil part yang sesuai dengan id_part yang diberikan
+        $CekPart = Part::where('id_part', $request->id_part)->first();
+
+        // Cek jika nama part yang diinputkan sama dengan part sebelumnya yang ada di database
+        if ($CekPart && $CekPart->part != $request->part) { // Jika nama part yang diinputkan berbeda dengan nama part sebelumny
+            $partSame = Part::where('part', $request->part)
+                            ->where('kategori', 'Reading')
+                            ->where('id_bank', $request->id_bank)
+                            ->first();
+            // cek kembali apakah inputan yang berbeda ada yang sama dengan part lainnya
+            if ($partSame) {
+                return redirect()->back()->withErrors('Part Already Exists');
+            }
+        }
+
         if ($request->ismethod('post')) {
 
             Part::where('id_part', $request->id_part)->update([
@@ -731,7 +782,17 @@ class AdminController extends Controller
             $nomor = intval($tanda->tanda) + 1;
         }
 
-        return view('admin.content.Part.partListening', compact(['part','id_bank','gambar','audio','nomor'])); // Kirim data ke view
+        // nomor soal for part
+        $nomorSoal = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('sampai_nomor', 'desc')->first();
+
+        // jika blm ada soal
+        if($nomorSoal == null){
+            $angka = intval(0) + 1;
+        }else{ //jika sudah ada soal
+            $angka = intval($nomorSoal->sampai_nomor) + 1;
+        }
+
+        return view('admin.content.Part.partListening', compact(['part','id_bank','gambar','audio','nomor','angka'])); // Kirim data ke view
     }
 
     // tambah
@@ -739,6 +800,18 @@ class AdminController extends Controller
 
         // generate token otomatis
         $token_part = strtoupper(Str::password(5, true, true, false, false));
+
+        // get part berdasarkan id_bank
+        $partSame = Part::where('part', $request->part)->where('kategori', 'Listening')->where('id_bank', $request->id_bank)->first();
+        // validasi nama part
+        if($partSame){
+            return redirect()->back()->witherrors('Part Already Exsits');
+        }
+
+        // validasi jika inputan sampai nomor lebih kecil dari nomor
+        if($request->dari_nomor >= $request->sampai_nomor){
+            return redirect()->back()->witherrors('Please input the question number correctly');
+        }
 
         Part::create([
             'part' => $request->part,
@@ -760,6 +833,26 @@ class AdminController extends Controller
     // update part 
     public function UpdateListeningPartAdmin(Request $request)
     {
+        // validasi jika inputan sampai nomor lebih kecil dari nomor
+        if($request->dari_nomor >= $request->sampai_nomor){
+            return redirect()->back()->witherrors('Please input the question number correctly');
+        }
+
+         // Ambil part yang sesuai dengan id_part yang diberikan
+        $CekPart = Part::where('id_part', $request->id_part)->first();
+
+        // Cek jika nama part yang diinputkan sama dengan part sebelumnya yang ada di database
+        if ($CekPart && $CekPart->part != $request->part) { // Jika nama part yang diinputkan berbeda dengan nama part sebelumny
+            $partSame = Part::where('part', $request->part)
+                            ->where('kategori', 'Listening')
+                            ->where('id_bank', $request->id_bank)
+                            ->first();
+            // cek kembali apakah inputan yang berbeda ada yang sama dengan part lainnya
+            if ($partSame) {
+                return redirect()->back()->withErrors('Part Already Exists');
+            }
+        }
+
         if ($request->ismethod('post')) {
 
             Part::where('id_part', $request->id_part)->update([
@@ -932,7 +1025,8 @@ class AdminController extends Controller
             'kunci_jawaban' => strtoupper($request->kunci_jawaban),
             'kategori' => 'Listening',
             'id_gambar' => $request->gambar,
-            'id_audio' => $request->audio,
+            // 'id_audio' => $request->audio,
+            'id_audio' => NULL,
             'id_users' => auth()->user()->id,
             'id_bank' => $request->id_bank,
         ]);
@@ -956,7 +1050,8 @@ class AdminController extends Controller
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
                 'id_gambar' => $request->gambar,
-                'id_audio' => $request->audio,
+                'id_audio' => NULL,
+                // 'id_audio' => $request->audio,
                 'id_users' => auth()->user()->id,
             ]);
 

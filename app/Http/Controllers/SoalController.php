@@ -54,9 +54,9 @@ class SoalController extends Controller
         $peserta = Peserta::where('id_users', auth()->user()->id)->first();
 
         // ubah status peserta menjadi sudah selesai
-        // Status::where('id_peserta', $peserta->id_peserta)->update([
-        //     'status_pengerjaan' => 'Sudah'
-        // ]);
+        Status::where('id_peserta', $peserta->id_peserta)->update([
+            'status_pengerjaan' => 'Sudah'
+        ]);
 
         return redirect("/SoalListening" . "/" . $PartListening->token_part);
     }

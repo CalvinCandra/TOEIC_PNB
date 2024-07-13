@@ -5,7 +5,7 @@
 @section('Title', 'Dashboard Staff | Question')
 
 @php
-    use App\Models\Audio;
+    // use App\Models\Audio;
     use App\Models\Gambar;
 @endphp
 
@@ -67,7 +67,6 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-4 py-4 border-2 whitespace-nowrap">Nomor</th>
-                                <th scope="row" class="px-4 py-3 border-2 whitespace-nowrap pe-[300px]">Supporting sentences</th>
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[300px]">Question</th>
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[150px]">Option A</th>
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[150px]">OPtion B</th>
@@ -75,7 +74,7 @@
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[150px]">OPtion D</th>
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Key</th>
                                 <th scope="col" class="px-4 py-3 border-2">Image</th>
-                                <th scope="col" class="px-4 py-3 border-2">Audio</th>
+                                {{-- <th scope="col" class="px-4 py-3 border-2">Audio</th> --}}
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Staff</th>
                                 <th scope="col" class="px-4 py-3 border-2">Actions</th>
                             </tr>
@@ -86,13 +85,12 @@
 
                                     <td class="px-4 py-3 border-2">{{$data->nomor_soal}}</td>
 
-                                    @if (!$data->text == null)
-                                        <td class="px-4 py-3 border-2">{{$data->text}}</td>
+                                    @if (!$data->soal == null)
+                                        <td class="px-4 py-3 border-2">{{$data->soal}}</td>
                                     @else 
                                         <td class="px-4 py-3 border-2 italic text-slate-300">Nothing</td>
                                     @endif
 
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->soal}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jawaban_a}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jawaban_b}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jawaban_c}}</td>
@@ -109,7 +107,7 @@
                                         <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
                                     @endif
 
-                                    @if (!$data->id_audio == null)
+                                    {{-- @if (!$data->id_audio == null)
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">
                                             <audio id="audio" controls>
                                                 <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
@@ -118,7 +116,7 @@
                                         </td>
                                     @else 
                                         <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
-                                    @endif
+                                    @endif --}}
 
                                     @if (!$data->id_users == null)
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->name}}</td>
@@ -203,13 +201,8 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
-                        <textarea rows="5" name="text" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="You can leave it blank"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Question<span class="text-red-500">*</span></label>
-                        <textarea id="message" name="soal" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write question here" required></textarea>
+                        <label class="block mb-2 text-sm font-semibold text-gray-900">Question</label>
+                        <textarea id="message" name="soal" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write question here"></textarea>
                     </div>
 
                     <div>
@@ -261,7 +254,7 @@
                         </select>
                     </div>
 
-                    <div class="">
+                    {{-- <div class="">
                         <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Audio (Opsional)</label>
                         <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                             <option selected hidden value="">-- Choose a File Audio --</option>
@@ -269,7 +262,7 @@
                                 <option value="{{$item->id_audio}}">{{$item->audio}}</option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
                     
                     <button type="submit"
                         class="w-full text-white bg-sky-800 hover:bg-sky-950 font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
@@ -317,11 +310,6 @@
                         <input type="number" name="nomor_soal"
                             class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             value="{{$data->nomor_soal}}" readonly />
-                    </div>
-
-                    <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
-                        <textarea rows="5" name="text" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="You can leave it blank">{{$data->text}}</textarea>
                     </div>
 
                     <div>
@@ -390,7 +378,7 @@
                         </select>
                     </div>
 
-                    <div class="">
+                    {{-- <div class="">
                         <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Audio</label>
                         <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                             @php
@@ -410,7 +398,7 @@
                                 <option value="">Remove Audio From Question</option>
                             @endif
                         </select>
-                    </div>
+                    </div> --}}
 
                     <button type="submit"
                         class="w-full text-white bg-sky-800 hover:bg-sky-950 font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
