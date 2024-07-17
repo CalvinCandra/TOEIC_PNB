@@ -166,7 +166,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Create Bank Question Data
+                    Create Question Reading
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -273,7 +273,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Update Participants Data
+                    Update Question Reading
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"

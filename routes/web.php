@@ -77,6 +77,9 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::post('/TambahPesertaExcelAdmin', [AdminController::class, 'TambahPesertaExcel']);
     Route::post('/UpdatePeserta', [AdminController::class, 'UpdatePeserta']);
     Route::post('/DeletePeserta', [AdminController::class, 'DeletePeserta']);
+    Route::get('/ExportExcelAdmin', [AdminController::class, 'ExportExcelAdmin']);
+    Route::post('/ResetStatusAdmin', [AdminController::class, 'ResetStatusAdmin']);
+    Route::post('/DeleteAllAdmin', [AdminController::class, 'DeleteAllAdmin']);
 
     // Gambar
     Route::get('/dashAdminGambar', [AdminController::class, 'dashAdminGambar']);
@@ -132,6 +135,9 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     Route::post('/TambahPesertaExcelPetugas', [PetugasController::class, 'TambahPesertaExcel']);
     Route::post('/UpdatePetugasPeserta', [PetugasController::class, 'UpdatePetugasPeserta']);
     Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
+    Route::get('/ExportExcelPetugas', [PetugasController::class, 'ExportExcelPetugas']);
+    Route::post('/ResetStatusPetugas', [PetugasController::class, 'ResetStatusPetugas']);
+    Route::post('/DeleteAllPetugas', [PetugasController::class, 'DeleteAllPetugas']);
 
     // Gambar
     Route::get('/dashPetugasGambar', [PetugasController::class, 'dashPetugasGambar']);

@@ -15,10 +15,12 @@ use App\Models\Kategori;
 use App\Imports\UserImport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Exports\PesertaExport;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -107,7 +109,7 @@ class PetugasController extends Controller
         }
     }
 
-    // tambah peserta
+    // tambah peserta excel
     public function TambahPesertaExcel(Request $request)
     {
         $request->validate([
@@ -209,6 +211,52 @@ class PetugasController extends Controller
 
             // Delete data ke table users
             User::findOrFail($peserta['id_users'])->delete();
+    
+            DB::commit();
+
+            toast('Deleted Data Successful!','success');
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            throw $th;
+            DB::rollBack();
+
+            toast('Something Went Wrong!','error');
+            return redirect()->back();
+        }
+    }
+
+    // Eksport Excel
+    public function ExportExcelPetugas(Request $request){
+        return Excel::download(new PesertaExport, 'Participation Data.xlsx');
+    }
+
+    // Reset Status Work
+    public function ResetStatusPetugas(){
+
+        // Update data status
+        Status::query()->update([
+            'status_pengerjaan' => 'Belum',
+        ]);
+
+        toast('Reset Status Successful!','success');
+        return redirect()->back();
+    }
+
+    // Delete All Data
+    public function DeleteAllPetugas(){
+
+        // transaction database
+        try {
+            DB::beginTransaction();
+
+            // DELETE data status
+            Status::query()->delete();
+            
+            // Delete data peserta 
+            Peserta::query()->delete();
+
+            // Delete data users
+            User::where('level', 'peserta')->delete();
     
             DB::commit();
 
@@ -485,7 +533,7 @@ class PetugasController extends Controller
         $gambar = Gambar::all();
 
         // get penomoran otomatis
-        $tanda = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('tanda', 'desc')->first();
+        $tanda = Part::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('tanda', 'desc')->first();
 
         // jika blm ada soal
         if($tanda == null){
@@ -504,7 +552,7 @@ class PetugasController extends Controller
             $angka = intval($nomorSoal->sampai_nomor) + 1;
         }
 
-        return view('petugas.content.Part.partReading', compact(['part','id_bank','gambar','nomor', 'angka'])); // Kirim data ke view
+        return view('petugas.content.Part.partReading', compact(['part','id_bank','gambar','nomor','angka'])); // Kirim data ke view
     }
 
     // tambah

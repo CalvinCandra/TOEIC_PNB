@@ -8,11 +8,16 @@
         const forms = document.querySelectorAll('.modal-form');
         const overlay = document.getElementById('overlay');
 
-        forms.forEach(form => {
-            form.addEventListener('submit', function(event) {
-                overlay.classList.remove('hidden');
-                overlay.classList.add('flex');
-            });
+        // Menampilkan overlay saat pengguna meninggalkan halaman
+        window.addEventListener('beforeunload', function(event) {
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+        });
+
+        // Menyembunyikan overlay setelah halaman sepenuhnya dimuat
+        window.addEventListener('load', function(event) {
+            overlay.classList.remove('flex');
+            overlay.classList.add('hidden');
         });
     });
 </script>

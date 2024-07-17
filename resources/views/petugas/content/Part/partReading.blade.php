@@ -53,7 +53,7 @@
             <div class="flex mt-5 justify-between">
                 <!-- Modal toggle -->
                 <button data-modal-target="TambahPartReading" data-modal-toggle="TambahPartReading" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                    Create Part
+                    Create Part Reading
                 </button>
             </div>
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -140,7 +140,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Create Part
+                    Create Part Reading
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -198,7 +198,7 @@
 
                     <div class="">
                         <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Image (Opsional)</label>
-                        <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                        <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
                             <option selected hidden value="">-- Choose a File Image --</option>
                             @foreach ($gambar as $item)
                                 <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
@@ -226,7 +226,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Update Part
+                    Update Part Reading
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -298,7 +298,6 @@
                                 @foreach ($gambar as $item)
                                     <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
                                 @endforeach
-                                <option value="">Remove Image From Question</option>
                             @endif
                         </select>
                     </div>
