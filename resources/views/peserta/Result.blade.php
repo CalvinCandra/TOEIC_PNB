@@ -25,8 +25,9 @@
 </head>
 
 <body class="bg-gray-100">
+
     {{-- header --}}
-    <div class="mx-auto w-full max-w-screen-xl p-4">
+    <div class="mx-auto w-full max-w-screen-xl p-4 relative z-50">
         <p class="text-2xl md:flex md:justify-between md:items-start text-center md:text-left">Hi,
             {{ $peserta->nama_peserta }}</p>
         <p class="mt-2 font-bold text-4xl md:flex md:justify-between md:items-start text-center md:text-left">Here's a
@@ -39,7 +40,7 @@
     </div>
 
     <!-- Score -->
-    <div class="px-4 mt-5 mx-auto w-full max-w-screen-xl">
+    <div class="px-4 mt-5 mx-auto w-full max-w-screen-xl relative z-50">
         <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
             {{-- TOTAL SCORE --}}
             <div
@@ -80,7 +81,7 @@
     </div>
 
     <!-- Result Description -->
-    <div class="p-4 mx-auto w-full max-w-screen-xl">
+    <div class="p-4 mx-auto w-full max-w-screen-xl relative z-50">
         <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
             {{-- YOUR RESULT --}}
             <div class="md:w-[30%] overflow-hidden">
@@ -113,7 +114,7 @@
     </div>
 
     <!-- Other Result Categories -->
-    <div class="px-4 pb-5 mx-auto w-full max-w-screen-xl">
+    <div class="px-4 pb-5 mx-auto w-full max-w-screen-xl relative z-50">
         <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
             <div class="md:w-[30%] hidden md:block"></div>
             <div class="flex-grow p-4 bg-white border-2 border-gray-300 rounded-md shadow-sm md:w-[70%]">
