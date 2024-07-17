@@ -56,7 +56,7 @@
                     <button data-modal-target="TambahSoal" data-modal-toggle="TambahSoal"
                         class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
                         type="button">
-                        Create Question
+                        Create Question Listening
                     </button>
                 </div>
 
@@ -173,7 +173,7 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                     <h3 class="text-xl font-semibold text-gray-900">
-                        Create Question Data
+                        Create Question Listening
                     </h3>
                     <button type="button"
                         class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -294,7 +294,7 @@
                     <!-- Modal header -->
                     <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                         <h3 class="text-xl font-semibold text-gray-900">
-                            Update Question Data
+                            Update Question Listening
                         </h3>
                         <button type="button"
                             class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -392,7 +392,7 @@
                                         @foreach ($gambar as $item)
                                             <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
                                         @endforeach
-                                        <option value="">Remove Image From Question</option>
+                                        <option value="" class="italic text-red-500">Remove Image From Question</option>
                                     @endif
                                 </select>
                             </div>

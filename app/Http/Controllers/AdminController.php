@@ -14,6 +14,7 @@ use App\Models\BankSoal;
 use App\Imports\UserImport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Exports\PesertaExport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -370,6 +371,52 @@ class AdminController extends Controller
             return redirect()->back();
         }
     }
+
+    // Eksport Excel
+    public function ExportExcelAdmin(){
+        return Excel::download(new PesertaExport, 'Participation Data.xlsx');
+    }
+
+    // Reset Status Work
+    public function ResetStatusAdmin(){
+
+        // Update data status
+        Status::query()->update([
+            'status_pengerjaan' => 'Belum',
+        ]);
+
+        toast('Reset Status Successful!','success');
+        return redirect()->back();
+    }
+
+    // Delete All Data
+    public function DeleteAllAdmin(){
+
+        // transaction database
+        try {
+            DB::beginTransaction();
+
+            // DELETE data status
+            Status::query()->delete();
+            
+            // Delete data peserta 
+            Peserta::query()->delete();
+
+            // Delete data users
+            User::where('level', 'peserta')->delete();
+    
+            DB::commit();
+
+            toast('Deleted Data Successful!','success');
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            throw $th;
+            DB::rollBack();
+
+            toast('Something Went Wrong!','error');
+            return redirect()->back();
+        }
+    }
     // ======================================= END PESERTA =====================================
 
     // ======================================= GAMBAR FOR ADMIN =====================================
@@ -640,7 +687,7 @@ class AdminController extends Controller
         $gambar = Gambar::all();
 
         // get penomoran otomatis
-        $tanda = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('tanda', 'desc')->first();
+        $tanda = Part::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('tanda', 'desc')->first();
 
         // jika blm ada soal
         if($tanda == null){

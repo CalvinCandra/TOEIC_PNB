@@ -49,21 +49,29 @@
                     </form>
                 </div>
             {{-- end search --}}
-            <div class="flex justify-between mt-5">
+            <div class="block lg:flex justify-between mt-5 ">
                 <!-- Modal toggle -->
-                <div class="flex">
+                <div class="block lg:flex">
                     <button data-modal-target="TambahPeserta" data-modal-toggle="TambahPeserta" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
                         Create Participants Data
                     </button>
 
-                    <button data-modal-target="TambahPesertaExcel" data-modal-toggle="TambahPesertaExcel" class="mx-2 block text-white bg-sky-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                    <button data-modal-target="TambahPesertaExcel" data-modal-toggle="TambahPesertaExcel" class="lg:mx-2 block text-white bg-sky-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
                         Create With Excel
                     </button>
                 </div>
+
+                {{-- action --}}
+                <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="flex items-center text-black border-2 border-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">Action 
+                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
+                </button>
+                    
                 
-                <a href="{{url('/SendMailPesertaAll')}}" class="block text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5 w-32" type="button">
+                {{-- <a href="{{url('/SendMailPesertaAll')}}" class="block text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5 w-32" type="button">
                     Send Email
-                </a>
+                </a> --}}
             </div>
 
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -154,6 +162,24 @@
 </section>
 {{-- end konten --}}
 
+<!-- Dropdown button menu -->
+<div id="dropdownHover" class="relative z-20 hidden bg-white divide-y divide-gray-100 rounded-lg border-2 border-gray-300 w-44">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+    <li>
+        <a href="{{url('/SendMailPesertaAll')}}" class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
+    </li>
+    <li>
+        <a href="{{url('/ExportExcelPetugas')}}" target="_blank" class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
+    </li>
+    <li>
+        <button type="button" data-modal-target="ResetStatus" data-modal-toggle="ResetStatus" class="text-left w-full block px-4 py-2 hover:bg-gray-100 text-red-400">Reset Status Work</a>
+    </li>
+    <li>
+        <button type="button" data-modal-target="DeleteAll" data-modal-toggle="DeleteAll" class="text-left w-full block px-4 py-2 hover:bg-gray-100 text-red-600">Delete All Data</button>
+    </li>
+    </ul>
+</div>
+
 {{-- Modal Tambah Excel --}}
 <div id="TambahPesertaExcel" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -234,7 +260,7 @@
 
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                        <input type="text" name="email" id="email"
+                        <input type="email" name="email" id="email"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : youremail@gmail.com" required />
                     </div>
@@ -323,7 +349,7 @@
 
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                        <input type="text" name="email" value="{{$data->user->email}}"
+                        <input type="email" name="email" value="{{$data->user->email}}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : youremail@gmail.com" required />
                     </div>
@@ -437,6 +463,86 @@
     </div>
 </div>
 {{-- End Modal Delete --}}
+
+{{-- Modal Reset Status--}}
+<div id="ResetStatus" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative p-4 text-center bg-white rounded-lg shadow ">
+
+            <button type="button"
+                class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                data-modal-toggle="ResetStatus">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+
+            <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
+
+            <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Reset All Status?</p>
+            <div class="flex justify-center items-center space-x-4">
+                <form class="modal-form" action="{{url('/ResetStatusPetugas')}}" method="POST">
+                    @csrf
+                    
+                    <button data-modal-toggle="ResetStatus" type="button"
+                        class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
+                        Cancel</button>
+                    <input type="submit"
+                        class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        value="Yes, I'm Sure!">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- End Modal Delete All --}}
+{{-- Modal Delete All --}}
+<div id="DeleteAll" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative p-4 text-center bg-white rounded-lg shadow ">
+
+            <button type="button"
+                class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                data-modal-toggle="DeleteAll">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+
+            <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
+
+            <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete All?</p>
+            <div class="flex justify-center items-center space-x-4">
+                <form class="modal-form" action="{{url('/DeleteAllPetugas')}}" method="POST">
+                    @csrf
+                    
+                    <button data-modal-toggle="DeleteAll" type="button"
+                        class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
+                        Cancel</button>
+                    <input type="submit"
+                        class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        value="Yes, I'm Sure!">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- End Modal Delete All --}}
+
+
 
 
 
