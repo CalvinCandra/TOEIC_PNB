@@ -271,7 +271,7 @@
                 </p>
                 <p>
                     If you have any further questions, please contact us via email at
-                    simulationtoeic@gmail.com.
+                    language-center@pnb.ac.id
                 </p>
             </div>
             <div class="end">
@@ -279,7 +279,7 @@
                 <hr />
             </div>
             <p class="footer" style="color: #6b6b6b">
-                copyright 2024 | TOEIC ASSESSMENT PNB
+                &copy; copyright 2024 | TOEIC ASSESSMENT PNB
             </p>
         </div>
     </div>
