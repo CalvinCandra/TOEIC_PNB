@@ -21,8 +21,8 @@ class UserImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         // validasi header
-        if(!isset($row['name']) || !isset($row['email']) || !isset($row['nim']) || !isset($row['gender']) || !isset($row['mayor'])){
-            Session::flash('gagal', 'Please Add Header with name "Name, Email, Nim, Gender, Mayor" in File Excel');
+        if(!isset($row['name']) || !isset($row['email']) || !isset($row['nim']) || !isset($row['gender']) || !isset($row['major'])){
+            Session::flash('gagal', 'Please Add Header with name "Name, Email, Nim, Gender, Major" in File Excel');
             return null;
         }
 
