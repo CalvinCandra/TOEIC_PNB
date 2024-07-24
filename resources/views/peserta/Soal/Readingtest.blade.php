@@ -77,7 +77,7 @@
 
                         {{-- judul --}}
                         <h1 class="text-xl font-bold mb-5 bg-[#F3F3F3] p-3 rounded-t-lg border-b">
-                            Listening - Question <span id="currentQuestion">{{$data->nomor_soal}}</span>
+                            Reading - Question <span id="currentQuestion">{{$data->nomor_soal}}</span>
                         </h1>
 
                         {{-- gambar atau audio --}}

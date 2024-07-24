@@ -19,7 +19,7 @@ class PesertaExport implements FromCollection, WithHeadings
             'peserta.nama_peserta',
             'users.email',
             'peserta.nim',
-            DB::raw("CASE WHEN peserta.kelamin = 'L' THEN 'Man' ELSE 'Female' END As kelamin"),
+            DB::raw("CASE WHEN peserta.kelamin = 'L' THEN 'Male' ELSE 'Female' END As kelamin"),
             'peserta.jurusan',
             'peserta.skor_listening',
             'peserta.skor_reading',
