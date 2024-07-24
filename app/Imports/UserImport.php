@@ -20,6 +20,13 @@ class UserImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
+        // validasi header
+        if(!isset($row['name']) || !isset($row['email']) || !isset($row['nim']) || !isset($row['gender']) || !isset($row['mayor'])){
+            Session::flash('gagal', 'Please Add Header with name "Name, Email, Nim, Gender, Mayor" in File Excel');
+            return null;
+        }
+
+
         // Dapatkan data Peserta berdasarkan NIM
         $peserta = Peserta::where('nim', $row['nim'])->first();
 
@@ -47,7 +54,7 @@ class UserImport implements ToModel, WithHeadingRow
          $User = User::select('*')->where('email', $row['email'])->first();
 
         // cek kolom gender
-        if($row['kelamin'] == 'Man'){
+        if($row['gender'] == 'Male'){
             $kelamin = 'L';
         }else{
             $kelamin = 'P';
@@ -59,7 +66,7 @@ class UserImport implements ToModel, WithHeadingRow
             'nim' => $row['nim'],
             'token' => $password,
             'kelamin' => $kelamin,
-            'jurusan' => $row['jurusan'],
+            'jurusan' => $row['mayor'],
             'skor_listening' => 0,
             'skor_reading' => 0,
             'id_users' => $user['id'],

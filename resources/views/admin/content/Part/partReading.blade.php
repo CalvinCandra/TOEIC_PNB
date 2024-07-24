@@ -198,7 +198,7 @@
 
                     <div class="">
                         <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Image (Opsional)</label>
-                        <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
+                        <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                             <option selected hidden value="">-- Choose a File Image --</option>
                             @foreach ($gambar as $item)
                                 <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
@@ -298,6 +298,7 @@
                                 @foreach ($gambar as $item)
                                     <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
                                 @endforeach
+                                <option value="" class="italic text-red-500">Remove Image From Question</option>
                             @endif
                         </select>
                     </div>
