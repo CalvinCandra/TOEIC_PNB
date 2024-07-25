@@ -14,14 +14,14 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class UserImport implements ToModel, WithHeadingRow
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function model(array $row)
     {
         // validasi header
-        if(!isset($row['name']) || !isset($row['email']) || !isset($row['nim']) || !isset($row['gender']) || !isset($row['major'])){
+        if (!isset($row['name']) || !isset($row['email']) || !isset($row['nim']) || !isset($row['gender']) || !isset($row['major'])) {
             Session::flash('gagal', 'Please Add Header with name "Name, Email, Nim, Gender, Major" in File Excel');
             return null;
         }
@@ -50,13 +50,13 @@ class UserImport implements ToModel, WithHeadingRow
             'level' => 'peserta'
         ]);
 
-         // get id berdasarkan data yang baru ditambah
-         $User = User::select('*')->where('email', $row['email'])->first();
+        // get id berdasarkan data yang baru ditambah
+        $User = User::select('*')->where('email', $row['email'])->first();
 
         // cek kolom gender
-        if($row['gender'] == 'Male'){
+        if ($row['gender'] == 'Male') {
             $kelamin = 'L';
-        }else{
+        } else {
             $kelamin = 'P';
         }
 
@@ -66,7 +66,7 @@ class UserImport implements ToModel, WithHeadingRow
             'nim' => $row['nim'],
             'token' => $password,
             'kelamin' => $kelamin,
-            'jurusan' => $row['mayor'],
+            'jurusan' => $row['major'],
             'skor_listening' => 0,
             'skor_reading' => 0,
             'id_users' => $user['id'],
