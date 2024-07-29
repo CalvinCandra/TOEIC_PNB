@@ -53,7 +53,7 @@
                                 <a href="{{ url('/dashAdminGambar') }}"
                                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
                                     <i class="fa-solid fa-image text-xl text-black"></i>
-                                    <span class="ml-4">Image Question</span>
+                                    <span class="ml-4">Add Image</span>
                                 </a>
                             </li>
 
@@ -61,7 +61,7 @@
                                 <a href="{{ url('/dashAdminAudio') }}"
                                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
                                     <i class="fa-solid fa-volume-high text-xl text-black"></i>
-                                    <span class="ml-4">Audio Question</span>
+                                    <span class="ml-4">Add Audio</span>
                                 </a>
                             </li>
 
@@ -69,7 +69,7 @@
                                 <a href="{{ url('/dashAdminSoal') }}"
                                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
                                     <i class="fa-solid fa-vault text-xl text-black"></i>
-                                    <span class="ml-4">Code Question</span>
+                                    <span class="ml-4">Bank Code</span>
                                 </a>
                             </li>
 
@@ -121,7 +121,7 @@
                                 <a href="{{ url('/dashPetugasGambar') }}"
                                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
                                     <i class="fa-solid fa-image text-xl text-black"></i>
-                                    <span class="ml-4">Image Question</span>
+                                    <span class="ml-4">Add Image</span>
                                 </a>
                             </li>
 
@@ -129,7 +129,7 @@
                                 <a href="{{ url('/dashPetugasAudio') }}"
                                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
                                     <i class="fa-solid fa-volume-high text-xl text-black"></i>
-                                    <span class="ml-4">Audio Question</span>
+                                    <span class="ml-4">Add Audio</span>
                                 </a>
                             </li>
 
@@ -137,7 +137,7 @@
                                 <a href="{{ url('/dashPetugasSoal') }}"
                                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
                                     <i class="fa-solid fa-vault text-xl text-black"></i>
-                                    <span class="ml-4">Code Question</span>
+                                    <span class="ml-4">Bank Code</span>
                                 </a>
                             </li>
 

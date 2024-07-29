@@ -49,6 +49,10 @@
                     Add File Image
                 </button>
             </div>
+
+            <div class="italic">
+                <p class="text-light text-gray-500"><span class="font-bold">Note : </span>Please rename the file name and please remember the file name.</p>
+            </div>
             
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
 

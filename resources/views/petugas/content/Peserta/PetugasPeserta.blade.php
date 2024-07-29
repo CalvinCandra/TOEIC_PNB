@@ -51,7 +51,7 @@
             {{-- end search --}}
             <div class="block lg:flex justify-between mt-5 ">
                 <!-- Modal toggle -->
-                <div class="block lg:flex">
+                <div class="flex-warp lg:flex">
                     <button data-modal-target="TambahPeserta" data-modal-toggle="TambahPeserta" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
                         Create Participants Data
                     </button>
@@ -59,6 +59,10 @@
                     <button data-modal-target="TambahPesertaExcel" data-modal-toggle="TambahPesertaExcel" class="lg:mx-2 block text-white bg-sky-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
                         Create With Excel
                     </button>
+
+                    <a href="{{url('/downloadtemplatepetugas')}}" class="text-white bg-green-500 hover:bg-green-600 font-medium rounded-lg text-sm px-5 flex items-center text-center mb-5" target="_blank">
+                        Download Template
+                    </a>
                 </div>
 
                 {{-- action --}}

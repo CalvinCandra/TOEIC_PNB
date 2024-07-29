@@ -417,6 +417,11 @@ class AdminController extends Controller
             return redirect()->back();
         }
     }
+
+    // download template
+    public function Template(){
+        return Storage::download('public/Template/Participation Data.xlsx');
+    }
     // ======================================= END PESERTA =====================================
 
     // ======================================= GAMBAR FOR ADMIN =====================================

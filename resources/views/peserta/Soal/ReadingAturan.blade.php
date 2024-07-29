@@ -33,11 +33,6 @@
                 <img src="{{asset('favicon/Logo PNB.png')}}" alt="Logo PNB" class="max-h-10 pe-2">
                 <h1 class="font-bold text-xl">TOEIC</h1>
             </div>
-            <div class="flex items-center">
-                <div class="bg-[#023047] p-2 rounded-lg text-white font-bold text-md tracking-widest">
-                    Preview
-                </div>
-            </div>
         </nav>
     </header>
 

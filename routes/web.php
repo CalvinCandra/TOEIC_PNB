@@ -80,6 +80,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::get('/ExportExcelAdmin', [AdminController::class, 'ExportExcelAdmin']);
     Route::post('/ResetStatusAdmin', [AdminController::class, 'ResetStatusAdmin']);
     Route::post('/DeleteAllAdmin', [AdminController::class, 'DeleteAllAdmin']);
+    Route::get('/downloadtemplate', [AdminController::class, 'Template']);
 
     // Gambar
     Route::get('/dashAdminGambar', [AdminController::class, 'dashAdminGambar']);
@@ -138,6 +139,7 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     Route::get('/ExportExcelPetugas', [PetugasController::class, 'ExportExcelPetugas']);
     Route::post('/ResetStatusPetugas', [PetugasController::class, 'ResetStatusPetugas']);
     Route::post('/DeleteAllPetugas', [PetugasController::class, 'DeleteAllPetugas']);
+    Route::get('/downloadtemplatepetugas', [PetugasController::class, 'Template']);
 
     // Gambar
     Route::get('/dashPetugasGambar', [PetugasController::class, 'dashPetugasGambar']);
