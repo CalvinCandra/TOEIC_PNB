@@ -6,8 +6,9 @@ use App\Models\Peserta;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class PesertaExport implements FromCollection, WithHeadings
+class PesertaExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -21,13 +22,15 @@ class PesertaExport implements FromCollection, WithHeadings
             'peserta.nim',
             DB::raw("CASE WHEN peserta.kelamin = 'L' THEN 'Male' ELSE 'Female' END As kelamin"),
             'peserta.jurusan',
+            'peserta.benar_listening',
             'peserta.skor_listening',
+            'peserta.benar_reading',
             'peserta.skor_reading',
         )->get();
     }
 
     public function headings(): array
     {
-        return ["Name", "Email", "NIM", "Gender", "Major", "Skor Listening", "Skor Reading"];
+        return ["Name", "Email", "NIM", "Gender", "Major", "Correct Listening", "Score Listening", "Correct Reading", "Score Reading"];
     }
 }

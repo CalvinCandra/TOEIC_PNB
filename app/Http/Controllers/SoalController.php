@@ -180,7 +180,6 @@ class SoalController extends Controller
             ->where('id_bank', $getBank->id_bank)
             ->get();
 
-
         // variabel buat nilai
         $Benar = 0;
         $Salah = 0;
@@ -201,17 +200,6 @@ class SoalController extends Controller
         $JumlahBenar = $Benar;
         $Jumlahsalah = $Salah;
 
-        // put data listening
-        $request->session()->put('benarListening', $JumlahBenar);
-        $request->session()->put('salahListening', $Jumlahsalah);
-
-        // put again data reading
-        $request->session()->put('benarReading', $request->session()->get('benarReading'));
-        $request->session()->put('salahReading', $request->session()->get('salahReading'));
-
-        // menghapus data sebelumnya di database
-        JawabanPeserta::where('id_peserta', $peserta->id_peserta)->delete();
-
         // Mencocokkan nilai benar dengan skala nilai di database
         $nilaiListening = Nilai::where('jawaban_benar', $JumlahBenar)->first();
 
@@ -220,8 +208,16 @@ class SoalController extends Controller
 
         // update database
         $peserta->update([
+            'benar_listening' => $JumlahBenar,
             'skor_listening' => $skorListening,
         ]);
+
+        // menghapus data sebelumnya di database
+        JawabanPeserta::where('id_peserta', $peserta->id_peserta)->delete();
+        
+        // put data listening
+        $request->session()->put('benarListening', $JumlahBenar);
+        $request->session()->put('salahListening', $Jumlahsalah);
 
         //hapus session waktu sebelumnya
         $request->session()->forget('waktu');
@@ -400,6 +396,18 @@ class SoalController extends Controller
         $JumlahBenar = $Benar;
         $Jumlahsalah = $Salah;
 
+        // Mencocokkan nilai benar dengan skala nilai di database
+        $nilaiReading = Nilai::where('jawaban_benar', $JumlahBenar)->first();
+
+        // Jika tidak ditemukan, default skor ke 0
+        $skorReading = $nilaiReading ? $nilaiReading->skor_reading : 0;
+
+        // update database
+        $peserta->update([
+            'benar_reading' => $JumlahBenar,
+            'skor_reading' => $skorReading,
+        ]);
+
         // menghapus data sebelumnya di database
         JawabanPeserta::where('id_peserta', $peserta->id_peserta)->delete();
 
@@ -410,17 +418,6 @@ class SoalController extends Controller
         //hapus ession waktu sebelumnya
         $request->session()->forget('waktu');
         $request->session()->forget('quizEndTime');
-
-        // Mencocokkan nilai benar dengan skala nilai di database
-        $nilaiReading = Nilai::where('jawaban_benar', $JumlahBenar)->first();
-
-        // Jika tidak ditemukan, default skor ke 0
-        $skorReading = $nilaiReading ? $nilaiReading->skor_reading : 0;
-
-        // update database
-        $peserta->update([
-            'skor_reading' => $skorReading,
-        ]);
 
         return redirect('/Result');
     }

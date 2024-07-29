@@ -20,7 +20,7 @@
     </div>
     
     {{-- kontent --}}
-    <div class="h-screen px-6 py-32 mx-auto w-4/5 ">
+    <div class="h-screen px-3 lg:px-6 lg:w-4/5 w-full flex items-center justify-center lg:mx-auto">
         <div class="flex bg-white rounded-md shadow-md">
             
             <div class="hidden w-2/5 lg:flex justify-center items-center mx-10">
@@ -41,7 +41,10 @@
                         </div>
                     @enderror
 
-                    <input type="password" name="password" id="" class="rounded-lg bg-[#F3F4F6] pl-3 mt-5 border-none focus:ring-2 placeholder:italic" placeholder="Your Password">
+                    <div class="relative">
+                        <input type="password" name="password" id="inputPassword" class="block w-full rounded-lg bg-[#F3F4F6] pl-3 mt-5 border-none focus:ring-2 placeholder:italic" placeholder="Your Password">
+                        <span class="absolute end-2.5 bottom-[8px] cursor-pointer icon"><i class="fa-regular fa-eye"></i></span>
+                    </div>
                     @error('password')
                         <div class=" mt-1 text-sm italic text-red-400">
                             {{$message}}
@@ -51,7 +54,7 @@
                     <button type="submit" class="bg-sky-500 rounded-full my-5 py-2 text-white font-semibold hover:bg-sky-600">Continue</button>
                 </form>
 
-                <p class="text-center">By continuing, you agree to the updated <span class="font-semibold">Terms of Sale, Terms of Service</span>, and <span class="font-semibold">Privacy Policy.</span></p>
+                <p class="text-center lg:text-base text-sm">By continuing, you agree to the updated <span class="font-semibold">Terms of Sale, Terms of Service</span>, and <span class="font-semibold">Privacy Policy.</span></p>
                 
             </div>
         </div>
@@ -76,6 +79,24 @@
                 overlay.classList.remove('flex');
                 overlay.classList.add('hidden');
             });
+        });
+    </script>
+
+    {{-- show password --}}
+    <script>
+        const passwordField = document.getElementById("inputPassword");
+        const togglePassword = document.querySelector(".icon i");
+
+        togglePassword.addEventListener("click", function () {
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            togglePassword.classList.remove("fa-eye");
+            togglePassword.classList.add("fa-eye-slash");
+        } else {
+            passwordField.type = "password";
+            togglePassword.classList.remove("fa-eye-slash");
+            togglePassword.classList.add("fa-eye");
+        }
         });
     </script>
 </body>
