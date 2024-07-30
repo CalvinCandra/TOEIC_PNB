@@ -58,10 +58,12 @@
                 </h1>
 
                 {{-- petunjuk --}}
-                <p class="mx-4 mb-5">{{$part->petunjuk}}</p>
+                <div class="px-2 pb-2">
+                    <p class="">{!! $part->petunjuk !!}</p>
+                </div>
 
                 {{-- gambar atau audio --}}
-                <div class="mx-4">
+                <div class="mt-3">
                         @if(!empty($part->id_audio))
                         <audio id="audiopart" class="audiopart" data-id-part="{{ $part->id_part }}" controls>
                             <source src="{{ asset('storage/audio/' . $part->audio->audio) }}" type="audio/mp3" class="bg-[#023047] text-white">
@@ -84,7 +86,7 @@
                         </div>
 
                         {{-- judul --}}
-                        <h1 class="text-xl font-bold mb-5 bg-[#F3F3F3] p-3 rounded-t-lg border-b">
+                        <h1 class="text-md font-bold mb-5 bg-[#F3F3F3] p-3 rounded-t-lg border-b">
                             Listening - Question <span id="currentQuestion">{{$data->nomor_soal}}</span>
                         </h1>
 

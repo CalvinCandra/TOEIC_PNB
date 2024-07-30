@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- favicon --}}
-    <link rel="shortcut icon" href="{{asset('favicon/Logo PNB.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{asset('img/logo unit.png')}}" type="image/x-icon">
 
     {{-- goole font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +30,7 @@
     <header class="bg-white py-4 shadow w-full">
         <nav class="flex items-center justify-between px-10">
             <div class="flex justify-between items-center">
-                <img src="{{asset('favicon/Logo PNB.png')}}" alt="Logo PNB" class="max-h-10 pe-2">
+                <img src="{{asset('img/logo unit.png')}}" alt="Logo PNB" class="max-h-10 pe-2">
                 <h1 class="font-bold text-xl">TOEIC</h1>
             </div>
         </nav>

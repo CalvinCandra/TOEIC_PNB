@@ -78,7 +78,7 @@
                                 id="baris{{$loop->iteration}}">
                                     <th class="px-4 py-3 border-2">{{$loop->iteration}}</th>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->part}}</td>
-                                    <td class="px-4 py-3 border-2">{{$data->petunjuk}}</td>
+                                    <td class="px-4 py-3 border-2">{!! $data->petunjuk !!}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->dari_nomor}} - {{$data->sampai_nomor}}</td>
 
                                      @if (!$data->id_gambar == null)
@@ -133,7 +133,7 @@
 {{-- Modal Tambah --}}
 <div id="TambahPartReading" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-lg max-h-full">
+    <div class="relative w-full max-w-4xl max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow">
 
@@ -174,7 +174,8 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Direction</label>
-                        <textarea rows="5" name="petunjuk" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Direction" required></textarea>
+                        <textarea rows="5" name="petunjuk" id="editorTambah" style="visibility: hidden; height: 0; position: absolute; z-index: -1;" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                        {{-- <textarea rows="5" name="petunjuk" id="editorTambah" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Direction" required></textarea> --}}
                     </div>
 
                     <div>
@@ -215,7 +216,7 @@
 </div>
 {{-- End Modal Tambah --}}
 
-@foreach ($part as $data)    
+@foreach ($part as $data)
 {{-- Modal Update --}}
 <div id="UpdatePart{{$data->id_part}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -259,7 +260,7 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Direction</label>
-                        <textarea rows="5" name="petunjuk" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Direction" required>{{$data->petunjuk}}</textarea>
+                        <textarea rows="5" name="petunjuk" id="editorUpdate{{$data->id_part}}" class="editor p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{$data->petunjuk}}</textarea>
                     </div>
 
                     <div>
@@ -314,6 +315,7 @@
 {{-- End Modal --}}
 @endforeach
 
+
 {{-- Modal Delete --}}
 <div id="DeletePart" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -365,5 +367,4 @@
     }
 
 </script>
-
 @endsection
