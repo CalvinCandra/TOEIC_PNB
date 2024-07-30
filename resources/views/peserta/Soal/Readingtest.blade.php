@@ -56,10 +56,12 @@
                 </h1>
 
                 {{-- petunjuk --}}
-                <p class="mx-4 mb-5">{{$part->petunjuk}}</p>
+                <div class="px-2 pb-2">
+                    <p class="">{!! $part->petunjuk !!}</p>
+                </div>
 
                 {{-- gambar atau audio --}}
-                <div class="mx-4">
+                <div class="mx-2 mb-2">
                     @if (!empty($part->id_gambar))
                         <img src="{{asset('storage/gambar/'.$part->gambar->gambar)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
                     @endif
@@ -76,7 +78,7 @@
                         </div>
 
                         {{-- judul --}}
-                        <h1 class="text-xl font-bold mb-5 bg-[#F3F3F3] p-3 rounded-t-lg border-b">
+                        <h1 class="text-md font-bold mb-5 bg-[#F3F3F3] p-3 rounded-t-lg border-b">
                             Reading - Question <span id="currentQuestion">{{$data->nomor_soal}}</span>
                         </h1>
 
@@ -99,7 +101,9 @@
                         </div>
 
                         {{-- paragraf --}}
-                        <p class="mx-4 mb-3 mt-5">{{$data->text}}</p>
+                        <div class="px-2 pb-2">
+                            <p class="mb-3 mt-5">{!! $data->text !!}</p>
+                        </div>
 
                         {{-- soal --}}
                         <p class="mx-4 mb-3 bg-[#F3F3F3] mt-5">{{$data->soal}}</p>

@@ -347,7 +347,7 @@
 
                     <div>
                         <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span class="text-red-500">*</span></label>
-                        <select id="countries" name="kunci_jawaban" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                        <select id="countries" name="kunci_jawaban" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
                             <option selected hidden value="{{$data->kunci_jawaban}}">{{$data->kunci_jawaban}}</option>
                             <option value="A">A</option>
                             <option value="B">B</option>

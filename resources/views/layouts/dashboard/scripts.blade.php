@@ -21,3 +21,43 @@
         });
     });
 </script>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/32.0.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editorTambah'), {
+            toolbar: {
+                items: [
+                    'undo', 'redo', '|',
+                    'paragraft', '|',
+                    'bold', 'italic', '|',
+                    'numberedList', 'bulletedList', '|',
+                    'blockQuote',
+                ]
+            },
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.editor').forEach(function(editorElement) {
+            ClassicEditor
+                .create(editorElement, {
+                    toolbar: {
+                        items: [
+                            'undo', 'redo', '|',
+                            'paragraft', '|',
+                            'bold', 'italic', '|',
+                            'numberedList', 'bulletedList', '|',
+                            'blockQuote',
+                        ]
+                    },
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    });
+</script>

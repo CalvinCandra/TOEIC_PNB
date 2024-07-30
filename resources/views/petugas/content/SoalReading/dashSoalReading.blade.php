@@ -85,7 +85,7 @@
                                     <td class="px-4 py-3 border-2">{{$data->nomor_soal}}</td>
 
                                     @if (!$data->text == null)
-                                        <td class="px-4 py-3 border-2">{{$data->text}}</td>
+                                        <td class="px-4 py-3 border-2">{!! $data->text !!}</td>
                                     @else 
                                         <td class="px-4 py-3 border-2 italic text-slate-300">Nothing</td>
                                     @endif
@@ -196,7 +196,7 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
-                        <textarea rows="5" name="text" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Supporting sentences"></textarea>
+                        <textarea rows="5" name="text" id="editorTambah" style="visibility: hidden; height: 0; position: absolute; z-index: -1;" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
                     </div>
 
                     <div>
@@ -234,7 +234,7 @@
 
                     <div>
                         <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span class="text-red-500">*</span></label>
-                        <select id="countries" name="kunci_jawaban" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                        <select id="countries" name="kunci_jawaban" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
                             <option selected hidden value="">-- Choose a Key --</option>
                             <option value="A">A</option>
                             <option value="B">B</option>
@@ -303,7 +303,7 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
-                        <textarea rows="5" name="text" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="You can leave it blank">{{$data->text}}</textarea>
+                        <textarea rows="5" name="text" id="editorUpdate{{$data->id_soal}}" class="editor p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{$data->text}}</textarea>
                     </div>
 
                     <div>
@@ -341,7 +341,7 @@
 
                     <div>
                         <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span class="text-red-500">*</span></label>
-                        <select id="countries" name="kunci_jawaban" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                        <select id="countries" name="kunci_jawaban" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
                             <option selected hidden value="{{$data->kunci_jawaban}}">{{$data->kunci_jawaban}}</option>
                             <option value="A">A</option>
                             <option value="B">B</option>
