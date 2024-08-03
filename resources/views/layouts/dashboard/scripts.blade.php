@@ -31,7 +31,6 @@
                     'undo', 'redo', '|',
                     'paragraft', '|',
                     'bold', 'italic', '|',
-                    'numberedList', 'bulletedList', '|',
                     'blockQuote',
                 ]
             },
@@ -50,7 +49,6 @@
                             'undo', 'redo', '|',
                             'paragraft', '|',
                             'bold', 'italic', '|',
-                            'numberedList', 'bulletedList', '|',
                             'blockQuote',
                         ]
                     },

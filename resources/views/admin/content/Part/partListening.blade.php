@@ -80,7 +80,7 @@
                                 id="baris{{$loop->iteration}}">
                                     <th class="px-4 py-3 border-2">{{$loop->iteration}}</th>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->part}}</td>
-                                    <td class="px-4 py-3 border-2">{{$data->petunjuk}}</td>
+                                    <td class="px-4 py-3 border-2">{!! $data->petunjuk !!}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->dari_nomor}} - {{$data->sampai_nomor}}</td>
 
                                     @if (!$data->id_gambar == null)
@@ -292,7 +292,7 @@
                                 <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">From</label>
                                 <input type="number" name="dari_nomor" min="1" value="{{$data->dari_nomor}}"
                                     class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                    placeholder="Example : 1" required />
+                                    placeholder="Example : 1" required readonly/>
                             </div>
 
                             <div class="flex items-center">
