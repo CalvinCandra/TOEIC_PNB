@@ -305,12 +305,12 @@
         }
 
         // Update progress bar reading
-        const score1 = {{ $skorReading }};
+        const score1 = {{ $skorListening }};
         const maxScore1 = 495;
         updateProgressBar(score1, maxScore1, 'progress-bar-1', 'score-1');
 
         // Update progress bar listening
-        const score2 = {{ $skorListening }};
+        const score2 = {{ $skorReading }};
         const maxScore2 = 495;
         updateProgressBar(score2, maxScore2, 'progress-bar-2', 'score-2');
     </script>
