@@ -364,6 +364,7 @@
                         <input type="number" name="nim" value="{{$data->nim}}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : 221535000" required />
+                        <p class=" text-red-600 text-xs mt-1" id="note"></p>
                     </div>
 
                     <div>
@@ -560,17 +561,6 @@
 
 </script>
 
-<script>
-        const nimInput = document.getElementById('nim');
-        const note = document.getElementById('note');
 
-        nimInput.addEventListener('keyup', () => {
-            if (nimInput.value.length != 10) {
-                note.textContent = 'The NIM must be 10 characters.';
-            } else {
-                note.textContent = '';
-            }
-        });
-    </script>
 
 @endsection

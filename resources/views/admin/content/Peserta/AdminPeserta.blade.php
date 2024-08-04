@@ -270,6 +270,7 @@
                         <input type="number" name="nim" id="nim"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : 221535000" required />
+                        <p class=" text-red-600 text-xs mt-1" id="note"></p>
                     </div>
 
                     <div>
@@ -359,6 +360,7 @@
                         <input type="number" name="nim" value="{{$data->nim}}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : 221535000" required />
+                        <p class=" text-red-600 text-xs mt-1" id="note"></p>
                     </div>
 
                     <div>

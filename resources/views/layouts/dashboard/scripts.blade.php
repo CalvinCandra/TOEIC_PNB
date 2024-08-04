@@ -59,3 +59,16 @@
         });
     });
 </script>
+
+<script>
+    const nimInput = document.getElementById('nim');
+    const note = document.getElementById('note');
+
+    nimInput.addEventListener('keyup', () => {
+        if (nimInput.value.length != 10) {
+            note.textContent = 'The NIM must be 10 characters.';
+        } else {
+            note.textContent = '';
+        }
+    });
+</script>
