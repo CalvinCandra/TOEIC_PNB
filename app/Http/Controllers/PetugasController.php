@@ -53,8 +53,8 @@ class PetugasController extends Controller
             'email' => 'email|unique:users',
             'nim' => 'min:10|max:10|unique:peserta'
         ],[
-            'nim.max' => 'NIM Must be 10 Letters',
-            'nim.min' => 'NIM Must be 10 Letters',
+            'nim.max' => 'NIM Must be 10 Numbers',
+            'nim.min' => 'NIM Must be 10 Numbers',
         ]);
 
         // generate password otomatis

@@ -26,8 +26,8 @@ class PesertaController extends Controller
         $request->validate([
             'nim' => 'min:10|max:10'
         ],[
-            'nim.max' => 'NIM Must be 10 Letters',
-            'nim.min' => 'NIM Must be 10 Letters',
+            'nim.max' => 'NIM Must be 10 Numbers',
+            'nim.min' => 'NIM Must be 10 Numbers',
         ]);
 
          // get data peserta
