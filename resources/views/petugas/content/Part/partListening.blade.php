@@ -142,7 +142,6 @@
 </section>
 {{-- end konten --}}
 
-
 {{-- Modal Tambah --}}
 <div id="TambahPartListening" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -292,14 +291,14 @@
                             <div class="flex items-center">
                                 <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">From</label>
                                 <input type="number" name="dari_nomor" min="1" value="{{$data->dari_nomor}}"
-                                    class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="mx-2 mb-2 bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     placeholder="Example : 1" required readonly/>
                             </div>
 
                             <div class="flex items-center">
                                 <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">To</label>
                                 <input type="number" name="sampai_nomor" min="1" value="{{$data->sampai_nomor}}"
-                                    class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="mx-2 mb-2 bg-gray-50  border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     placeholder="Example : 5" required />
                             </div>
                         </div>

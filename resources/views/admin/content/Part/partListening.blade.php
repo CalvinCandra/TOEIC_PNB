@@ -68,7 +68,7 @@
                                 <th scope="col" class="px-4 py-4 border-2">No</th>
                                 <th scope="col" class="px-4 py-3 border-2">Part</th>
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[300px]">Derection</th>
-                                <th scope="col" class="px-4 py-3 border-2">Part For Number</th>
+                                <th scope="col" class="px-4 py-3 border-2">Number Question</th>
                                 <th scope="col" class="px-4 py-3 border-2">Image</th>
                                 <th scope="col" class="px-4 py-3 border-2">Audio</th>
                                 <th scope="col" class="px-4 py-3 border-2">Actions</th>
@@ -113,7 +113,7 @@
                                                     data-modal-toggle="UpdatePart{{$data->id_part}}"
                                                     class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
                                                     <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
-                                                    Rename Part
+                                                    Update Part
                                                 </button>
                                             </li>
                                             <li>
@@ -141,7 +141,6 @@
     </div>
 </section>
 {{-- end konten --}}
-
 
 {{-- Modal Tambah --}}
 <div id="TambahPartListening" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
@@ -291,7 +290,7 @@
                             <div class="flex items-center">
                                 <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">From</label>
                                 <input type="number" name="dari_nomor" min="1" value="{{$data->dari_nomor}}"
-                                    class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="mx-2 mb-2 bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     placeholder="Example : 1" required readonly/>
                             </div>
 

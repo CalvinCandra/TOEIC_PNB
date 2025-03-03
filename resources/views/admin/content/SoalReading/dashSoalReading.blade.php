@@ -16,7 +16,7 @@
     <a href="{{url("/dashAdminSoal")}}" class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
         Back
     </a>
-    <h1>Question Reading Data</h1>
+    <h1>Question Reading</h1>
 
 
     <div class="p-3 sm:p-5 antialiased">
@@ -83,7 +83,7 @@
                                     <td class="px-4 py-3 border-2">{{$data->nomor_soal}}</td>
 
                                     @if (!$data->text == null)
-                                        <td class="px-4 py-3 border-2">{!! $data->text !!}</td>
+                                        <td class="px-4 py-3 border-2 ">{!! $data->text !!}</td>
                                     @else 
                                         <td class="px-4 py-3 border-2 italic text-slate-300">Nothing</td>
                                     @endif
@@ -193,12 +193,14 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
+                        <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences (Opsional)</label>
+                        <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If there are Supporting sentences, please fill in this form, otherwise please leave it blank.</p>
                         <textarea rows="5" name="text" id="editorTambah" style="visibility: hidden; height: 0; position: absolute; z-index: -1;" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
                     </div>
 
                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Question</label>
+                        <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If there are Question, please fill in this form, otherwise please leave it blank.</p>
                         <textarea id="message" name="soal" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write question here"></textarea>
                     </div>
 
@@ -300,12 +302,14 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences</label>
+                        <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences (Opsional)</label>
+                        <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If there are Supporting sentences, please fill in this form, otherwise please leave it blank.</p>
                         <textarea rows="5" name="text" id="editorUpdate{{$data->id_soal}}" class="editor p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{$data->text}}</textarea>
                     </div>
 
                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Question</label>
+                        <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If there are Question, please fill in this form, otherwise please leave it blank.</p>
                         <textarea id="message" name="soal" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write question here">{{$data->soal}}</textarea>
                     </div>
 

@@ -577,7 +577,7 @@ class PetugasController extends Controller
  
          // validasi jika inputan sampai nomor lebih kecil dari nomor
          if($request->dari_nomor >= $request->sampai_nomor){
-             return redirect()->back()->witherrors('Please input the question number correctly');
+            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
          }
 
         Part::create([
@@ -603,7 +603,7 @@ class PetugasController extends Controller
  
         // validasi jika inputan sampai nomor lebih kecil dari nomor
         if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please input the question number correctly');
+            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
         }
 
          // Ambil part yang sesuai dengan id_part yang diberikan
@@ -711,7 +711,7 @@ class PetugasController extends Controller
 
         // validasi jika inputan sampai nomor lebih kecil dari nomor
         if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please input the question number correctly');
+            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
         }
 
         Part::create([
@@ -737,7 +737,7 @@ class PetugasController extends Controller
 
         // validasi jika inputan sampai nomor lebih kecil dari nomor
         if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please input the question number correctly');
+            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
         }
 
          // Ambil part yang sesuai dengan id_part yang diberikan

@@ -48,7 +48,7 @@
                 <input type="hidden" name="id_part" value="{{ $part->id_part}}">
             </div>
 
-            <!-- Soal disini (include gambar/audio) -->
+            <!-- Part disini (include gambar/audio) -->
             <div class="border rounded-xl relative z-30 text-justify block" id="petunjuk">
                 {{-- judul --}}
                 <h1 class="text-xl font-bold mb-5 bg-[#D7E1FB] p-3 rounded-t-lg border-b">
@@ -66,8 +66,22 @@
                         <img src="{{asset('storage/gambar/'.$part->gambar->gambar)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
                     @endif
                 </div>
-
             </div>
+
+            {{-- Multi Question --}}
+            @if (!$part->multi_soal == NULL)
+                <div class="border-2 relative z-30 text-justify block mt-5" id="multi">
+                    {{-- judul --}}
+                    <h1 class="text-md font-bold mb-5 p-3 border-b">
+                        Multiple Question Number <span id="currentQuestion">{{$part->dari_nomor}} to {{$part->sampai_nomor}}</span>
+                    </h1>
+
+                    {{-- multiSoal --}}
+                    <div class="px-2 pb-2">
+                        <p class="">{!! $part->multi_soal !!}</p>
+                    </div>
+                </div>
+            @endif
 
             <div class="block" id="soal">
                 @foreach ($soalReading as $data)
