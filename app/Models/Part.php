@@ -15,6 +15,7 @@ class Part extends Model
     protected $fillable = [
         'part',
         'petunjuk',
+        'multi_user',
         'dari_nomor',
         'sampai_nomor',
         'kategori',

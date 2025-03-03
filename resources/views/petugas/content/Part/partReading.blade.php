@@ -67,6 +67,7 @@
                                 <th scope="col" class="px-4 py-4 border-2">No</th>
                                 <th scope="col" class="px-4 py-3 border-2">Part</th>
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[300px]">Derection</th>
+                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap pe-[300px]">Multiple Question</th>
                                 <th scope="col" class="px-4 py-3 border-2">Part For Number</th>
                                 <th scope="col" class="px-4 py-3 border-2">Image</th>
                                 <th scope="col" class="px-4 py-3 border-2">Actions</th>
@@ -79,6 +80,13 @@
                                     <th class="px-4 py-3 border-2">{{$loop->iteration}}</th>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->part}}</td>
                                     <td class="px-4 py-3 border-2">{!! $data->petunjuk !!}</td>
+
+                                    @if (!$data->multi_soal == null)
+                                        <td class="px-4 py-3 border-2">{!! $data->multi_soal !!}</td>
+                                    @else 
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
+                                    @endif
+
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->dari_nomor}} - {{$data->sampai_nomor}}</td>
 
                                      @if (!$data->id_gambar == null)
@@ -100,7 +108,7 @@
                                                     data-modal-toggle="UpdatePart{{$data->id_part}}"
                                                     class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
                                                     <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
-                                                    Rename Part
+                                                    Update Part
                                                 </button>
                                             </li>
                                             <li>
@@ -128,7 +136,6 @@
     </div>
 </section>
 {{-- end konten --}}
-
 
 {{-- Modal Tambah --}}
 <div id="TambahPartReading" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
@@ -165,17 +172,16 @@
                      {{-- get tanda --}}
                      <input type="hidden" value="{{$nomor}}" name="tanda">
 
-                    <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Part</label>
-                        <input type="text" name="part" id="name"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : Part 1" required />
+                     <div>
+                        <label class="block mb-2 text-sm font-semibold text-gray-900">Direction<span class="text-red-500">*</span></label>
+                        <textarea rows="5" name="petunjuk" id="editorTambah" style="visibility: hidden; height: 0; position: absolute; z-index: -1;" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                        {{-- <textarea rows="5" name="petunjuk" id="editorTambah" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Direction" required></textarea> --}}
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm font-semibold text-gray-900">Direction</label>
-                        <textarea rows="5" name="petunjuk" id="editorTambah" style="visibility: hidden; height: 0; position: absolute; z-index: -1;" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
-                        {{-- <textarea rows="5" name="petunjuk" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Direction" required></textarea> --}}
+                        <label class="block mb-2 text-sm font-semibold text-gray-900">Multiple Question (Opsional)</label>
+                        <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If there are multiple questions, please fill in this form, otherwise please leave it blank.</p>
+                        <textarea rows="5" name="multi" id="editorTambahMulti" style="visibility: hidden; height: 0; position: absolute; z-index: -1;" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
                     </div>
 
                     <div>
@@ -264,12 +270,18 @@
                     </div>
 
                     <div>
+                        <label class="block mb-2 text-sm font-semibold text-gray-900">Multiple Question</label>
+                        <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If there are multiple questions, please fill in this form, otherwise please leave it blank.</p>
+                        <textarea rows="5" name="multi" id="editorUpdate{{$data->id_part}}" class="editorMulti p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{$data->multi_soal}}</textarea>
+                    </div>
+
+                    <div>
                         <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number<span class="text-red-500">*</span></label>
                         <div class="flex">
                             <div class="flex items-center">
                                 <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">From</label>
                                 <input type="input" name="dari_nomor" min="1" value="{{$data->dari_nomor}}"
-                                    class="mx-2 mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="mx-2 mb-2 bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     placeholder="Example : 1" required readonly/>
                             </div>
 

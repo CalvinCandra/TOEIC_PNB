@@ -731,13 +731,14 @@ class AdminController extends Controller
 
         // validasi jika inputan sampai nomor lebih kecil dari nomor
         if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please input the question number correctly');
+            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
         }
 
         Part::create([
             'part' => $request->part,
             'kategori' => 'Reading',
             'petunjuk' => $request->petunjuk,
+            'multi_soal' => $request->multi,
             'dari_nomor' => $request->dari_nomor,
             'sampai_nomor' => $request->sampai_nomor,
             'token_part' => $token_part,
@@ -756,7 +757,7 @@ class AdminController extends Controller
     {
         // validasi jika inputan sampai nomor lebih kecil dari nomor
         if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please input the question number correctly');
+            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
         }
 
          // Ambil part yang sesuai dengan id_part yang diberikan
@@ -780,6 +781,7 @@ class AdminController extends Controller
                 'part' => $request->part,
                 'kategori' => 'Reading',
                 'petunjuk' => $request->petunjuk,
+                'multi_soal' => $request->multi,
                 'dari_nomor' => $request->dari_nomor,
                 'sampai_nomor' => $request->sampai_nomor,
                 'id_bank' => $request->id_bank,
@@ -864,7 +866,7 @@ class AdminController extends Controller
 
         // validasi jika inputan sampai nomor lebih kecil dari nomor
         if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please input the question number correctly');
+            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
         }
 
         Part::create([
@@ -889,7 +891,7 @@ class AdminController extends Controller
     {
         // validasi jika inputan sampai nomor lebih kecil dari nomor
         if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please input the question number correctly');
+            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
         }
 
          // Ambil part yang sesuai dengan id_part yang diberikan

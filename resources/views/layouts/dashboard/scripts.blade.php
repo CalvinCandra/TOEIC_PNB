@@ -22,6 +22,7 @@
     });
 </script>
 
+{{-- CK Editor Direction --}}
 <script src="https://cdn.ckeditor.com/ckeditor5/32.0.0/classic/ckeditor.js"></script>
 <script>
     ClassicEditor
@@ -39,9 +40,52 @@
             console.error(error);
         });
 </script>
+
+{{-- CK Editor Direction Update --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.editor').forEach(function(editorElement) {
+            ClassicEditor
+                .create(editorElement, {
+                    toolbar: {
+                        items: [
+                            'undo', 'redo', '|',
+                            'paragraft', '|',
+                            'bold', 'italic', '|',
+                            'blockQuote',
+                        ]
+                    },
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    });
+</script>
+
+{{-- CK Editor Multi --}}
+<script src="https://cdn.ckeditor.com/ckeditor5/32.0.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editorTambahMulti'), {
+            toolbar: {
+                items: [
+                    'undo', 'redo', '|',
+                    'paragraft', '|',
+                    'bold', 'italic', '|',
+                    'blockQuote',
+                ]
+            },
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
+{{-- CK Editor Update Multi --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.editorMulti').forEach(function(editorElement) {
             ClassicEditor
                 .create(editorElement, {
                     toolbar: {

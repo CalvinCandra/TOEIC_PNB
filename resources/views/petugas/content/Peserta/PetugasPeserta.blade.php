@@ -115,7 +115,7 @@
                                     @if ($data->status->status_pengerjaan == 'Sudah')
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">Done</td>
                                     @else
-                                        <td class="px-4 py-3 border-2">Yet</td>
+                                        <td class="px-4 py-3 border-2">Not yet</td>
                                     @endif
 
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening}}</td>
@@ -391,7 +391,7 @@
                                 <option selected hidden value="{{ $data->status->status_pengerjaan }}">Yet</option>
                             @endif
                             <option value="Sudah">Done</option>
-                            <option value="Belum">Yet</option>
+                            <option value="Belum">Not yet</option>
                         </select>
                     </div>
 
