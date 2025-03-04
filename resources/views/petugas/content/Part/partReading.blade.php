@@ -173,6 +173,13 @@
                      <input type="hidden" value="{{$nomor}}" name="tanda">
 
                      <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Part</label>
+                        <input type="text" name="part" id="name"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            placeholder="Example : Part 1" required />
+                    </div>
+
+                     <div>
                         <label class="block mb-2 text-sm font-semibold text-gray-900">Direction<span class="text-red-500">*</span></label>
                         <textarea rows="5" name="petunjuk" id="editorTambah" style="visibility: hidden; height: 0; position: absolute; z-index: -1;" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
                         {{-- <textarea rows="5" name="petunjuk" id="editorTambah" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Direction" required></textarea> --}}
