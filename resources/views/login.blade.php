@@ -43,7 +43,7 @@
 
                     <div class="relative">
                         <input type="password" name="password" id="inputPassword" class="block w-full rounded-lg bg-[#F3F4F6] pl-3 mt-5 border-none focus:ring-2 placeholder:italic" placeholder="Your Password">
-                        <span class="absolute end-2.5 bottom-[8px] cursor-pointer icon"><i class="fa-regular fa-eye"></i></span>
+                        <span class="absolute end-2.5 bottom-[8px] cursor-pointer icon"><i class="fa-regular fa-eye-slash"></i></span>
                     </div>
                     @error('password')
                         <div class=" mt-1 text-sm italic text-red-400">
@@ -90,12 +90,12 @@
         togglePassword.addEventListener("click", function () {
         if (passwordField.type === "password") {
             passwordField.type = "text";
-            togglePassword.classList.remove("fa-eye");
-            togglePassword.classList.add("fa-eye-slash");
-        } else {
-            passwordField.type = "password";
             togglePassword.classList.remove("fa-eye-slash");
             togglePassword.classList.add("fa-eye");
+        } else {
+            passwordField.type = "password";
+            togglePassword.classList.remove("fa-eye");
+            togglePassword.classList.add("fa-eye-slash");
         }
         });
     </script>
