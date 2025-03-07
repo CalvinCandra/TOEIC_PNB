@@ -15,6 +15,8 @@ class NilaiController extends Controller
     // Function untuk penilaian
     public function Result(Request $request)
     {
+        // set timmer
+        set_time_limit(0);
         // Pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');

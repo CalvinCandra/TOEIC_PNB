@@ -150,6 +150,7 @@
 <body>
     <div class="container">
         <div class="header">
+            <img src="{{public_path('auth/login.png')}}" alt="">
             <h1>SIMULATION TEST RESULT FOR TOEIC</h1>
         </div>
 
@@ -183,14 +184,14 @@
                         <tr>
                             <th colspan="2">Listening</th>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td>Correct Answers</td>
                             <td>{{ $benarListening }}</td>
                         </tr>
                         <tr>
                             <td>Incorrect Answers</td>
                             <td>{{ $salahListening }}</td>
-                        </tr>
+                        </tr> --}}
                         <tr>
                             <td>Score</td>
                             <td>{{ $skorListening }}</td>
@@ -201,14 +202,14 @@
                         <tr>
                             <th colspan="2">Reading</th>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td>Correct Answers</td>
                             <td>{{ $benarReading }}</td>
                         </tr>
                         <tr>
                             <td>Incorrect Answers</td>
                             <td>{{ $salahReading }}</td>
-                        </tr>
+                        </tr> --}}
                         <tr>
                             <td>Score</td>
                             <td>{{ $skorReading }}</td>
