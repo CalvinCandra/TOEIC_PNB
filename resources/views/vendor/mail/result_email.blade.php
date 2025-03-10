@@ -199,7 +199,7 @@
             <div class="personal-data">
                 <p style="font-weight: bold">Your Personal Data :</p>
                 <p>
-                    <span class="label">Username</span>
+                    <span class="label">Full Name</span>
                     <span class="value">: {{ $nama_peserta }}</span>
                 </p>
                 <p>

@@ -144,21 +144,40 @@
             margin-top: auto;
             text-align: center;
         }
+        .header table {
+            border: none;
+            background: transparent;
+            
+        }
+        
+        .header td {
+            background: transparent;
+            border: none;
+        }
+
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <img src="{{public_path('auth/login.png')}}" alt="">
-            <h1>SIMULATION TEST RESULT FOR TOEIC</h1>
+            <table style="width: 100%; border-collapse: coll;">
+                <tr>
+                    <td style="width: 60px; padding-left: 20px;">
+                        <img src="{{asset('auth/login.png')}}" alt="Logo" style="width: 60px;">
+                    </td>
+                    <td style="text-align: left; color: white; font-size: 16px; font-weight: bold;padding-left: 15%;">
+                        SIMULATION TEST RESULT FOR TOEIC
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <div class="content">
             <div class="personal-data">
                 <p style="font-weight: bold">Your Personal Data:</p>
                 <div class="data-row">
-                    <div class="label">Username</div>
+                    <div class="label">Full Name</div>
                     <div class="value">: {{ $nama_peserta }}</div>
                 </div>
                 <div class="data-row">
