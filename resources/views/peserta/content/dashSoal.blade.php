@@ -2,7 +2,7 @@
 @extends('peserta.main')
 
 {{-- judul halaman disini --}}
-@section('Title', 'Question')
+@section('Title', 'Tryout')
 
 {{-- membuat content disini --}}
 @section('content')

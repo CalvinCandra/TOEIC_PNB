@@ -8,6 +8,7 @@ use App\Mail\ResultMail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Options;
 use Illuminate\Support\Facades\Mail;
 
 class NilaiController extends Controller
@@ -15,6 +16,8 @@ class NilaiController extends Controller
     // Function untuk penilaian
     public function Result(Request $request)
     {
+        // set timmer
+        set_time_limit(0);
         // Pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -56,6 +59,9 @@ class NilaiController extends Controller
         $detail = $result['detail'];
 
         $peserta = Peserta::with('user')->where('id_users', auth()->user()->id)->first();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
 
         // Generate PDF
         $pdf = PDF::loadView('vendor.pdf.result', [

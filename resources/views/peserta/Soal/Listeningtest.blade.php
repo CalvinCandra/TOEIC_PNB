@@ -65,7 +65,7 @@
                 {{-- gambar atau audio --}}
                 <div class="mt-3">
                         @if(!empty($part->id_audio))
-                        <audio id="audiopart" class="audiopart" data-id-part="{{ $part->id_part }}" controls>
+                        <audio id="audiopart" class="audiopart" data-id-part="{{ $part->id_part }}" controls autoplay>
                             <source src="{{ asset('storage/audio/' . $part->audio->audio) }}" type="audio/mp3" class="bg-[#023047] text-white">
                             Your browser does not support the audio element.
                         </audio>
