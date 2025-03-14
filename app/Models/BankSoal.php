@@ -14,6 +14,7 @@ class BankSoal extends Model
     protected $primaryKey = 'id_bank';
     protected $fillable = [
         'bank',
+        'sesi_bank',
         'created_at',
         'updated_at',
     ];

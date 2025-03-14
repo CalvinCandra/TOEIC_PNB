@@ -31,10 +31,66 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ url('/dashPeserta') }}"
+                                <a href="{{ url('/dashAdminPeserta') }}"
                                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
                                     <i class="fa-solid fa-graduation-cap me-2"></i>
-                                    Participants Data
+                                    All Data
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashAdminPeserta1') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 1
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashAdminPeserta2') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 2
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashAdminPeserta3') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 3
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashAdminPeserta4') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                   Session 4
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashAdminPeserta5') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 5
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashAdminPeserta6') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 6
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashAdminPeserta7') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 7
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashAdminPeserta8') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 8
                                 </a>
                             </li>
                         </ul>
@@ -102,7 +158,63 @@
                                 <a href="{{ url('/dashPetugasPeserta') }}"
                                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
                                     <i class="fa-solid fa-graduation-cap me-2"></i>
-                                    Participants Data
+                                    All Data
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashPetugasPeserta1') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 1
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashPetugasPeserta2') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 2
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashPetugasPeserta3') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 3
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashPetugasPeserta4') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                   Session 4
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashPetugasPeserta5') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 5
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashPetugasPeserta6') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 6
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashPetugasPeserta7') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 7
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/dashPetugasPeserta8') }}"
+                                    class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100">
+                                    {{-- <i class="fa-solid fa-graduation-cap me-2"></i> --}}
+                                    Session 8
                                 </a>
                             </li>
                         </ul>

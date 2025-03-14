@@ -57,6 +57,7 @@
                             <tr>
                                 <th scope="col" class="px-4 py-4 border-2">No</th>
                                 <th scope="col" class="px-4 py-3 border-2">Code Question</th>
+                                <th scope="col" class="px-4 py-3 border-2">Session</th>
                                 <th scope="col" class="px-4 py-3 border-2">Actions</th>
                             </tr>
                         </thead>
@@ -66,6 +67,7 @@
                                 id="baris{{$loop->iteration}}">
                                     <th class="px-4 py-3 border-2">{{$loop->iteration}}</th>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->bank}}</td>
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->sesi_bank}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">
                                         <ul class="lg:block py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
                                             <h1 class="font-semibold text-md">For Reading :</h1>
@@ -110,12 +112,11 @@
                                             <li class="lg:flex">
                                                 <div class="">
                                                     <button
-                                                        onclick="edit('baris{{$loop->iteration}}', '{{$data->id_bank}}')"
-                                                        type="button" data-modal-target="UpdateBank"
-                                                        data-modal-toggle="UpdateBank"
+                                                        type="button" data-modal-target="UpdateBank{{$data->id_bank}}"
+                                                        data-modal-toggle="UpdateBank{{$data->id_bank}}"
                                                         class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
                                                         <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
-                                                        Rename Bank
+                                                        Update Bank
                                                     </button>
                                                 </div>
 
@@ -182,6 +183,22 @@
                             placeholder="Example : KD-1A" required />
                     </div>
 
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
+                        <select id="countries" name="sesi_bank"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
+                            <option selected hidden value="">-- Select --</option>
+                            <option value="Session 1">Session 1</option>
+                            <option value="Session 2">Session 2</option>
+                            <option value="Session 3">Session 3</option>
+                            <option value="Session 4">Session 4</option>
+                            <option value="Session 5">Session 5</option>
+                            <option value="Session 6">Session 6</option>
+                            <option value="Session 7">Session 7</option>
+                            <option value="Session 8">Session 8</option>
+                        </select>
+                    </div>
+
                     <button type="submit"
                         class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                 </form>
@@ -192,51 +209,69 @@
 {{-- End Modal Tambah --}}
 
 {{-- Modal Update --}}
-<div id="UpdateBank" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
-    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-md max-h-full p-4">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow">
+@foreach ($bank as $data)   
+    <div id="UpdateBank{{$data->id_bank}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-md max-h-full p-4">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow">
 
-            <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
-                <h3 class="text-xl font-semibold text-gray-900">
-                    Update Bank Question
-                </h3>
-                <button type="button"
-                    class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="UpdateBank">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Update Bank Question
+                    </h3>
+                    <button type="button"
+                        class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-hide="UpdateBank{{$data->id_bank}}">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
 
-            <!-- Modal body -->
-            <div class="p-4 md:p-5">
-                <form class="space-y-4 modal-form" action="{{url('/UpdateBankSoal')}}" method="POST">
-                    @csrf
+                <!-- Modal body -->
+                <div class="p-4 md:p-5">
+                    <form class="space-y-4 modal-form" action="{{url('/UpdateBankSoal')}}" method="POST">
+                        @csrf
 
-                    <input type="hidden" name="id_bank" id="edit-bank">
+                        <input type="hidden" name="id_bank" value="{{$data->id_bank}}">
 
-                    <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code Question</label>
-                        <input type="text" name="bank" id="edit-Codebank"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                            placeholder="Example : KD-1A" required />
-                    </div>
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code Question</label>
+                            <input type="text" name="bank" value="{{$data->bank}}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                placeholder="Example : KD-1A" required />
+                        </div>
 
-                    <button type="submit"
-                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
+                            <select id="countries" name="sesi_bank"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                <option selected hidden value="{{ $data->sesi_bank }}">{{$data->sesi_bank}}</option>
+                                <option value="Session 1">Session 1</option>
+                                <option value="Session 2">Session 2</option>
+                                <option value="Session 3">Session 3</option>
+                                <option value="Session 4">Session 4</option>
+                                <option value="Session 5">Session 5</option>
+                                <option value="Session 6">Session 6</option>
+                                <option value="Session 7">Session 7</option>
+                                <option value="Session 8">Session 8</option>
+                            </select>
+                        </div>
 
-                </form>
+                        <button type="submit"
+                            class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endforeach
 {{-- End Modal --}}
 
 {{-- Modal Delete --}}
@@ -282,22 +317,11 @@
 
 
 <script>
-
-    function edit(baris, id) {
-        const td = document.querySelectorAll('#' + baris + ' td');
-
-        document.getElementById('edit-Codebank').value = td[0].innerText
-
-        document.getElementById('edit-bank').value = id;
-    }
-
-
     function hapus(baris, id) {
         const td = document.querySelectorAll('#' + baris + ' td');
 
         document.getElementById('hapus-bank').value = id;
     }
-
 </script>
 
 @endsection

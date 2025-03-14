@@ -26,11 +26,22 @@ class MailController extends Controller
 
     // Send Mailm Petugas Sekaligus
     public function SendPetugasAll(){
-        $petugas = Petugas::with('user')->select('*')->get();
-        
-        foreach($petugas as $data){
-            Mail::to($data->user['email'])->send(new SendMail($data));
-        };
+        set_time_limit(0); // Tidak ada batas waktu eksekusi
+
+        // Tentukan ukuran batch
+        $batchSize = 100;
+        // Jeda antara batch dalam detik
+        $delayBetweenBatches = 60; // 1 menit
+
+       Petugas::with('user')->chunk($batchSize, function ($batch) use ($delayBetweenBatches){
+            foreach ($batch as $data) {
+                // Kirim email menggunakan queue
+                Mail::to($data->user['email'])->send(new SendMail($data));
+                sleep(1);
+            }
+            // Jeda antar batch
+            sleep($delayBetweenBatches);
+        });
         
         toast('Send Mail Successful!','success');
         return redirect()->back();
@@ -46,12 +57,107 @@ class MailController extends Controller
     }
 
     // Send Mail Peserta Sekaligus
-    public function SendPesertaAll(){
-        $peserta = Peserta::with('user')->select('*')->get();
-        
-        foreach($peserta as $data){
-            Mail::to($data->user['email'])->send(new SendMail($data));
-        };
+    public function SendPesertaAll($sesi){
+        set_time_limit(0); // Tidak ada batas waktu eksekusi
+
+        // Tentukan ukuran batch
+        $batchSize = 100;
+        // Jeda antara batch dalam detik
+        $delayBetweenBatches = 60; // 1 menit
+
+        if($sesi == 'Sesione'){
+            Peserta::with('user')->where('sesi', 'Session 1')->chunk($batchSize, function ($batch) use ($delayBetweenBatches){
+                foreach ($batch as $data) {
+                    // Kirim email menggunakan queue
+                    Mail::to($data->user['email'])->send(new SendMail($data));
+                    sleep(1);
+                }
+                // Jeda antar batch
+                sleep($delayBetweenBatches);
+            });
+
+            toast('Send Mail Successful!','success');
+            return redirect()->back();
+
+        }elseif($sesi == 'Sesitwo'){
+            Peserta::with('user')->where('sesi', 'Session 2')->chunk($batchSize, function ($batch) use ($delayBetweenBatches){
+                foreach ($batch as $data) {
+                    // Kirim email menggunakan queue
+                    Mail::to($data->user['email'])->send(new SendMail($data));
+                    sleep(1);
+                }
+                // Jeda antar batch
+                sleep($delayBetweenBatches);
+            });
+        }elseif($sesi == 'Sesithree'){
+            Peserta::with('user')->where('sesi', 'Session 3')->chunk($batchSize, function ($batch) use ($delayBetweenBatches){
+                foreach ($batch as $data) {
+                    // Kirim email menggunakan queue
+                    Mail::to($data->user['email'])->send(new SendMail($data));
+                    sleep(1);
+                }
+                // Jeda antar batch
+                sleep($delayBetweenBatches);
+            });
+        }elseif($sesi == 'Sesifour'){
+            Peserta::with('user')->where('sesi', 'Session 4')->chunk($batchSize, function ($batch) use ($delayBetweenBatches){
+                foreach ($batch as $data) {
+                    // Kirim email menggunakan queue
+                    Mail::to($data->user['email'])->send(new SendMail($data));
+                    sleep(1);
+                }
+                // Jeda antar batch
+                sleep($delayBetweenBatches);
+            });
+
+        }elseif($sesi == 'Sesifive'){
+            Peserta::with('user')->where('sesi', 'Session 5')->chunk($batchSize, function ($batch) use ($delayBetweenBatches){
+                foreach ($batch as $data) {
+                    // Kirim email menggunakan queue
+                    Mail::to($data->user['email'])->send(new SendMail($data));
+                    sleep(1);
+                }
+                // Jeda antar batch
+                sleep($delayBetweenBatches);
+            });
+
+        }elseif($sesi == 'Sesisix'){
+            Peserta::with('user')->where('sesi', 'Session 6')->chunk($batchSize, function ($batch) use ($delayBetweenBatches){
+                foreach ($batch as $data) {
+                    // Kirim email menggunakan queue
+                    Mail::to($data->user['email'])->send(new SendMail($data));
+                    sleep(1);
+                }
+                // Jeda antar batch
+                sleep($delayBetweenBatches);
+            });
+
+        }elseif($sesi == 'Sesiseven'){
+            Peserta::with('user')->where('sesi', 'Session 7')->chunk($batchSize, function ($batch) use ($delayBetweenBatches){
+                foreach ($batch as $data) {
+                    // Kirim email menggunakan queue
+                    Mail::to($data->user['email'])->send(new SendMail($data));
+                    sleep(1);
+                }
+                // Jeda antar batch
+                sleep($delayBetweenBatches);
+            });
+
+        }elseif($sesi == 'Sesieight'){
+            Peserta::with('user')->where('sesi', 'Session 8')->chunk($batchSize, function ($batch) use ($delayBetweenBatches){
+                foreach ($batch as $data) {
+                    // Kirim email menggunakan queue
+                    Mail::to($data->user['email'])->send(new SendMail($data));
+                    sleep(1);
+                }
+                // Jeda antar batch
+                sleep($delayBetweenBatches);
+            });
+
+        }else{
+            toast('Session Valid','error');
+            return redirect()->back();
+        }
         
         toast('Send Mail Successful!','success');
         return redirect()->back();

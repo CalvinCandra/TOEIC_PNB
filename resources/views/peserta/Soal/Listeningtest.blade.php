@@ -65,7 +65,7 @@
                 {{-- gambar atau audio --}}
                 <div class="mt-3">
                         @if(!empty($part->id_audio))
-                        <audio id="audiopart" class="audiopart" data-id-part="{{ $part->id_part }}" controls autoplay>
+                        <audio id="audiopart" class="audiopart" data-id-part="{{ $part->id_part }}" controls>
                             <source src="{{ asset('storage/audio/' . $part->audio->audio) }}" type="audio/mp3" class="bg-[#023047] text-white">
                             Your browser does not support the audio element.
                         </audio>
@@ -174,6 +174,13 @@
     </script>
 
     <script>
+        // menghentikan countdown ketika tombol submit ditekan
+        document.getElementById("submitButton").addEventListener("click", function() {
+            clearInterval(window.x);
+        });
+    </script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const audioElements = document.querySelectorAll('.audio');
 
@@ -197,7 +204,7 @@
         function handleAudioPlay(audio, id) {
             let playCount = localStorage.getItem(`audio-play-count-${id}`) || 0;
 
-            if (playCount >= 2) {
+            if (playCount >= 1) {
                 audio.setAttribute('disabled', 'disabled');
                 audio.removeAttribute('controls');
             }
@@ -207,7 +214,7 @@
                 playCount++;
                 localStorage.setItem(`audio-play-count-${id}`, playCount);
 
-                if (playCount >= 2) {
+                if (playCount >= 1) {
                     audio.setAttribute('disabled', 'disabled');
                     audio.removeAttribute('controls');
                 }

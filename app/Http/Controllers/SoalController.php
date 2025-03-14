@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Models\Part;
 use App\Models\Soal;
 use App\Models\Nilai;
-use App\Models\Status;
 use App\Models\Peserta;
 use App\Models\BankSoal;
 use Illuminate\Http\Request;
@@ -54,8 +53,8 @@ class SoalController extends Controller
         $peserta = Peserta::where('id_users', auth()->user()->id)->first();
 
         // ubah status peserta menjadi sudah selesai
-        Status::where('id_peserta', $peserta->id_peserta)->update([
-            'status_pengerjaan' => 'Sudah'
+        Peserta::where('id_peserta', $peserta->id_peserta)->update([
+            'status' => 'Sudah'
         ]);
 
         return redirect("/SoalListening" . "/" . $PartListening->token_part);

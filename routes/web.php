@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Soal;
 use App\Models\Nilai;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\DisableHistory;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\SoalController;
@@ -14,7 +16,6 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\BankSoalController;
-use App\Models\Soal;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +58,7 @@ Route::get('/SendMailPetugasAll', [MailController::class, 'SendPetugasAll'])->mi
 // kirim email peserta persatu
 Route::get('/SendMail/Peserta/{id}', [MailController::class, 'SendPeserta'])->middleware('auth');
 // kirim email peserta sekaligus
-Route::get('/SendMailPesertaAll', [MailController::class, 'SendPesertaAll'])->middleware('auth');
+Route::get('/SendMailPesertaAll/{sesi}', [MailController::class, 'SendPesertaAll'])->middleware('auth');
 
 // ========================================== Grup Admin ==========================================
 // ==================================== Yang Berbau Admin, Dikerjakan di dalam Grup ini ==================================
@@ -73,13 +74,23 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
 
     // dashboard Peserta
     Route::get('/dashPeserta', [AdminController::class, 'dashPeserta']);
-    Route::post('/TambahPeserta', [AdminController::class, 'TambahPeserta']);
+    Route::get('/dashPeserta1', [AdminController::class, 'dashPeserta1']);
+    Route::get('/dashPeserta2', [AdminController::class, 'dashPeserta2']);
+    Route::get('/dashPeserta3', [AdminController::class, 'dashPeserta3']);
+    Route::get('/dashPeserta4', [AdminController::class, 'dashPeserta4']);
+    Route::get('/dashPeserta5', [AdminController::class, 'dashPeserta5']);
+    Route::get('/dashPeserta6', [AdminController::class, 'dashPeserta6']);
+    Route::get('/dashPeserta7', [AdminController::class, 'dashPeserta7']);
+    Route::get('/dashPeserta8', [AdminController::class, 'dashPeserta8']);
+
+
+    // Route::post('/TambahPeserta', [AdminController::class, 'TambahPeserta']);
     Route::post('/TambahPesertaExcelAdmin', [AdminController::class, 'TambahPesertaExcel']);
     Route::post('/UpdatePeserta', [AdminController::class, 'UpdatePeserta']);
     Route::post('/DeletePeserta', [AdminController::class, 'DeletePeserta']);
-    Route::get('/ExportExcelAdmin', [AdminController::class, 'ExportExcelAdmin']);
-    Route::post('/ResetStatusAdmin', [AdminController::class, 'ResetStatusAdmin']);
-    Route::post('/DeleteAllAdmin', [AdminController::class, 'DeleteAllAdmin']);
+    Route::get('/ExportExcelAdmin/{sesi}', [AdminController::class, 'ExportExcelAdmin']);
+    Route::post('/ResetStatusAdmin/{sesi}', [AdminController::class, 'ResetStatusAdmin']);
+    Route::post('/DeleteAllAdmin/{sesi}', [AdminController::class, 'DeleteAllAdmin']);
     Route::get('/downloadtemplate', [AdminController::class, 'Template']);
 
     // Gambar
@@ -132,13 +143,22 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
 
     // Peserta
     Route::get('/dashPetugasPeserta', [PetugasController::class, 'dashPetugasPeserta']);
-    Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
+    Route::get('/dashPetugasPeserta1', [PetugasController::class, 'dashPetugasPeserta1']);
+    Route::get('/dashPetugasPeserta2', [PetugasController::class, 'dashPetugasPeserta2']);
+    Route::get('/dashPetugasPeserta3', [PetugasController::class, 'dashPetugasPeserta3']);
+    Route::get('/dashPetugasPeserta4', [PetugasController::class, 'dashPetugasPeserta4']);
+    Route::get('/dashPetugasPeserta5', [PetugasController::class, 'dashPetugasPeserta5']);
+    Route::get('/dashPetugasPeserta6', [PetugasController::class, 'dashPetugasPeserta6']);
+    Route::get('/dashPetugasPeserta7', [PetugasController::class, 'dashPetugasPeserta7']);
+    Route::get('/dashPetugasPeserta8', [PetugasController::class, 'dashPetugasPeserta8']);
+
+    // Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
     Route::post('/TambahPesertaExcelPetugas', [PetugasController::class, 'TambahPesertaExcel']);
     Route::post('/UpdatePetugasPeserta', [PetugasController::class, 'UpdatePetugasPeserta']);
     Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
-    Route::get('/ExportExcelPetugas', [PetugasController::class, 'ExportExcelPetugas']);
-    Route::post('/ResetStatusPetugas', [PetugasController::class, 'ResetStatusPetugas']);
-    Route::post('/DeleteAllPetugas', [PetugasController::class, 'DeleteAllPetugas']);
+    Route::get('/ExportExcelPetugas/{sesi}', [PetugasController::class, 'ExportExcelPetugas']);
+    Route::post('/ResetStatusPetugas/{sesi}', [PetugasController::class, 'ResetStatusPetugas']);
+    Route::post('/DeleteAllPetugas/{sesi}', [PetugasController::class, 'DeleteAllPetugas']);
     Route::get('/downloadtemplatepetugas', [PetugasController::class, 'Template']);
 
     // Gambar
@@ -198,23 +218,25 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
     Route::get('/DashboardSoal', [PesertaController::class, 'dashSoal']);
     Route::get('/TokenQuestion', [PesertaController::class, 'TokenQuestion']);
 
-    // Soal Reading
-    Route::get('/Reading', [SoalController::class, 'Reading']);
-    Route::get('/SoalReading', [SoalController::class, 'GetReading']);
-    Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
-    Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading']);
-    Route::get('/nilaiReading', [SoalController::class, 'GetNilaiReading'])->name('nilaiReading');
+    Route::middleware([DisableHistory::class])->group(function () {
+        // Soal Reading
+        Route::get('/Reading', [SoalController::class, 'Reading']);
+        Route::get('/SoalReading', [SoalController::class, 'GetReading']);
+        Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
+        Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading']);
+        Route::get('/nilaiReading', [SoalController::class, 'GetNilaiReading'])->name('nilaiReading');
 
+        // Listening
+        Route::get('/Listening', [SoalController::class, 'Listening']);
+        Route::get('/SoalListening', [SoalController::class, 'GetListening']);
+        Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
+        Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening']);
+        Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
+        Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed']);
+        Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed']);
+    });
+   
     Route::get('/destory', [SoalController::class, 'destory']);
-
-    // Soal Listening
-    Route::get('/Listening', [SoalController::class, 'Listening']);
-    Route::get('/SoalListening', [SoalController::class, 'GetListening']);
-    Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
-    Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening']);
-    Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
-    Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed']);
-    Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed']);
 
     // funcition result sementara
     Route::get('/Result', [NilaiController::class, 'Result']);
