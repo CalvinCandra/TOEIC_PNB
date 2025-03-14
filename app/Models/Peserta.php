@@ -17,8 +17,9 @@ class Peserta extends Model
         'nama_peserta',
         'nim',
         'token',
-        'kelamin',
         'jurusan',
+        'sesi',
+        'status',
         'benar_listening',
         'benar_reading',
         'skor_listening',
@@ -27,12 +28,6 @@ class Peserta extends Model
         'created_at',
         'update_at',
     ];
-
-    // status 
-    public function status(): BelongsTo
-    {
-        return $this->belongsTo(Status::class, 'id_peserta', 'id_peserta');
-    }
 
     // users
     public function user(): HasOne

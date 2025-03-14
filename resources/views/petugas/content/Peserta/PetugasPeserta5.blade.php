@@ -9,7 +9,7 @@
 
 {{-- konten --}}
 <section class="p-4 md:ml-64 h-auto pt-20">
-    <h1>Participants Data</h1>
+    <h1>Participants Data Session 5</h1>
 
     <div class="p-3 sm:p-5 antialiased">
         @if (count($errors) > 0)
@@ -49,33 +49,13 @@
                     </form>
                 </div>
             {{-- end search --}}
-            <div class="block lg:flex justify-between mt-5 ">
-                <!-- Modal toggle -->
-                <div class="flex-warp lg:flex">
-                    {{-- <button data-modal-target="TambahPeserta" data-modal-toggle="TambahPeserta" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                        Create Participants Data
-                    </button> --}}
-
-                    <button data-modal-target="TambahPesertaExcel" data-modal-toggle="TambahPesertaExcel" class="lg:mx-2 block text-white bg-sky-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-                        Create With Excel
-                    </button>
-
-                    <a href="{{url('/downloadtemplatepetugas')}}" class="text-white bg-green-500 hover:bg-green-600 font-medium rounded-lg text-sm px-5 flex items-center text-center mb-5" target="_blank">
-                        Download Template
-                    </a>
-                </div>
-
+            <div class="block lg:flex justify-end mt-5 ">
                 {{-- action --}}
-                {{-- <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="flex items-center text-black border-2 border-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">Action 
+                <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="flex items-center text-black border-2 border-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">Action 
                     <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                     </svg>
-                </button> --}}
-                    
-                
-                {{-- <a href="{{url('/SendMailPesertaAll')}}" class="block text-white bg-green-400 hover:bg-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5 w-32" type="button">
-                    Send Email
-                </a> --}}
+                </button>
             </div>
 
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -89,12 +69,11 @@
                                 <th scope="col" class="px-4 py-3 border-2">Participants Email</th>
                                 <th scope="col" class="px-4 py-3 border-2">Participants NIM</th>
                                 <th scope="col" class="px-4 py-3 border-2">Major</th>
-                                <th scope="col" class="px-4 py-3 border-2">Session</th>
                                 <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status</th>
-                                {{-- <th scope="col" class="px-4 py-3 border-2">Score Listening</th>
+                                <th scope="col" class="px-4 py-3 border-2">Score Listening</th>
                                 <th scope="col" class="px-4 py-3 border-2">Score Reading</th>
-                                <th scope="col" class="px-4 py-3 border-2">Total Score</th> --}}
-                                {{-- <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Actions</th> --}}
+                                <th scope="col" class="px-4 py-3 border-2">Total Score</th>
+                                <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,7 +85,6 @@
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->email}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->nim}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jurusan}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->sesi}}</td>
 
                                     @if ($data->status == 'Sudah')
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">Done</td>
@@ -114,11 +92,11 @@
                                         <td class="px-4 py-3 border-2">Not yet</td>
                                     @endif
 
-                                    {{-- <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening}}</td>
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_reading}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening + $data->skor_reading}}</td> --}}
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening + $data->skor_reading}}</td>
 
-                                    {{-- <td class="px-4 py-3 border-2 whitespace-nowrap">
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">
                                         <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
                                             <li>
                                                 <a href="{{url('/SendMail/Peserta/'.$data->id_peserta)}}"
@@ -147,7 +125,7 @@
                                                 </button>
                                             </li>
                                         </ul>
-                                    </td> --}}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -163,13 +141,13 @@
 {{-- end konten --}}
 
 <!-- Dropdown button menu -->
-{{-- <div id="dropdownHover" class="relative z-20 hidden bg-white divide-y divide-gray-100 rounded-lg border-2 border-gray-300 w-44">
+<div id="dropdownHover" class="relative z-20 hidden bg-white divide-y divide-gray-100 rounded-lg border-2 border-gray-300 w-44">
     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
     <li>
-        <a href="{{url('/SendMailPesertaAll')}}" class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
+        <a href="{{url('/SendMailPesertaAll/Sesifive')}}" class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
     </li>
     <li>
-        <a href="{{url('/ExportExcelPetugas')}}" target="_blank" class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
+        <a href="{{url('/ExportExcelPetugas/Sesifive')}}" target="_blank" class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
     </li>
     <li>
         <button type="button" data-modal-target="ResetStatus" data-modal-toggle="ResetStatus" class="text-left w-full block px-4 py-2 hover:bg-gray-100 text-red-400">Reset Status Work</a>
@@ -178,53 +156,11 @@
         <button type="button" data-modal-target="DeleteAll" data-modal-toggle="DeleteAll" class="text-left w-full block px-4 py-2 hover:bg-gray-100 text-red-600">Delete All Data</button>
     </li>
     </ul>
-</div> --}}
-
-{{-- Modal Tambah Excel --}}
-<div id="TambahPesertaExcel" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
-    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-md max-h-full p-4">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow">
-
-            <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
-                <h3 class="text-xl font-semibold text-gray-900">
-                    Create Participants Data
-                </h3>
-                <button type="button"
-                    class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="TambahPesertaExcel">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="p-4 md:p-5">
-                <form class="space-y-4 modal-form" action="{{url('/TambahPesertaExcelPetugas')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">File Excel</label>
-                        <input accept="" name="file" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" required>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
-{{-- End Modal Tambah Excel --}}
 
-
-{{-- Modal Tambah --}}
-{{-- <div id="TambahPeserta" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+@foreach ($peserta as $data)    
+{{-- Modal Update --}}
+<div id="UpdatePeserta{{$data->id_peserta}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-md max-h-full p-4">
         <!-- Modal content -->
@@ -233,11 +169,11 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Create Participants Data
+                    Update Participants Data
                 </h3>
                 <button type="button"
                     class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="TambahPeserta">
+                    data-modal-hide="UpdatePeserta{{$data->id_peserta}}">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -249,25 +185,28 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4 modal-form" action="{{url('/TambahPetugasPeserta')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/UpdatePetugasPeserta')}}" method="POST">
                     @csrf
+
+                    <input type="hidden" name="id_peserta" value="{{$data->id_peserta}}">
+
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name Full</label>
-                        <input type="text" name="name" id="name"
+                        <input type="text" name="name" value="{{$data->nama_peserta}}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : Sopo Jarwo" required />
                     </div>
 
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                        <input type="email" name="email" id="email"
+                        <input type="email" name="email" value="{{$data->user->email}}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : youremail@gmail.com" required />
                     </div>
 
                     <div>
                         <label for="nim" class="block mb-2 text-sm font-medium text-gray-900">NIM</label>
-                        <input type="number" name="nim" id="nim"
+                        <input type="number" name="nim" value="{{$data->nim}}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                             placeholder="Example : 221535000" required />
                         <p class=" text-red-600 text-xs mt-1" id="note"></p>
@@ -275,8 +214,8 @@
 
                     <div>
                         <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Major</label>
-                        <select id="countries" name="jurusan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option selected hidden value="">Choose a Major</option>
+                        <select id="countries" name="jurusan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="{{$data->jurusan}}" selected hidden>{{$data->jurusan}}</option>
                             <option value="Administrasi Bisnis">Administrasi Bisnis</option>
                             <option value="Akutansi">Akutansi</option>
                             <option value="Pariwisata">Pariwisata</option>
@@ -288,15 +227,33 @@
                     </div>
 
                     <div>
-                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Gender</label>
-                        <div class="flex items-center mb-4">
-                            <input type="radio" value="L" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
-                            <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Male</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input id="default-radio-2" type="radio" value="P" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
-                            <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Female</label>
-                        </div>
+                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Question Work Status</label>
+                        <select id="countries" name="status"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                            @if ($data->status== 'Sudah')
+                                <option selected hidden value="{{ $data->status}}">Done</option>
+                            @else
+                                <option selected hidden value="{{ $data->status}}">Yet</option>
+                            @endif
+                            <option value="Sudah">Done</option>
+                            <option value="Belum">Not yet</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
+                        <select id="countries" name="sesi"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                            <option selected hidden value="{{ $data->sesi }}">{{$data->sesi}}</option>
+                            <option value="Session 1">Session 1</option>
+                            <option value="Session 2">Session 2</option>
+                            <option value="Session 3">Session 3</option>
+                            <option value="Session 4">Session 4</option>
+                            <option value="Session 5">Session 5</option>
+                            <option value="Session 6">Session 6</option>
+                            <option value="Session 7">Session 7</option>
+                            <option value="Session 8">Session 8</option>
+                        </select>
                     </div>
 
                     <button type="submit"
@@ -306,118 +263,12 @@
             </div>
         </div>
     </div>
-</div> --}}
-{{-- End Modal Tambah --}}
-
-@foreach ($peserta as $data)    
-    {{-- Modal Update --}}
-    {{-- <div id="UpdatePeserta{{$data->id_peserta}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative w-full max-w-md max-h-full p-4">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow">
-
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
-                    <h3 class="text-xl font-semibold text-gray-900">
-                        Update Participants Data
-                    </h3>
-                    <button type="button"
-                        class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="UpdatePeserta{{$data->id_peserta}}">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="p-4 md:p-5">
-                    <form class="space-y-4 modal-form" action="{{url('/UpdatePetugasPeserta')}}" method="POST">
-                        @csrf
-
-                        <input type="hidden" name="id_peserta" value="{{$data->id_peserta}}">
-
-                        <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name Full</label>
-                            <input type="text" name="name" value="{{$data->nama_peserta}}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                placeholder="Example : Sopo Jarwo" required />
-                        </div>
-
-                        <div>
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                            <input type="email" name="email" value="{{$data->user->email}}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                placeholder="Example : youremail@gmail.com" required />
-                        </div>
-
-                        <div>
-                            <label for="nim" class="block mb-2 text-sm font-medium text-gray-900">NIM</label>
-                            <input type="number" name="nim" value="{{$data->nim}}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                placeholder="Example : 221535000" required />
-                            <p class=" text-red-600 text-xs mt-1" id="note"></p>
-                        </div>
-
-                        <div>
-                            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Major</label>
-                            <select id="countries" name="jurusan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="{{$data->jurusan}}" selected hidden>{{$data->jurusan}}</option>
-                                <option value="Administrasi Bisnis">Administrasi Bisnis</option>
-                                <option value="Akutansi">Akutansi</option>
-                                <option value="Pariwisata">Pariwisata</option>
-                                <option value="Teknik Sipil">Teknik Sipil</option>
-                                <option value="Teknik Mesin">Teknik Mesin</option>
-                                <option value="Teknik Elektro">Teknik Elektro</option>
-                                <option value="Teknologi Informasi">Teknologi Informasi</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Question Work Status</label>
-                            <select id="countries" name="status_pengerjaan"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                @if ($data->status->status_pengerjaan == 'Sudah')
-                                    <option selected hidden value="{{ $data->status->status_pengerjaan }}">Done</option>
-                                @else
-                                    <option selected hidden value="{{ $data->status->status_pengerjaan }}">Yet</option>
-                                @endif
-                                <option value="Sudah">Done</option>
-                                <option value="Belum">Not yet</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
-                            <select id="countries" name="sesi"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                @if ($data->status->status_pengerjaan == 'Sudah')
-                                    <option selected hidden value="{{ $data->status->status_pengerjaan }}">Done</option>
-                                @else
-                                    <option selected hidden value="{{ $data->status->status_pengerjaan }}">Yet</option>
-                                @endif
-                                <option value="Sudah">Done</option>
-                                <option value="Belum">Not yet</option>
-                            </select>
-                        </div>
-
-                        <button type="submit"
-                            class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    {{-- End Modal Update --}}
+</div>
+{{-- End Modal Update --}}
 @endforeach
 
 {{-- Modal Delete --}}
-{{-- <div id="DeletePeserta" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+<div id="DeletePeserta" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <!-- Modal content -->
@@ -453,11 +304,11 @@
             </div>
         </div>
     </div>
-</div> --}}
+</div>
 {{-- End Modal Delete --}}
 
 {{-- Modal Reset Status--}}
-{{-- <div id="ResetStatus" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+<div id="ResetStatus" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <!-- Modal content -->
@@ -479,7 +330,7 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Reset All Status?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form class="modal-form" action="{{url('/ResetStatusPetugas')}}" method="POST">
+                <form class="modal-form" action="{{url('/ResetStatusPetugas/Sesifive')}}" method="POST">
                     @csrf
                     
                     <button data-modal-toggle="ResetStatus" type="button"
@@ -492,7 +343,7 @@
             </div>
         </div>
     </div>
-</div> --}}
+</div>
 
 {{-- End Modal Delete All --}}
 {{-- Modal Delete All --}}
@@ -518,7 +369,7 @@
 
             <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete All?</p>
             <div class="flex justify-center items-center space-x-4">
-                <form class="modal-form" action="{{url('/DeleteAllPetugas')}}" method="POST">
+                <form class="modal-form" action="{{url('/DeleteAllPetugas/Sesifive')}}" method="POST">
                     @csrf
                     
                     <button data-modal-toggle="DeleteAll" type="button"
@@ -533,10 +384,6 @@
     </div>
 </div>
 {{-- End Modal Delete All --}}
-
-
-
-
 
 <script>
     function hapus(baris, id) {

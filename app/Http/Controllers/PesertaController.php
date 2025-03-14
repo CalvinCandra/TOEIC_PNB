@@ -85,17 +85,22 @@ class PesertaController extends Controller
 
         // get data status
         $peserta = Peserta::where('id_users', auth()->user()->id)->first();
-        $status = Status::where('id_peserta', $peserta->id_peserta)->first();
 
         // pengecekan apakah kode yang diinput ada pada database atau tidak
         if($cekBank){
             // jika token ada, cek apakah user sebelumnya sudah mengerjakan soal ini?
-            if($status->status_pengerjaan == 'Sudah'){
+            if($peserta->status == 'Sudah'){
                 Alert::info("Information", "You have previously done the questions");
                 return redirect('/DashboardSoal');
             }else{
-                $request->session()->put('bank', $cekBank->bank);
-                return redirect('/Listening');
+                // pengecekan jika peserta berada pada sesi yang sesuai
+                if($cekBank->sesi_bank != $peserta->sesi){
+                    Alert::info("Information", "Please wait your turn for the session");
+                    return redirect('/DashboardSoal');
+                }else{
+                    $request->session()->put('bank', $cekBank->bank);
+                    return redirect('/Listening');
+                }
             }
         }else{
             Alert::error("Failed", "Token Question Not Work");

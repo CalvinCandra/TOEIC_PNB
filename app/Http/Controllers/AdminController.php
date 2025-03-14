@@ -173,16 +173,14 @@ class AdminController extends Controller
 
     // ======================================= PESERTA =====================================
     // tampilan dashboard peserta
-    public function dashPeserta(Request $request)
-    {
+    public function dashAdminPeserta(Request $request){
         $search = $request->search;
 
         if ($search) {
-            $peserta = Peserta::with(['user', 'status'])
-                ->where('nama_peserta', 'LIKE', '%' . $search . '%')
-                ->orWhere('jurusan', 'LIKE', '%' . $search . '%')
-                ->orWhere('status_pengerjaan', 'LIKE', '%' . $search . '%')
-                ->paginate();
+            $peserta = Peserta::with('user')
+            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
+            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
+            ->paginate();
         } else {
             $peserta = Peserta::with('user')->paginate(15);
         }
@@ -190,72 +188,143 @@ class AdminController extends Controller
         return view('admin.content.Peserta.AdminPeserta', compact(['peserta']));
     }
 
-    // tambah peserta
-    public function TambahPeserta(Request $request)
-    {
-        $request->validate([
-            'email' => 'email|unique:users',
-            'nim' => 'min:10|max:10|unique:peserta'
-        ],[
-            'nim.max' => 'NIM Must be 10 Numbers',
-            'nim.min' => 'NIM Must be 10 Numbers',
-        ]);
+    // tampilan dashboard peserta sesi 1
+    public function dashAdminPeserta1(Request $request){
+        $search = $request->search;
 
-        // generate password otomatis
-        $password = strtoupper(Str::password(8, true, false, false, false));
-
-        // transaction database
-        try {
-            DB::beginTransaction();
-
-            // Insert data ke table users menggunakan variavel data
-            User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($password),
-                'level' => 'peserta',
-            ]);
-
-            // get id berdasarkan data yang baru ditambah
-            $User = User::select('*')->where('email', $request->email)->first();
-
-            // Insert data ke table petugas 
-            Peserta::create([
-                'nama_peserta' => $request->name,
-                'nim' => $request->nim,
-                'token' => $password,
-                'kelamin' => $request->kelamin,
-                'jurusan' => $request->jurusan,
-                'benar_listening' => 0,
-                'benar_reading' => 0,
-                'skor_listening' => 0,
-                'skor_reading' => 0,
-                'id_users' => $User['id'],
-            ]);
-
-            // get id_peserta berdasarkan data yang baru ditambah
-            $Peserta = Peserta::where('id_users', $User['id'])->first();
-
-            // insert data ke table status
-            Status::create([
-                'status_pengerjaan' => 'Belum',
-                'id_peserta' => $Peserta['id_peserta'],
-            ]);
-
-            DB::commit();
-
-            toast('Create Data Successful!', 'success');
-            return redirect()->back();
-        } catch (\Throwable $th) {
-            throw $th;
-            DB::rollBack();
-
-            toast('Something Went Wrong!', 'error');
-            return redirect()->back();
+        if ($search) {
+            $peserta = Peserta::with('user') 
+            ->where('sesi', 'Session 1')
+            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
+            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $peserta = Peserta::with('user')->where('sesi', 'Session 1')->paginate(15);
         }
+
+        return view('admin.content.Peserta.AdminPeserta1', compact(['peserta']));
     }
 
-    // tambah peserta
+    // tampilan dashboard peserta sesi 2
+    public function dashAdminPeserta2(Request $request){
+        $search = $request->search;
+
+        if ($search) {
+            $peserta = Peserta::with('user') 
+            ->where('sesi', 'Session 2')
+            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
+            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $peserta = Peserta::with('user')->where('sesi', 'Session 2')->paginate(15);
+        }
+
+        return view('admin.content.Peserta.AdminPeserta2', compact(['peserta']));
+    }
+
+    // tampilan dashboard peserta sesi 3
+    public function dashAdminPeserta3(Request $request){
+        $search = $request->search;
+
+        if ($search) {
+            $peserta = Peserta::with('user') 
+            ->where('sesi', 'Session 3')
+            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
+            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $peserta = Peserta::with('user')->where('sesi', 'Session 3')->paginate(15);
+        }
+
+        return view('admin.content.Peserta.AdminPeserta3', compact(['peserta']));
+    }
+
+    // tampilan dashboard peserta sesi 4
+    public function dashAdminPeserta4(Request $request){
+        $search = $request->search;
+
+        if ($search) {
+            $peserta = Peserta::with('user') 
+            ->where('sesi', 'Session 4')
+            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
+            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $peserta = Peserta::with('user')->where('sesi', 'Session 4')->paginate(15);
+        }
+
+        return view('admin.content.Peserta.AdminPeserta4', compact(['peserta']));
+    }
+
+    // tampilan dashboard peserta sesi 5
+    public function dashAdminPeserta5(Request $request){
+        $search = $request->search;
+
+        if ($search) {
+            $peserta = Peserta::with('user') 
+            ->where('sesi', 'Session 5')
+            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
+            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $peserta = Peserta::with('user')->where('sesi', 'Session 5')->paginate(15);
+        }
+
+        return view('admin.content.Peserta.AdminPeserta5', compact(['peserta']));
+    }
+
+    // tampilan dashboard peserta sesi 6
+    public function dashAdminPeserta6(Request $request){
+        $search = $request->search;
+
+        if ($search) {
+            $peserta = Peserta::with('user') 
+            ->where('sesi', 'Session 6')
+            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
+            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $peserta = Peserta::with('user')->where('sesi', 'Session 6')->paginate(15);
+        }
+
+        return view('admin.content.Peserta.AdminPeserta6', compact(['peserta']));
+    }
+
+    // tampilan dashboard peserta sesi 7
+    public function dashAdminPeserta7(Request $request){
+        $search = $request->search;
+
+        if ($search) {
+            $peserta = Peserta::with('user') 
+            ->where('sesi', 'Session 7')
+            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
+            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $peserta = Peserta::with('user')->where('sesi', 'Session 7')->paginate(15);
+        }
+
+        return view('admin.content.Peserta.AdminPeserta7', compact(['peserta']));
+    }
+
+    // tampilan dashboard peserta sesi 8
+    public function dashAdminPeserta8(Request $request){
+        $search = $request->search;
+
+        if ($search) {
+            $peserta = Peserta::with('user') 
+            ->where('sesi', 'Session 8')
+            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
+            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
+            ->paginate();
+        } else {
+            $peserta = Peserta::with('user')->where('sesi', 'Session 8')->paginate(15);
+        }
+
+        return view('admin.content.Peserta.AdminPeserta8', compact(['peserta']));
+    }
+
+    // tambah peserta excel
     public function TambahPesertaExcel(Request $request)
     {
         $request->validate([
@@ -276,7 +345,6 @@ class AdminController extends Controller
     // update peserta
     public function UpdatePeserta(Request $request)
     {
-
         $request->validate([
             'nim' => 'min:10|max:10'
         ],[
@@ -284,59 +352,55 @@ class AdminController extends Controller
             'nim.min' => 'NIM Must be 10 Letters',
         ]);
 
-        // get data peserta
-        $peserta = Peserta::with('user')->where('id_peserta', $request->id_peserta)->first();
+         // get data peserta
+         $peserta = Peserta::with('user')->where('id_peserta', $request->id_peserta)->first();
 
-        // cek jika user mengubah email atau tidak
-        if($request->email !== $peserta->user->email){
-            // Periksa email ada yang sama atau tidak saat update data baru
-            $EmailUser = User::where('email', $request->email)->exists();
-            if ($EmailUser) {
-                return redirect()->back()->withErrors("Email already exists");
-            }
-        }
-
-        // cek jika user mengubah email atau tidak
-        if($request->nim !== $peserta->nim){
-            // Periksa nim ada yang sama atau tidak saat update data baru
-            $NimPeserta = Peserta::where('nim', $request->nim)->exists();
-            if ($NimPeserta) {
-                return redirect()->back()->withErrors("Nim already exists");
-            }
-        }
+         // cek jika user mengubah email atau tidak
+         if($request->email !== $peserta->user->email){
+             // Periksa email ada yang sama atau tidak saat update data baru
+             $EmailUser = User::where('email', $request->email)->exists();
+             if ($EmailUser) {
+                 return redirect()->back()->withErrors("Email already exists");
+             }
+         }
+ 
+         // cek jika user mengubah email atau tidak
+         if($request->nim !== $peserta->nim){
+             // Periksa nim ada yang sama atau tidak saat update data baru
+             $NimPeserta = Peserta::where('nim', $request->nim)->exists();
+             if ($NimPeserta) {
+                 return redirect()->back()->withErrors("Nim already exists");
+             }
+         }
 
         // transaction database
         try {
             DB::beginTransaction();
-
+            
             // Update data ke table users
             User::where('id', $peserta['id_users'])->update([
                 'name' => $request->name,
                 'email' => $request->email,
             ]);
-
-            // Update data ke table petugas 
+    
+            // Update data ke table peserta 
             Peserta::where('id_peserta', $request->id_peserta)->update([
                 'nama_peserta' => $request->name,
                 'nim' => $request->nim,
-                'kelamin' => $request->kelamin,
                 'jurusan' => $request->jurusan,
+                'sesi' => $request->sesi,
+                'status' => $request->status,
             ]);
-
-            // update status
-            Status::where('id_peserta', $request->id_peserta)->update([
-                'status_pengerjaan' => $request->status_pengerjaan,
-            ]);
-
+    
             DB::commit();
 
-            toast('Update Data Successful!', 'success');
+            toast('Update Data Successful!','success');
             return redirect()->back();
         } catch (\Throwable $th) {
             throw $th;
             DB::rollBack();
 
-            toast('Something Went Wrong!', 'error');
+            toast('Something Went Wrong!','error');
             return redirect()->back();
         }
     }
@@ -351,9 +415,6 @@ class AdminController extends Controller
         // transaction database
         try {
             DB::beginTransaction();
-          
-            // DELETE data status berdasarkan id_peserta
-            Status::where('id_peserta', $request->id_peserta)->delete();
 
             // DELETE data ke table petugas 
             Peserta::findOrFail($request->id_peserta)->delete();
@@ -375,17 +436,67 @@ class AdminController extends Controller
     }
 
     // Eksport Excel
-    public function ExportExcelAdmin(){
-        return Excel::download(new PesertaExport, 'Participation Data.xlsx');
+    public function ExportExcelAdmin($sesi){
+        if($sesi == 'Sesione'){
+            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 1.xlsx');
+        }elseif($sesi == 'Sesitwo'){
+            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 2.xlsx');
+        }elseif($sesi == 'Sesithree'){
+            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 3.xlsx');
+        }elseif($sesi == 'Sesifour'){
+            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 4.xlsx');
+        }elseif($sesi == 'Sesifive'){
+            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 5.xlsx');
+        }elseif($sesi == 'Sesisix'){
+            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 6.xlsx');
+        }elseif($sesi == 'Sesiseven'){
+            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 7.xlsx');
+        }elseif($sesi == 'Sesieight'){
+            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 8.xlsx');
+        }else{
+            toast('Session Valid','error');
+            return redirect()->back();
+        }
     }
 
     // Reset Status Work
     public function ResetStatusAdmin(){
-
-        // Update data status
-        Status::query()->update([
-            'status_pengerjaan' => 'Belum',
-        ]);
+        if($sesi == 'Sesione'){
+            Peserta::where('sesi', 'Session 1')->update([
+                'status' => 'Belum',
+            ]);
+        }elseif($sesi == 'Sesitwo'){
+            Peserta::where('sesi', 'Session 2')->update([
+                'status' => 'Belum',
+            ]);
+        }elseif($sesi == 'Sesithree'){
+            Peserta::where('sesi', 'Session 3')->update([
+                'status' => 'Belum',
+            ]);
+        }elseif($sesi == 'Sesifour'){
+            Peserta::where('sesi', 'Session 4')->update([
+                'status' => 'Belum',
+            ]);
+        }elseif($sesi == 'Sesifive'){
+            Peserta::where('sesi', 'Session 5')->update([
+                'status' => 'Belum',
+            ]);
+        }elseif($sesi == 'Sesisix'){
+            Peserta::where('sesi', 'Session 6')->update([
+                'status' => 'Belum',
+            ]);
+        }elseif($sesi == 'Sesiseven'){
+            Peserta::where('sesi', 'Session 7')->update([
+                'status' => 'Belum',
+            ]);
+        }elseif($sesi == 'Sesieight'){
+            Peserta::where('sesi', 'Session 8')->update([
+                'status' => 'Belum',
+            ]);
+        }else{
+            toast('Session Valid','error');
+            return redirect()->back();
+        }
 
         toast('Reset Status Successful!','success');
         return redirect()->back();
@@ -393,29 +504,208 @@ class AdminController extends Controller
 
     // Delete All Data
     public function DeleteAllAdmin(){
+        if($sesi == 'Sesione'){
+            // transaction database
+            try {
+                DB::beginTransaction();
 
-        // transaction database
-        try {
-            DB::beginTransaction();
+                // get data id_user di peserta
+                $userid = Peserta::where('sesi', 'Session 1')->pluck('id_users');
+                
+                // Delete data peserta 
+                Peserta::where('sesi', 'Session 1')->delete();
 
-            // DELETE data status
-            Status::query()->delete();
-            
-            // Delete data peserta 
-            Peserta::query()->delete();
+                // Delete data users
+                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
+        
+                DB::commit();
 
-            // Delete data users
-            User::where('level', 'peserta')->delete();
-    
-            DB::commit();
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
 
-            toast('Deleted Data Successful!','success');
-            return redirect()->back();
-        } catch (\Throwable $th) {
-            throw $th;
-            DB::rollBack();
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+        }elseif($sesi == 'Sesitwo'){
+            // transaction database
+            try {
+                DB::beginTransaction();
 
-            toast('Something Went Wrong!','error');
+                // get data id_user di peserta
+                $userid = Peserta::where('sesi', 'Session 2')->pluck('id_users');
+                
+                // Delete data peserta 
+                Peserta::where('sesi', 'Session 2')->delete();
+
+                // Delete data users
+                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
+        
+                DB::commit();
+
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
+
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+        }elseif($sesi == 'Sesithree'){
+            // transaction database
+            try {
+                DB::beginTransaction();
+
+                // get data id_user di peserta
+                $userid = Peserta::where('sesi', 'Session 3')->pluck('id_users');
+                
+                // Delete data peserta 
+                Peserta::where('sesi', 'Session 3')->delete();
+
+                // Delete data users
+                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
+        
+                DB::commit();
+
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
+
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+        }elseif($sesi == 'Sesifour'){
+            // transaction database
+            try {
+                DB::beginTransaction();
+
+                // get data id_user di peserta
+                $userid = Peserta::where('sesi', 'Session 4')->pluck('id_users');
+                
+                // Delete data peserta 
+                Peserta::where('sesi', 'Session 4')->delete();
+
+                // Delete data users
+                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
+        
+                DB::commit();
+
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
+
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+        }elseif($sesi == 'Sesifive'){
+            // transaction database
+            try {
+                DB::beginTransaction();
+
+                // get data id_user di peserta
+                $userid = Peserta::where('sesi', 'Session 5')->pluck('id_users');
+                
+                // Delete data peserta 
+                Peserta::where('sesi', 'Session 5')->delete();
+
+                // Delete data users
+                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
+        
+                DB::commit();
+
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
+
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+        }elseif($sesi == 'Sesisix'){
+           // transaction database
+            try {
+                DB::beginTransaction();
+
+                // get data id_user di peserta
+                $userid = Peserta::where('sesi', 'Session 6')->pluck('id_users');
+                
+                // Delete data peserta 
+                Peserta::where('sesi', 'Session 6')->delete();
+
+                // Delete data users
+                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
+        
+                DB::commit();
+
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
+
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+        }elseif($sesi == 'Sesiseven'){
+            // transaction database
+            try {
+                DB::beginTransaction();
+
+                // get data id_user di peserta
+                $userid = Peserta::where('sesi', 'Session 7')->pluck('id_users');
+                
+                // Delete data peserta 
+                Peserta::where('sesi', 'Session 7')->delete();
+
+                // Delete data users
+                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
+        
+                DB::commit();
+
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
+
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+        }elseif($sesi == 'Sesieight'){
+            // transaction database
+            try {
+                DB::beginTransaction();
+
+                // get data id_user di peserta
+                $userid = Peserta::where('sesi', 'Session 8')->pluck('id_users');
+                
+                // Delete data peserta 
+                Peserta::where('sesi', 'Session 8')->delete();
+
+                // Delete data users
+                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
+        
+                DB::commit();
+
+                toast('Deleted Data Successful!','success');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                throw $th;
+                DB::rollBack();
+
+                toast('Something Went Wrong!','error');
+                return redirect()->back();
+            }
+        }else{
+            toast('Session Valid','error');
             return redirect()->back();
         }
     }
@@ -616,6 +906,7 @@ class AdminController extends Controller
 
         BankSoal::create([
             'bank' => $request->bank,
+            'sesi_bank' => $request->sesi_bank,
         ]);
 
         toast('Create Data Successful!', 'success');
@@ -625,15 +916,19 @@ class AdminController extends Controller
     public function UpdateBankSoalAdmin(Request $request)
     {
         $request->validate([
-            'bank' => 'unique:bank_soal',
+            'bank' => [
+                'required',
+                Rule::unique('bank_soal')->ignore($request->id_bank, 'id_bank')
+            ],
         ]);
 
-        if ($request->ismethod('post')) {
+        if($request->ismethod('post')){
             BankSoal::where('id_bank', $request->id_bank)->update([
                 'bank' => $request->bank,
+                'sesi_bank' => $request->sesi_bank,
             ]);
-
-            toast('Update Data Successful!', 'success');
+            
+            toast('Update Data Successful!','success');
             return redirect()->back();
         }
     }
