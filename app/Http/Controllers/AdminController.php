@@ -173,7 +173,7 @@ class AdminController extends Controller
 
     // ======================================= PESERTA =====================================
     // tampilan dashboard peserta
-    public function dashAdminPeserta(Request $request){
+    public function dashPeserta(Request $request){
         $search = $request->search;
 
         if ($search) {
@@ -189,7 +189,7 @@ class AdminController extends Controller
     }
 
     // tampilan dashboard peserta sesi 1
-    public function dashAdminPeserta1(Request $request){
+    public function dashPeserta1(Request $request){
         $search = $request->search;
 
         if ($search) {
@@ -206,7 +206,7 @@ class AdminController extends Controller
     }
 
     // tampilan dashboard peserta sesi 2
-    public function dashAdminPeserta2(Request $request){
+    public function dashPeserta2(Request $request){
         $search = $request->search;
 
         if ($search) {
@@ -223,7 +223,7 @@ class AdminController extends Controller
     }
 
     // tampilan dashboard peserta sesi 3
-    public function dashAdminPeserta3(Request $request){
+    public function dashPeserta3(Request $request){
         $search = $request->search;
 
         if ($search) {
@@ -240,7 +240,7 @@ class AdminController extends Controller
     }
 
     // tampilan dashboard peserta sesi 4
-    public function dashAdminPeserta4(Request $request){
+    public function dashPeserta4(Request $request){
         $search = $request->search;
 
         if ($search) {
@@ -257,7 +257,7 @@ class AdminController extends Controller
     }
 
     // tampilan dashboard peserta sesi 5
-    public function dashAdminPeserta5(Request $request){
+    public function dashPeserta5(Request $request){
         $search = $request->search;
 
         if ($search) {
@@ -274,7 +274,7 @@ class AdminController extends Controller
     }
 
     // tampilan dashboard peserta sesi 6
-    public function dashAdminPeserta6(Request $request){
+    public function dashPeserta6(Request $request){
         $search = $request->search;
 
         if ($search) {
@@ -291,7 +291,7 @@ class AdminController extends Controller
     }
 
     // tampilan dashboard peserta sesi 7
-    public function dashAdminPeserta7(Request $request){
+    public function dashPeserta7(Request $request){
         $search = $request->search;
 
         if ($search) {
@@ -308,7 +308,7 @@ class AdminController extends Controller
     }
 
     // tampilan dashboard peserta sesi 8
-    public function dashAdminPeserta8(Request $request){
+    public function dashPeserta8(Request $request){
         $search = $request->search;
 
         if ($search) {
