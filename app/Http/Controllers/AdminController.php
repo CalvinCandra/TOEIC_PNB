@@ -331,15 +331,22 @@ class AdminController extends Controller
             'file' => 'required|mimes:csv,xls,xlsx',
         ]);
 
-        Excel::import(new UserImport, $request->file);
+        // Hapus pesan error sebelumnya agar tidak muncul lagi jika berhasil
+        Session::forget('gagal');
 
-        if (Session::has('gagal')) {
-            return redirect()->back()->with('gagal', Session::get('gagal'));
-        } else {
+        try {
+            Excel::import(new UserImport, $request->file);
+
+            if (Session::has('gagal')) {
+                return redirect()->back()->with('gagal', Session::get('gagal'));
+            }
+
             toast('Create Data Success', 'success');
             return redirect()->back();
+            
+        } catch (\Exception $e) {
+            return redirect()->back()->with('gagal', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
     }
 
     // update peserta

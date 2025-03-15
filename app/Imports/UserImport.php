@@ -20,12 +20,17 @@ class UserImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
+        // Hilangkan kolom kosong atau angka dari header
+        $row = array_intersect_key($row, array_flip(['name', 'email', 'nim', 'major', 'session']));
+
+        // Ubah header menjadi lowercase agar lebih fleksibel
+        $row = array_change_key_case($row, CASE_LOWER);
+
         // validasi header
         if (!isset($row['name']) || !isset($row['email']) || !isset($row['nim']) || !isset($row['major']) || !isset($row['session'])) {
             Session::flash('gagal', 'Please Add Header with name "Name, Email, Nim, Major, Session" in File Excel');
             return null;
         }
-
 
         // Dapatkan data Peserta berdasarkan NIM
         $peserta = Peserta::where('nim', $row['nim'])->first();
