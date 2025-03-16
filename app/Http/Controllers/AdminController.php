@@ -15,6 +15,7 @@ use App\Imports\UserImport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Exports\PesertaExport;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
