@@ -175,7 +175,7 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4 modal-form" action="{{url('/TambahBankSoal')}}" method="POST">
+                <form class="space-y-4 modal-form" action="{{url('/TambahBankSoalAdmin')}}" method="POST">
                     @csrf
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code Question</label>
@@ -236,7 +236,7 @@
 
                 <!-- Modal body -->
                 <div class="p-4 md:p-5">
-                    <form class="space-y-4 modal-form" action="{{url('/UpdateBankSoal')}}" method="POST">
+                    <form class="space-y-4 modal-form" action="{{url('/UpdateBankSoalAdmin')}}" method="POST">
                         @csrf
 
                         <input type="hidden" name="id_bank" value="{{$data->id_bank}}">
@@ -318,15 +318,6 @@
 
 
 <script>
-
-    function edit(baris, id) {
-        const td = document.querySelectorAll('#' + baris + ' td');
-
-        document.getElementById('edit-Codebank').value = td[0].innerText
-
-        document.getElementById('edit-bank').value = id;
-    }
-
 
     function hapus(baris, id) {
         const td = document.querySelectorAll('#' + baris + ' td');
