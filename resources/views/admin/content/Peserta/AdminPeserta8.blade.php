@@ -150,6 +150,9 @@
         <a href="{{url('/ExportExcelAdmin/Sesieight')}}" target="_blank" class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
     </li>
     <li>
+        <a href="{{url('/downloadresult/session_8')}}" target="_blank" class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Download Result (Zip)</a>
+    </li>
+    <li>
         <button type="button" data-modal-target="ResetStatus" data-modal-toggle="ResetStatus" class="text-left w-full block px-4 py-2 hover:bg-gray-100 text-red-400">Reset Status Work</a>
     </li>
     <li>

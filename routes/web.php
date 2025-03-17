@@ -5,6 +5,7 @@ use App\Models\Nilai;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ZipController;
 use App\Http\Middleware\DisableHistory;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
@@ -45,11 +46,8 @@ Route::get('/logout', [AuthController::class, 'Logout']);
 // landing page
 Route::get('/', [LandingController::class, 'index']);
 
-
-
 Route::get('/dashboard', [BankSoalController::class, 'index'])->name('dashboard');
 Route::post('/bank-soal/create', [BankSoalController::class, 'create'])->name('bank-soal.create');
-
 
 // kirim email petugas persatu
 Route::get('/SendMail/Petugas/{id}', [MailController::class, 'SendPetugas'])->middleware('auth');
@@ -59,6 +57,9 @@ Route::get('/SendMailPetugasAll', [MailController::class, 'SendPetugasAll'])->mi
 Route::get('/SendMail/Peserta/{id}', [MailController::class, 'SendPeserta'])->middleware('auth');
 // kirim email peserta sekaligus
 Route::get('/SendMailPesertaAll/{sesi}', [MailController::class, 'SendPesertaAll'])->middleware('auth');
+
+// download zip sesuai sesi
+Route::get('/downloadresult/{sesi}', [ZipController::class, 'index'])->middleware('auth');
 
 // ========================================== Grup Admin ==========================================
 // ==================================== Yang Berbau Admin, Dikerjakan di dalam Grup ini ==================================
@@ -218,7 +219,7 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
     Route::get('/DashboardSoal', [PesertaController::class, 'dashSoal']);
     Route::get('/TokenQuestion', [PesertaController::class, 'TokenQuestion']);
 
-    Route::middleware([DisableHistory::class])->group(function () {
+    Route::middleware(['DisableHistory'])->group(function () {
         // Soal Reading
         Route::get('/Reading', [SoalController::class, 'Reading']);
         Route::get('/SoalReading', [SoalController::class, 'GetReading']);
