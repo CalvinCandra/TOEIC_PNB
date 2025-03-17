@@ -82,8 +82,32 @@ class NilaiController extends Controller
         ])->setPaper('a4', 'portrait')
             ->setOption('isRemoteEnabled', true);
 
-        $pdfPath = storage_path('app/public/') . 'Result_' . $peserta->nim . '_' . Str::random(5) . '.pdf';
-        $pdf->save($pdfPath);
+        // cek sesi peserta
+        if($peserta->sesi == 'Session 1'){
+            $pdfPath = storage_path('app/public/result/session_1/') . 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_' . Str::random(5) . '.pdf';
+            $pdf->save($pdfPath);
+        }elseif($peserta->sesi == 'Session 2'){
+            $pdfPath = storage_path('app/public/result/session_2/') . 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_' . Str::random(5) . '.pdf';
+            $pdf->save($pdfPath);
+        }elseif($peserta->sesi == 'Session 3'){
+            $pdfPath = storage_path('app/public/result/session_3/') . 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_' . Str::random(5) . '.pdf';
+            $pdf->save($pdfPath);
+        }elseif($peserta->sesi == 'Session 4'){
+            $pdfPath = storage_path('app/public/result/session_4/') . 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_' . Str::random(5) . '.pdf';
+            $pdf->save($pdfPath);
+        }elseif($peserta->sesi == 'Session 5'){
+            $pdfPath = storage_path('app/public/result/session_5/') . 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_' . Str::random(5) . '.pdf';
+            $pdf->save($pdfPath);
+        }elseif($peserta->sesi == 'Session 6'){
+            $pdfPath = storage_path('app/public/result/session_6/') . 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_' . Str::random(5) . '.pdf';
+            $pdf->save($pdfPath);
+        }elseif($peserta->sesi == 'Session 7'){
+            $pdfPath = storage_path('app/public/result/session_7/') . 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_' . Str::random(5) . '.pdf';
+            $pdf->save($pdfPath);
+        }elseif($peserta->sesi == 'Session 8'){
+            $pdfPath = storage_path('app/public/result/session_8/') . 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_' . Str::random(5) . '.pdf';
+            $pdf->save($pdfPath);
+        }
 
         // Mengirimkan email hasil tes
         Mail::to($peserta->user->email)->send(new ResultMail(
