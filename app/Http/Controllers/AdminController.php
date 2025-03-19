@@ -511,7 +511,7 @@ class AdminController extends Controller
     }
 
     // Delete All Data
-    public function DeleteAllAdmin(){
+    public function DeleteAllAdmin($sesi){
         if($sesi == 'Sesione'){
             // transaction database
             try {

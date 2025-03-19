@@ -56,7 +56,7 @@
                         Create With Excel
                     </button>
 
-                    <a href="{{url('/downloadtemplateadmin')}}" class="text-white bg-green-500 hover:bg-green-600 font-medium rounded-lg text-sm px-5 flex items-center text-center mb-5" target="_blank">
+                    <a href="{{url('/downloadtemplate')}}" class="text-white bg-green-500 hover:bg-green-600 font-medium rounded-lg text-sm px-5 flex items-center text-center mb-5" target="_blank">
                         Download Template
                     </a>
                 </div>
