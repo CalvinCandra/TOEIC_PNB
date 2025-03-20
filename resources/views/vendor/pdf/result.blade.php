@@ -161,22 +161,17 @@
 <body>
     <div class="container">
         <div class="header">
-            <table style="width: 100%; border-collapse: collapse;">
+            <table style="width: 100%; border-collapse: coll;margin-top: 10px; margin-bottom: 10px;">
                 <tr>
-                    <td style="text-align: center; padding: 10px;">
-                        <div style="display: inline-flex; align-items: center;">
-                            <!-- Logo -->
-                            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('auth/login.png'))) }}"
-                                alt="Logo" style="width: 60px; height: auto; margin-right: 10px;">
-
-                            <!-- Judul -->
-                            <span style="font-size: 16px; font-weight: bold; color: black;">
-                                SIMULATION TEST RESULT FOR TOEIC
-                            </span>
-                        </div>
+                    <td style="width: 60px; padding-left: 30%;">
+                        <img src="{{ asset('auth/login.png') }}" alt="Logo" style="width: 60px; margin-left: 120px;">
+                    </td>
+                    <td style="text-align: left; color: white; font-size: 20px; font-weight: bold;padding-left: 10%;">
+                        SIMULATION TEST RESULT FOR TOEIC
                     </td>
                 </tr>
             </table>
+
         </div>
 
 
