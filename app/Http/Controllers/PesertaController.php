@@ -56,7 +56,6 @@ class PesertaController extends Controller
             Peserta::where('id_users', auth()->user()->id)->update([
                 'nama_peserta' => $request->name,
                 'nim' => $request->nim,
-                'kelamin' => $request->kelamin,
                 'jurusan' => $request->jurusan,
             ]);
     
