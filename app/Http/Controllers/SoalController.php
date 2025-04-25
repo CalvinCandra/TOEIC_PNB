@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\JawabanPeserta;
 use App\Http\Controllers\SoalController;
 use Illuminate\Support\Facades\Redirect;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SoalController extends Controller
 {
@@ -111,6 +112,15 @@ class SoalController extends Controller
         if ($request->ismethod('post')) {
             // get data bank
             $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+		
+	if (!$getBank) {
+            $request->session()->forget('bank');
+            $request->session()->forget('waktu');
+            $request->session()->forget('quizEndTime');
+	Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
+
+            return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
+        }
 
             // get data peserta
             $peserta = Peserta::where('id_users', auth()->user()->id)->first();
@@ -162,6 +172,15 @@ class SoalController extends Controller
 
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+	
+	if (!$getBank) {
+            $request->session()->forget('bank');
+            $request->session()->forget('waktu');
+            $request->session()->forget('quizEndTime');
+	Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
+            return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
+        }
+
 
         // get data peserta
         $peserta = Peserta::where('id_users', auth()->user()->id)->first();
@@ -247,6 +266,14 @@ class SoalController extends Controller
 
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+	if (!$getBank) {
+            $request->session()->forget('bank');
+            $request->session()->forget('waktu');
+            $request->session()->forget('quizEndTime');
+	Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
+            return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
+        }
+
 
         // get data soal berdasarkan kategori listening dan id_bank
         $PartListening = Part::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
@@ -272,6 +299,14 @@ class SoalController extends Controller
 
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+	if (!$getBank) {
+            $request->session()->forget('bank');
+            $request->session()->forget('waktu');
+            $request->session()->forget('quizEndTime');
+	    Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
+            return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
+        }
+
 
         // get data part berdasarkan token
         $part = Part::with(['audio','gambar'])->where('kategori', 'Reading')->where('token_part', $token)->first();
@@ -313,6 +348,14 @@ class SoalController extends Controller
         if ($request->ismethod('post')) {
             // get data bank
             $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+	    if (!$getBank) {
+            		$request->session()->forget('bank');
+            		$request->session()->forget('waktu');
+            		$request->session()->forget('quizEndTime');
+	    	Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
+           	 return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
+        	}
+
 
             // get data peserta
             $peserta = Peserta::where('id_users', auth()->user()->id)->first();
@@ -364,6 +407,14 @@ class SoalController extends Controller
 
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+	if (!$getBank) {
+            		$request->session()->forget('bank');
+            		$request->session()->forget('waktu');
+            		$request->session()->forget('quizEndTime');
+	    	Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
+           	 return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
+        	}
+
 
         // get data peserta
         $peserta = Peserta::where('id_users', auth()->user()->id)->first();

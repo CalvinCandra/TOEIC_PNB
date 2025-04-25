@@ -21,7 +21,7 @@
                 </div>
             @endif
             <h1 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Participant Profile</h1>
-            <p>Please check whether the data below is correct or not. If not, please edit the following data.</p>
+            <p>Please review your profile below. Edit the data if necessary as this data will be printed and shown on your score report.</p>
 
             <div class="py-8 px-4 mx-auto w-2xl lg:py-5">
                 <form action="{{ url('/UpdateProfil') }}" method="POST">
@@ -48,7 +48,7 @@
                         </div>
                         <div>
                             <label for="category"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mayor</label>
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Study Program</label>
                             <select id="category" name="jurusan"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                                 <option value="{{ $peserta->jurusan }}" selected hidden>{{ $peserta->jurusan }}</option>
