@@ -915,6 +915,8 @@ class AdminController extends Controller
         BankSoal::create([
             'bank' => $request->bank,
             'sesi_bank' => $request->sesi_bank,
+            'waktu_mulai' => $request->waktu_mulai,
+            'waktu_akhir' => $request->waktu_akhir,
         ]);
 
         toast('Create Data Successful!', 'success');
@@ -934,6 +936,8 @@ class AdminController extends Controller
             BankSoal::where('id_bank', $request->id_bank)->update([
                 'bank' => $request->bank,
                 'sesi_bank' => $request->sesi_bank,
+                'waktu_mulai' => $request->waktu_mulai,
+                'waktu_akhir' => $request->waktu_akhir,
             ]);
             
             toast('Update Data Successful!','success');

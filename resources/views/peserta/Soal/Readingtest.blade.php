@@ -183,6 +183,23 @@
         }
     </script>
 
+    {{-- Sesuai Waktu --}}
+    <script>
+        const formm = document.getElementById('toeic_form');
+
+        // waktu akses dari session
+        const endAccessTime = "{{ session('waktu_akhir') }}";
+        const accessLimit = new Date(endAccessTime).getTime();
+
+        const checkAccessTime = setInterval(() => {
+            const now = Date.now();
+            if (now >= accessLimit) {
+                clearInterval(checkAccessTime);
+                formm.submit();
+            }
+        }, 1000);
+    </script>
+
     <script>
         // menghentikan countdown ketika tombol submit ditekan
         document.getElementById("submitButton").addEventListener("click", function() {

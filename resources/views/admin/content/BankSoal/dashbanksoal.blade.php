@@ -59,6 +59,8 @@
                                 <th scope="col" class="px-4 py-4 border-2">No</th>
                                 <th scope="col" class="px-4 py-3 border-2">Code Question</th>
                                 <th scope="col" class="px-4 py-3 border-2">Session</th>
+                                <th scope="col" class="px-4 py-3 border-2">Start Time</th>
+                                <th scope="col" class="px-4 py-3 border-2">End Time</th>
                                 <th scope="col" class="px-4 py-3 border-2">Actions</th>
                             </tr>
                         </thead>
@@ -69,6 +71,8 @@
                                     <th class="px-4 py-3 border-2">{{$loop->iteration}}</th>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->bank}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->sesi_bank}}</td>
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->waktu_mulai}}</td>
+                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->waktu_akhir}}</td>
                                     <td class="px-4 py-3 border-2 whitespace-nowrap">
                                         <ul class="lg:block py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
                                             <h1 class="font-semibold text-md">For Reading :</h1>
@@ -200,6 +204,20 @@
                         </select>
                     </div>
 
+                    <div>
+                        <label for="start_time" class="block mb-2 text-sm font-medium text-gray-900">Start Time</label>
+                        <input type="time" name="waktu_mulai" id="start_time"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            required />
+                    </div>
+                    
+                    <div>
+                        <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">End Time</label>
+                        <input type="time" name="waktu_akhir" id="end_time"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            required />
+                    </div>                    
+
                     <button type="submit"
                         class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                 </form>
@@ -263,6 +281,22 @@
                                 <option value="Session 8">Session 8</option>
                             </select>
                         </div>
+
+                        <div>
+                            <label for="start_time" class="block mb-2 text-sm font-medium text-gray-900">Start Time</label>
+                            <input type="time" name="waktu_mulai" id="start_time" 
+                                value="{{ $data->waktu_mulai }}" 
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                required />
+                        </div>
+                        
+                        <div>
+                            <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">End Time</label>
+                            <input type="time" name="waktu_akhir" id="end_time" 
+                                value="{{ $data->waktu_akhir }}" 
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                required />
+                        </div>                        
 
                         <button type="submit"
                             class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>

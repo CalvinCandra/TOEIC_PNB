@@ -10,6 +10,7 @@ use App\Models\BankSoal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
+use Carbon\Carbon;
 
 class PesertaController extends Controller
 {
@@ -85,18 +86,31 @@ class PesertaController extends Controller
         // get data status
         $peserta = Peserta::where('id_users', auth()->user()->id)->first();
 
+        // Ambil waktu sekarang sesuai zona waktu Asia/Singapore
+        $currentTime = Carbon::now('Asia/Singapore');
+
+        // Ambil waktu mulai dan akhir dari database dan ubah menjadi objek Carbon dengan tanggal yang sama seperti $currentTime
+        $waktuMulai = Carbon::parse($cekBank->waktu_mulai)->setDate($currentTime->year, $currentTime->month, $currentTime->day); 
+        $waktuAkhir = Carbon::parse($cekBank->waktu_akhir)->setDate($currentTime->year, $currentTime->month, $currentTime->day); 
+
         // pengecekan apakah kode yang diinput ada pada database atau tidak
-        if($cekBank){
+        if ($cekBank) {
             // jika token ada, cek apakah user sebelumnya sudah mengerjakan soal ini?
-            if($peserta->status == 'Sudah'){
+            if ($peserta->status == 'Sudah') {
                 Alert::info("Information", "You have previously done the questions");
                 return redirect('/DashboardSoal');
-            }else{
+            } else {
                 // pengecekan jika peserta berada pada sesi yang sesuai
-                if($cekBank->sesi_bank != $peserta->sesi){
+                if ($cekBank->sesi_bank != $peserta->sesi) {
                     Alert::info("Information", "Please wait your turn for the session");
                     return redirect('/DashboardSoal');
-                }else{
+                } else {
+                    // pengecekan waktu
+                    if ($currentTime->lt($waktuMulai) || $currentTime->gt($waktuAkhir)) {
+                        Alert::info("Information", "Token cannot be accessed due to timeout");
+                        return redirect('/DashboardSoal');
+                    }
+
                     $request->session()->put('bank', $cekBank->bank);
                     return redirect('/Listening');
                 }
