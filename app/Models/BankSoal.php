@@ -15,6 +15,8 @@ class BankSoal extends Model
     protected $fillable = [
         'bank',
         'sesi_bank',
+        'waktu_mulai',
+        'waktu_akhir',
         'created_at',
         'updated_at',
     ];
