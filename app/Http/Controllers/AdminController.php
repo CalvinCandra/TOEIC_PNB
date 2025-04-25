@@ -468,7 +468,7 @@ class AdminController extends Controller
     }
 
     // Reset Status Work
-    public function ResetStatusAdmin(){
+    public function ResetStatusAdmin($sesi){
         if($sesi == 'Sesione'){
             Peserta::where('sesi', 'Session 1')->update([
                 'status' => 'Belum',

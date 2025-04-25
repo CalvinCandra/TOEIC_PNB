@@ -144,17 +144,17 @@
             margin-top: auto;
             text-align: center;
         }
-
         .header table {
             border: none;
             background: transparent;
-
+            
         }
-
+        
         .header td {
             background: transparent;
             border: none;
         }
+
     </style>
 </head>
 
@@ -171,11 +171,7 @@
                     </td>
                 </tr>
             </table>
-
         </div>
-
-
-
 
         <div class="content">
             <div class="personal-data">

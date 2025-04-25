@@ -19,7 +19,7 @@
                         Improve your TOEIC score easily and effectively</p>
                     <a href="{{ url('/DashboardSoal') }}"
                         class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-[#FB8500] hover:bg-[#D97300] focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
-                        Starting Now
+                        Start Now
                         <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"

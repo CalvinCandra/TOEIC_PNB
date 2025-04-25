@@ -37,45 +37,51 @@
     </header>
 
     <div class="h-full flex justify-center items-center">
-        <div class="bg-white m-4 py-5 px-8 h-full w-full rounded-lg overflow-y-auto">
-            <h1 class="font-bold text-xl">Reading Test - Direction</h1>
+    <div class="bg-white m-4 py-5 px-8 h-full w-full rounded-lg overflow-y-auto">
+        <h1 class="font-bold text-xl">Reading Test - Direction</h1>
 
-            <div class="bg-gray-100 h-[32rem] m-4 md:m-6 overflow-y-auto px-5 py-6"> 
-                <ol class="space-y-5 text-black list-decimal list-inside text-justify">
-                    <li>
-                        <span class="font-bold">No Cheating:</span> Any form of cheating, such as attempting to with other test takers, using unauthorized materials, or copying answers, will result in immediate disqualification.
-                    </li>
-                    <li>
-                        <span class="font-bold">Follow Instructions:</span> Test takers must carefully listen to and follow all instructions provided by the test administrator. Failure to do so may result in penalties or disqualification.
-                    </li>
-                    <li>
-                        <span class="font-bold">Raise Hand for Assistance:</span> If a test taker requires assistance or encounters technical difficulties during the test, they should raise their hand and wait for a proctor to assist them.
-                    
-                    </li>
-                    <li>
-                        <span class="font-bold">No Writing During Listening:</span> Writing or marking on any materials during the listening section is strictly prohibited. Answers should be recorded only during designated answer periods.
-                    </li>
-                    <li>
-                        <span class="font-bold">Total Question Reading:</span> On the reading test, there are 50 questions that you have to do. The question type is multiple choice.
-                    </li>
-                    <li>
-                        <span class="font-bold">Total Times Reading:</span> in the reading test, the total time given to complete this test is 60 minutes.
-                    </li>
-                    <li>
-                        <span class="font-bold">Complete the Test Independently:</span> Each test taker is expected to complete the test independently. Collaboration or sharing of answers is not permitted.
-                    </li>
-                    <li>
-                        <span class="font-bold"> Stay until the End:</span> Test takers must remain seated until the completion of the entire test. Leaving the testing room before the test concludes is not allowed.
-                    </li>
-                </ol>
-            </div>
+        <div class="bg-gray-100 h-[32rem] m-4 md:m-6 overflow-y-auto px-5 py-6"> 
+            <ol class="space-y-5 text-black list-decimal list-inside text-justify">
+                <li>
+                    <span class="font-bold">No Cheating:</span> Any form of cheating, such as attempting to with other test takers, using unauthorized materials, or copying answers, will result in immediate disqualification.
+                </li>
 
-            <div class="flex-warp md:flex md:justify-between md:items-center">
-                <p class="my-4 md:my-0"><span class="font-bold">Note :</span> Timer start when you start the test</p>
-                <button id="startQuizButton" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Start Test Reading</button>
-            </div>
+                <li>
+                    <span class="font-bold">Follow Instructions:</span> Test takers must carefully listen to and follow all instructions provided by the test administrator. Failure to do so may result in penalties or disqualification.
+                </li>
+
+                <li>
+                    <span class="font-bold">No Writing During Reading:</span> Writing or marking on any materials during the Reading section is strictly prohibited as the time is also limited. Answers should be recorded only during designated answer periods.
+                </li>
+
+                <li>
+                    <span class="font-bold">Total Reading Questions:</span> On the Reading test, there are 100 questions that you must answer. The question type is multiple choice.
+                </li>
+
+                <li>
+                    <span class="font-bold">Total Times Reading:</span> In the Reading test, the total time given to complete this test is 75 minutes.
+                </li>
+
+                <li>
+                    <span class="font-bold">Complete the Test Independently:</span> Each test taker is expected to complete the test independently. Collaboration or sharing of answers is not permitted.
+                </li>
+
+                <li>
+                    <span class="font-bold">Stay until the End:</span> Test takers must remain seated until the completion of the entire test.
+                </li>
+
+                <li>
+                    <span class="font-bold">No Test Retake:</span> The test can ONLY be done once and there will be no chance to resit the test. Failure to maintain good internet connection or time management will not be tolerated.
+                </li>
+            </ol>
+        </div>
+
+        <div class="flex-warp md:flex md:justify-between md:items-center">
+            <p class="my-4 md:my-0"><span class="font-bold">Note :</span> Timer start when you start the test</p>
+            <button id="startQuizButton" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Start Reading Test</button>
         </div>
     </div>
+</div>
     
     {{-- matiin fungsi back pada browser --}}
     <script>
