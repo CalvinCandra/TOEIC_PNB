@@ -94,7 +94,11 @@
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_a }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_b }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_c }}</td>
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_d }}</td>
+                                        @if ($data->jawaban_d == NULL)   
+                                            <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
+                                        @else
+                                            <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_d }}</td>
+                                        @endif
                                         <td class="px-4 py-3 border-2">{{ $data->kunci_jawaban }}</td>
 
                                         @if (!$data->id_gambar == null)
@@ -107,17 +111,6 @@
                                             <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
                                         @endif
 
-                                        {{-- @if (!$data->id_audio == null)
-                                            <td class="px-4 py-3 border-2 whitespace-nowrap">
-                                                <audio id="audio" controls>
-                                                    <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
-                                                    Your browser does not support the audio element.
-                                                </audio>
-                                            </td>
-                                        @else
-                                            <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing
-                                            </td>
-                                        @endif --}}
 
                                       @if (!$data->id_users == null)
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->name}}</td>
@@ -235,11 +228,10 @@
                         </div>
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option D<span
-                                    class="text-red-500">*</span></label>
+                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option D</label>
                             <input type="text" name="jawaban_d"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                placeholder="Example : This is answer d" required />
+                                placeholder="Example : This is answer d" />
                         </div>
 
                         <div>
@@ -264,16 +256,6 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        {{-- <div class="">
-                            <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Audio (Opsional)</label>
-                            <select id="countries" name="audio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                <option selected hidden value="">-- Choose a File Audio --</option>
-                                @foreach ($audio as $item)
-                                    <option value="{{$item->id_audio}}">{{$item->audio}}</option>
-                                @endforeach
-                            </select>
-                        </div> --}}
 
                         <button type="submit"
                             class="w-full text-white bg-sky-800 hover:bg-sky-950 font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
@@ -356,11 +338,10 @@
                             </div>
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option D<span
-                                        class="text-red-500">*</span></label>
+                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option D</label>
                                 <input type="text" name="jawaban_d" value="{{ $data->jawaban_d }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                    placeholder="Example : This is answer d" required />
+                                    placeholder="Example : This is answer d" />
                             </div>
 
                             <div>

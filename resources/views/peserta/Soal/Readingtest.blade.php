@@ -22,9 +22,11 @@
     </div>
 @endsection
 
+{{-- @dd(session('waktu_akhir')) --}}
+
 @section('content')
 
-    <form action="{{url('/ProsesJawabReading')}}" method="post" id="toiec_form">
+    <form action="{{url('/ProsesJawabReading')}}" method="post" id="toeic_form">
         @csrf
         <!-- Save id part -->
         <div class="">
@@ -195,6 +197,10 @@
             const now = Date.now();
             if (now >= accessLimit) {
                 clearInterval(checkAccessTime);
+                clearInterval(window.x);
+                // Tampilkan status waktu habis
+                document.getElementById("countdown-nav").innerHTML = "Time Out";
+                document.getElementById("countdown-sid").innerHTML = "Time Out";
                 formm.submit();
             }
         }, 1000);
