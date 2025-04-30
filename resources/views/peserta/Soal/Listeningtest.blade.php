@@ -171,6 +171,10 @@
             const now = Date.now();
             if (now >= accessLimit) {
                 clearInterval(checkAccessTime);
+                clearInterval(window.x);
+                    // Tampilkan status waktu habis
+                document.getElementById("countdown-nav").innerHTML = "Time Out";
+                document.getElementById("countdown-sid").innerHTML = "Time Out";
                 formm.submit();
             }
         }, 1000);

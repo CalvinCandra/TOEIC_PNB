@@ -272,6 +272,14 @@ class SoalController extends Controller
 
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+
+        // kirim dalam bentuk session
+        $request->session()->put(
+            'waktu_akhir',
+            Carbon::today()->format('Y-m-d') . ' ' . $getBank->waktu_akhir
+        );
+
+
         if (!$getBank) {
             $request->session()->forget('bank');
             $request->session()->forget('waktu');
@@ -279,13 +287,6 @@ class SoalController extends Controller
             Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
             return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
         }
-
-         // kirim dalam bentuk session
-         $request->session()->put(
-            'waktu_akhir',
-            Carbon::today()->format('Y-m-d') . ' ' . $getBank->waktu_akhir
-        );
-
 
         // get data soal berdasarkan kategori listening dan id_bank
         $PartListening = Part::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
