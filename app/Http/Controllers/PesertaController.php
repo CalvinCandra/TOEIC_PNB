@@ -83,6 +83,12 @@ class PesertaController extends Controller
         // get kode bank
         $cekBank = BankSoal::where('bank', $request->bankSoal)->first();
 
+        // pengecekan apakah kode yang diinput ada pada database atau tidak
+        if (!$cekBank) {
+            Alert::error("Failed", "Question token not found. Please make sure you entered the correct code.");
+            return redirect('/DashboardSoal');
+        }
+
         // get data status
         $peserta = Peserta::where('id_users', auth()->user()->id)->first();
 
