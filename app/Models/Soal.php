@@ -24,6 +24,8 @@ class Soal extends Model
         'kunci_jawaban',
         'kategori',
         'id_gambar',
+        'id_gambar_1',
+        'id_gambar_2',
         'id_audio',
         'id_users',
         'id_bank',
@@ -41,6 +43,18 @@ class Soal extends Model
     public function gambar(): HasOne
     {
         return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar');
+    }
+
+    // gambar
+    public function gambar1(): HasOne
+    {
+        return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar_1');
+    }
+
+    // gambar
+    public function gambar2(): HasOne
+    {
+        return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar_2');
     }
 
     // audio

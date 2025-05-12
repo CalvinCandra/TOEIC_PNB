@@ -40,6 +40,18 @@ class Part extends Model
          return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar');
      }
 
+     // gambar
+     public function gambar1(): HasOne
+     {
+         return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar_1');
+     }
+
+     // gambar
+     public function gambar2(): HasOne
+     {
+         return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar_2');
+     }
+
      // audio
      public function audio(): HasOne
      {

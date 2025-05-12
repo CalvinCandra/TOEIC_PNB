@@ -1011,13 +1011,18 @@ class AdminController extends Controller
         }
 
         // nomor soal for part
-        $nomorSoal = Part::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('sampai_nomor', 'desc')->first();
+        $nomorSoalListening = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('sampai_nomor', 'desc')->first();
+        $nomorSoalReading = Part::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('sampai_nomor', 'desc')->first();
 
-        // jika blm ada soal
-        if($nomorSoal == null){
-            $angka = intval(0) + 1;
-        }else{ //jika sudah ada soal
-            $angka = intval($nomorSoal->sampai_nomor) + 1;
+        if ($nomorSoalListening == null && $nomorSoalReading == null) {
+            // Tidak ada soal sama sekali
+            $angka = 1;
+        } elseif ($nomorSoalReading == null) {
+            // Belum ada soal Reading, tapi ada soal Listening
+            $angka = intval($nomorSoalListening->sampai_nomor) + 1;
+        } else {
+            // Sudah ada soal Reading
+            $angka = intval($nomorSoalReading->sampai_nomor) + 1;
         }
 
         return view('admin.content.Part.partReading', compact(['part','id_bank','gambar','nomor','angka'])); // Kirim data ke view
@@ -1161,6 +1166,13 @@ class AdminController extends Controller
     // tambah
     public function TambahListeningPartAdmin(Request $request){
 
+        // Validasi inputan form
+        $validated = $request->validate([
+            'petunjuk' => 'required|string',
+        ],[
+            'petunjuk.required' => "Direction cannot be empty"
+        ]);
+
         // generate token otomatis
         $token_part = strtoupper(Str::password(5, true, true, false, false));
 
@@ -1267,14 +1279,19 @@ class AdminController extends Controller
         // get data gambar
         $gambar = Gambar::all();
 
-        // get penomoran otomatis
-        $penomoran = Soal::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('nomor_soal', 'desc')->first();
+        // get penomoran otomatis dari Listening ke Reading
+        $penomoranListening = Soal::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('nomor_soal', 'desc')->first();
+        $penomoranReading = Soal::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('nomor_soal', 'desc')->first();
 
-        // jika blm ada soal
-        if($penomoran == null){
-            $nomor = intval(0) + 1;
-        }else{ //jika sudah ada soal
-            $nomor = intval($penomoran->nomor_soal) + 1;
+        if ($penomoranListening == null && $penomoranReading == null) {
+            // Tidak ada soal sama sekali
+            $nomor = 1;
+        } elseif ($penomoranReading == null) {
+            // Belum ada soal Reading, tapi ada soal Listening
+            $nomor = intval($penomoranListening->nomor_soal) + 1;
+        } else {
+            // Sudah ada soal Reading
+            $nomor = intval($penomoranReading->nomor_soal) + 1;
         }
 
         return view('admin.content.SoalReading.dashSoalReading', compact(['soal', 'gambar', 'id_bank', 'nomor'])); // Kirim data ke view
@@ -1294,6 +1311,8 @@ class AdminController extends Controller
             'kunci_jawaban' => strtoupper($request->kunci_jawaban),
             'kategori' => 'Reading',
             'id_gambar' => $request->gambar,
+            'id_gambar_1' => $request->gambar1,
+            'id_gambar_2' => $request->gambar2,
             'id_audio' => NULL,
             'id_users' => auth()->user()->id,
             'id_bank' => $request->id_bank,
@@ -1319,6 +1338,8 @@ class AdminController extends Controller
                 'jawaban_d' => $request->jawaban_d,
                 'kunci_jawaban' => strtoupper($request->kunci_jawaban),
                 'id_gambar' => $request->gambar,
+                'id_gambar_1' => $request->gambar1,
+                'id_gambar_2' => $request->gambar2,
                 'id_users' => auth()->user()->id,
             ]);
 
