@@ -1,157 +1,179 @@
 @extends('layouts.Soal.toeic')
 
 @section('title')
-    TOEIC Test
+TOEIC Test
 @endsection
 
 @section('timer')
-    <div class="mr-3 text-blue-500">
-        Reading
-    </div>
+<div class="mr-3 text-blue-500">
+    Reading
+</div>
 
-    <span id="countdown-nav" class="bg-[#023047] p-2 rounded-lg text-white">Timer</span>
+<span id="countdown-nav" class="bg-[#023047] p-2 rounded-lg text-white">Timer</span>
 @endsection
 
 @section('sidebar')
-    <h1 class="text-center text-5xl font-bold px-5 mb-9 text-blue-500">
-        Reading
-    </h1>
+<h1 class="text-center text-5xl font-bold px-5 mb-9 text-blue-500">
+    Reading
+</h1>
 
-    <div class="flex justify-center">
-        <span id="countdown-sid" class="bg-[#023047] p-2 rounded-lg text-white text-4xl">Timer</span>
-    </div>
+<div class="flex justify-center">
+    <span id="countdown-sid" class="bg-[#023047] p-2 rounded-lg text-white text-4xl">Timer</span>
+</div>
 @endsection
 
 {{-- @dd(session('waktu_akhir')) --}}
 
 @section('content')
 
-    <form action="{{url('/ProsesJawabReading')}}" method="post" id="toeic_form">
-        @csrf
-        <!-- Save id part -->
-        <div class="">
-            <input type="hidden" name="id_part" value="{{ $part->id_part}}">
+<form action="{{url('/ProsesJawabReading')}}" method="post" id="toeic_form">
+    @csrf
+    <!-- Save id part -->
+    <div class="">
+        <input type="hidden" name="id_part" value="{{ $part->id_part}}">
+    </div>
+
+    <!-- Part disini (include gambar/audio) -->
+    <div class="border rounded-xl relative z-30 text-justify block" id="petunjuk">
+        {{-- judul --}}
+        <h1 class="text-xl font-bold mb-5 bg-[#D7E1FB] p-3 rounded-t-lg border-b">
+            {{$part->part}} Reading - Question <span id="currentQuestion">{{$part->dari_nomor}} to
+                {{$part->sampai_nomor}}</span>
+        </h1>
+
+        {{-- petunjuk --}}
+        <div class="px-2 pb-2">
+            <p class="">{!! $part->petunjuk !!}</p>
         </div>
 
-        <!-- Part disini (include gambar/audio) -->
-        <div class="border rounded-xl relative z-30 text-justify block" id="petunjuk">
-            {{-- judul --}}
-            <h1 class="text-xl font-bold mb-5 bg-[#D7E1FB] p-3 rounded-t-lg border-b">
-                {{$part->part}} Reading - Question <span id="currentQuestion">{{$part->dari_nomor}} to {{$part->sampai_nomor}}</span>
-            </h1>
-
-            {{-- petunjuk --}}
-            <div class="px-2 pb-2">
-                <p class="">{!! $part->petunjuk !!}</p>
-            </div>
-
-            {{-- gambar atau audio --}}
-            <div class="mx-2 mb-2">
-                @if (!empty($part->id_gambar))
-                    <img src="{{asset('storage/gambar/'.$part->gambar->gambar)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
-                @endif
-            </div>
-        </div>
-
-        {{-- Multi Question --}}
-        @if (!$part->multi_soal == NULL)
-            <div class="border-2 relative z-30 text-justify block mt-5" id="multi">
-                {{-- judul --}}
-                <h1 class="text-md font-bold mb-5 p-3 border-b">
-                    Multiple Question Number <span id="currentQuestion">{{$part->dari_nomor}} to {{$part->sampai_nomor}}</span>
-                </h1>
-
-                {{-- multiSoal --}}
-                <div class="px-2 pb-2">
-                    <p class="">{!! $part->multi_soal !!}</p>
-                </div>
-            </div>
-        @endif
-
-        <div class="block" id="soal">
-            @foreach ($soalReading as $data)
-                <div class="border rounded-lg relative z-30 text-justify mt-10 mb-5">
-                    <!-- Save id soal -->
-                    <div class="">
-                        <input type="hidden" name="id_soal[]" value="{{ $data->id_soal }}">
-                    </div>
-
-                    {{-- judul --}}
-                    <h1 class="text-md font-bold mb-5 bg-[#F3F3F3] p-3 rounded-t-lg border-b">
-                        Reading - Question <span id="currentQuestion">{{$data->nomor_soal}}</span>
-                    </h1>
-
-                    {{-- gambar atau audio --}}
-                    <div class="mx-4">
-                        @if (!empty($data->id_audio))
-                            @if (!$audioPlayed)
-                            <audio id="audio" controls>
-                                <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3" class="bg-[#023047] text-white">
-                                Your browser does not support the audio element.
-                            </audio>
-                            @else
-                                <p>Audio has already played</p>
-                            @endif
-                        @endif
-
-                        @if (!empty($data->id_gambar))
-                            <img src="{{asset('storage/gambar/'.$data->gambar->gambar)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
-                        @endif
-                    </div>
-
-                    {{-- paragraf --}}
-                    <div class="px-2 pb-2">
-                        <p class="mb-3 mt-5">{!! $data->text !!}</p>
-                    </div>
-
-                    {{-- soal --}}
-                    <p class="mx-4 mb-3 bg-[#F3F3F3] mt-5">{{$data->soal}}</p>
-
-                    {{-- jawaban --}}
-                    <div class="my-2 mx-4">
-                        <input type="radio" id="optiona" name="jawaban[{{ $data->id_soal }}]" value="A" class="w-5 h-5 pb-2">
-                        <label for="option1">{{$data->jawaban_a}}</label><br>
-    
-                        <input type="radio" id="optionb" name="jawaban[{{ $data->id_soal }}]" value="B" class="w-5 h-5 pb-2">
-                        <label for="option2">{{$data->jawaban_b}}</label><br>
-    
-                        <input type="radio" id="optionc" name="jawaban[{{ $data->id_soal }}]" value="C" class="w-5 h-5 pb-2">
-                        <label for="option3">{{$data->jawaban_c}}</label><br>
-    
-                        <input type="radio" id="optiond" name="jawaban[{{ $data->id_soal }}]" value="D" class="w-5 h-5 pb-2">
-                        <label for="option4">{{$data->jawaban_d}}</label><br>
-                    </div>
-
-                </div>
-            @endforeach
-        </div>
-
-        <div class="block" id="button">
-            @if ($part->tanda < count($GetAllPart))
-                <div class="flex justify-end items-end">
-                    <button type="submit" name="tombol" value="next" id="nextButton" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white bottom-8">Next</button>
-                </div>
-            @else    
-                <div class="flex justify-end items-end">
-                    <button type="submit" name="tombol" value="Submit" id="submitButton" class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white bottom-8">Submit</button>
-                </div>
+        {{-- gambar atau audio --}}
+        <div class="mx-2 mb-2">
+            @if (!empty($part->id_gambar))
+            <img src="{{asset('storage/gambar/'.$part->gambar->gambar)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
             @endif
         </div>
-    </form>
+        <div class="mx-2 mb-2">
+            @if (!empty($part->id_gambar_1))
+            <img src="{{asset('storage/gambar/'.$part->gambar->gambar1)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
+            @endif
+        </div>
+        <div class="mx-2 mb-2">
+            @if (!empty($part->id_gambar_2))
+            <img src="{{asset('storage/gambar/'.$part->gambar->gambar2)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
+            @endif
+        </div>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- Multi Question --}}
+    @if (!$part->multi_soal == NULL)
+    <div class="border-2 relative z-30 text-justify block mt-5" id="multi">
+        {{-- judul --}}
+        <h1 class="text-md font-bold mb-5 p-3 border-b">
+            Multiple Question Number <span id="currentQuestion">{{$part->dari_nomor}} to {{$part->sampai_nomor}}</span>
+        </h1>
 
-    {{-- matiin fungsi back pada browser --}}
-    <script>
-        history.replaceState(null, null, document.URL);
+        {{-- multiSoal --}}
+        <div class="px-2 pb-2">
+            <p class="">{!! $part->multi_soal !!}</p>
+        </div>
+    </div>
+    @endif
+
+    <div class="block" id="soal">
+        @foreach ($soalReading as $data)
+        <div class="border rounded-lg relative z-30 text-justify mt-10 mb-5">
+            <!-- Save id soal -->
+            <div class="">
+                <input type="hidden" name="id_soal[]" value="{{ $data->id_soal }}">
+            </div>
+
+            {{-- judul --}}
+            <h1 class="text-md font-bold mb-5 bg-[#F3F3F3] p-3 rounded-t-lg border-b">
+                Reading - Question <span id="currentQuestion">{{$data->nomor_soal}}</span>
+            </h1>
+
+            {{-- gambar atau audio --}}
+            <div class="mx-4">
+                @if (!empty($data->id_audio))
+                @if (!$audioPlayed)
+                <audio id="audio" controls>
+                    <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3"
+                        class="bg-[#023047] text-white">
+                    Your browser does not support the audio element.
+                </audio>
+                @else
+                <p>Audio has already played</p>
+                @endif
+                @endif
+
+                @if (!empty($data->id_gambar))
+                <img src="{{asset('storage/gambar/'.$data->gambar->gambar)}}" alt="gambar soal"
+                    class="max-h-96 pb-2 mt-3">
+                @endif
+                @if (!empty($data->id_gambar_1))
+                <img src="{{asset('storage/gambar/'.$data->gambar1->gambar)}}" alt="gambar soal"
+                    class="max-h-96 pb-2 mt-3">
+                @endif
+                @if (!empty($data->id_gambar_2))
+                <img src="{{asset('storage/gambar/'.$data->gambar2->gambar)}}" alt="gambar soal"
+                    class="max-h-96 pb-2 mt-3">
+                @endif
+            </div>
+
+            {{-- paragraf --}}
+            <div class="px-2 pb-2">
+                <p class="mb-3 mt-5">{!! $data->text !!}</p>
+            </div>
+
+            {{-- soal --}}
+            <p class="mx-4 mb-3 bg-[#F3F3F3] mt-5">{{$data->soal}}</p>
+
+            {{-- jawaban --}}
+            <div class="my-2 mx-4">
+                <input type="radio" id="optiona" name="jawaban[{{ $data->id_soal }}]" value="A" class="w-5 h-5 pb-2">
+                <label for="option1">{{$data->jawaban_a}}</label><br>
+
+                <input type="radio" id="optionb" name="jawaban[{{ $data->id_soal }}]" value="B" class="w-5 h-5 pb-2">
+                <label for="option2">{{$data->jawaban_b}}</label><br>
+
+                <input type="radio" id="optionc" name="jawaban[{{ $data->id_soal }}]" value="C" class="w-5 h-5 pb-2">
+                <label for="option3">{{$data->jawaban_c}}</label><br>
+
+                <input type="radio" id="optiond" name="jawaban[{{ $data->id_soal }}]" value="D" class="w-5 h-5 pb-2">
+                <label for="option4">{{$data->jawaban_d}}</label><br>
+            </div>
+
+        </div>
+        @endforeach
+    </div>
+
+    <div class="block" id="button">
+        @if ($part->tanda < count($GetAllPart)) <div class="flex justify-end items-end">
+            <button type="submit" name="tombol" value="next" id="nextButton"
+                class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white bottom-8">Next</button>
+    </div>
+    @else
+    <div class="flex justify-end items-end">
+        <button type="submit" name="tombol" value="Submit" id="submitButton"
+            class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white bottom-8">Submit</button>
+    </div>
+    @endif
+    </div>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+{{-- matiin fungsi back pada browser --}}
+<script>
+    history.replaceState(null, null, document.URL);
         window.addEventListener('popstate', function() {
             history.replaceState(null, null, document.URL);
         });
-    </script>
+</script>
 
-    {{-- Countdown --}}
-    <script>
-        // get form
+{{-- Countdown --}}
+<script>
+    // get form
         const form = document.getElementById('toeic_form');
         // Set durasi countdown (75 menit dalam milidetik)
         const countdownDuration = 75 * 60 * 1000;
@@ -183,11 +205,11 @@
         function refreshPage() {
             window.location.reload(true); // Menggunakan parameter true untuk merefresh dari server
         }
-    </script>
+</script>
 
-    {{-- Sesuai Waktu --}}
-    <script>
-        const formm = document.getElementById('toeic_form');
+{{-- Sesuai Waktu --}}
+<script>
+    const formm = document.getElementById('toeic_form');
 
         // waktu akses dari session
         const endAccessTime = "{{ session('waktu_akhir') }}";
@@ -204,12 +226,12 @@
                 formm.submit();
             }
         }, 1000);
-    </script>
+</script>
 
-    <script>
-        // menghentikan countdown ketika tombol submit ditekan
+<script>
+    // menghentikan countdown ketika tombol submit ditekan
         document.getElementById("submitButton").addEventListener("click", function() {
             clearInterval(window.x);
         });
-    </script>
+</script>
 @endsection

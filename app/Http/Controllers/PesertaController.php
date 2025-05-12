@@ -86,13 +86,6 @@ class PesertaController extends Controller
         // get data status
         $peserta = Peserta::where('id_users', auth()->user()->id)->first();
 
-        // Ambil waktu sekarang sesuai zona waktu Asia/Singapore
-        $currentTime = Carbon::now('Asia/Singapore');
-
-        // Ambil waktu mulai dan akhir dari database dan ubah menjadi objek Carbon dengan tanggal yang sama seperti $currentTime
-        $waktuMulai = Carbon::parse($cekBank->waktu_mulai)->setDate($currentTime->year, $currentTime->month, $currentTime->day); 
-        $waktuAkhir = Carbon::parse($cekBank->waktu_akhir)->setDate($currentTime->year, $currentTime->month, $currentTime->day); 
-
         // pengecekan apakah kode yang diinput ada pada database atau tidak
         if ($cekBank) {
             // jika token ada, cek apakah user sebelumnya sudah mengerjakan soal ini?
@@ -105,6 +98,13 @@ class PesertaController extends Controller
                     Alert::info("Information", "Please wait your turn for the session");
                     return redirect('/DashboardSoal');
                 } else {
+                    // Ambil waktu sekarang sesuai zona waktu Asia/Singapore
+                    $currentTime = Carbon::now('Asia/Singapore');
+
+                    // Ambil waktu mulai dan akhir dari database dan ubah menjadi objek Carbon dengan tanggal yang sama seperti $currentTime
+                    $waktuMulai = Carbon::parse($cekBank->waktu_mulai)->setDate($currentTime->year, $currentTime->month, $currentTime->day); 
+                    $waktuAkhir = Carbon::parse($cekBank->waktu_akhir)->setDate($currentTime->year, $currentTime->month, $currentTime->day); 
+                    
                     // pengecekan waktu
                     if ($currentTime->lt($waktuMulai) || $currentTime->gt($waktuAkhir)) {
                         Alert::info("Information", "Token cannot be accessed due to timeout");

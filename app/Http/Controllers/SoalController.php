@@ -10,7 +10,6 @@ use App\Models\Peserta;
 use App\Models\BankSoal;
 use Illuminate\Http\Request;
 use App\Models\JawabanPeserta;
-use App\Http\Controllers\SoalController;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -322,13 +321,13 @@ class SoalController extends Controller
 
 
         // get data part berdasarkan token
-        $part = Part::with(['audio','gambar'])->where('kategori', 'Reading')->where('token_part', $token)->first();
+        $part = Part::with(['audio','gambar','gambar1','gambar2'])->where('kategori', 'Reading')->where('token_part', $token)->first();
 
         // get all data Part berdasarkan id_bank
         $GetAllPart = Part::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->get();
 
         // berdasarkan token_soal dan bank soal
-        $soalReading = Soal::with('audio','gambar')
+        $soalReading = Soal::with('audio','gambar','gambar1','gambar2')
             ->join('bank_soal', 'bank_soal.id_bank' ,'=', 'soal.id_bank')
             ->join('part', 'part.id_bank' ,'=', 'bank_soal.id_bank')
             ->where('part.kategori', 'Reading')
