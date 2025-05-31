@@ -1326,6 +1326,7 @@ class AdminController extends Controller
     public function UpdateSoalReadingAdmin(Request $request)
     {
 
+        // dd($request->gambar1);
         if ($request->ismethod('post')) {
 
             Soal::where('id_soal', $request->id_soal)->update([

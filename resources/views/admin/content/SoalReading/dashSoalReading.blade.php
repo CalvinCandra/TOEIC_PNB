@@ -470,7 +470,7 @@ use App\Models\Gambar;
                             @if (!$data->id_gambar_1)
                             <option selected hidden value="">-- Choose a File Image --</option>
                             @foreach ($gambar as $item)
-                            <option value="{{$item->id_gambar_1}}">{{$item->gambar}}</option>
+                            <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
                             @endforeach
                             @else
                             <option selected hidden value="{{$Gambar->id_gambar}}">{{ $Gambar->gambar }}</option>
@@ -484,7 +484,7 @@ use App\Models\Gambar;
 
                     <div class="">
                         <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Image</label>
-                        <select id="countries" name="gambar1"
+                        <select id="countries" name="gambar2"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                             @php
                             $Gambar = Gambar::where('id_gambar', $data->id_gambar_2)->first();
@@ -493,7 +493,7 @@ use App\Models\Gambar;
                             @if (!$data->id_gambar_2)
                             <option selected hidden value="">-- Choose a File Image --</option>
                             @foreach ($gambar as $item)
-                            <option value="{{$item->id_gambar_2}}">{{$item->gambar}}</option>
+                            <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
                             @endforeach
                             @else
                             <option selected hidden value="{{$Gambar->id_gambar}}">{{ $Gambar->gambar }}</option>

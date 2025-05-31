@@ -38,7 +38,7 @@ Route::get('/login', [AuthController::class, 'index'])->name('login');
 
 
 // proses Login
-Route::post('/ProsesLogin', [AuthController::class, 'ProsesLogin']);
+Route::post('/ProsesLogin', [AuthController::class, 'ProsesLogin'])->middleware('throttle:5,1');
 
 // logout
 Route::get('/logout', [AuthController::class, 'Logout']);
@@ -47,7 +47,7 @@ Route::get('/logout', [AuthController::class, 'Logout']);
 Route::get('/', [LandingController::class, 'index']);
 
 Route::get('/dashboard', [BankSoalController::class, 'index'])->name('dashboard');
-Route::post('/bank-soal/create', [BankSoalController::class, 'create'])->name('bank-soal.create');
+Route::post('/bank-soal/create', [BankSoalController::class, 'create'])->name('bank-soal.create')->middleware('throttle:5,1');
 
 // kirim email petugas persatu
 Route::get('/SendMail/Petugas/{id}', [MailController::class, 'SendPetugas'])->middleware('auth');
@@ -213,7 +213,7 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
 
     // profile
     Route::get('/Profil', [PesertaController::class, 'Profil']);
-    Route::post('/UpdateProfil', [PesertaController::class, 'UpdateProfil']);
+    Route::post('/UpdateProfil', [PesertaController::class, 'UpdateProfil'])->middleware('throttle:5,1');
 
     // dash soal
     Route::get('/DashboardSoal', [PesertaController::class, 'dashSoal']);
@@ -224,17 +224,17 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
         Route::get('/Reading', [SoalController::class, 'Reading']);
         Route::get('/SoalReading', [SoalController::class, 'GetReading']);
         Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
-        Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading']);
+        Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading'])->middleware('throttle:5,1');
         Route::get('/nilaiReading', [SoalController::class, 'GetNilaiReading'])->name('nilaiReading');
 
         // Listening
         Route::get('/Listening', [SoalController::class, 'Listening']);
         Route::get('/SoalListening', [SoalController::class, 'GetListening']);
         Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
-        Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening']);
+        Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening'])->middleware('throttle:5,1');
         Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
-        Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed']);
-        Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed']);
+        Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed'])->middleware('throttle:5,1');
+        Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed'])->middleware('throttle:5,1');
     });
    
     Route::get('/destory', [SoalController::class, 'destory']);
