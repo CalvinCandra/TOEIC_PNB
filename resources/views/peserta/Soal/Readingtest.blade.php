@@ -92,8 +92,13 @@ TOEIC Test
                 Reading - Question <span id="currentQuestion">{{$data->nomor_soal}}</span>
             </h1>
 
+            {{-- paragraf --}}
+            <div class="px-2 pb-2">
+                <p class="mb-3 mt-3">{!! $data->text !!}</p>
+            </div>
+
             {{-- gambar atau audio --}}
-            <div class="mx-4">
+            <div class="mx-4 mb-3">
                 @if (!empty($data->id_audio))
                 @if (!$audioPlayed)
                 <audio id="audio" controls>
@@ -118,11 +123,6 @@ TOEIC Test
                 <img src="{{asset('storage/gambar/'.$data->gambar2->gambar)}}" alt="gambar soal"
                     class="max-h-96 pb-2 mt-3">
                 @endif
-            </div>
-
-            {{-- paragraf --}}
-            <div class="px-2 pb-2">
-                <p class="mb-3 mt-5">{!! $data->text !!}</p>
             </div>
 
             {{-- soal --}}
