@@ -88,6 +88,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     // Route::post('/TambahPeserta', [AdminController::class, 'TambahPeserta']);
     Route::post('/TambahPesertaExcelAdmin', [AdminController::class, 'TambahPesertaExcel']);
     Route::post('/UpdateAdminPeserta', [AdminController::class, 'UpdatePeserta']);
+    Route::get('/reset-status-peserta/{id}', [AdminController::class, 'UpdateStatusPeserta']);
     Route::post('/DeleteAdminPeserta', [AdminController::class, 'DeletePeserta']);
     Route::get('/ExportExcelAdmin/{sesi}', [AdminController::class, 'ExportExcelAdmin']);
     Route::post('/ResetStatusAdmin/{sesi}', [AdminController::class, 'ResetStatusAdmin']);
@@ -121,7 +122,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::post('/TambahPartListeningAdmin', [AdminController::class, 'TambahListeningPartAdmin']);
     Route::post('/UpdatePartListeningAdmin', [AdminController::class, 'UpdateListeningPartAdmin']);
     Route::post('/DeletePartListeningAdmin', [AdminController::class, 'DeleteListeningPartAdmin']);
-    
+
 
     // menampilkan detail soal reading
     Route::get('/dashAdminSoalDetailReading/{id}', [AdminController::class, 'dashAdminSoalDetailReading']);
@@ -156,6 +157,7 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     // Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
     Route::post('/TambahPesertaExcelPetugas', [PetugasController::class, 'TambahPesertaExcel']);
     Route::post('/UpdatePetugasPeserta', [PetugasController::class, 'UpdatePetugasPeserta']);
+    Route::get('/reset-status-peserta/{id}', [PetugasController::class, 'UpdateStatusPeserta']);
     Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
     Route::get('/ExportExcelPetugas/{sesi}', [PetugasController::class, 'ExportExcelPetugas']);
     Route::post('/ResetStatusPetugas/{sesi}', [PetugasController::class, 'ResetStatusPetugas']);
@@ -213,6 +215,7 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
 
     // profile
     Route::get('/Profil', [PesertaController::class, 'Profil']);
+    Route::get('/download-result', [PesertaController::class, 'DownloadResutl']);
     Route::post('/UpdateProfil', [PesertaController::class, 'UpdateProfil'])->middleware('throttle:5,1');
 
     // dash soal
@@ -224,19 +227,19 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
         Route::get('/Reading', [SoalController::class, 'Reading']);
         Route::get('/SoalReading', [SoalController::class, 'GetReading']);
         Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
-        Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading'])->middleware('throttle:5,1');
+        Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading'])->middleware('throttle:35,1');
         Route::get('/nilaiReading', [SoalController::class, 'GetNilaiReading'])->name('nilaiReading');
 
         // Listening
         Route::get('/Listening', [SoalController::class, 'Listening']);
         Route::get('/SoalListening', [SoalController::class, 'GetListening']);
         Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
-        Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening'])->middleware('throttle:5,1');
+        Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening'])->middleware('throttle:35,1');
         Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
-        Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed'])->middleware('throttle:5,1');
-        Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed'])->middleware('throttle:5,1');
+        Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed'])->middleware('throttle:35,1');
+        Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed'])->middleware('throttle:35,1');
     });
-   
+
     Route::get('/destory', [SoalController::class, 'destory']);
 
     // funcition result sementara

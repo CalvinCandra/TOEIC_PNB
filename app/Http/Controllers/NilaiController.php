@@ -110,18 +110,18 @@ class NilaiController extends Controller
         }
 
         // Mengirimkan email hasil tes
-        Mail::to($peserta->user->email)->send(new ResultMail(
-            $peserta->nama_peserta,
-            $peserta->user->email,
-            $peserta->nim,
-            $peserta->jurusan,
-            $skorReading,
-            $skorListening,
-            $totalSkor,
-            $kategori,
-            $rangeSkor,
-            $pdfPath
-        ));
+        // Mail::to($peserta->user->email)->send(new ResultMail(
+        //     $peserta->nama_peserta,
+        //     $peserta->user->email,
+        //     $peserta->nim,
+        //     $peserta->jurusan,
+        //     $skorReading,
+        //     $skorListening,
+        //     $totalSkor,
+        //     $kategori,
+        //     $rangeSkor,
+        //     $pdfPath
+        // ));
 
         // Simpan data ke dalam session
         $request->session()->put('email_sent', true);

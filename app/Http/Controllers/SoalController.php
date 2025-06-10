@@ -60,7 +60,7 @@ class SoalController extends Controller
 
         // ubah status peserta menjadi sudah selesai
         Peserta::where('id_peserta', $peserta->id_peserta)->update([
-            'status' => 'Sudah'
+            'status' => 'Kerjain'
         ]);
 
         return redirect("/SoalListening" . "/" . $PartListening->token_part);
@@ -78,15 +78,15 @@ class SoalController extends Controller
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
 
         // get data part berdasarkan token
-        $part = Part::with(['audio','gambar'])->where('kategori', 'Listening')->where('token_part', $token)->first();
+        $part = Part::with(['audio', 'gambar'])->where('kategori', 'Listening')->where('token_part', $token)->first();
 
         // get all data Part berdasarkan id_bank
         $GetAllPart = Part::where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->get();
 
         // berdasarkan token_soal dan bank soal
-        $soalListening = Soal::with('audio','gambar')
-            ->join('bank_soal', 'bank_soal.id_bank' ,'=', 'soal.id_bank')
-            ->join('part', 'part.id_bank' ,'=', 'bank_soal.id_bank')
+        $soalListening = Soal::with('audio', 'gambar')
+            ->join('bank_soal', 'bank_soal.id_bank', '=', 'soal.id_bank')
+            ->join('part', 'part.id_bank', '=', 'bank_soal.id_bank')
             ->where('part.kategori', 'Listening')
             ->where('soal.kategori', 'Listening')
             ->where('part.token_part', $token)
@@ -117,15 +117,15 @@ class SoalController extends Controller
         if ($request->ismethod('post')) {
             // get data bank
             $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
-		
-        if (!$getBank) {
-            $request->session()->forget('bank');
-            $request->session()->forget('waktu');
-            $request->session()->forget('quizEndTime');
-            Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
 
-            return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
-        }
+            if (!$getBank) {
+                $request->session()->forget('bank');
+                $request->session()->forget('waktu');
+                $request->session()->forget('quizEndTime');
+                Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
+
+                return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
+            }
 
             // get data peserta
             $peserta = Peserta::where('id_users', auth()->user()->id)->first();
@@ -140,7 +140,7 @@ class SoalController extends Controller
             foreach ($request->id_soal as $idSoal) {
                 // get jawaban user
                 $jawaban = $request->jawaban[$idSoal] ?? 'N'; // jika tidak menjawab
-    
+
                 // insert data kedalam database
                 JawabanPeserta::create([
                     'id_peserta' => $user,
@@ -155,7 +155,7 @@ class SoalController extends Controller
                 $part = Part::where('id_part', $request->id_part)->where('id_bank', $getBank->id_bank)->first();
 
                 // memilih part selanjutnya
-                $PartNext = Part::where('tanda', $part->tanda+1)->where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->first();
+                $PartNext = Part::where('tanda', $part->tanda + 1)->where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->first();
 
                 return redirect("/SoalListening" . "/" . $PartNext->token_part);
             } else {
@@ -177,7 +177,7 @@ class SoalController extends Controller
 
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
-	
+
         if (!$getBank) {
             $request->session()->forget('bank');
             $request->session()->forget('waktu');
@@ -237,7 +237,7 @@ class SoalController extends Controller
 
         // menghapus data sebelumnya di database
         JawabanPeserta::where('id_peserta', $peserta->id_peserta)->delete();
-        
+
         // put data listening
         $request->session()->put('benarListening', $JumlahBenar);
         $request->session()->put('salahListening', $Jumlahsalah);
@@ -321,15 +321,15 @@ class SoalController extends Controller
 
 
         // get data part berdasarkan token
-        $part = Part::with(['audio','gambar','gambar1','gambar2'])->where('kategori', 'Reading')->where('token_part', $token)->first();
+        $part = Part::with(['audio', 'gambar', 'gambar1', 'gambar2'])->where('kategori', 'Reading')->where('token_part', $token)->first();
 
         // get all data Part berdasarkan id_bank
         $GetAllPart = Part::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->get();
 
         // berdasarkan token_soal dan bank soal
-        $soalReading = Soal::with('audio','gambar','gambar1','gambar2')
-            ->join('bank_soal', 'bank_soal.id_bank' ,'=', 'soal.id_bank')
-            ->join('part', 'part.id_bank' ,'=', 'bank_soal.id_bank')
+        $soalReading = Soal::with('audio', 'gambar', 'gambar1', 'gambar2')
+            ->join('bank_soal', 'bank_soal.id_bank', '=', 'soal.id_bank')
+            ->join('part', 'part.id_bank', '=', 'bank_soal.id_bank')
             ->where('part.kategori', 'Reading')
             ->where('soal.kategori', 'Reading')
             ->where('part.token_part', $token)
@@ -360,13 +360,13 @@ class SoalController extends Controller
         if ($request->ismethod('post')) {
             // get data bank
             $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
-	    if (!$getBank) {
-            		$request->session()->forget('bank');
-            		$request->session()->forget('waktu');
-            		$request->session()->forget('quizEndTime');
-	    	Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
-           	 return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
-        	}
+            if (!$getBank) {
+                $request->session()->forget('bank');
+                $request->session()->forget('waktu');
+                $request->session()->forget('quizEndTime');
+                Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
+                return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
+            }
 
 
             // get data peserta
@@ -382,7 +382,7 @@ class SoalController extends Controller
             foreach ($request->id_soal as $idSoal) {
                 // get jawaban user
                 $jawaban = $request->jawaban[$idSoal] ?? 'N'; // jika tidak menjawab
-    
+
                 // insert data kedalam database
                 JawabanPeserta::create([
                     'id_peserta' => $user,
@@ -392,19 +392,19 @@ class SoalController extends Controller
             }
 
             if ($request->tombol == 'next') {
-                
+
                 // get data part berdasarkan id_part dan id_bank
                 $part = Part::where('id_part', $request->id_part)->where('id_bank', $getBank->id_bank)->first();
 
                 // memilih part selanjutnya
-                $PartNext = Part::where('tanda', $part->tanda+1)->where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
+                $PartNext = Part::where('tanda', $part->tanda + 1)->where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
 
                 return redirect("/SoalReading" . "/" . $PartNext->token_part);
             } else {
                 //hapus ession waktu sebelumnya
                 $request->session()->forget('waktu');
                 $request->session()->forget('quizEndTime');
-                
+
                 return redirect()->route('nilaiReading');
             }
         }
@@ -419,17 +419,22 @@ class SoalController extends Controller
 
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
-	if (!$getBank) {
-            		$request->session()->forget('bank');
-            		$request->session()->forget('waktu');
-            		$request->session()->forget('quizEndTime');
-	    	Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
-           	 return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
-        	}
+        if (!$getBank) {
+            $request->session()->forget('bank');
+            $request->session()->forget('waktu');
+            $request->session()->forget('quizEndTime');
+            Alert::error("Information", "Waktu habis atau token tidak valid. Jawaban tidak terkumpul.");
+            return redirect('/DashboardSoal')->with('error', 'Waktu habis atau token tidak valid. Jawaban tidak terkumpul.');
+        }
 
 
         // get data peserta
         $peserta = Peserta::where('id_users', auth()->user()->id)->first();
+
+        // ubah status peserta menjadi sudah selesai
+        Peserta::where('id_peserta', $peserta->id_peserta)->update([
+            'status' => 'Sudah'
+        ]);
 
         // mengambil data jawaban yang diinput berdasarkan id_peserta, kategori soal
         $getJawaban = JawabanPeserta::where('id_peserta', $peserta->id_peserta)->get();
@@ -497,6 +502,4 @@ class SoalController extends Controller
         $request->session()->forget('quizEndTime');
         return redirect('/DashboardSoal');
     }
-
-    
 }

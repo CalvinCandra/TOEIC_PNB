@@ -13,47 +13,53 @@
 
     <div class="p-3 sm:p-5 antialiased">
         @if (count($errors) > 0)
-            <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li class="ml-3 text-sm font-medium">{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li class="ml-3 text-sm font-medium">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
         @endif
         @if(session('gagal'))
-            <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                <ul>
-                    <li class="ml-3 text-sm font-medium">{{ session('gagal') }}</li>
-                </ul>
-            </div>
+        <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            role="alert">
+            <ul>
+                <li class="ml-3 text-sm font-medium">{{ session('gagal') }}</li>
+            </ul>
+        </div>
         @endif
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-3">
             <!-- search form -->
-                <div class="w-full">
-                    <form class="flex items-center" method="GET">
-                        <label for="simple-search" class="sr-only">Search</label>
-                        <div class="relative w-full">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                                    fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <input type="text" id="simple-search" name="search"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Search" autocomplete="off">
+            <div class="w-full">
+                <form class="flex items-center" method="GET">
+                    <label for="simple-search" class="sr-only">Search</label>
+                    <div class="relative w-full">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
+                                viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                    clip-rule="evenodd" />
+                            </svg>
                         </div>
-                    </form>
-                </div>
+                        <input type="text" id="simple-search" name="search"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Search" autocomplete="off">
+                    </div>
+                </form>
+            </div>
             {{-- end search --}}
             <div class="block lg:flex justify-end mt-5">
                 {{-- action --}}
-                <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="flex items-center text-black border-2 border-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">Action 
-                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover"
+                    class="flex items-center text-black border-2 border-black font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+                    type="button">Action
+                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 4 4 4-4" />
                     </svg>
                 </button>
             </div>
@@ -78,55 +84,63 @@
                         </thead>
                         <tbody>
                             @foreach($peserta as $data)
-                                <tr class="border-b"
-                                id="baris{{$loop->iteration}}">
-                                    <th class="px-4 py-3 border-2">{{$loop->iteration}}</th>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->nama_peserta}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->email}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->nim}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jurusan}}</td>
+                            <tr class="border-b" id="baris{{$loop->iteration}}">
+                                <th class="px-4 py-3 border-2">{{$loop->iteration}}</th>
+                                <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->nama_peserta}}</td>
+                                <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->email}}</td>
+                                <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->nim}}</td>
+                                <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->jurusan}}</td>
 
-                                    @if ($data->status == 'Sudah')
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">Done</td>
-                                    @else
-                                        <td class="px-4 py-3 border-2">Not yet</td>
-                                    @endif
+                                @if ($data->status == 'Sudah')
+                                <td class="px-4 py-3 border-2 whitespace-nowrap">Done</td>
+                                @elseif ($data->status == 'Kerjain')
+                                <td class="px-4 py-3 border-2 whitespace-nowrap">Work</td>
+                                @else
+                                <td class="px-4 py-3 border-2">Not yet</td>
+                                @endif
 
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_reading}}</td>
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening + $data->skor_reading}}</td>
+                                <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening}}</td>
+                                <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_reading}}</td>
+                                <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->skor_listening +
+                                    $data->skor_reading}}</td>
 
-                                    <td class="px-4 py-3 border-2 whitespace-nowrap">
-                                        <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
-                                            <li>
-                                                <a href="{{url('/SendMail/Peserta/'.$data->id_peserta)}}"
-                                                    class="flex items-center w-full px-4 py-2 text-green-400 hover:bg-gray-100 hover:scale-95">
-                                                    <i class="fa-solid fa-paper-plane me-1"></i>
-                                                    Send Mail
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button" data-modal-target="UpdatePeserta{{$data->id_peserta}}"
-                                                    data-modal-toggle="UpdatePeserta{{$data->id_peserta}}"
-                                                    class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
-                                                    <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
-                                                    Update
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    onclick="hapus('baris{{$loop->iteration}}', '{{$data->id_peserta}}')"
-                                                    type="button" data-modal-target="DeletePeserta"
-                                                    data-modal-toggle="DeletePeserta"
-                                                    class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
-                                                    <i class="fa-solid fa-trash me-1"></i>
-                                                    Delete
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
+                                <td class="px-4 py-3 border-2 whitespace-nowrap">
+                                    <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
+                                        <li>
+                                            <a href="{{url('/SendMail/Peserta/'.$data->id_peserta)}}"
+                                                class="flex items-center w-full px-4 py-2 text-green-400 hover:bg-gray-100 hover:scale-95">
+                                                <i class="fa-solid fa-paper-plane me-1"></i>
+                                                Send Mail
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{url('/reset-status-peserta/'.$data->id_peserta)}}"
+                                                class="flex items-center w-full px-4 py-2 text-red-300 hover:bg-gray-100 hover:scale-95">
+                                                <i class="fa-solid fa-rotate-left"></i>
+                                                Reset Status
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <button type="button" data-modal-target="UpdatePeserta{{$data->id_peserta}}"
+                                                data-modal-toggle="UpdatePeserta{{$data->id_peserta}}"
+                                                class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
+                                                <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
+                                                Update
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                onclick="hapus('baris{{$loop->iteration}}', '{{$data->id_peserta}}')"
+                                                type="button" data-modal-target="DeletePeserta"
+                                                data-modal-toggle="DeletePeserta"
+                                                class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
+                                                <i class="fa-solid fa-trash me-1"></i>
+                                                Delete
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -141,27 +155,33 @@
 {{-- end konten --}}
 
 <!-- Dropdown button menu -->
-<div id="dropdownHover" class="relative z-20 hidden bg-white divide-y divide-gray-100 rounded-lg border-2 border-gray-300 w-44">
+<div id="dropdownHover"
+    class="relative z-20 hidden bg-white divide-y divide-gray-100 rounded-lg border-2 border-gray-300 w-44">
     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-    <li>
-        <a href="{{url('/SendMailPesertaAll/Sesithree')}}" class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
-    </li>
-    <li>
-        <a href="{{url('/ExportExcelPetugas/Sesithree')}}" target="_blank" class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
-    </li>
-    <li>
-        <a href="{{url('/downloadresult/session_3')}}" target="_blank" class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Download Result (Zip)</a>
-    </li>
-    <li>
-        <button type="button" data-modal-target="ResetStatus" data-modal-toggle="ResetStatus" class="text-left w-full block px-4 py-2 hover:bg-gray-100 text-red-400">Reset Status Work</a>
-    </li>
-    <li>
-        <button type="button" data-modal-target="DeleteAll" data-modal-toggle="DeleteAll" class="text-left w-full block px-4 py-2 hover:bg-gray-100 text-red-600">Delete All Data</button>
-    </li>
+        <li>
+            <a href="{{url('/SendMailPesertaAll/Sesithree')}}"
+                class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
+        </li>
+        <li>
+            <a href="{{url('/ExportExcelPetugas/Sesithree')}}" target="_blank"
+                class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
+        </li>
+        <li>
+            <a href="{{url('/downloadresult/session_3')}}" target="_blank"
+                class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Download Result (Zip)</a>
+        </li>
+        <li>
+            <button type="button" data-modal-target="ResetStatus" data-modal-toggle="ResetStatus"
+                class="text-left w-full block px-4 py-2 hover:bg-gray-100 text-red-400">Reset Status Work</a>
+        </li>
+        <li>
+            <button type="button" data-modal-target="DeleteAll" data-modal-toggle="DeleteAll"
+                class="text-left w-full block px-4 py-2 hover:bg-gray-100 text-red-600">Delete All Data</button>
+        </li>
     </ul>
 </div>
 
-@foreach ($peserta as $data)    
+@foreach ($peserta as $data)
 {{-- Modal Update --}}
 <div id="UpdatePeserta{{$data->id_peserta}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -216,8 +236,11 @@
                     </div>
 
                     <div>
-                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Major</label>
-                        <select id="countries" name="jurusan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <label for="countries"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant
+                            Major</label>
+                        <select id="countries" name="jurusan"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="{{$data->jurusan}}" selected hidden>{{$data->jurusan}}</option>
                             <option value="Administrasi Bisnis">Administrasi Bisnis</option>
                             <option value="Akutansi">Akutansi</option>
@@ -230,20 +253,6 @@
                     </div>
 
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Question Work Status</label>
-                        <select id="countries" name="status"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                            @if ($data->status == 'Sudah')
-                                <option selected hidden value="{{ $data->status }}">Done</option>
-                            @else
-                                <option selected hidden value="{{ $data->status }}">Yet</option>
-                            @endif
-                            <option value="Sudah">Done</option>
-                            <option value="Belum">Not yet</option>
-                        </select>
-                    </div>
-
-                    <div>
                         <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
                         <select id="countries" name="sesi"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
@@ -252,10 +261,6 @@
                             <option value="Session 2">Session 2</option>
                             <option value="Session 3">Session 3</option>
                             <option value="Session 4">Session 4</option>
-                            <option value="Session 5">Session 5</option>
-                            <option value="Session 6">Session 6</option>
-                            <option value="Session 7">Session 7</option>
-                            <option value="Session 8">Session 8</option>
                         </select>
                     </div>
 
@@ -296,7 +301,7 @@
                 <form class="modal-form" action="{{url('/DeletePetugasPeserta')}}" method="POST">
                     @csrf
                     <input type="hidden" id="hapus-peserta" name="id_peserta">
-                    
+
                     <button data-modal-toggle="DeletePeserta" type="button"
                         class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                         Cancel</button>
@@ -335,7 +340,7 @@
             <div class="flex justify-center items-center space-x-4">
                 <form class="modal-form" action="{{url('/ResetStatusPetugas/Sesithree')}}" method="POST">
                     @csrf
-                    
+
                     <button data-modal-toggle="ResetStatus" type="button"
                         class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                         Cancel</button>
@@ -373,7 +378,7 @@
             <div class="flex justify-center items-center space-x-4">
                 <form class="modal-form" action="{{url('/DeleteAllPetugas/Sesithree')}}" method="POST">
                     @csrf
-                    
+
                     <button data-modal-toggle="DeleteAll" type="button"
                         class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                         Cancel</button>

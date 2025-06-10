@@ -26,20 +26,47 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class PetugasController extends Controller
 {
-    public function index(Request $request){
-        return view('petugas.content.dashboard');
+    public function index()
+    {
+        $data = DB::table('peserta')
+            ->select('sesi', 'status', DB::raw('COUNT(*) as total'))
+            ->whereNotNull('sesi')
+            ->groupBy('sesi', 'status')
+            ->orderBy('sesi')
+            ->get();
+
+        // Format data untuk Chart
+        $sessions = $data->pluck('sesi')->unique()->sort()->values();
+        $statuses = ['Sudah', 'Kerjain', 'Belum']; // Pastikan sesuai dengan data di database
+
+        $chartData = [];
+        foreach ($sessions as $sesi) {
+            $chartData[] = [
+                'sesi' => $sesi,
+                'data' => [
+                    'Done' => $data->where('sesi', $sesi)->where('status', 'Sudah')->sum('total') ?? 0,
+                    'Work' => $data->where('sesi', $sesi)->where('status', 'Kerjain')->sum('total') ?? 0,
+                    'Not Yet' => $data->where('sesi', $sesi)->where('status', 'Belum')->sum('total') ?? 0
+                ],
+                'total' => $data->where('sesi', $sesi)->sum('total') // Total semua status per sesi
+            ];
+        }
+
+        return view('petugas.content.dashboard', compact('sessions', 'statuses', 'chartData'));
     }
 
     // ======================================= PESERTA =====================================
     // tampilan dashboard peserta
-    public function dashPetugasPeserta(Request $request){
+    public function dashPetugasPeserta(Request $request)
+    {
         $search = $request->search;
 
         if ($search) {
             $peserta = Peserta::with('user')
-            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
-            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
-            ->paginate();
+                ->where('nama_peserta', 'LIKE', '%' . $search . '%')
+                ->orWhere('jurusan', 'LIKE', '%' . $search . '%')
+                ->orWhere('nim', 'LIKE', '%' . $search . '%')
+                ->paginate();
         } else {
             $peserta = Peserta::with('user')->paginate(15);
         }
@@ -48,15 +75,19 @@ class PetugasController extends Controller
     }
 
     // tampilan dashboard peserta sesi 1
-    public function dashPetugasPeserta1(Request $request){
+    public function dashPetugasPeserta1(Request $request)
+    {
         $search = $request->search;
 
         if ($search) {
-            $peserta = Peserta::with('user') 
-            ->where('sesi', 'Session 1')
-            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
-            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
-            ->paginate();
+            $peserta = Peserta::with('user')
+                ->where('sesi', 'Session 1')
+                ->where(function ($query) use ($search) {
+                    $query->where('nama_peserta', 'LIKE', '%' . $search . '%')
+                        ->orWhere('jurusan', 'LIKE', '%' . $search . '%')
+                        ->orWhere('nim', 'LIKE', '%' . $search . '%');
+                })
+                ->paginate();
         } else {
             $peserta = Peserta::with('user')->where('sesi', 'Session 1')->paginate(15);
         }
@@ -65,15 +96,19 @@ class PetugasController extends Controller
     }
 
     // tampilan dashboard peserta sesi 2
-    public function dashPetugasPeserta2(Request $request){
+    public function dashPetugasPeserta2(Request $request)
+    {
         $search = $request->search;
 
         if ($search) {
-            $peserta = Peserta::with('user') 
-            ->where('sesi', 'Session 2')
-            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
-            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
-            ->paginate();
+            $peserta = Peserta::with('user')
+                ->where('sesi', 'Session 2')
+                ->where(function ($query) use ($search) {
+                    $query->where('nama_peserta', 'LIKE', '%' . $search . '%')
+                        ->orWhere('jurusan', 'LIKE', '%' . $search . '%')
+                        ->orWhere('nim', 'LIKE', '%' . $search . '%');
+                })
+                ->paginate();
         } else {
             $peserta = Peserta::with('user')->where('sesi', 'Session 2')->paginate(15);
         }
@@ -82,15 +117,19 @@ class PetugasController extends Controller
     }
 
     // tampilan dashboard peserta sesi 3
-    public function dashPetugasPeserta3(Request $request){
+    public function dashPetugasPeserta3(Request $request)
+    {
         $search = $request->search;
 
         if ($search) {
-            $peserta = Peserta::with('user') 
-            ->where('sesi', 'Session 3')
-            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
-            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
-            ->paginate();
+            $peserta = Peserta::with('user')
+                ->where('sesi', 'Session 3')
+                ->where(function ($query) use ($search) {
+                    $query->where('nama_peserta', 'LIKE', '%' . $search . '%')
+                        ->orWhere('jurusan', 'LIKE', '%' . $search . '%')
+                        ->orWhere('nim', 'LIKE', '%' . $search . '%');
+                })
+                ->paginate();
         } else {
             $peserta = Peserta::with('user')->where('sesi', 'Session 3')->paginate(15);
         }
@@ -99,88 +138,24 @@ class PetugasController extends Controller
     }
 
     // tampilan dashboard peserta sesi 4
-    public function dashPetugasPeserta4(Request $request){
+    public function dashPetugasPeserta4(Request $request)
+    {
         $search = $request->search;
 
         if ($search) {
-            $peserta = Peserta::with('user') 
-            ->where('sesi', 'Session 4')
-            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
-            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
-            ->paginate();
+            $peserta = Peserta::with('user')
+                ->where('sesi', 'Session 4')
+                ->where(function ($query) use ($search) {
+                    $query->where('nama_peserta', 'LIKE', '%' . $search . '%')
+                        ->orWhere('jurusan', 'LIKE', '%' . $search . '%')
+                        ->orWhere('nim', 'LIKE', '%' . $search . '%');
+                })
+                ->paginate();
         } else {
             $peserta = Peserta::with('user')->where('sesi', 'Session 4')->paginate(15);
         }
 
         return view('petugas.content.Peserta.PetugasPeserta4', compact(['peserta']));
-    }
-
-    // tampilan dashboard peserta sesi 5
-    public function dashPetugasPeserta5(Request $request){
-        $search = $request->search;
-
-        if ($search) {
-            $peserta = Peserta::with('user') 
-            ->where('sesi', 'Session 5')
-            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
-            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
-            ->paginate();
-        } else {
-            $peserta = Peserta::with('user')->where('sesi', 'Session 5')->paginate(15);
-        }
-
-        return view('petugas.content.Peserta.PetugasPeserta5', compact(['peserta']));
-    }
-
-    // tampilan dashboard peserta sesi 6
-    public function dashPetugasPeserta6(Request $request){
-        $search = $request->search;
-
-        if ($search) {
-            $peserta = Peserta::with('user') 
-            ->where('sesi', 'Session 6')
-            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
-            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
-            ->paginate();
-        } else {
-            $peserta = Peserta::with('user')->where('sesi', 'Session 6')->paginate(15);
-        }
-
-        return view('petugas.content.Peserta.PetugasPeserta6', compact(['peserta']));
-    }
-
-    // tampilan dashboard peserta sesi 7
-    public function dashPetugasPeserta7(Request $request){
-        $search = $request->search;
-
-        if ($search) {
-            $peserta = Peserta::with('user') 
-            ->where('sesi', 'Session 7')
-            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
-            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
-            ->paginate();
-        } else {
-            $peserta = Peserta::with('user')->where('sesi', 'Session 7')->paginate(15);
-        }
-
-        return view('petugas.content.Peserta.PetugasPeserta7', compact(['peserta']));
-    }
-
-    // tampilan dashboard peserta sesi 8
-    public function dashPetugasPeserta8(Request $request){
-        $search = $request->search;
-
-        if ($search) {
-            $peserta = Peserta::with('user') 
-            ->where('sesi', 'Session 8')
-            ->where('nama_peserta', 'LIKE', '%'.$search.'%')
-            ->orWhere('jurusan', 'LIKE', '%'.$search.'%')
-            ->paginate();
-        } else {
-            $peserta = Peserta::with('user')->where('sesi', 'Session 8')->paginate(15);
-        }
-
-        return view('petugas.content.Peserta.PetugasPeserta8', compact(['peserta']));
     }
 
     // tambah peserta excel
@@ -201,70 +176,88 @@ class PetugasController extends Controller
     }
 
     // update peserta
-    public function UpdatePetugasPeserta(Request $request){
+    public function UpdatePetugasPeserta(Request $request)
+    {
 
         $request->validate([
             'nim' => 'min:10|max:10'
-        ],[
+        ], [
             'nim.max' => 'NIM Must be 10 Letters',
             'nim.min' => 'NIM Must be 10 Letters',
         ]);
 
-         // get data peserta
-         $peserta = Peserta::with('user')->where('id_peserta', $request->id_peserta)->first();
+        // get data peserta
+        $peserta = Peserta::with('user')->where('id_peserta', $request->id_peserta)->first();
 
-         // cek jika user mengubah email atau tidak
-         if($request->email !== $peserta->user->email){
-             // Periksa email ada yang sama atau tidak saat update data baru
-             $EmailUser = User::where('email', $request->email)->exists();
-             if ($EmailUser) {
-                 return redirect()->back()->withErrors("Email already exists");
-             }
-         }
- 
-         // cek jika user mengubah email atau tidak
-         if($request->nim !== $peserta->nim){
-             // Periksa nim ada yang sama atau tidak saat update data baru
-             $NimPeserta = Peserta::where('nim', $request->nim)->exists();
-             if ($NimPeserta) {
-                 return redirect()->back()->withErrors("Nim already exists");
-             }
-         }
+        // cek jika user mengubah email atau tidak
+        if ($request->email !== $peserta->user->email) {
+            // Periksa email ada yang sama atau tidak saat update data baru
+            $EmailUser = User::where('email', $request->email)->exists();
+            if ($EmailUser) {
+                return redirect()->back()->withErrors("Email already exists");
+            }
+        }
+
+        // cek jika user mengubah email atau tidak
+        if ($request->nim !== $peserta->nim) {
+            // Periksa nim ada yang sama atau tidak saat update data baru
+            $NimPeserta = Peserta::where('nim', $request->nim)->exists();
+            if ($NimPeserta) {
+                return redirect()->back()->withErrors("Nim already exists");
+            }
+        }
 
         // transaction database
         try {
             DB::beginTransaction();
-            
+
             // Update data ke table users
             User::where('id', $peserta['id_users'])->update([
                 'name' => $request->name,
                 'email' => $request->email,
             ]);
-    
+
             // Update data ke table peserta 
             Peserta::where('id_peserta', $request->id_peserta)->update([
                 'nama_peserta' => $request->name,
                 'nim' => $request->nim,
                 'jurusan' => $request->jurusan,
                 'sesi' => $request->sesi,
-                'status' => $request->status,
             ]);
-    
+
             DB::commit();
 
-            toast('Update Data Successful!','success');
+            toast('Update Data Successful!', 'success');
             return redirect()->back();
         } catch (\Throwable $th) {
             throw $th;
             DB::rollBack();
 
-            toast('Something Went Wrong!','error');
+            toast('Something Went Wrong!', 'error');
+            return redirect()->back();
+        }
+    }
+
+    // update status
+    public function UpdateStatusPeserta($id)
+    {
+        try {
+            Peserta::where('id_peserta', $id)->update([
+                'status' => 'Belum'
+            ]);
+
+            toast('Reset Successful!', 'success');
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            throw $th;
+            toast('Something Went Wrong!', 'error');
             return redirect()->back();
         }
     }
 
     // delete peserta
-    public function DeletePetugasPeserta(Request $request){
+    public function DeletePetugasPeserta(Request $request)
+    {
 
         // get data petugas
         $peserta = Peserta::select('*')->where('id_peserta', $request->id_peserta)->first();
@@ -272,324 +265,179 @@ class PetugasController extends Controller
         // transaction database
         try {
             DB::beginTransaction();
-            
+
             // Delete data ke table peserta 
             Peserta::findOrFail($request->id_peserta)->delete();
 
             // Delete data ke table users
             User::findOrFail($peserta['id_users'])->delete();
-    
+
             DB::commit();
 
-            toast('Deleted Data Successful!','success');
+            toast('Deleted Data Successful!', 'success');
             return redirect()->back();
         } catch (\Throwable $th) {
             throw $th;
             DB::rollBack();
 
-            toast('Something Went Wrong!','error');
+            toast('Something Went Wrong!', 'error');
             return redirect()->back();
         }
     }
 
     // Eksport Excel
-    public function ExportExcelPetugas($sesi){
-        if($sesi == 'Sesione'){
+    public function ExportExcelPetugas($sesi)
+    {
+        if ($sesi == 'Sesione') {
             return Excel::download(new PesertaExport($sesi), 'Participation Data Session 1.xlsx');
-        }elseif($sesi == 'Sesitwo'){
+        } elseif ($sesi == 'Sesitwo') {
             return Excel::download(new PesertaExport($sesi), 'Participation Data Session 2.xlsx');
-        }elseif($sesi == 'Sesithree'){
+        } elseif ($sesi == 'Sesithree') {
             return Excel::download(new PesertaExport($sesi), 'Participation Data Session 3.xlsx');
-        }elseif($sesi == 'Sesifour'){
-            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 4.xlsx');
-        }elseif($sesi == 'Sesifive'){
-            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 5.xlsx');
-        }elseif($sesi == 'Sesisix'){
-            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 6.xlsx');
-        }elseif($sesi == 'Sesiseven'){
-            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 7.xlsx');
-        }elseif($sesi == 'Sesieight'){
-            return Excel::download(new PesertaExport($sesi), 'Participation Data Session 8.xlsx');
-        }else{
-            toast('Session Valid','error');
+        } else {
+            toast('Session Valid', 'error');
             return redirect()->back();
         }
     }
 
     // Reset Status Work
-    public function ResetStatusPetugas($sesi){
+    public function ResetStatusPetugas($sesi)
+    {
 
-        if($sesi == 'Sesione'){
+        if ($sesi == 'Sesione') {
             Peserta::where('sesi', 'Session 1')->update([
                 'status' => 'Belum',
             ]);
-        }elseif($sesi == 'Sesitwo'){
+        } elseif ($sesi == 'Sesitwo') {
             Peserta::where('sesi', 'Session 2')->update([
                 'status' => 'Belum',
             ]);
-        }elseif($sesi == 'Sesithree'){
+        } elseif ($sesi == 'Sesithree') {
             Peserta::where('sesi', 'Session 3')->update([
                 'status' => 'Belum',
             ]);
-        }elseif($sesi == 'Sesifour'){
+        } elseif ($sesi == 'Sesifour') {
             Peserta::where('sesi', 'Session 4')->update([
                 'status' => 'Belum',
             ]);
-        }elseif($sesi == 'Sesifive'){
-            Peserta::where('sesi', 'Session 5')->update([
-                'status' => 'Belum',
-            ]);
-        }elseif($sesi == 'Sesisix'){
-            Peserta::where('sesi', 'Session 6')->update([
-                'status' => 'Belum',
-            ]);
-        }elseif($sesi == 'Sesiseven'){
-            Peserta::where('sesi', 'Session 7')->update([
-                'status' => 'Belum',
-            ]);
-        }elseif($sesi == 'Sesieight'){
-            Peserta::where('sesi', 'Session 8')->update([
-                'status' => 'Belum',
-            ]);
-        }else{
-            toast('Session Valid','error');
+        } else {
+            toast('Session Valid', 'error');
             return redirect()->back();
         }
 
-        toast('Reset Status Successful!','success');
+        toast('Reset Status Successful!', 'success');
         return redirect()->back();
     }
 
     // Delete All Data
-    public function DeleteAllPetugas($sesi){
+    public function DeleteAllPetugas($sesi)
+    {
 
-        if($sesi == 'Sesione'){
+        if ($sesi == 'Sesione') {
             // transaction database
             try {
                 DB::beginTransaction();
 
                 // get data id_user di peserta
                 $userid = Peserta::where('sesi', 'Session 1')->pluck('id_users');
-                
+
                 // Delete data peserta 
                 Peserta::where('sesi', 'Session 1')->delete();
 
                 // Delete data users
                 User::whereIn('id', $userid)->where('level', 'peserta')->delete();
-        
+
                 DB::commit();
 
-                toast('Deleted Data Successful!','success');
+                toast('Deleted Data Successful!', 'success');
                 return redirect()->back();
             } catch (\Throwable $th) {
                 throw $th;
                 DB::rollBack();
 
-                toast('Something Went Wrong!','error');
+                toast('Something Went Wrong!', 'error');
                 return redirect()->back();
             }
-        }elseif($sesi == 'Sesitwo'){
+        } elseif ($sesi == 'Sesitwo') {
             // transaction database
             try {
                 DB::beginTransaction();
 
                 // get data id_user di peserta
                 $userid = Peserta::where('sesi', 'Session 2')->pluck('id_users');
-                
+
                 // Delete data peserta 
                 Peserta::where('sesi', 'Session 2')->delete();
 
                 // Delete data users
                 User::whereIn('id', $userid)->where('level', 'peserta')->delete();
-        
+
                 DB::commit();
 
-                toast('Deleted Data Successful!','success');
+                toast('Deleted Data Successful!', 'success');
                 return redirect()->back();
             } catch (\Throwable $th) {
                 throw $th;
                 DB::rollBack();
 
-                toast('Something Went Wrong!','error');
+                toast('Something Went Wrong!', 'error');
                 return redirect()->back();
             }
-        }elseif($sesi == 'Sesithree'){
+        } elseif ($sesi == 'Sesithree') {
             // transaction database
             try {
                 DB::beginTransaction();
 
                 // get data id_user di peserta
                 $userid = Peserta::where('sesi', 'Session 3')->pluck('id_users');
-                
+
                 // Delete data peserta 
                 Peserta::where('sesi', 'Session 3')->delete();
 
                 // Delete data users
                 User::whereIn('id', $userid)->where('level', 'peserta')->delete();
-        
+
                 DB::commit();
 
-                toast('Deleted Data Successful!','success');
+                toast('Deleted Data Successful!', 'success');
                 return redirect()->back();
             } catch (\Throwable $th) {
                 throw $th;
                 DB::rollBack();
 
-                toast('Something Went Wrong!','error');
+                toast('Something Went Wrong!', 'error');
                 return redirect()->back();
             }
-        }elseif($sesi == 'Sesifour'){
-            // transaction database
-            try {
-                DB::beginTransaction();
-
-                // get data id_user di peserta
-                $userid = Peserta::where('sesi', 'Session 4')->pluck('id_users');
-                
-                // Delete data peserta 
-                Peserta::where('sesi', 'Session 4')->delete();
-
-                // Delete data users
-                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
-        
-                DB::commit();
-
-                toast('Deleted Data Successful!','success');
-                return redirect()->back();
-            } catch (\Throwable $th) {
-                throw $th;
-                DB::rollBack();
-
-                toast('Something Went Wrong!','error');
-                return redirect()->back();
-            }
-        }elseif($sesi == 'Sesifive'){
-            // transaction database
-            try {
-                DB::beginTransaction();
-
-                // get data id_user di peserta
-                $userid = Peserta::where('sesi', 'Session 5')->pluck('id_users');
-                
-                // Delete data peserta 
-                Peserta::where('sesi', 'Session 5')->delete();
-
-                // Delete data users
-                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
-        
-                DB::commit();
-
-                toast('Deleted Data Successful!','success');
-                return redirect()->back();
-            } catch (\Throwable $th) {
-                throw $th;
-                DB::rollBack();
-
-                toast('Something Went Wrong!','error');
-                return redirect()->back();
-            }
-        }elseif($sesi == 'Sesisix'){
-           // transaction database
-            try {
-                DB::beginTransaction();
-
-                // get data id_user di peserta
-                $userid = Peserta::where('sesi', 'Session 6')->pluck('id_users');
-                
-                // Delete data peserta 
-                Peserta::where('sesi', 'Session 6')->delete();
-
-                // Delete data users
-                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
-        
-                DB::commit();
-
-                toast('Deleted Data Successful!','success');
-                return redirect()->back();
-            } catch (\Throwable $th) {
-                throw $th;
-                DB::rollBack();
-
-                toast('Something Went Wrong!','error');
-                return redirect()->back();
-            }
-        }elseif($sesi == 'Sesiseven'){
-            // transaction database
-            try {
-                DB::beginTransaction();
-
-                // get data id_user di peserta
-                $userid = Peserta::where('sesi', 'Session 7')->pluck('id_users');
-                
-                // Delete data peserta 
-                Peserta::where('sesi', 'Session 7')->delete();
-
-                // Delete data users
-                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
-        
-                DB::commit();
-
-                toast('Deleted Data Successful!','success');
-                return redirect()->back();
-            } catch (\Throwable $th) {
-                throw $th;
-                DB::rollBack();
-
-                toast('Something Went Wrong!','error');
-                return redirect()->back();
-            }
-        }elseif($sesi == 'Sesieight'){
-            // transaction database
-            try {
-                DB::beginTransaction();
-
-                // get data id_user di peserta
-                $userid = Peserta::where('sesi', 'Session 8')->pluck('id_users');
-                
-                // Delete data peserta 
-                Peserta::where('sesi', 'Session 8')->delete();
-
-                // Delete data users
-                User::whereIn('id', $userid)->where('level', 'peserta')->delete();
-        
-                DB::commit();
-
-                toast('Deleted Data Successful!','success');
-                return redirect()->back();
-            } catch (\Throwable $th) {
-                throw $th;
-                DB::rollBack();
-
-                toast('Something Went Wrong!','error');
-                return redirect()->back();
-            }
-        }else{
-            toast('Session Valid','error');
+        } else {
+            toast('Session Valid', 'error');
             return redirect()->back();
         }
     }
 
     // download template
-    public function Template(){
+    public function Template()
+    {
         return Storage::download('public/Template/Participation Data.xlsx');
     }
     // ======================================= END PESERTA =====================================
 
     // ======================================= GAMBAR FOR PETUGAS =====================================
     // tampilan dashboard gambar soal
-    public function dashPetugasGambar(Request $request){
+    public function dashPetugasGambar(Request $request)
+    {
         $search = $request->search;
 
         if ($search) {
-            $gambar = Gambar::Where('gambar', 'LIKE', '%'.$search.'%')
-            ->paginate();
+            $gambar = Gambar::Where('gambar', 'LIKE', '%' . $search . '%')
+                ->paginate();
         } else {
             $gambar = Gambar::paginate(15);
         }
         return view('petugas.content.Gambar.gambarPetugas', compact('gambar')); // Kirim data ke view
     }
 
-    public function TambahGambarPetugas(Request $request){
+    public function TambahGambarPetugas(Request $request)
+    {
         // Validasi request
         $request->validate([
             'gambar' => 'mimes:jpg,jpeg,png'
@@ -620,35 +468,36 @@ class PetugasController extends Controller
         return redirect()->back();
     }
 
-    public function DeleteGambarPetugas(Request $request){
+    public function DeleteGambarPetugas(Request $request)
+    {
         if ($request->isMethod('post')) {
             DB::beginTransaction();
-    
+
             try {
                 // Update data soal yang menggunakan gambar menjadi null
                 Soal::where('id_gambar', $request->id_gambar)->update(['id_gambar' => NULL]);
-    
+
                 // Get data gambar dari database
                 $gambar = Gambar::findOrFail($request->id_gambar);
-    
+
                 // Tentukan path dari file gambar yang ingin dihapus
                 $path = "public/gambar/" . $gambar->gambar;
-                
+
                 // Hapus file dari storage
                 if (Storage::exists($path)) {
                     Storage::delete($path);
                 }
-    
+
                 // Hapus data gambar dari database
                 $gambar->delete();
-    
+
                 DB::commit();
-    
+
                 toast('Deleted Data Successful!', 'success');
                 return redirect()->back();
             } catch (\Throwable $th) {
                 DB::rollBack();
-    
+
                 toast('Something Went Wrong!', 'error');
                 return redirect()->back();
             }
@@ -659,19 +508,21 @@ class PetugasController extends Controller
 
     // ======================================= AUDIO FOR PETUGAS =====================================
     // / tampilan dashboard gambar audio
-    public function dashPetugasAudio(Request $request){
+    public function dashPetugasAudio(Request $request)
+    {
         $search = $request->search;
 
         if ($search) {
-            $audio = Audio::Where('gambar', 'LIKE', '%'.$search.'%')
-            ->paginate();
+            $audio = Audio::Where('gambar', 'LIKE', '%' . $search . '%')
+                ->paginate();
         } else {
             $audio = Audio::paginate(15);
         }
         return view('petugas.content.Audio.audioPetugas', compact('audio')); // Kirim data ke view
     }
 
-    public function TambahAudioPetugas(Request $request){
+    public function TambahAudioPetugas(Request $request)
+    {
         $request->validate([
             'audio' => 'mimes:mp3,wav'
         ]);
@@ -701,35 +552,36 @@ class PetugasController extends Controller
         return redirect()->back();
     }
 
-    public function DeleteAudioPetugas(Request $request){
+    public function DeleteAudioPetugas(Request $request)
+    {
         if ($request->isMethod('post')) {
             DB::beginTransaction();
-    
+
             try {
                 // Update data soal yang menggunakan gambar menjadi null
                 Soal::where('id_audio', $request->id_audio)->update(['id_audio' => NULL]);
-    
+
                 // Get data gambar dari database
                 $audio = Audio::findOrFail($request->id_audio);
-    
+
                 // Tentukan path dari file gambar yang ingin dihapus
                 $path = "public/audio/" . $audio->audio;
-                
+
                 // Hapus file dari storage
                 if (Storage::exists($path)) {
                     Storage::delete($path);
                 }
-    
+
                 // Hapus data audio dari database
                 $audio->delete();
-    
+
                 DB::commit();
-    
+
                 toast('Deleted Data Successful!', 'success');
                 return redirect()->back();
             } catch (\Throwable $th) {
                 DB::rollBack();
-    
+
                 toast('Something Went Wrong!', 'error');
                 return redirect()->back();
             }
@@ -740,19 +592,21 @@ class PetugasController extends Controller
 
     // ======================================= BANK SOAL FOR PETUGAS=====================================
     // tampilan dashboard bank soal
-    public function dashPetugasSoal(Request $request){
+    public function dashPetugasSoal(Request $request)
+    {
         $search = $request->search;
 
         if ($search) {
-            $bank = BankSoal::Where('bank', 'LIKE', '%'.$search.'%')
-            ->paginate();
+            $bank = BankSoal::Where('bank', 'LIKE', '%' . $search . '%')
+                ->paginate();
         } else {
             $bank = BankSoal::paginate(15);
         }
         return view('petugas.content.BankSoal.dashbanksoal', compact('bank')); // Kirim data ke view
     }
 
-    public function TambahBankSoal(Request $request){
+    public function TambahBankSoal(Request $request)
+    {
         $request->validate([
             'bank' => 'unique:bank_soal',
         ]);
@@ -763,12 +617,13 @@ class PetugasController extends Controller
             'waktu_mulai' => $request->waktu_mulai,
             'waktu_akhir' => $request->waktu_akhir,
         ]);
-        
-        toast('Create Data Successful!','success');
+
+        toast('Create Data Successful!', 'success');
         return redirect()->back();
     }
 
-    public function UpdateBankSoal(Request $request){
+    public function UpdateBankSoal(Request $request)
+    {
         $request->validate([
             'bank' => [
                 'required',
@@ -776,27 +631,27 @@ class PetugasController extends Controller
             ],
         ]);
 
-        if($request->ismethod('post')){
+        if ($request->ismethod('post')) {
             BankSoal::where('id_bank', $request->id_bank)->update([
                 'bank' => $request->bank,
                 'sesi_bank' => $request->sesi_bank,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_akhir' => $request->waktu_akhir,
             ]);
-            
-            toast('Update Data Successful!','success');
+
+            toast('Update Data Successful!', 'success');
             return redirect()->back();
         }
-
     }
 
-    public function DeleteBankSoal(Request $request){
-        if($request->ismethod('post')){
+    public function DeleteBankSoal(Request $request)
+    {
+        if ($request->ismethod('post')) {
 
             // transaction database
             try {
                 DB::beginTransaction();
-                
+
                 // Delete data Soal berdasarkan bank soal
                 Soal::where('id_bank', $request->id_bank)->delete();
 
@@ -805,20 +660,19 @@ class PetugasController extends Controller
 
                 // Delete data bank soal
                 BankSoal::findOrFail($request->id_bank)->delete();
-        
+
                 DB::commit();
 
-                toast('Deleted Data Successful!','success');
+                toast('Deleted Data Successful!', 'success');
                 return redirect()->back();
             } catch (\Throwable $th) {
                 throw $th;
                 DB::rollBack();
 
-                toast('Something Went Wrong!','error');
+                toast('Something Went Wrong!', 'error');
                 return redirect()->back();
             }
         }
-
     }
     // ======================================= END BANK SOAL =====================================
 
@@ -829,13 +683,13 @@ class PetugasController extends Controller
         $search = $request->search;
 
         if ($search) {
-            $part = Part::with(['bank','gambar'])
+            $part = Part::with(['bank', 'gambar'])
                 ->where('id_bank', $id)
                 ->where('kategori', 'Reading')
                 ->orWhere('part', 'LIKE', '%' . $search . '%')
                 ->paginate();
         } else {
-            $part = Part::with(['bank','gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->paginate(15);
+            $part = Part::with(['bank', 'gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->paginate(15);
         }
 
         // lempar id_bank ke dalam view
@@ -848,9 +702,9 @@ class PetugasController extends Controller
         $tanda = Part::where('id_bank', $id)->where('kategori', 'Reading')->orderBy('tanda', 'desc')->first();
 
         // jika blm ada soal
-        if($tanda == null){
+        if ($tanda == null) {
             $nomor = intval(0) + 1;
-        }else{ //jika sudah ada soal
+        } else { //jika sudah ada soal
             $nomor = intval($tanda->tanda) + 1;
         }
 
@@ -869,26 +723,27 @@ class PetugasController extends Controller
             $angka = intval($nomorSoalReading->sampai_nomor) + 1;
         }
 
-        return view('petugas.content.Part.partReading', compact(['part','id_bank','gambar','nomor','angka'])); // Kirim data ke view
+        return view('petugas.content.Part.partReading', compact(['part', 'id_bank', 'gambar', 'nomor', 'angka'])); // Kirim data ke view
     }
 
     // tambah
-    public function TambahReadingPartPetugas(Request $request){
+    public function TambahReadingPartPetugas(Request $request)
+    {
 
         // generate token otomatis
         $token_part = strtoupper(Str::password(5, true, true, false, false));
 
-         // get part berdasarkan id_bank
-         $partSame = Part::where('part', $request->part)->where('kategori', 'Reading')->where('id_bank', $request->id_bank)->first();
-         // validasi nama part
-         if($partSame){
-             return redirect()->back()->witherrors('Part Already Exsits');
-         }
- 
-         // validasi jika inputan sampai nomor lebih kecil dari nomor
-         if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
-         }
+        // get part berdasarkan id_bank
+        $partSame = Part::where('part', $request->part)->where('kategori', 'Reading')->where('id_bank', $request->id_bank)->first();
+        // validasi nama part
+        if ($partSame) {
+            return redirect()->back()->witherrors('Part Already Exsits');
+        }
+
+        // validasi jika inputan sampai nomor lebih kecil dari nomor
+        if ($request->dari_nomor >= $request->sampai_nomor) {
+            return redirect()->back()->witherrors('Please do not fill in the numbers below ' . $request->dari_nomor);
+        }
 
         Part::create([
             'part' => $request->part,
@@ -910,21 +765,21 @@ class PetugasController extends Controller
     // update part 
     public function UpdateReadingPartPetugas(Request $request)
     {
- 
+
         // validasi jika inputan sampai nomor lebih kecil dari nomor
-        if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
+        if ($request->dari_nomor >= $request->sampai_nomor) {
+            return redirect()->back()->witherrors('Please do not fill in the numbers below ' . $request->dari_nomor);
         }
 
-         // Ambil part yang sesuai dengan id_part yang diberikan
+        // Ambil part yang sesuai dengan id_part yang diberikan
         $CekPart = Part::where('id_part', $request->id_part)->first();
 
         // Cek jika nama part yang diinputkan sama dengan part sebelumnya yang ada di database
         if ($CekPart && $CekPart->part != $request->part) { // Jika nama part yang diinputkan berbeda dengan nama part sebelumny
             $partSame = Part::where('part', $request->part)
-                            ->where('kategori', 'Reading')
-                            ->where('id_bank', $request->id_bank)
-                            ->first();
+                ->where('kategori', 'Reading')
+                ->where('id_bank', $request->id_bank)
+                ->first();
             // cek kembali apakah inputan yang berbeda ada yang sama dengan part lainnya
             if ($partSame) {
                 return redirect()->back()->withErrors('Part Already Exists');
@@ -965,13 +820,13 @@ class PetugasController extends Controller
         $search = $request->search;
 
         if ($search) {
-            $part = Part::with(['bank','audio','gambar'])
+            $part = Part::with(['bank', 'audio', 'gambar'])
                 ->where('id_bank', $id)
                 ->where('kategori', 'Listening')
                 ->orWhere('part', 'LIKE', '%' . $search . '%')
                 ->paginate();
         } else {
-            $part = Part::with(['bank','audio','gambar'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
+            $part = Part::with(['bank', 'audio', 'gambar'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
         }
 
         // lempar id_bank ke dalam view
@@ -987,32 +842,33 @@ class PetugasController extends Controller
         $tanda = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('tanda', 'desc')->first();
 
         // jika blm ada soal
-        if($tanda == null){
+        if ($tanda == null) {
             $nomor = intval(0) + 1;
-        }else{ //jika sudah ada soal
+        } else { //jika sudah ada soal
             $nomor = intval($tanda->tanda) + 1;
         }
 
-         // nomor soal for part
-         $nomorSoal = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('sampai_nomor', 'desc')->first();
+        // nomor soal for part
+        $nomorSoal = Part::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('sampai_nomor', 'desc')->first();
 
-         // jika blm ada soal
-         if($nomorSoal == null){
-             $angka = intval(0) + 1;
-         }else{ //jika sudah ada soal
-             $angka = intval($nomorSoal->sampai_nomor) + 1;
-         }
+        // jika blm ada soal
+        if ($nomorSoal == null) {
+            $angka = intval(0) + 1;
+        } else { //jika sudah ada soal
+            $angka = intval($nomorSoal->sampai_nomor) + 1;
+        }
 
-        return view('petugas.content.Part.partListening', compact(['part','id_bank','gambar','audio','nomor','angka'])); // Kirim data ke view
+        return view('petugas.content.Part.partListening', compact(['part', 'id_bank', 'gambar', 'audio', 'nomor', 'angka'])); // Kirim data ke view
     }
 
     // tambah
-    public function TambahListeningPartPetugas(Request $request){
+    public function TambahListeningPartPetugas(Request $request)
+    {
 
-         // Validasi inputan form
+        // Validasi inputan form
         $validated = $request->validate([
             'petunjuk' => 'required|string',
-        ],[
+        ], [
             'petunjuk.required' => "Direction cannot be empty"
         ]);
 
@@ -1022,13 +878,13 @@ class PetugasController extends Controller
         // get part berdasarkan id_bank
         $partSame = Part::where('part', $request->part)->where('kategori', 'Listening')->where('id_bank', $request->id_bank)->first();
         // validasi nama part
-        if($partSame){
+        if ($partSame) {
             return redirect()->back()->witherrors('Part Already Exsits');
         }
 
         // validasi jika inputan sampai nomor lebih kecil dari nomor
-        if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
+        if ($request->dari_nomor >= $request->sampai_nomor) {
+            return redirect()->back()->witherrors('Please do not fill in the numbers below ' . $request->dari_nomor);
         }
 
         Part::create([
@@ -1053,19 +909,19 @@ class PetugasController extends Controller
     {
 
         // validasi jika inputan sampai nomor lebih kecil dari nomor
-        if($request->dari_nomor >= $request->sampai_nomor){
-            return redirect()->back()->witherrors('Please do not fill in the numbers below '.$request->dari_nomor);
+        if ($request->dari_nomor >= $request->sampai_nomor) {
+            return redirect()->back()->witherrors('Please do not fill in the numbers below ' . $request->dari_nomor);
         }
 
-         // Ambil part yang sesuai dengan id_part yang diberikan
+        // Ambil part yang sesuai dengan id_part yang diberikan
         $CekPart = Part::where('id_part', $request->id_part)->first();
 
         // Cek jika nama part yang diinputkan sama dengan part sebelumnya yang ada di database
         if ($CekPart && $CekPart->part != $request->part) { // Jika nama part yang diinputkan berbeda dengan nama part sebelumny
             $partSame = Part::where('part', $request->part)
-                            ->where('kategori', 'Listening')
-                            ->where('id_bank', $request->id_bank)
-                            ->first();
+                ->where('kategori', 'Listening')
+                ->where('id_bank', $request->id_bank)
+                ->first();
             // cek kembali apakah inputan yang berbeda ada yang sama dengan part lainnya
             if ($partSame) {
                 return redirect()->back()->withErrors('Part Already Exists');
@@ -1101,19 +957,20 @@ class PetugasController extends Controller
 
     // ======================================= SOAL READING =====================================
     // menampilkan data soal
-    public function dashPetugasSoalDetailReading(Request $request, $id){
+    public function dashPetugasSoalDetailReading(Request $request, $id)
+    {
         $search = $request->search;
 
         if ($search) {
-            $soal = Soal::
-            with(['user', 'gambar'])
-            ->where('id_bank', $id)
-            ->where('kategori', 'Reading')
-            ->orWhere('nomor', 'LIKE', '%'.$search.'%')
-            ->orWhere('soal', 'LIKE', '%'.$search.'%')
-            ->paginate();
+            $soal = Soal::with(['user', 'gambar'])
+                ->where('id_bank', $id)
+                ->where('kategori', 'Reading')
+                ->orWhere('nomor', 'LIKE', '%' . $search . '%')
+                ->orWhere('soal', 'LIKE', '%' . $search . '%')
+                ->orderBy('nomor_soal', 'asc')
+                ->paginate();
         } else {
-            $soal = Soal::with(['user', 'gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->paginate(15);
+            $soal = Soal::with(['user', 'gambar'])->where('id_bank', $id)->where('kategori', 'Reading')->orderBy('nomor_soal', 'asc')->paginate(15);
         }
 
         // lempar id_bank ke dalam view
@@ -1141,7 +998,8 @@ class PetugasController extends Controller
     }
 
     // tambah soal
-    public function TambahSoalReadingPetugas(Request $request){
+    public function TambahSoalReadingPetugas(Request $request)
+    {
 
         // generate token otomatis
         $token_soal = strtoupper(Str::password(5, true, true, false, false));
@@ -1165,14 +1023,14 @@ class PetugasController extends Controller
             'token_soal' => $token_soal,
         ]);
 
-        toast('Create Data Successful!','success');
+        toast('Create Data Successful!', 'success');
         return redirect()->back();
-        
     }
 
     // update soal 
-    public function UpdateSoalReadingPetugas(Request $request){
-        if($request->ismethod('post')){
+    public function UpdateSoalReadingPetugas(Request $request)
+    {
+        if ($request->ismethod('post')) {
 
             Soal::where('id_soal', $request->id_soal)->update([
                 'nomor_soal' => $request->nomor_soal,
@@ -1188,32 +1046,33 @@ class PetugasController extends Controller
                 'id_gambar_2' => $request->gambar2,
                 'id_users' => auth()->user()->id,
             ]);
-    
-            toast('Update Data Successful!','success');
+
+            toast('Update Data Successful!', 'success');
             return redirect()->back();
         }
     }
 
     // delete soal
-    public function DeleteSoalReadingPetugas(Request $request){
+    public function DeleteSoalReadingPetugas(Request $request)
+    {
         Soal::findOrFail($request->id_soal)->delete();
-        toast('Delete Data Successful!','success');
+        toast('Delete Data Successful!', 'success');
         return redirect()->back();
     }
     // ======================================= SOAL READING =====================================
 
     // ======================================= SOAL LISTENING =====================================
-    public function dashPetugasSoalDetailListening(Request $request, $id){
+    public function dashPetugasSoalDetailListening(Request $request, $id)
+    {
         $search = $request->search;
 
         if ($search) {
-            $soal = Soal::
-            with(['user', 'audio'])
-            ->where('id_bank', $id)
-            ->where('kategori', 'Listening')
-            ->orWhere('nomor', 'LIKE', '%'.$search.'%')
-            ->orWhere('soal', 'LIKE', '%'.$search.'%')
-            ->paginate();
+            $soal = Soal::with(['user', 'audio'])
+                ->where('id_bank', $id)
+                ->where('kategori', 'Listening')
+                ->orWhere('nomor', 'LIKE', '%' . $search . '%')
+                ->orWhere('soal', 'LIKE', '%' . $search . '%')
+                ->paginate();
         } else {
             $soal = Soal::with(['user', 'audio'])->where('id_bank', $id)->where('kategori', 'Listening')->paginate(15);
         }
@@ -1231,9 +1090,9 @@ class PetugasController extends Controller
         $penomoran = Soal::where('id_bank', $id)->where('kategori', 'Listening')->orderBy('nomor_soal', 'desc')->first();
 
         // jika blm ada soal
-        if($penomoran == null){
+        if ($penomoran == null) {
             $nomor = intval(0) + 1;
-        }else{ //jika sudah ada soal
+        } else { //jika sudah ada soal
             $nomor = intval($penomoran->nomor_soal) + 1;
         }
 
@@ -1241,7 +1100,8 @@ class PetugasController extends Controller
     }
 
     // tambah soal
-    public function TambahSoalListeningPetugas(Request $request){
+    public function TambahSoalListeningPetugas(Request $request)
+    {
 
         // generate token otomatis
         $token_soal = strtoupper(Str::password(5, true, true, false, false));
@@ -1264,14 +1124,14 @@ class PetugasController extends Controller
             'token_soal' => $token_soal,
         ]);
 
-        toast('Create Data Successful!','success');
+        toast('Create Data Successful!', 'success');
         return redirect()->back();
-        
     }
 
     // update soal 
-    public function UpdateSoalListeningPetugas(Request $request){
-        if($request->ismethod('post')){
+    public function UpdateSoalListeningPetugas(Request $request)
+    {
+        if ($request->ismethod('post')) {
 
             Soal::where('id_soal', $request->id_soal)->update([
                 'nomor_soal' => $request->nomor_soal,
@@ -1287,16 +1147,17 @@ class PetugasController extends Controller
                 'id_gambar' => $request->gambar,
                 'id_users' => auth()->user()->id,
             ]);
-    
-            toast('Update Data Successful!','success');
+
+            toast('Update Data Successful!', 'success');
             return redirect()->back();
         }
     }
 
     // delete soal
-    public function DeleteSoalListeningPetugas(Request $request){
+    public function DeleteSoalListeningPetugas(Request $request)
+    {
         Soal::findOrFail($request->id_soal)->delete();
-        toast('Delete Data Successful!','success');
+        toast('Delete Data Successful!', 'success');
         return redirect()->back();
     }
     // ======================================= END SOAL LISTENING =====================================

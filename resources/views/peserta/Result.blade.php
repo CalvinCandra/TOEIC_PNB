@@ -89,13 +89,13 @@
                 <div class="w-full mx-auto bg-[#bbdae8] rounded-lg">
                     <p class="text-center p-4 text-bold text-xl font-extrabold text-[#6CB8DC]">{{ $kategori }}</p>
                 </div>
-                <div class="flex items-center space-x-4 mt-3 mb-3">
+                {{-- <div class="flex items-center space-x-4 mt-3 mb-3">
                     <img src="{{ asset('favicon/sendMail.png') }}" alt="SendEmail" style="width: 50px;">
                     <div class="mail">
                         <p class="font-normal">Your results have been sent to</p>
                         <p class="font-bold">{{ $peserta->user->email }}</p>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             {{-- AN EXPLANATION --}}
@@ -171,9 +171,8 @@
                                     range of 785 - 940</p>
                             </div>
                             <svg data-accordion-icon
-                                class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300"
-                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 10 6">
+                                class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="M9 5 5 1 1 5" />
                             </svg>
@@ -205,9 +204,8 @@
                                     range of 550 - 780</p>
                             </div>
                             <svg data-accordion-icon
-                                class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300"
-                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 10 6">
+                                class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="M9 5 5 1 1 5" />
                             </svg>
@@ -238,9 +236,8 @@
                                     range of 225 - 545</p>
                             </div>
                             <svg data-accordion-icon
-                                class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300"
-                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 10 6">
+                                class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="M9 5 5 1 1 5" />
                             </svg>
@@ -271,9 +268,8 @@
                                     range of 0 - 220</p>
                             </div>
                             <svg data-accordion-icon
-                                class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300"
-                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 10 6">
+                                class="w-3 h-3 rotate-180 shrink-0 transition-transform duration-300" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="M9 5 5 1 1 5" />
                             </svg>

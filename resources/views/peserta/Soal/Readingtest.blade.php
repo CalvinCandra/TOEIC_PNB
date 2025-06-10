@@ -26,7 +26,7 @@ TOEIC Test
 
 @section('content')
 
-<form action="{{url('/ProsesJawabReading')}}" method="post" id="toeic_form">
+<form action="{{url('/ProsesJawabReading')}}" method="POST" id="toeic_form">
     @csrf
     <!-- Save id part -->
     <div class="">
@@ -171,61 +171,68 @@ TOEIC Test
         });
 </script>
 
-{{-- Countdown --}}
+{{-- countdown --}}
 <script>
-    // get form
-        const form = document.getElementById('toeic_form');
-        // Set durasi countdown (75 menit dalam milidetik)
-        const countdownDuration = 75 * 60 * 1000;
+    const form = document.getElementById('toeic_form');
+    let formSubmitted = false; // Flag untuk menghindari double submit
 
-        // Ambil waktu mulai dari localStorage
-        const quizStartTime = parseInt(localStorage.getItem("quizStartTime"));
-        const endTime = quizStartTime + countdownDuration;
+    const countdownDuration = 75 * 60 * 1000;
+    const quizStartTime = parseInt(localStorage.getItem("quizStartTime"));
+    const endTime = quizStartTime + countdownDuration;
 
-        // Hentikan countdown sebelumnya (jika ada)
-        clearInterval(window.x);
+    clearInterval(window.x);
 
-        // Perbarui countdown setiap detik
-        window.x = setInterval(function() {
-            const currentTime = Date.now();
-            const remainingTime = endTime - currentTime;
-            const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-            document.getElementById("countdown-nav").innerHTML = `${hours} h : ${minutes} m : ${seconds} s`;
-            document.getElementById("countdown-sid").innerHTML = `${hours} h : ${minutes} m : ${seconds} s`;
-            if (remainingTime < 0) {
-                document.getElementById("countdown-nav").innerHTML = "Time Out";
-                document.getElementById("countdown-sid").innerHTML = "Time Out";
-                clearInterval(window.x);
-                form.submit();
-            }
-        }, 100);
+    window.x = setInterval(function () {
+        const currentTime = Date.now();
+        const remainingTime = endTime - currentTime;
+        const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+        const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-        function refreshPage() {
-            window.location.reload(true); // Menggunakan parameter true untuk merefresh dari server
+        document.getElementById("countdown-nav").innerHTML = `${hours} h : ${minutes} m : ${seconds} s`;
+        document.getElementById("countdown-sid").innerHTML = `${hours} h : ${minutes} m : ${seconds} s`;
+
+        if (remainingTime < 0 && !formSubmitted) {
+            formSubmitted = true;
+            clearInterval(window.x);
+            document.getElementById("countdown-nav").innerHTML = "Time Out";
+            document.getElementById("countdown-sid").innerHTML = "Time Out";
+            form.submit();
         }
+    }, 100);
 </script>
 
-{{-- Sesuai Waktu --}}
 <script>
     const formm = document.getElementById('toeic_form');
+    const endAccessTime = "{{ session('waktu_akhir') }}";
+    const accessLimit = new Date(endAccessTime).getTime();
 
-        // waktu akses dari session
-        const endAccessTime = "{{ session('waktu_akhir') }}";
-        const accessLimit = new Date(endAccessTime).getTime();
+    const checkAccessTime = setInterval(() => {
+        const now = Date.now();
+        if (now >= accessLimit && !formSubmitted) {
+            formSubmitted = true;
+            clearInterval(checkAccessTime);
+            clearInterval(window.x);
+            document.getElementById("countdown-nav").innerHTML = "Time Out";
+            document.getElementById("countdown-sid").innerHTML = "Time Out";
+            formm.submit();
+        }
+    }, 1000);
+</script>
 
-        const checkAccessTime = setInterval(() => {
-            const now = Date.now();
-            if (now >= accessLimit) {
-                clearInterval(checkAccessTime);
+<script>
+    // Tambahkan juga handler untuk tombol Submit agar tidak terjadi double submit
+    const submitButton = document.getElementById("submitButton");
+    if (submitButton) {
+        submitButton.addEventListener("click", function () {
+            if (!formSubmitted) {
+                formSubmitted = true;
                 clearInterval(window.x);
-                // Tampilkan status waktu habis
-                document.getElementById("countdown-nav").innerHTML = "Time Out";
-                document.getElementById("countdown-sid").innerHTML = "Time Out";
-                formm.submit();
+            } else {
+                event.preventDefault(); // Cegah submit jika sudah pernah submit
             }
-        }, 1000);
+        });
+    }
 </script>
 
 <script>

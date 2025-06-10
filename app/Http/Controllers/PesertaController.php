@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Soal;
 use App\Models\User;
 use App\Models\Status;
@@ -9,8 +10,8 @@ use App\Models\Peserta;
 use App\Models\BankSoal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
-use Carbon\Carbon;
 
 class PesertaController extends Controller
 {
@@ -74,6 +75,57 @@ class PesertaController extends Controller
         }
     }
 
+    public function DownloadResutl(Request $request){
+        $peserta = Peserta::with('user')->where('id_users', auth()->user()->id)->first();
+        
+        if(!$peserta){
+            Alert::info("Information", "Data User, Cant Get");
+            return redirect('/Profil');
+        }
+
+        // cek sesi folder
+        if($peserta->sesi == 'Session 1'){
+            $sesi = 'session_1';
+        }elseif($peserta->sesi == 'Session 2'){
+            $sesi = 'session_2';
+        }elseif($peserta->sesi == 'Session 3'){
+            $sesi = 'session_3';
+        }elseif($peserta->sesi == 'Session 4'){
+            $sesi = 'session_4';
+        }elseif($peserta->sesi == 'Session 5'){
+            $sesi = 'session_5';
+        }elseif($peserta->sesi == 'Session 6'){
+            $sesi = 'session_6';
+        }elseif($peserta->sesi == 'Session 7'){
+            $sesi = 'session_7';
+        }elseif($peserta->sesi == 'Session 8'){
+            $sesi = 'session_8';
+        }
+
+        $folder = storage_path('app/public/result/'.$sesi);
+        $pattern = 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_*.pdf';
+
+        // Cari semua file yang cocok
+        $files = glob($folder . '/' . $pattern);
+
+         if (empty($files)) {
+            Alert::info("Information", "Result file not found");
+            return redirect('/Profil');
+        }
+
+         // Urutkan berdasarkan waktu terbaru
+        usort($files, function ($a, $b) {
+            return filemtime($b) - filemtime($a); // terbaru duluan
+        });
+
+        // Ambil file pertama
+        $filepath = $files[0];
+        $filename = basename($filepath);
+
+        // Download
+        return Storage::disk('public')->download('result/' . $sesi . '/' . $filename);
+    }
+
     // menampilkan dashboard 
     public function dashSoal(){
         return view('peserta.content.dashSoal');
@@ -95,7 +147,7 @@ class PesertaController extends Controller
         // pengecekan apakah kode yang diinput ada pada database atau tidak
         if ($cekBank) {
             // jika token ada, cek apakah user sebelumnya sudah mengerjakan soal ini?
-            if ($peserta->status == 'Sudah') {
+            if ($peserta->status == 'Sudah' || $peserta->status == 'Kerjain') {
                 Alert::info("Information", "You have previously done the questions");
                 return redirect('/DashboardSoal');
             } else {
