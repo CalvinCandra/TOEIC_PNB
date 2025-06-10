@@ -163,9 +163,9 @@
         <div class="header">
             <table style="width: 100%; border-collapse: coll;margin-top: 10px; margin-bottom: 10px;">
                 <tr>
-                    <td style="width: 60px; padding-left: 30%;">
+                    {{-- <td style="width: 60px; padding-left: 30%;">
                         <img src="{{ asset('auth/login.png') }}" alt="Logo" style="width: 60px; margin-left: 120px;">
-                    </td>
+                    </td> --}}
                     <td style="text-align: left; color: white; font-size: 20px; font-weight: bold;padding-left: 10%;">
                         SIMULATION TEST RESULT FOR TOEIC
                     </td>
