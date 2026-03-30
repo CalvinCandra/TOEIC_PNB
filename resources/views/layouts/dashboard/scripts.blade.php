@@ -33,6 +33,7 @@
                     'paragraft', '|',
                     'bold', 'italic', '|',
                     'blockQuote',
+                    'bulletedList', 'numberedList'
                 ]
             },
         })
@@ -53,6 +54,7 @@
                             'paragraft', '|',
                             'bold', 'italic', '|',
                             'blockQuote',
+                            'bulletedList', 'numberedList'
                         ]
                     },
                 })
@@ -74,6 +76,7 @@
                     'paragraft', '|',
                     'bold', 'italic', '|',
                     'blockQuote',
+                    'bulletedList', 'numberedList'
                 ]
             },
         })
@@ -94,6 +97,7 @@
                             'paragraft', '|',
                             'bold', 'italic', '|',
                             'blockQuote',
+                            'bulletedList', 'numberedList'
                         ]
                     },
                 })

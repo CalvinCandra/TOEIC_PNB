@@ -97,19 +97,19 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
 
     // Gambar
     Route::get('/dashAdminGambar', [AdminController::class, 'dashAdminGambar']);
-    Route::post('/TambahGambarAdmin', [AdminController::class, 'TambahGambarAdmin']);
-    Route::post('/DeleteGambarAdmin', [AdminController::class, 'DeleteGambarAdmin']);
+    Route::post('/TambahGambarAdmin', [AdminController::class, 'TambahGambar']);
+    Route::post('/DeleteGambarAdmin', [AdminController::class, 'DeleteGambar']);
 
     // audio
     Route::get('/dashAdminAudio', [AdminController::class, 'dashAdminAudio']);
-    Route::post('/TambahAudioAdmin', [AdminController::class, 'TambahAudioAdmin']);
-    Route::post('/DeleteAudioAdmin', [AdminController::class, 'DeleteAudioAdmin']);
+    Route::post('/TambahAudioAdmin', [AdminController::class, 'TambahAudio']);
+    Route::post('/DeleteAudioAdmin', [AdminController::class, 'DeleteAudio']);
 
     // Soal
     Route::get('/dashAdminSoal', [AdminController::class, 'dashAdminSoal']);
-    Route::post('/TambahBankSoalAdmin', [AdminController::class, 'TambahBankSoalAdmin']);
-    Route::post('/UpdateBankSoalAdmin', [AdminController::class, 'UpdateBankSoalAdmin']);
-    Route::post('/DeleteBankSoalAdmin', [AdminController::class, 'DeleteBankSoalAdmin']);
+    Route::post('/TambahBankSoalAdmin', [AdminController::class, 'TambahBankSoal']);
+    Route::post('/UpdateBankSoalAdmin', [AdminController::class, 'UpdateBankSoal']);
+    Route::post('/DeleteBankSoalAdmin', [AdminController::class, 'DeleteBankSoal']);
 
     // part soal reading
     Route::get('/dashAdminPartReading/{id}', [AdminController::class, 'dashAdminPartReading']);
@@ -166,13 +166,13 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
 
     // Gambar
     Route::get('/dashPetugasGambar', [PetugasController::class, 'dashPetugasGambar']);
-    Route::post('/TambahGambarPetugas', [PetugasController::class, 'TambahGambarPetugas']);
-    Route::post('/DeleteGambarPetugas', [PetugasController::class, 'DeleteGambarPetugas']);
+    Route::post('/TambahGambarPetugas', [PetugasController::class, 'TambahGamba']);
+    Route::post('/DeleteGambarPetugas', [PetugasController::class, 'DeleteGambar']);
 
     // audio
     Route::get('/dashPetugasAudio', [PetugasController::class, 'dashPetugasAudio']);
-    Route::post('/TambahAudioPetugas', [PetugasController::class, 'TambahAudioPetugas']);
-    Route::post('/DeleteAudioPetugas', [PetugasController::class, 'DeleteAudioPetugas']);
+    Route::post('/TambahAudioPetugas', [PetugasController::class, 'TambahAudio']);
+    Route::post('/DeleteAudioPetugas', [PetugasController::class, 'DeleteAudio']);
 
     // Soal
     Route::get('/dashPetugasSoal', [PetugasController::class, 'dashPetugasSoal']);
