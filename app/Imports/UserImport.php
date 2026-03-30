@@ -2,77 +2,111 @@
 
 namespace App\Imports;
 
-use App\Models\User;
-use App\Models\Status;
 use App\Models\Peserta;
-use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class UserImport implements ToModel, WithHeadingRow
 {
-    /**
-     * @param array $row
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
     public function model(array $row)
     {
-        // Hilangkan kolom kosong atau angka dari header
+        // Ambil hanya kolom yang dibutuhkan, buang kolom kosong/angka dari header
         $row = array_intersect_key($row, array_flip(['name', 'email', 'nim', 'major', 'session']));
-
-        // Ubah header menjadi lowercase agar lebih fleksibel
         $row = array_change_key_case($row, CASE_LOWER);
 
-        // validasi header
-        if (!isset($row['name']) || !isset($row['email']) || !isset($row['nim']) || !isset($row['major']) || !isset($row['session'])) {
-            Session::flash('gagal', 'Please Add Header with name "Name, Email, Nim, Major, Session" in File Excel');
+        // Jika semua value kosong atau null, abaikan baris ini tanpa log dan tanpa flash
+        $values = array_filter(array_map(fn ($v) => trim((string) $v), $row));
+        if (empty($values)) {
             return null;
         }
 
-        // Dapatkan data Peserta berdasarkan NIM
-        $peserta = Peserta::where('nim', $row['nim'])->first();
+        // 1. Validasi header Excel — hanya dijalankan jika baris tidak kosong
+        $requiredKeys = ['name', 'email', 'nim', 'major', 'session'];
+        foreach ($requiredKeys as $key) {
+            if (! isset($row[$key]) || trim((string) $row[$key]) === '') {
+                Log::warning('[UserImport::model] Header Excel tidak lengkap atau nilai kosong', [
+                    'keys_ditemukan' => array_keys($row),
+                    'key_bermasalah' => $key,
+                ]);
+                Session::flash('gagal', 'Please Add Header with name "Name, Email, Nim, Major, Session" in File Excel');
 
-        // Dapatkan data User berdasarkan email
-        $user = User::where('email', $row['email'])->first();
+                return null;
+            }
+        }
 
-        // Jika salah satu dari mereka ditemukan, batalkan inputan
-        if ($peserta !== null || $user !== null) {
-            Session::flash('gagal', 'Email or NIM already exists: ' . $row['email'] . ' / ' . $row['nim']);
+        // 2. Cek duplikasi NIM dan Email secara bersamaan dalam satu query
+        $nimSudahAda = Peserta::where('nim', $row['nim'])->exists();
+        $emailSudahAda = User::where('email', $row['email'])->exists();
+
+        if ($nimSudahAda || $emailSudahAda) {
+            Log::warning('[UserImport::model] Data duplikat, baris dilewati', [
+                'email' => $row['email'],
+                'nim' => $row['nim'],
+                'duplikat_email' => $emailSudahAda,
+                'duplikat_nim' => $nimSudahAda,
+            ]);
+            Session::flash('gagal', 'Email or NIM already exists: '.$row['email'].' / '.$row['nim']);
+
             return null;
         }
 
-        // generate password otomatis
+        // 3. Generate password otomatis
         $password = strtoupper(Str::password(8, true, false, false, false));
 
-        // Simpan pengguna terlebih dahulu
-        $user = User::create([
-            'name' => $row['name'],
-            'email' => $row['email'],
-            'password' => Hash::make($password),
-            'level' => 'peserta'
-        ]);
+        // 4. Simpan dalam transaction agar atomic — jika salah satu gagal, keduanya dibatalkan
+        DB::beginTransaction();
+        try {
+            $user = User::create([
+                'name' => $row['name'],
+                'email' => $row['email'],
+                'password' => Hash::make($password),
+                'level' => 'peserta',
+            ]);
 
-        // get id berdasarkan data yang baru ditambah
-        $User = User::select('*')->where('email', $row['email'])->first();
+            Peserta::create([
+                'nama_peserta' => $row['name'],
+                'nim' => $row['nim'],
+                'token' => $password,
+                'jurusan' => $row['major'],
+                'sesi' => $row['session'],
+                'status' => 'Belum',
+                'benar_listening' => 0,
+                'benar_reading' => 0,
+                'skor_listening' => 0,
+                'skor_reading' => 0,
+                'id_users' => $user->id, // langsung dari instance, tidak perlu query ulang
+            ]);
 
-        // Simpan password asli di tabel lain setelah pengguna disimpan
-        Peserta::create([
-            'nama_peserta' => $row['name'],
-            'nim' => $row['nim'],
-            'token' => $password,
-            'jurusan' => $row['major'],
-            'sesi' => $row['session'],
-            'status' => 'Belum',
-            'benar_listening' => 0,
-            'benar_reading' => 0,
-            'skor_listening' => 0,
-            'skor_reading' => 0,
-            'id_users' => $user['id'],
-        ]);
+            DB::commit();
 
-        return $user;
+            Log::info('[UserImport::model] Peserta berhasil diimport', [
+                'email' => $row['email'],
+                'nim' => $row['nim'],
+                'session' => $row['session'],
+            ]);
+
+            return $user;
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            Log::error('[UserImport::model] Gagal import baris, transaction di-rollback', [
+                'email' => $row['email'],
+                'nim' => $row['nim'],
+                'error' => $th->getMessage(),
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+            ]);
+
+            Session::flash('gagal', 'Gagal import data: '.$row['email']);
+
+            return null;
+        }
     }
 }

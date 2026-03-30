@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\Part;
-use App\Models\Soal;
-use App\Models\Nilai;
-use App\Models\Peserta;
 use App\Models\BankSoal;
-use Illuminate\Http\Request;
 use App\Models\JawabanPeserta;
-use Illuminate\Support\Facades\Redirect;
+use App\Models\Nilai;
+use App\Models\Part;
+use App\Models\Peserta;
+use App\Models\Soal;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SoalController extends Controller
@@ -19,6 +19,10 @@ class SoalController extends Controller
     // function menampikan aturan
     public function Listening(Request $request)
     {
+        Log::info('[SoalController::Listening] Peserta masuk halaman aturan listening', [
+            'id_users' => auth()->id(),
+        ]);
+
         // pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -27,9 +31,15 @@ class SoalController extends Controller
         return view("peserta.Soal.ListeningAturan");
     }
 
+
     // function get data part untuk yang pertama
     public function GetListening(Request $request)
     {
+        Log::info('[SoalController::GetListening] Peserta mulai listening', [
+            'id_users' => auth()->id(),
+            'bank'     => $request->session()->get('bank'),
+        ]);
+
         // pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -37,6 +47,14 @@ class SoalController extends Controller
 
         // get data bank
         $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
+
+        if (!$getBank) {
+            Log::warning('[SoalController::GetListening] Bank soal tidak ditemukan di session', [
+                'id_users'     => auth()->id(),
+                'bank_session' => $request->session()->get('bank'),
+            ]);
+            return redirect('/DashboardSoal');
+        }
 
         // kirim dalam bentuk session
         $request->session()->put(
@@ -46,6 +64,12 @@ class SoalController extends Controller
 
         // get data soal berdasarkan kategori listening dan id_bank
         $PartListening = Part::where('kategori', 'Listening')->where('id_bank', $getBank->id_bank)->first();
+
+        if (!$PartListening) {
+            Log::warning('[SoalController::GetListening] Part listening tidak ditemukan', [
+                'id_bank' => $getBank->id_bank,
+            ]);
+        }
 
         // set waktu awal quiz menggunakan Carbon
         $quizStartTime = Carbon::now();
@@ -63,12 +87,22 @@ class SoalController extends Controller
             'status' => 'Kerjain'
         ]);
 
+        Log::info('[SoalController::GetListening] Status peserta diubah ke Kerjain, redirect ke part pertama', [
+            'id_peserta' => $peserta->id_peserta,
+            'token_part' => $PartListening->token_part,
+        ]);
+
         return redirect("/SoalListening" . "/" . $PartListening->token_part);
     }
 
     // function get data part berdasarkan nomor
     public function SoalListening(Request $request, $token)
     {
+        Log::info('[SoalController::SoalListening] Menampilkan soal listening', [
+            'id_users'   => auth()->id(),
+            'token_part' => $token,
+        ]);
+
         // pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -109,6 +143,13 @@ class SoalController extends Controller
     // proses menjawab untuk listening
     public function ProsesJawabListening(Request $request)
     {
+        Log::info('[SoalController::ProsesJawabListening] Memproses jawaban listening', [
+            'id_users'    => auth()->id(),
+            'id_part'     => $request->id_part,
+            'tombol'      => $request->tombol,
+            'jumlah_soal' => count($request->id_soal ?? []),
+        ]);
+
         // pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -119,6 +160,9 @@ class SoalController extends Controller
             $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
 
             if (!$getBank) {
+                Log::error('[SoalController::ProsesJawabListening] Bank soal tidak ditemukan', [
+                    'id_users' => auth()->id(),
+                ]);
                 $request->session()->forget('bank');
                 $request->session()->forget('waktu');
                 $request->session()->forget('quizEndTime');
@@ -137,15 +181,29 @@ class SoalController extends Controller
             // get jawaban peserta
             $jawaban = $request->jawaban;
 
-            foreach ($request->id_soal as $idSoal) {
-                // get jawaban user
-                $jawaban = $request->jawaban[$idSoal] ?? 'N'; // jika tidak menjawab
+            try {
+                foreach ($request->id_soal as $idSoal) {
+                    // get jawaban user
+                    $jawaban = $request->jawaban[$idSoal] ?? 'N'; // jika tidak menjawab
 
-                // insert data kedalam database
-                JawabanPeserta::create([
-                    'id_peserta' => $user,
-                    'id_soal' => $idSoal,
-                    'jawaban' => $jawaban,
+                    // insert data kedalam database
+                    JawabanPeserta::create([
+                        'id_peserta' => $user,
+                        'id_soal' => $idSoal,
+                        'jawaban' => $jawaban,
+                    ]);
+                }
+
+                Log::info('[SoalController::ProsesJawabListening] Jawaban listening tersimpan', [
+                    'id_peserta'  => $peserta->id_peserta,
+                    'jumlah_soal' => count($request->id_soal ?? []),
+                ]);
+            } catch (\Throwable $th) {
+                Log::error('[SoalController::ProsesJawabListening] Gagal simpan jawaban listening', [
+                    'id_users' => auth()->id(),
+                    'error'    => $th->getMessage(),
+                    'file'     => $th->getFile(),
+                    'line'     => $th->getLine(),
                 ]);
             }
 
@@ -170,6 +228,10 @@ class SoalController extends Controller
 
     public function GetNilaiListening(Request $request)
     {
+        Log::info('[SoalController::GetNilaiListening] Menghitung nilai listening', [
+            'id_users' => auth()->id(),
+        ]);
+
         // pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -229,6 +291,11 @@ class SoalController extends Controller
         // Jika tidak ditemukan, default skor ke 0
         $skorListening = $nilaiListening ? $nilaiListening->skor_listening : 0;
 
+        Log::info('[SoalController::GetNilaiListening] Skor listening dihitung', [
+            'benar_listening' => $JumlahBenar,
+            'skor_listening'  => $skorListening,
+        ]);
+
         // update database
         $peserta->update([
             'benar_listening' => $JumlahBenar,
@@ -253,6 +320,10 @@ class SoalController extends Controller
     // menampikan aturan
     public function Reading(Request $request)
     {
+        Log::info('[SoalController::Reading] Peserta masuk halaman aturan reading', [
+            'id_users' => auth()->id(),
+        ]);
+
         // pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -264,6 +335,11 @@ class SoalController extends Controller
     // get data soal untuk yang pertama
     public function GetReading(Request $request)
     {
+        Log::info('[SoalController::GetReading] Peserta mulai reading', [
+            'id_users' => auth()->id(),
+            'bank'     => $request->session()->get('bank'),
+        ]);
+
         // pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -304,6 +380,11 @@ class SoalController extends Controller
     // get data soal berdasarkan nomor
     public function SoalReading(Request $request, $token)
     {
+        Log::info('[SoalController::SoalReading] Menampilkan soal reading', [
+            'id_users'   => auth()->id(),
+            'token_part' => $token,
+        ]);
+
         // pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -352,6 +433,13 @@ class SoalController extends Controller
     // proses menjawab untuk reading
     public function ProsesJawabReading(Request $request)
     {
+        Log::info('[SoalController::ProsesJawabReading] Memproses jawaban reading', [
+            'id_users'    => auth()->id(),
+            'id_part'     => $request->id_part,
+            'tombol'      => $request->tombol,
+            'jumlah_soal' => count($request->id_soal ?? []),
+        ]);
+
         // pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -361,6 +449,9 @@ class SoalController extends Controller
             // get data bank
             $getBank = BankSoal::where('bank', $request->session()->get('bank'))->first();
             if (!$getBank) {
+                Log::error('[SoalController::ProsesJawabReading] Bank soal tidak ditemukan', [
+                    'id_users' => auth()->id(),
+                ]);
                 $request->session()->forget('bank');
                 $request->session()->forget('waktu');
                 $request->session()->forget('quizEndTime');
@@ -379,15 +470,29 @@ class SoalController extends Controller
             // get jawaban peserta
             $jawaban = $request->jawaban;
 
-            foreach ($request->id_soal as $idSoal) {
-                // get jawaban user
-                $jawaban = $request->jawaban[$idSoal] ?? 'N'; // jika tidak menjawab
+            try {
+                foreach ($request->id_soal as $idSoal) {
+                    // get jawaban user
+                    $jawaban = $request->jawaban[$idSoal] ?? 'N'; // jika tidak menjawab
 
-                // insert data kedalam database
-                JawabanPeserta::create([
-                    'id_peserta' => $user,
-                    'id_soal' => $idSoal,
-                    'jawaban' => $jawaban,
+                    // insert data kedalam database
+                    JawabanPeserta::create([
+                        'id_peserta' => $user,
+                        'id_soal' => $idSoal,
+                        'jawaban' => $jawaban,
+                    ]);
+                }
+
+                Log::info('[SoalController::ProsesJawabReading] Jawaban reading tersimpan', [
+                    'id_peserta'  => $peserta->id_peserta,
+                    'jumlah_soal' => count($request->id_soal ?? []),
+                ]);
+            } catch (\Throwable $th) {
+                Log::error('[SoalController::ProsesJawabReading] Gagal simpan jawaban reading', [
+                    'id_users' => auth()->id(),
+                    'error'    => $th->getMessage(),
+                    'file'     => $th->getFile(),
+                    'line'     => $th->getLine(),
                 ]);
             }
 
@@ -412,6 +517,10 @@ class SoalController extends Controller
 
     public function GetNilaiReading(Request $request)
     {
+        Log::info('[SoalController::GetNilaiReading] Menghitung nilai reading', [
+            'id_users' => auth()->id(),
+        ]);
+
         // pengecekan session
         if ($request->session()->get('bank') == null) {
             return redirect('/DashboardSoal');
@@ -469,6 +578,11 @@ class SoalController extends Controller
         // Jika tidak ditemukan, default skor ke 0
         $skorReading = $nilaiReading ? $nilaiReading->skor_reading : 0;
 
+        Log::info('[SoalController::GetNilaiReading] Skor reading dihitung', [
+            'benar_reading' => $JumlahBenar,
+            'skor_reading'  => $skorReading,
+        ]);
+
         // update database
         $peserta->update([
             'benar_reading' => $JumlahBenar,
@@ -500,6 +614,7 @@ class SoalController extends Controller
         $request->session()->forget('email_sent');
         $request->session()->forget('email_sent');
         $request->session()->forget('quizEndTime');
+
         return redirect('/DashboardSoal');
     }
 }
