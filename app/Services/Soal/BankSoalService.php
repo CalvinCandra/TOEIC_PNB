@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Soal;
 
 use App\Models\BankSoal;
 use App\Models\Part;

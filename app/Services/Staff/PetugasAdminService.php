@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Staff;
 
 use App\Models\Petugas;
 use App\Models\User;

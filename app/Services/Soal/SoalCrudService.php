@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Soal;
 
 use App\Models\Audio;
 use App\Models\Gambar;
@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class SoaresService
+class SoalCrudService
 {
     // =========================================================
     // LISTENING
@@ -17,7 +17,7 @@ class SoaresService
 
     public function getDashListening(int $id_bank, ?string $search = null): array
     {
-        Log::info('[SoaresService::getDashListening] Mengambil data soal listening', [
+        Log::info('[SoalCrudService::getDashListening] Mengambil data soal listening', [
             'id_bank' => $id_bank,
             'search' => $search,
         ]);
@@ -47,7 +47,7 @@ class SoaresService
 
     public function storeListening(Request $request): bool
     {
-        Log::info('[SoaresService::storeListening] Memulai tambah soal listening', [
+        Log::info('[SoalCrudService::storeListening] Memulai tambah soal listening', [
             'nomor_soal' => $request->nomor_soal,
             'id_bank' => $request->id_bank,
             'id_users' => auth()->id(),
@@ -73,14 +73,14 @@ class SoaresService
                 'id_bank' => $request->id_bank,
             ]);
             DB::commit();
-            Log::info('[SoaresService::storeListening] Tambah soal listening berhasil', [
+            Log::info('[SoalCrudService::storeListening] Tambah soal listening berhasil', [
                 'nomor_soal' => $request->nomor_soal,
             ]);
 
             return true;
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('[SoaresService::storeListening] Tambah soal listening gagal', [
+            Log::error('[SoalCrudService::storeListening] Tambah soal listening gagal', [
                 'error' => $th->getMessage(),
                 'file' => $th->getFile(),
                 'line' => $th->getLine(),
@@ -92,7 +92,7 @@ class SoaresService
 
     public function updateListening(Request $request): bool
     {
-        Log::info('[SoaresService::updateListening] Memulai update soal listening', [
+        Log::info('[SoalCrudService::updateListening] Memulai update soal listening', [
             'id_soal' => $request->id_soal,
         ]);
 
@@ -114,14 +114,14 @@ class SoaresService
                 'id_users' => auth()->id(),
             ]);
             DB::commit();
-            Log::info('[SoaresService::updateListening] Update soal listening berhasil', [
+            Log::info('[SoalCrudService::updateListening] Update soal listening berhasil', [
                 'id_soal' => $request->id_soal,
             ]);
 
             return true;
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('[SoaresService::updateListening] Update soal listening gagal', [
+            Log::error('[SoalCrudService::updateListening] Update soal listening gagal', [
                 'id_soal' => $request->id_soal,
                 'error' => $th->getMessage(),
                 'file' => $th->getFile(),
@@ -138,7 +138,7 @@ class SoaresService
 
     public function getDashReading(int $id_bank, ?string $search = null): array
     {
-        Log::info('[SoaresService::getDashReading] Mengambil data soal reading', [
+        Log::info('[SoalCrudService::getDashReading] Mengambil data soal reading', [
             'id_bank' => $id_bank,
             'search' => $search,
         ]);
@@ -178,7 +178,7 @@ class SoaresService
 
     public function storeReading(Request $request): bool
     {
-        Log::info('[SoaresService::storeReading] Memulai tambah soal reading', [
+        Log::info('[SoalCrudService::storeReading] Memulai tambah soal reading', [
             'nomor_soal' => $request->nomor_soal,
             'id_bank' => $request->id_bank,
             'id_users' => auth()->id(),
@@ -204,14 +204,14 @@ class SoaresService
                 'id_bank' => $request->id_bank,
             ]);
             DB::commit();
-            Log::info('[SoaresService::storeReading] Tambah soal reading berhasil', [
+            Log::info('[SoalCrudService::storeReading] Tambah soal reading berhasil', [
                 'nomor_soal' => $request->nomor_soal,
             ]);
 
             return true;
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('[SoaresService::storeReading] Tambah soal reading gagal', [
+            Log::error('[SoalCrudService::storeReading] Tambah soal reading gagal', [
                 'error' => $th->getMessage(),
                 'file' => $th->getFile(),
                 'line' => $th->getLine(),
@@ -223,7 +223,7 @@ class SoaresService
 
     public function updateReading(Request $request): bool
     {
-        Log::info('[SoaresService::updateReading] Memulai update soal reading', [
+        Log::info('[SoalCrudService::updateReading] Memulai update soal reading', [
             'id_soal' => $request->id_soal,
         ]);
 
@@ -245,14 +245,14 @@ class SoaresService
                 'id_users' => auth()->id(),
             ]);
             DB::commit();
-            Log::info('[SoaresService::updateReading] Update soal reading berhasil', [
+            Log::info('[SoalCrudService::updateReading] Update soal reading berhasil', [
                 'id_soal' => $request->id_soal,
             ]);
 
             return true;
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('[SoaresService::updateReading] Update soal reading gagal', [
+            Log::error('[SoalCrudService::updateReading] Update soal reading gagal', [
                 'id_soal' => $request->id_soal,
                 'error' => $th->getMessage(),
                 'file' => $th->getFile(),
@@ -269,19 +269,19 @@ class SoaresService
 
     public function deleteSoal(int $id_soal): bool
     {
-        Log::info('[SoaresService::deleteSoal] Memulai hapus soal', [
+        Log::info('[SoalCrudService::deleteSoal] Memulai hapus soal', [
             'id_soal' => $id_soal,
         ]);
 
         try {
             Soal::findOrFail($id_soal)->delete();
-            Log::info('[SoaresService::deleteSoal] Hapus soal berhasil', [
+            Log::info('[SoalCrudService::deleteSoal] Hapus soal berhasil', [
                 'id_soal' => $id_soal,
             ]);
 
             return true;
         } catch (\Throwable $th) {
-            Log::error('[SoaresService::deleteSoal] Hapus soal gagal', [
+            Log::error('[SoalCrudService::deleteSoal] Hapus soal gagal', [
                 'id_soal' => $id_soal,
                 'error' => $th->getMessage(),
                 'file' => $th->getFile(),

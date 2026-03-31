@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Media;
 
 use App\Models\Audio;
 use App\Models\Gambar;

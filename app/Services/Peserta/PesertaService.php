@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Peserta;
 
 use App\Exports\PesertaExport;
 use App\Imports\UserImport;
@@ -61,50 +61,65 @@ class PesertaService
         }
     }
 
-    public function updatePeserta(Request $request): bool
-    {
-        Log::info('[PesertaService::updatePeserta] Memulai update peserta', [
-            'id_peserta' => $request->id_peserta,
-            'id_users' => $request->id_users,
-        ]);
+public function updatePeserta(Request $request): bool
+{
+    Log::info('[PesertaService::updatePeserta] Memulai update peserta', [
+        'id_peserta' => $request->id_peserta,
+    ]);
 
-        $request->validate([
-            'nim' => 'min:10|max:10',
-            'email' => 'email|unique:users,email,'.$request->id_users,
-        ], [
-            'nim.max' => 'NIM Must be 10 Numbers',
-            'nim.min' => 'NIM Must be 10 Numbers',
-        ]);
+    $peserta = Peserta::find($request->id_peserta);
+    $user    = $peserta?->user;
 
-        DB::beginTransaction();
-        try {
-            Peserta::where('id_peserta', $request->id_peserta)->update([
-                'nama_peserta' => $request->nama_peserta,
-                'nim' => $request->nim,
-                'sesi' => $request->sesi,
-            ]);
-            User::where('id', $request->id_users)->update([
-                'name' => $request->nama_peserta,
-                'email' => $request->email,
-            ]);
-            DB::commit();
-            Log::info('[PesertaService::updatePeserta] Update peserta berhasil', [
-                'id_peserta' => $request->id_peserta,
-            ]);
+    // Validasi NIM selalu dijalankan
+    $rules = [
+        'nim' => 'min:10|max:10',
+    ];
 
-            return true;
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            Log::error('[PesertaService::updatePeserta] Update peserta gagal', [
-                'id_peserta' => $request->id_peserta,
-                'error' => $th->getMessage(),
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-            ]);
-
-            return false;
-        }
+    // Validasi unique email HANYA jika email berubah
+    if ($request->email !== $user?->email) {
+        $rules['email'] = 'email|unique:users,email';
     }
+
+    $request->validate($rules, [
+        'nim.max'      => 'NIM Must be 10 Numbers',
+        'nim.min'      => 'NIM Must be 10 Numbers',
+        'email.unique' => 'Email already exists',
+    ]);
+
+    DB::beginTransaction();
+    try {
+        Peserta::where('id_peserta', $request->id_peserta)->update([
+            'nama_peserta' => $request->name,
+            'nim'          => $request->nim,
+            'sesi'         => $request->sesi,
+            'status'       => $request->status,
+        ]);
+
+        User::where('id', $user->id)->update([
+            'name'  => $request->name,
+            'email' => $request->email,
+        ]);
+
+        DB::commit();
+
+        Log::info('[PesertaService::updatePeserta] Update peserta berhasil', [
+            'id_peserta' => $request->id_peserta,
+        ]);
+
+        return true;
+    } catch (\Throwable $th) {
+        DB::rollBack();
+
+        Log::error('[PesertaService::updatePeserta] Update peserta gagal', [
+            'id_peserta' => $request->id_peserta,
+            'error'      => $th->getMessage(),
+            'file'       => $th->getFile(),
+            'line'       => $th->getLine(),
+        ]);
+
+        return false;
+    }
+}
 
     public function deletePeserta(Request $request): bool
     {
@@ -136,22 +151,8 @@ class PesertaService
         }
     }
 
-    public function resetStatusPeserta(int $id_peserta): bool
-    {
-        Log::info('[PesertaService::resetStatusPeserta] Reset status peserta', [
-            'id_peserta' => $id_peserta,
-        ]);
-
-        $result = (bool) Peserta::where('id_peserta', $id_peserta)
-            ->update(['status' => 'Belum']);
-
-        if (! $result) {
-            Log::warning('[PesertaService::resetStatusPeserta] Peserta tidak ditemukan atau gagal direset', [
-                'id_peserta' => $id_peserta,
-            ]);
-        }
-
-        return $result;
+    public function resetAllStatusPeserta(string $sesi) {
+        Peserta::where('sesi', $sesi)->update(['status' => 'Belum']);
     }
 
     public function exportExcel(string $sesi)

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\BankSoalService;
-use App\Services\MediaService;
-use App\Services\PartService;
-use App\Services\PesertaService;
-use App\Services\PetugasAdminService;
-use App\Services\SoaresService;
+use App\Services\Media\MediaService;
+use App\Services\Part\PartService;
+use App\Services\Peserta\PesertaService;
+use App\Services\Soal\BankSoalService;
+use App\Services\Soal\SoalCrudService;
+use App\Services\Staff\PetugasAdminService;
 use App\Services\TemplateExcelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ class AdminController extends Controller
 {
     public function __construct(
         protected PesertaService $pesertaService,
-        protected SoaresService $soalService,
+        protected SoalCrudService $soalService,
         protected BankSoalService $bankSoalService,
         protected PartService $partService,
         protected MediaService $mediaService,
@@ -108,20 +108,6 @@ class AdminController extends Controller
         return view('admin.content.Peserta.AdminPeserta2', compact('peserta'));
     }
 
-    public function dashPeserta3()
-    {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 3', request('search'));
-
-        return view('admin.content.Peserta.AdminPeserta3', compact('peserta'));
-    }
-
-    public function dashPeserta4()
-    {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 4', request('search'));
-
-        return view('admin.content.Peserta.AdminPeserta4', compact('peserta'));
-    }
-
     public function TambahPesertaExcel(Request $request)
     {
         $this->pesertaService->importPesertaExcel($request)
@@ -149,10 +135,10 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
-    public function UpdateStatusPeserta($id)
+    public function ResetAllStatusPeserta($sesi)
     {
-        $this->pesertaService->resetStatusPeserta($id);
-        toast('Status Peserta Direset', 'success');
+        $this->pesertaService->resetAllStatusPeserta($sesi);
+        toast('Status Semua Peserta Direset', 'success');
 
         return redirect()->back();
     }
