@@ -91,7 +91,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::get('/reset-status-peserta/{id}', [AdminController::class, 'UpdateStatusPeserta']);
     Route::post('/DeleteAdminPeserta', [AdminController::class, 'DeletePeserta']);
     Route::get('/ExportExcelAdmin/{sesi}', [AdminController::class, 'ExportExcelAdmin']);
-    Route::post('/ResetStatusAdmin/{sesi}', [AdminController::class, 'ResetStatusAdmin']);
+    Route::post('/ResetStatusAdmin/{sesi}', [AdminController::class, 'ResetAllStatusPeserta']);
     Route::post('/DeleteAllAdmin/{sesi}', [AdminController::class, 'DeleteAllAdmin']);
     Route::get('/downloadtemplate', [AdminController::class, 'Template']);
 
