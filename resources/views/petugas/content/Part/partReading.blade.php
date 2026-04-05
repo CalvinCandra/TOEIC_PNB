@@ -1,5 +1,5 @@
 {{-- menghubungkan file main --}}
-@extends('admin.main')
+@extends('petugas.main')
 
 {{-- judul halaman disini --}}
 @section('Title', 'Dashboard Admin | Part Question')
