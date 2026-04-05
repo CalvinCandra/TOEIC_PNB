@@ -1,52 +1,80 @@
-{{-- Footer --}}
-<footer class="bg-[#1D3752] dark:bg-gray-900" id="contact">
-    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div class="md:flex md:justify-between md:items-start text-center md:text-left">
-            <div class="mb-6 md:mb-0">
-                <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
-                    <img src="{{ asset('img/logo unit.png') }}" class="h-10" alt="PNB Logo">
-                    <div class="flex flex-col items-center">
-                        <span
-                            class="block text-base font-bold whitespace-nowrap text-white flex-grow flex-basis-0">TOEIC
-                            ASSESSMENT</span>
-                        <span class="block text-base text-white flex-grow flex-basis-0">Politeknik Negeri Bali</span>
-                    </div>
+<footer class="bg-[#1D3752] py-14 px-4 lg:px-8" id="contact">
+    <div class="max-w-screen-xl mx-auto">
+
+        <div class="grid md:grid-cols-3 gap-10 mb-10">
+
+            {{-- Kolom 1: Penjelasan TOEIC --}}
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="{{ asset('auth/login.png') }}" alt="Logo PNB" class="w-[30%] object-contain" loading="lazy" />
+                </div>
+                <p class="text-base font-normal text-slate-400 leading-relaxed mb-4">
+                    Welcome to the TOEIC Assessment platform of Politeknik Negeri Bali.
+                    Practice and improve your English proficiency score.
+                </p>
+                <a href="mailto:language-center@pnb.ac.id"
+                    class="text-base font-normal text-blue-300 no-underline hover:underline">
+                    language-center@pnb.ac.id
                 </a>
-                <ul class="mt-4 text-white dark:text-gray-400 font-medium max-w-md mx-auto">
-                    <li>
-                        <h2>Welcome to the TOEIC Assessment PNB website by Unit Penunjang Akademik Bahasa Politeknik Negeri Bali, a platform designed to help you prepare for the
-                            TOEIC test. We provide test simulations to enhance your English language proficiency in
-                            business and professional contexts.<br>Contact us at language-center@pnb.ac.id for more
-                            information.
-                        </h2>
+
+                {{-- Social Media --}}
+                <div class="mt-6">
+                    <h4 class="text-base font-semibold text-white uppercase tracking-widest mb-3">Follow Us</h4>
+                    <div class="flex gap-3">
+                        <a href="#"
+                            class="w-9 h-9 rounded-lg bg-blue-900 flex items-center justify-center text-slate-400 hover:text-white hover:bg-blue-950 transition-colors no-underline">
+                            <i class="fa-brands fa-facebook-f text-sm"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-lg bg-blue-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-red-500 transition-colors no-underline">
+                            <i class="fa-brands fa-youtube text-sm"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-lg bg-blue-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-pink-500 transition-colors no-underline">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Kolom 2: Navigasi --}}
+            <div>
+                <h4 class="text-base font-semibold text-white uppercase tracking-widest mb-4">Navigation</h4>
+                <ul class="space-y-3 list-none p-0 m-0">
+                    <li><a href="#home"
+                            class="text-base font-normal text-slate-400 hover:text-white no-underline transition-colors">Home</a>
+                    </li>
+                    <li><a href="#about"
+                            class="text-base font-normal text-slate-400 hover:text-white no-underline transition-colors">About</a>
+                    </li>
+                    <li><a href="#tutorial"
+                            class="text-base font-normal text-slate-400 hover:text-white no-underline transition-colors">Tutorial</a>
+                    </li>
+                    <li><a href="#contact"
+                            class="text-base font-normal text-slate-400 hover:text-white no-underline transition-colors">Contact</a>
                     </li>
                 </ul>
             </div>
-            <div class="md:flex-1 md:flex md:justify-end md:items-start">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3942.865570572184!2d115.15991207402178!3d-8.798697991253718!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd244c13ee9d753%3A0x6c05042449b50f81!2sPoliteknik%20Negeri%20Bali!5e0!3m2!1sid!2sid!4v1716620277005!5m2!1sid!2sid"
-                    width="200" height="200" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade" class="mx-auto md:mx-0"></iframe>
+
+            {{-- Kolom 3: Maps (kotak persegi, paling kanan) --}}
+            <div>
+                <h4 class="text-base font-semibold text-white uppercase tracking-widest mb-4">Location</h4>
+                <div class="aspect-square w-full rounded-xl overflow-hidden border border-blue-900">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.219!2d115.1742!3d-8.7345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwNDQnMDQuMiJTIDExNcKwMTAnMjcuMSJF!5e0!3m2!1sen!2sid!4v1234567890"
+                        width="100%" height="100%" style="border:0; display:block;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade" title="Politeknik Negeri Bali Location">
+                    </iframe>
+                </div>
             </div>
+
         </div>
-        <!-- Social Media Icons -->
-        <div class="flex mt-6 space-x-6 justify-center">
-            <a href="https://www.facebook.com/share/kFw5xf3e4BEJupMd/?mibextid=LQQJ4d" target="_blank"
-                class="text-gray-400 hover:text-white">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://bit.ly/3LhbsEl" target="_blank" class="text-gray-400 hover:text-white">
-                <i class="fab fa-youtube"></i>
-            </a>
-            <a href="https://www.instagram.com/unitbahasapnb?igsh=MW12YnExd3FnYW12Ng==" target="_blank"
-                class="text-gray-400 hover:text-white">
-                <i class="fab fa-instagram"></i>
-            </a>
+
+        <div class="border-t border-blue-900 pt-6 text-center">
+            <p class="text-base font-normal text-slate-500">
+                &copy; 2024 TOEIC Assessment — Politeknik Negeri Bali. All rights reserved.
+            </p>
         </div>
-        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <div class="sm:flex sm:items-center sm:justify-between text-center">
-            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">&copy; copyright 2024 | TOEIC
-                ASSESSMENT Politeknik Negeri Bali</span>
-        </div>
+
     </div>
 </footer>

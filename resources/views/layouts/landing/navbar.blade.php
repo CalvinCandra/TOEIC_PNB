@@ -1,105 +1,74 @@
-{{-- Navbar --}}
-<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="{{ asset('img/logo unit.png') }}" class="h-10" alt="Logo Unit PNB">
-            <div class="flex flex-col items-center">
-                <span class="block text-base font-bold whitespace-nowrap dark:text-white flex-grow flex-basis-0">TOEIC
-                    ASSESSMENT</span>
-                <span class="block text-base text-gray-500 flex-grow flex-basis-0">Politeknik Negeri Bali</span>
+<nav class="bg-white border-b border-gray-100 fixed w-full z-20 top-0">
+    <div class="max-w-screen-xl mx-auto px-4 lg:px-8 h-16 flex items-center justify-between">
+
+        {{-- Logo --}}
+        <a href="{{ url('/') }}" class="flex items-center gap-3 no-underline">
+            <img src="{{ asset('img/logo unit.png') }}" alt="Logo PNB"
+                class="w-9 h-9 object-contain" loading="lazy" />
+            <div class="flex flex-col leading-tight">
+                <span class="text-sm font-semibold text-slate-800 tracking-wide">TOEIC Assessment</span>
+                <span class="text-xs text-slate-500">Politeknik Negeri Bali</span>
             </div>
         </a>
-        <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            @auth
-                <div class="hidden md:flex items-center lg:order-2">
-                    <button type="button"
-                        class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
-                        id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
-                        <span class="sr-only">Open user menu</span>
-                        <div class="w-10 h-10 rounded-full overflow-hidden bg-white shadow-md">
-                            <img class="w-full" src="{{ asset('profile/profile.png') }}" alt="user photo" loading="lazy" />
-                        </div>
-                    </button>
-                    <!-- Dropdown menu -->
-                    <div class="hidden z-50 my-4 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow "
-                        id="dropdown">
-                        <div class="py-3 px-4">
-                            <span class="block text-sm font-semibold text-gray-900">{{ auth()->user()->name }}</span>
-                            <span class="block text-sm text-gray-900 truncate">{{ auth()->user()->email }}</span>
-                        </div>
-                        <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
-                            {{-- pemilihan dashboard sesuai level --}}
-                            <li>
-                                <a @if (auth()->user()->level == 'admin') href="{{ url('/admin') }}"
-                                @elseif (auth()->user()->level == 'petugas') href="{{ url('/petugas') }}"
-                                @elseif (auth()->user()->level == 'peserta') href="{{ url('/peserta') }}" @endif
-                                    class="block py-2 px-4 text-sm hover:bg-gray-100">Dashboard</a>
-                            </li>
 
-                            <li>
-                                <a href="{{ url('/logout') }}"
-                                    class="block py-2 px-4 text-sm font-bold hover:bg-gray-100">Sign out</a>
-                            </li>
-                        </ul>
+        {{-- Desktop Nav Links --}}
+        <ul class="hidden md:flex items-center gap-8 list-none m-0 p-0">
+            <li><a href="#home"    class="nav-link text-base font-normal text-slate-600 no-underline hover:text-blue-950 transition-colors">Home</a></li>
+            <li><a href="#about"   class="nav-link text-base font-normal text-slate-600 no-underline hover:text-blue-950 transition-colors">About</a></li>
+            <li><a href="#tutorial" class="nav-link text-base font-normal text-slate-600 no-underline hover:text-blue-950 transition-colors">Tutorial</a></li>
+            <li><a href="#contact" class="nav-link text-base font-normal text-slate-600 no-underline hover:text-blue-950 transition-colors">Contact</a></li>
+        </ul>
+
+        {{-- Auth --}}
+        <div class="flex items-center gap-3">
+            @auth
+                {{-- User Dropdown --}}
+                <button id="user-menu-button" data-dropdown-toggle="dropdown-user"
+                    class="flex items-center gap-2 text-sm text-slate-700 focus:outline-none">
+                    <img src="{{ asset('profile/profile.png') }}" alt="photo"
+                        class="w-8 h-8 rounded-full object-cover border border-slate-200" />
+                    <span class="hidden md:inline font-medium">{{ auth()->user()->name }}</span>
+                    <i class="fa-solid fa-caret-down text-xs text-slate-400"></i>
+                </button>
+                <div id="dropdown-user"
+                    class="hidden z-50 w-52 bg-white divide-y divide-gray-100 rounded-xl shadow-lg border border-gray-100">
+                    <div class="px-4 py-3">
+                        <p class="text-sm font-semibold text-slate-800 truncate">{{ auth()->user()->name }}</p>
+                        <p class="text-xs text-slate-500 truncate">{{ auth()->user()->email }}</p>
                     </div>
+                    <ul class="py-1 text-sm text-slate-700">
+                        @if(auth()->user()->level == 'admin')
+                        <li><a href="{{ url('/admin') }}" class="block px-4 py-2 hover:bg-gray-50">Dashboard</a></li>
+                        @elseif(auth()->user()->level == 'petugas')
+                        <li><a href="{{ url('/petugas') }}" class="block px-4 py-2 hover:bg-gray-50">Dashboard</a></li>
+                        @else
+                        <li><a href="{{ url('/peserta') }}" class="block px-4 py-2 hover:bg-gray-50">Dashboard</a></li>
+                        @endif
+                        <li><a href="{{ url('/logout') }}" class="block px-4 py-2 text-red-500 hover:bg-gray-50 font-medium">Sign out</a></li>
+                    </ul>
                 </div>
             @else
-                <button type="button"
-                    class="text-white bg-[#219EBC] hover:bg-[#1C89A4] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    onclick="window.location.href='/login'">Sign In</button>
+                <a href="{{ url('/login') }}"
+                    class="bg-blue-950 hover:bg-blue-900 text-white text-base font-normal px-5 py-2.5 rounded-lg transition-colors no-underline">
+                    Sign In
+                </a>
             @endauth
-            <button data-collapse-toggle="navbar-sticky" type="button"
-                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                aria-controls="navbar-sticky" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 17 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M1 1h15M1 7h15M1 13h15" />
-                </svg>
+
+            {{-- Mobile Hamburger --}}
+            <button data-collapse-toggle="navbar-mobile" type="button"
+                class="md:hidden p-2 text-slate-600 rounded-lg hover:bg-gray-100">
+                <i class="fa-solid fa-bars text-lg"></i>
             </button>
         </div>
-        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 lg:-ml-16" id="navbar-sticky">
-            <ul
-                class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                <li>
-                    <a href="#home" id="nav-home" class="nav-link block py-2 px-3 rounded md:p-0">Home</a>
-                </li>
-                <li>
-                    <a href="#about" id="nav-about" class="nav-link block py-2 px-3 rounded md:p-0">About</a>
-                </li>
-                <li>
-                    <a href="#contact" id="nav-contact" class="nav-link block py-2 px-3 rounded md:p-0">Contact</a>
-                </li>
-                @auth
-                    <li class="block md:hidden mt-4 mb-3 ml-3">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-8 h-8 rounded-full overflow-hidden bg-white shadow-md">
-                                <img class="w-full" src="{{ asset('profile/profile.png') }}" alt="user photo"
-                                    loading="lazy" />
-                            </div>
-                            <div>
-                                <span class="block text-sm font-semibold text-gray-900">{{ auth()->user()->name }}</span>
-                                <span class="block text-sm text-gray-900 truncate">{{ auth()->user()->email }}</span>
-                            </div>
-                        </div>
-                    </li>
+    </div>
 
-                    {{-- pemilihan dashboard sesuai level --}}
-                    <li class="block md:hidden mt-3">
-                        <a @if (auth()->user()->level == 'admin') href="{{ url('/admin') }}"
-                        @elseif (auth()->user()->level == 'petugas') href="{{ url('/petugas') }}"
-                        @elseif (auth()->user()->level == 'peserta') href="{{ url('/peserta') }}" @endif
-                            class="block py-2 px-3 hover:bg-gray-100">Dashboard</a>
-                    </li>
-
-                    <li class="block md:hidden">
-                        <a href="{{ url('/logout') }}"
-                            class="block py-2 px-3 rounded font-bold text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:text-blue-500">Sign
-                            Out</a>
-                    </li>
-                @endauth
-            </ul>
-        </div>
+    {{-- Mobile Menu --}}
+    <div id="navbar-mobile" class="hidden md:hidden border-t border-gray-100 bg-white">
+        <ul class="list-none m-0 p-4 space-y-1">
+            <li><a href="#home"     class="block px-3 py-2 text-base font-normal text-slate-700 rounded-lg hover:bg-gray-50">Home</a></li>
+            <li><a href="#about"    class="block px-3 py-2 text-base font-normal text-slate-700 rounded-lg hover:bg-gray-50">About</a></li>
+            <li><a href="#tutorial" class="block px-3 py-2 text-base font-normal text-slate-700 rounded-lg hover:bg-gray-50">Tutorial</a></li>
+            <li><a href="#contact"  class="block px-3 py-2 text-base font-normal text-slate-700 rounded-lg hover:bg-gray-50">Contact</a></li>
+        </ul>
     </div>
 </nav>
