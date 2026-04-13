@@ -1,9 +1,5 @@
 <?php
 
-use App\Models\Soal;
-use App\Models\Nilai;
-use App\Mail\SendMail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ZipController;
 use App\Http\Middleware\DisableHistory;
@@ -17,6 +13,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\BankSoalController;
+use App\Http\Middleware\isChangePassword;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +91,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::post('/ResetStatusAdmin/{sesi}', [AdminController::class, 'ResetAllStatusPeserta']);
     Route::post('/DeleteAllAdmin/{sesi}', [AdminController::class, 'DeleteAllAdmin']);
     Route::get('/downloadtemplate', [AdminController::class, 'Template']);
+    Route::get('/reset-default-password/{id}', [AdminController::class, 'ResetPasswordPeserta']);
 
     // Gambar
     Route::get('/dashAdminGambar', [AdminController::class, 'dashAdminGambar']);
@@ -163,6 +161,7 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     Route::post('/ResetStatusPetugas/{sesi}', [PetugasController::class, 'ResetStatusPetugas']);
     Route::post('/DeleteAllPetugas/{sesi}', [PetugasController::class, 'DeleteAllPetugas']);
     Route::get('/downloadtemplatepetugas', [PetugasController::class, 'Template']);
+    Route::post('/reset-default-password/{id}', [AdminController::class, 'ResetPasswordPeserta']);
 
     // Gambar
     Route::get('/dashPetugasGambar', [PetugasController::class, 'dashPetugasGambar']);
@@ -216,28 +215,32 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
     // profile
     Route::get('/Profil', [PesertaController::class, 'Profil']);
     Route::get('/download-result', [PesertaController::class, 'DownloadResutl']);
+    Route::get('/reset-password', [PesertaController::class, 'ResetPasswordPage']);
+    Route::post('/reset-password', [PesertaController::class, 'ResetPassword'])->middleware('throttle:5,1');
     Route::post('/UpdateProfil', [PesertaController::class, 'UpdateProfil'])->middleware('throttle:5,1');
 
-    // dash soal
-    Route::get('/DashboardSoal', [PesertaController::class, 'dashSoal']);
-    Route::get('/TokenQuestion', [PesertaController::class, 'TokenQuestion']);
-
-    Route::middleware(['DisableHistory'])->group(function () {
-        // Soal Reading
-        Route::get('/Reading', [SoalController::class, 'Reading']);
-        Route::get('/SoalReading', [SoalController::class, 'GetReading']);
-        Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
-        Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading'])->middleware('throttle:35,1');
-        Route::get('/nilaiReading', [SoalController::class, 'GetNilaiReading'])->name('nilaiReading');
-
-        // Listening
-        Route::get('/Listening', [SoalController::class, 'Listening']);
-        Route::get('/SoalListening', [SoalController::class, 'GetListening']);
-        Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
-        Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening'])->middleware('throttle:35,1');
-        Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
-        Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed'])->middleware('throttle:35,1');
-        Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed'])->middleware('throttle:35,1');
+    Route::middleware(['isChangePassword'])->group(function () {
+        // dash soal
+        Route::get('/DashboardSoal', [PesertaController::class, 'dashSoal']);
+        Route::get('/TokenQuestion', [PesertaController::class, 'TokenQuestion']);
+    
+        Route::middleware(['DisableHistory'])->group(function () {
+            // Soal Reading
+            Route::get('/Reading', [SoalController::class, 'Reading']);
+            Route::get('/SoalReading', [SoalController::class, 'GetReading']);
+            Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
+            Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading'])->middleware('throttle:35,1');
+            Route::get('/nilaiReading', [SoalController::class, 'GetNilaiReading'])->name('nilaiReading');
+    
+            // Listening
+            Route::get('/Listening', [SoalController::class, 'Listening']);
+            Route::get('/SoalListening', [SoalController::class, 'GetListening']);
+            Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
+            Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening'])->middleware('throttle:35,1');
+            Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
+            Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed'])->middleware('throttle:35,1');
+            Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed'])->middleware('throttle:35,1');
+        });
     });
 
     Route::get('/destory', [SoalController::class, 'destory']);

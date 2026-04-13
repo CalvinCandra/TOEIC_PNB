@@ -54,6 +54,34 @@ class PesertaController extends Controller
         return $response;
     }
 
+    public function ResetPasswordPage()
+    {
+        return view('peserta.content.resetPassword');
+    }
+
+    public function ResetPassword(Request $request)
+    {
+        $result = $this->profilService->resetPassword($request, auth()->id());
+
+        if ($result === true) {
+            toast('Password Reset Successful!', 'success');
+            
+            // PENTING: Jika berhasil, lempar ke halaman utama/dashboard, jangan back()
+            return redirect('/peserta'); 
+            
+        } elseif (is_string($result)) {
+            // Menampilkan error string (contoh: Old password is incorrect)
+            toast($result, 'error');
+            
+            // withErrors akan melempar pesan ke variabel $errors di Blade
+            return redirect()->back()->withErrors(['password_old' => $result]);
+            
+        } else {
+            toast('Something Went Wrong!', 'error');
+            return redirect()->back();
+        }
+    }
+
     public function dashSoal()
     {
         return view('peserta.content.dashSoal');

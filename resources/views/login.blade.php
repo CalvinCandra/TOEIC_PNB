@@ -48,7 +48,7 @@
                 <h1 class="text-3xl font-medium text-center uppercase tracking-widest text-slate-900 mb-2">
                     Login
                 </h1>
-                <p class="text-base text-slate-500 mb-7">Enter your email to log in.</p>
+                <p class="text-base text-slate-500 mb-7">Enter your email or nim to log in.</p>
 
                 {{-- Error Alert --}}
                 @if (count($errors) > 0)
@@ -62,8 +62,8 @@
                 <form action="{{ url('/ProsesLogin') }}" method="POST" class="space-y-4">
                     @csrf
 
-                    {{-- Email --}}
-                    <input type="email" name="email" placeholder="Your Email" value="{{ old('email') }}"
+                    {{-- Username --}}
+                    <input type="text" name="username" placeholder="Your Email Or NIM" value="{{ old('username') }}"
                         class="w-full h-12 px-5 rounded-full border border-slate-200 bg-white text-slate-900 text-base italic outline-none focus:border-blue-950 focus:ring-2 focus:ring-blue-950/20 font-[inherit]" />
 
                     {{-- Password --}}

@@ -16,7 +16,7 @@ class Peserta extends Model
     protected $fillable = [
         'nama_peserta',
         'nim',
-        'token',
+        'tanggal_lahir',
         'jurusan',
         'sesi',
         'status',

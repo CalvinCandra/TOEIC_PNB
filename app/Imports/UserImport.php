@@ -4,20 +4,21 @@ namespace App\Imports;
 
 use App\Models\Peserta;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use PhpOffice\PhpSpreadsheet\Shared\Date;   
 
 class UserImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
         // Ambil hanya kolom yang dibutuhkan, buang kolom kosong/angka dari header
-        $row = array_intersect_key($row, array_flip(['name', 'email', 'nim', 'major', 'session']));
+        $row = array_intersect_key($row, array_flip(['name', 'email', 'nim', 'birthdate','major', 'session']));
         $row = array_change_key_case($row, CASE_LOWER);
 
         // Jika semua value kosong atau null, abaikan baris ini tanpa log dan tanpa flash
@@ -27,7 +28,7 @@ class UserImport implements ToModel, WithHeadingRow
         }
 
         // 1. Validasi header Excel — hanya dijalankan jika baris tidak kosong
-        $requiredKeys = ['name', 'email', 'nim', 'major', 'session'];
+        $requiredKeys = ['name', 'email', 'nim', 'birthdate', 'major', 'session'];
         foreach ($requiredKeys as $key) {
             if (! isset($row[$key]) || trim((string) $row[$key]) === '') {
                 Log::warning('[UserImport::model] Header Excel tidak lengkap atau nilai kosong', [
@@ -56,23 +57,51 @@ class UserImport implements ToModel, WithHeadingRow
             return null;
         }
 
-        // 3. Generate password otomatis
-        $password = strtoupper(Str::password(8, true, false, false, false));
+        // Cek dan konversi format tanggal lahir
+        $rawDate = $row['birthdate'];
+        
+        try {
+            if (is_numeric($rawDate)) {
+                // Jika Excel membacanya sebagai Angka Serial (contoh: 36840)
+                $carbonDate = Carbon::instance(Date::excelToDateTimeObject($rawDate));
+            } else {
+                // Jika Excel membacanya sebagai String (contoh: "10/11/2000" atau "10-11-2000")
+                // Mengubah slash ke dash membantu Carbon membaca format hari-bulan-tahun dengan akurat
+                $carbonDate = Carbon::parse(str_replace('/', '-', $rawDate));
+            }
 
-        // 4. Simpan dalam transaction agar atomic — jika salah satu gagal, keduanya dibatalkan
+            // atur tanggal lahir jadi password default (contoh output: "10112000")
+            $passwordDefault = $carbonDate->format('dmY');
+            
+            // atur format agar masuk ke database (contoh output: "2000-11-10")
+            $formatDate = $carbonDate->format('Y-m-d');
+
+        } catch (\Exception $e) {
+            // Jika ada format tanggal yang benar-benar hancur, catat ke log dan gagalkan baris ini
+            Log::error('[UserImport::model] Format tanggal lahir tidak valid', [
+                'email' => $row['email'],
+                'birthdate_input' => $rawDate,
+                'error' => $e->getMessage()
+            ]);
+            Session::flash('gagal', 'Format birthdate salah pada user: '.$row['email']);
+            
+            return null;
+        }
+
+        // 3. Simpan dalam transaction agar atomic — jika salah satu gagal, keduanya dibatalkan
         DB::beginTransaction();
         try {
             $user = User::create([
                 'name' => $row['name'],
                 'email' => $row['email'],
-                'password' => Hash::make($password),
+                'password' => Hash::make($passwordDefault),
                 'level' => 'peserta',
             ]);
 
             Peserta::create([
                 'nama_peserta' => $row['name'],
                 'nim' => $row['nim'],
-                'token' => $password,
+                'tanggal_lahir' => $formatDate,
                 'jurusan' => $row['major'],
                 'sesi' => $row['session'],
                 'status' => 'Belum',

@@ -351,4 +351,13 @@ class PetugasController extends Controller
     {
         return $this->templateExcelService->downloadTemplate();
     }
+
+    public function ResetPasswordPeserta($id)
+    {
+        $this->pesertaService->resetPasswordPeserta($id)
+            ? toast('Password Peserta Berhasil Direset', 'success')
+            : toast('Gagal Reset Password Peserta', 'error');
+
+        return redirect()->back();
+    }
 }
