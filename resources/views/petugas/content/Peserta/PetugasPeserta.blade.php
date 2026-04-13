@@ -50,15 +50,17 @@
                         </div>
                     </form>
                 </div>
-                {{-- end search --}}
-                <div class="block lg:flex justify-between mt-5 ">
-                    <!-- Modal toggle -->
-                    <div class="flex-warp lg:flex">
-                        <button data-modal-target="TambahPesertaExcel" data-modal-toggle="TambahPesertaExcel"
-                            class="lg:mx-2 block text-white bg-sky-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
-                            type="button">
-                            Create With Excel
-                        </button>
+            {{-- end search --}}
+            <div class="block lg:flex justify-between mt-5 ">
+                <!-- Modal toggle -->
+                <div class="flex-warp lg:flex">
+                    {{-- <button data-modal-target="TambahPeserta" data-modal-toggle="TambahPeserta" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                        Create Participants Data
+                    </button> --}}
+
+                    <button data-modal-target="TambahPesertaExcel" data-modal-toggle="TambahPesertaExcel" class="lg:mx-2 block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                        Create With Excel
+                    </button>
 
                         <a href="{{ url('/downloadtemplate') }}"
                             class="text-white bg-green-500 hover:bg-green-600 font-medium rounded-lg text-sm px-5 flex items-center text-center mb-5"
@@ -150,14 +152,339 @@
                                 id="file_input" type="file" required>
                         </div>
 
+                    <button type="submit"
+                        class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- End Modal Tambah Excel --}}
+
+
+{{-- Modal Tambah --}}
+{{-- <div id="TambahPeserta" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full p-4">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow">
+
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
+                <h3 class="text-xl font-semibold text-gray-900">
+                    Create Participants Data
+                </h3>
+                <button type="button"
+                    class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-hide="TambahPeserta">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="p-4 md:p-5">
+                <form class="space-y-4 modal-form" action="{{url('/TambahPetugasPeserta')}}" method="POST">
+                    @csrf
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name Full</label>
+                        <input type="text" name="name" id="name"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            placeholder="Example : Sopo Jarwo" required />
+                    </div>
+
+                    <div>
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                        <input type="email" name="email" id="email"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            placeholder="Example : youremail@gmail.com" required />
+                    </div>
+
+                    <div>
+                        <label for="nim" class="block mb-2 text-sm font-medium text-gray-900">NIM</label>
+                        <input type="number" name="nim" id="nim"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            placeholder="Example : 221535000" required />
+                        <p class=" text-red-600 text-xs mt-1" id="note"></p>
+                    </div>
+
+                    <div>
+                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Major</label>
+                        <select id="countries" name="jurusan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <option selected hidden value="">Choose a Major</option>
+                            <option value="Administrasi Bisnis">Administrasi Bisnis</option>
+                            <option value="Akutansi">Akutansi</option>
+                            <option value="Pariwisata">Pariwisata</option>
+                            <option value="Teknik Sipil">Teknik Sipil</option>
+                            <option value="Teknik Mesin">Teknik Mesin</option>
+                            <option value="Teknik Elektro">Teknik Elektro</option>
+                            <option value="Teknologi Informasi">Teknologi Informasi</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Gender</label>
+                        <div class="flex items-center mb-4">
+                            <input type="radio" value="L" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
+                            <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Male</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="default-radio-2" type="radio" value="P" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
+                            <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Female</label>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div> --}}
+{{-- End Modal Tambah --}}
+
+@foreach ($peserta as $data)    
+    {{-- Modal Update --}}
+    {{-- <div id="UpdatePeserta{{$data->id_peserta}}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-md max-h-full p-4">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow">
+
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Update Participants Data
+                    </h3>
+                    <button type="button"
+                        class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-hide="UpdatePeserta{{$data->id_peserta}}">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="p-4 md:p-5">
+                    <form class="space-y-4 modal-form" action="{{url('/UpdatePetugasPeserta')}}" method="POST">
+                        @csrf
+
+                        <input type="hidden" name="id_peserta" value="{{$data->id_peserta}}">
+
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name Full</label>
+                            <input type="text" name="name" value="{{$data->nama_peserta}}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                placeholder="Example : Sopo Jarwo" required />
+                        </div>
+
+                        <div>
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                            <input type="email" name="email" value="{{$data->user->email}}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                placeholder="Example : youremail@gmail.com" required />
+                        </div>
+
+                        <div>
+                            <label for="nim" class="block mb-2 text-sm font-medium text-gray-900">NIM</label>
+                            <input type="number" name="nim" value="{{$data->nim}}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                placeholder="Example : 221535000" required />
+                            <p class=" text-red-600 text-xs mt-1" id="note"></p>
+                        </div>
+
+                        <div>
+                            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant Major</label>
+                            <select id="countries" name="jurusan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value="{{$data->jurusan}}" selected hidden>{{$data->jurusan}}</option>
+                                <option value="Administrasi Bisnis">Administrasi Bisnis</option>
+                                <option value="Akutansi">Akutansi</option>
+                                <option value="Pariwisata">Pariwisata</option>
+                                <option value="Teknik Sipil">Teknik Sipil</option>
+                                <option value="Teknik Mesin">Teknik Mesin</option>
+                                <option value="Teknik Elektro">Teknik Elektro</option>
+                                <option value="Teknologi Informasi">Teknologi Informasi</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Question Work Status</label>
+                            <select id="countries" name="status_pengerjaan"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                @if ($data->status->status_pengerjaan == 'Sudah')
+                                    <option selected hidden value="{{ $data->status->status_pengerjaan }}">Done</option>
+                                @else
+                                    <option selected hidden value="{{ $data->status->status_pengerjaan }}">Yet</option>
+                                @endif
+                                <option value="Sudah">Done</option>
+                                <option value="Belum">Not yet</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
+                            <select id="countries" name="sesi"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                @if ($data->status->status_pengerjaan == 'Sudah')
+                                    <option selected hidden value="{{ $data->status->status_pengerjaan }}">Done</option>
+                                @else
+                                    <option selected hidden value="{{ $data->status->status_pengerjaan }}">Yet</option>
+                                @endif
+                                <option value="Sudah">Done</option>
+                                <option value="Belum">Not yet</option>
+                            </select>
+                        </div>
+
                         <button type="submit"
-                            class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                            class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+
                     </form>
                 </div>
             </div>
         </div>
+    </div> --}}
+    {{-- End Modal Update --}}
+@endforeach
+
+{{-- Modal Delete --}}
+{{-- <div id="DeletePeserta" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative p-4 text-center bg-white rounded-lg shadow ">
+
+            <button type="button"
+                class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                data-modal-toggle="DeletePeserta">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+
+            <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
+
+            <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
+            <div class="flex justify-center items-center space-x-4">
+                <form class="modal-form" action="{{url('/DeletePetugasPeserta')}}" method="POST">
+                    @csrf
+                    <input type="hidden" id="hapus-peserta" name="id_peserta">
+                    
+                    <button data-modal-toggle="DeletePeserta" type="button"
+                        class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
+                        Cancel</button>
+                    <input type="submit"
+                        class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        value="Yes, I'm Sure!">
+                </form>
+            </div>
+        </div>
     </div>
-    {{-- End Modal Tambah Excel --}}
+</div> --}}
+{{-- End Modal Delete --}}
+
+{{-- Modal Reset Status--}}
+{{-- <div id="ResetStatus" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative p-4 text-center bg-white rounded-lg shadow ">
+
+            <button type="button"
+                class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                data-modal-toggle="ResetStatus">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+
+            <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
+
+            <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Reset All Status?</p>
+            <div class="flex justify-center items-center space-x-4">
+                <form class="modal-form" action="{{url('/ResetStatusPetugas')}}" method="POST">
+                    @csrf
+                    
+                    <button data-modal-toggle="ResetStatus" type="button"
+                        class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
+                        Cancel</button>
+                    <input type="submit"
+                        class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        value="Yes, I'm Sure!">
+                </form>
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+{{-- End Modal Delete All --}}
+{{-- Modal Delete All --}}
+<div id="DeleteAll" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative p-4 text-center bg-white rounded-lg shadow ">
+
+            <button type="button"
+                class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                data-modal-toggle="DeleteAll">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+
+            <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
+
+            <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete All?</p>
+            <div class="flex justify-center items-center space-x-4">
+                <form class="modal-form" action="{{url('/DeleteAllPetugas')}}" method="POST">
+                    @csrf
+                    
+                    <button data-modal-toggle="DeleteAll" type="button"
+                        class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
+                        Cancel</button>
+                    <input type="submit"
+                        class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        value="Yes, I'm Sure!">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- End Modal Delete All --}}
+
+
+
+
+
+<script>
+    function hapus(baris, id) {
+        const td = document.querySelectorAll('#' + baris + ' td');
+
+        document.getElementById('hapus-peserta').value = id;
+    }
+
+</script>
 
 
 

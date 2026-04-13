@@ -14,7 +14,7 @@
 
 {{-- konten --}}
 <section class="p-4 md:ml-64 h-auto pt-20">
-    <a href="{{url('/dashPetugasSoal')}}" class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+    <a href="{{url('/dashPetugasSoal')}}" class="w-[20%] md:w-[10%] block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
         Back
     </a>
     <h1>Question Listening Data</h1>
@@ -53,7 +53,7 @@
             {{-- end search --}}
             <div class="flex justify-between mt-5">
                 <!-- Modal toggle -->
-                <button data-modal-target="TambahSoal" data-modal-toggle="TambahSoal" class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
+                <button data-modal-target="TambahSoal" data-modal-toggle="TambahSoal" class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
                     Create Question
                 </button>
             </div>
@@ -249,7 +249,7 @@
                     </div>
 
                     <button type="submit"
-                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                        class="w-full text-white bg-brand hover:bg-brand-hover font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                 </form>
             </div>
         </div>
@@ -386,7 +386,7 @@
                     </div> --}}
 
                     <button type="submit"
-                        class="w-full text-white bg-sky-800 hover:bg-sky-950 font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                        class="w-full text-white bg-brand hover:bg-brand-hover font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
 
                 </form>
             </div>

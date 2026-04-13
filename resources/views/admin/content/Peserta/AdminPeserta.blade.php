@@ -55,7 +55,7 @@
                     <!-- Modal toggle -->
                     <div class="flex-warp lg:flex">
                         <button data-modal-target="TambahPesertaExcel" data-modal-toggle="TambahPesertaExcel"
-                            class="lg:mx-2 block text-white bg-sky-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+                            class="lg:mx-2 block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
                             type="button">
                             Create With Excel
                         </button>
@@ -151,7 +151,7 @@
                         </div>
 
                         <button type="submit"
-                            class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                            class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                     </form>
                 </div>
             </div>

@@ -6,7 +6,7 @@
 <main class="p-4 md:ml-64 h-auto pt-20">
 
     {{-- Welcome Banner --}}
-    <div class="p-4 mb-6 rounded-xl bg-blue-950 shadow-md">
+    <div class="p-4 mb-6 rounded-xl bg-brand shadow-md">
         <h3 class="text-lg font-bold text-white tracking-wide">
             👋 Welcome back, <span class="italic">{{ auth()->user()->name }}</span>
         </h3>

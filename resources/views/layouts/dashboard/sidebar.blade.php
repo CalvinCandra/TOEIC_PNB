@@ -16,7 +16,7 @@
     );
 
     $activeClass = fn(string|array $paths): string => $isActive($paths)
-        ? 'bg-blue-950/10 text-blue-950 font-semibold'
+        ? 'bg-brand/10 text-brand font-semibold'
         : 'text-gray-900 hover:bg-gray-100';
 
     // Cek apakah grup menu aktif (untuk auto-expand dropdown)
@@ -63,7 +63,7 @@
                 <li>
                     <button type="button" aria-controls="dropdown-user" data-collapse-toggle="dropdown-user"
                         class="flex items-center p-2 w-full text-base font-medium rounded-lg transition duration-75
-                        {{ $userMenuOpen ? 'bg-blue-950/10 text-blue-950 font-semibold' : 'text-gray-900 hover:bg-gray-100' }}">
+                        {{ $userMenuOpen ? 'bg-brand/10 text-brand font-semibold' : 'text-gray-900 hover:bg-gray-100' }}">
                         <i class="fa-solid fa-user text-xl"></i>
                         <span class="flex-1 ml-4 text-left whitespace-nowrap">Peserta</span>
                         <i
@@ -91,7 +91,7 @@
                 <li>
                     <button type="button" aria-controls="dropdown-question" data-collapse-toggle="dropdown-question"
                         class="flex items-center p-2 w-full text-base font-medium rounded-lg transition duration-75
-                        {{ $questionMenuOpen ? 'bg-blue-950/10 text-blue-950 font-semibold' : 'text-gray-900 hover:bg-gray-100' }}">
+                        {{ $questionMenuOpen ? 'bg-brand/10 text-brand font-semibold' : 'text-gray-900 hover:bg-gray-100' }}">
                         <i class="fa-solid fa-book-atlas text-xl"></i>
                         <span class="flex-1 ml-4 text-left whitespace-nowrap">Question</span>
                         <i

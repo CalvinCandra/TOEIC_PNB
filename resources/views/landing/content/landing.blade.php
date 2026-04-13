@@ -7,24 +7,24 @@
 {{-- ══════════════════════════════════════════════════════
      HERO SECTION
 ═════════════════════════════════════════════════════ --}}
-<section class="bg-blue-950 pt-28 pb-16 px-4 lg:px-8 min-h-screen flex items-center" id="home">
+<section class="bg-brand pt-28 pb-16 px-4 lg:px-8 min-h-screen flex items-center" id="home">
     <div class="max-w-screen-xl mx-auto w-full">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
 
             {{-- Teks --}}
             <div>
-                <span class="inline-block bg-blue-950/10 text-blue-300 text-xs font-semibold px-3 py-1 rounded-full mb-4 tracking-widest uppercase">
+                <span class="inline-block bg-brand/10 text-brand-muted text-xs font-semibold px-3 py-1 rounded-full mb-4 tracking-widest uppercase">
                     Politeknik Negeri Bali
                 </span>
                 <h1 class="text-4xl lg:text-5xl font-bold text-white leading-tight mb-5">
-                    Try the <span class="text-blue-300">TOEIC</span><br>Test Simulation
+                    Try the <span class="text-brand-muted">TOEIC</span><br>Test Simulation
                 </h1>
                 <p class="text-slate-400 text-base leading-relaxed mb-8 max-w-md">
                     Improve your English proficiency score easily and effectively. Practice with real exam-style questions anytime, anywhere.
                 </p>
                 <div class="flex flex-wrap gap-3">
                     <a href="{{ url('/DashboardSoal') }}"
-                        class="inline-flex items-center gap-2 bg-[#FB8500] hover:bg-[#e07600] text-white font-semibold px-6 py-3 rounded-xl transition-colors no-underline">
+                        class="inline-flex items-center gap-2 bg-brand-accent hover:bg-brand-accent-hover text-white font-semibold px-6 py-3 rounded-xl transition-colors no-underline">
                         Start Now
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -52,7 +52,7 @@
     <div class="max-w-screen-xl mx-auto">
 
         <div class="mb-12">
-            <span class="text-xs font-semibold text-blue-950 uppercase tracking-widest">About</span>
+            <span class="text-xs font-semibold text-brand uppercase tracking-widest">About</span>
             <h2 class="text-3xl font-bold text-slate-900 mt-2 mb-4">What is TOEIC?</h2>
             <p class="text-slate-600 text-base leading-relaxed max-w-2xl">
                 TOEIC (Test of English for International Communication) is a standardized test that measures English language proficiency in a workplace context, recognized globally by thousands of organizations.
@@ -62,21 +62,21 @@
         {{-- Stats --}}
         <div class="grid grid-cols-3 gap-5 mb-14">
             <div class="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
-                <div class="text-3xl font-bold text-blue-950">200</div>
+                <div class="text-3xl font-bold text-brand">200</div>
                 <div class="text-sm text-slate-500 mt-1">Questions per test</div>
             </div>
             <div class="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
-                <div class="text-3xl font-bold text-blue-950">990</div>
+                <div class="text-3xl font-bold text-brand">990</div>
                 <div class="text-sm text-slate-500 mt-1">Maximum score</div>
             </div>
             <div class="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
-                <div class="text-3xl font-bold text-blue-950">120</div>
+                <div class="text-3xl font-bold text-brand">120</div>
                 <div class="text-sm text-slate-500 mt-1">Minutes duration</div>
             </div>
         </div>
 
         {{-- Why TOEIC --}}
-        <span class="text-xs font-semibold text-blue-950 uppercase tracking-widest">Why is TOEIC Important?</span>
+        <span class="text-xs font-semibold text-brand uppercase tracking-widest">Why is TOEIC Important?</span>
         <h3 class="text-2xl font-bold text-slate-900 mt-2 mb-8">Benefits of Taking TOEIC</h3>
 
         {{-- Benefits Grid Desktop --}}
@@ -127,19 +127,19 @@
 {{-- ══════════════════════════════════════════════════════
      TEST COVERAGE SECTION
 ═════════════════════════════════════════════════════ --}}
-<section class="bg-blue-950 py-20 px-4 lg:px-8">
+<section class="bg-brand py-20 px-4 lg:px-8">
     <div class="max-w-screen-xl mx-auto">
 
         <div class="mb-10">
-            <span class="text-xs font-semibold text-blue-300 uppercase tracking-widest">Test Coverage</span>
+            <span class="text-xs font-semibold text-brand-muted uppercase tracking-widest">Test Coverage</span>
             <h2 class="text-3xl font-bold text-white mt-2">TOEIC Simulation Test Coverage</h2>
         </div>
 
         {{-- Coverage Cards --}}
         <div class="grid md:grid-cols-2 gap-5 mb-8">
-            <div class="bg-blue-900 rounded-2xl p-6 border-l-4 border-blue-950">
+            <div class="bg-brand-hover rounded-2xl p-6 border-l-4 border-blue-950">
                 <h3 class="text-lg font-semibold text-white mb-4">
-                    <i class="fa-solid fa-headphones mr-2 text-blue-300"></i>Listening Section
+                    <i class="fa-solid fa-headphones mr-2 text-brand-muted"></i>Listening Section
                 </h3>
                 <ul class="space-y-2">
                     <li class="flex items-center gap-2 text-slate-400 text-sm">
@@ -156,7 +156,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="bg-blue-900 rounded-2xl p-6 border-l-4 border-[#FB8500]">
+            <div class="bg-brand-hover rounded-2xl p-6 border-l-4 border-[#FB8500]">
                 <h3 class="text-lg font-semibold text-white mb-4">
                     <i class="fa-solid fa-book-open mr-2 text-[#FB8500]"></i>Reading Section
                 </h3>
@@ -178,24 +178,24 @@
         </div>
 
         {{-- Steps --}}
-        <div class="bg-blue-900 rounded-2xl overflow-hidden">
+        <div class="bg-brand-hover rounded-2xl overflow-hidden">
             <div class="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#0c2d4a]">
                 <div class="p-6 text-center">
-                    <div class="w-9 h-9 rounded-full bg-blue-950 flex items-center justify-center mx-auto mb-3">
+                    <div class="w-9 h-9 rounded-full bg-brand flex items-center justify-center mx-auto mb-3">
                         <img src="{{ asset('favicon/form.png') }}" alt="step1" class="w-5 h-5 object-contain" loading="lazy" />
                     </div>
                     <h4 class="font-semibold text-white text-sm mb-1">Follow Test Rules</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">Understand and follow all exam regulations before starting</p>
                 </div>
                 <div class="p-6 text-center">
-                    <div class="w-9 h-9 rounded-full bg-blue-950 flex items-center justify-center mx-auto mb-3">
+                    <div class="w-9 h-9 rounded-full bg-brand flex items-center justify-center mx-auto mb-3">
                         <img src="{{ asset('favicon/create.png') }}" alt="step2" class="w-5 h-5 object-contain" loading="lazy" />
                     </div>
                     <h4 class="font-semibold text-white text-sm mb-1">Work the Test</h4>
                     <p class="text-xs text-slate-400 leading-relaxed">Complete the Listening and Reading sections</p>
                 </div>
                 <div class="p-6 text-center">
-                    <div class="w-9 h-9 rounded-full bg-blue-950 flex items-center justify-center mx-auto mb-3">
+                    <div class="w-9 h-9 rounded-full bg-brand flex items-center justify-center mx-auto mb-3">
                         <img src="{{ asset('favicon/share.png') }}" alt="step3" class="w-5 h-5 object-contain" loading="lazy" />
                     </div>
                     <h4 class="font-semibold text-white text-sm mb-1">Get Your Results</h4>
@@ -214,7 +214,7 @@
     <div class="max-w-screen-xl mx-auto">
 
         <div class="mb-10">
-            <span class="text-xs font-semibold text-blue-950 uppercase tracking-widest">Tutorial</span>
+            <span class="text-xs font-semibold text-brand uppercase tracking-widest">Tutorial</span>
             <h2 class="text-3xl font-bold text-slate-900 mt-2 mb-3">How to Use the Platform</h2>
             <p class="text-slate-500 text-base leading-relaxed max-w-xl">
                 Watch these short video guides to get started with the TOEIC simulation platform.
@@ -237,7 +237,7 @@
                     </iframe>
                 </div>
                 <div class="p-4">
-                    <span class="text-xs font-semibold text-blue-950 uppercase tracking-wide">Part 1</span>
+                    <span class="text-xs font-semibold text-brand uppercase tracking-wide">Part 1</span>
                     <h4 class="font-semibold text-slate-800 text-sm mt-1 mb-1">Getting Started</h4>
                     <p class="text-xs text-slate-500 leading-relaxed">How to register, log in, and navigate the platform</p>
                 </div>
@@ -257,7 +257,7 @@
                     </iframe>
                 </div>
                 <div class="p-4">
-                    <span class="text-xs font-semibold text-blue-950 uppercase tracking-wide">Part 2</span>
+                    <span class="text-xs font-semibold text-brand uppercase tracking-wide">Part 2</span>
                     <h4 class="font-semibold text-slate-800 text-sm mt-1 mb-1">Taking the Listening Test</h4>
                     <p class="text-xs text-slate-500 leading-relaxed">Step-by-step guide for completing the listening section</p>
                 </div>
@@ -277,7 +277,7 @@
                     </iframe>
                 </div>
                 <div class="p-4">
-                    <span class="text-xs font-semibold text-blue-950 uppercase tracking-wide">Part 3</span>
+                    <span class="text-xs font-semibold text-brand uppercase tracking-wide">Part 3</span>
                     <h4 class="font-semibold text-slate-800 text-sm mt-1 mb-1">Reading Test & Getting Results</h4>
                     <p class="text-xs text-slate-500 leading-relaxed">Complete the reading test and download your score PDF</p>
                 </div>
@@ -294,7 +294,7 @@
     <div class="max-w-screen-xl mx-auto">
 
         <div class="mb-10">
-            <span class="text-base font-semibold text-blue-950 uppercase tracking-widest">FAQ</span>
+            <span class="text-base font-semibold text-brand uppercase tracking-widest">FAQ</span>
             <h2 class="text-3xl font-semibold text-slate-900 mt-2">Frequently Asked Questions</h2>
         </div>
 

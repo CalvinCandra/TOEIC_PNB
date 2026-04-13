@@ -31,7 +31,7 @@
         <div class="flex w-full max-w-4xl min-h-[520px] bg-white rounded-2xl overflow-hidden shadow-lg">
 
             {{-- Panel Kiri — Logo --}}
-            <div class="hidden lg:flex flex-1 flex-col items-center justify-center gap-6 p-10 bg-blue-950">
+            <div class="hidden lg:flex flex-1 flex-col items-center justify-center gap-6 p-10 bg-brand">
 
                 <img src="{{ asset('auth/login.png') }}" alt="Logo PNB" class="w-56 object-contain" />
 
@@ -69,7 +69,7 @@
                     {{-- Password --}}
                     <div class="relative">
                         <input type="password" name="password" id="inputPassword" placeholder="Your Password"
-                            class="w-full h-12 pl-5 pr-14 rounded-full border border-slate-200 bg-white text-slate-900 text-base italic outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 font-[inherit]" />
+                            class="w-full h-12 pl-5 pr-14 rounded-full border border-slate-200 bg-white text-slate-900 text-base italic outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 font-[inherit]" />
                         <span onclick="togglePassword()"
                             class="absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer text-slate-400 flex items-center">
                             <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -83,7 +83,7 @@
 
                     {{-- Submit --}}
                     <button type="submit"
-                        class="w-full h-12 rounded-full bg-blue-950 hover:bg-blue-900 text-white text-base font-normal tracking-wide transition-colors duration-150 font-[inherit]">
+                        class="w-full h-12 rounded-full bg-brand hover:bg-brand-hover text-white text-base font-normal tracking-wide transition-colors duration-150 font-[inherit]">
                         Continue
                     </button>
                 </form>
