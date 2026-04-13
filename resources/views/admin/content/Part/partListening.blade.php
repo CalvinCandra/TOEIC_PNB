@@ -16,7 +16,7 @@
     {{-- konten --}}
     <section class="p-4 md:ml-64 h-auto pt-20">
         <a href="{{ url('/dashAdminSoal') }}"
-            class="w-[20%] md:w-[10%] block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+            class="w-[20%] md:w-[10%] block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
             type="button">
             Back
         </a>
@@ -57,7 +57,7 @@
                 <div class="flex mt-5 justify-between">
                     <!-- Modal toggle -->
                     <button data-modal-target="TambahPartListening" data-modal-toggle="TambahPartListening"
-                        class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+                        class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
                         type="button">
                         Create Part Listening
                     </button>
@@ -252,7 +252,7 @@
                         </div>
 
                         <button type="submit"
-                            class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                            class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                     </form>
                 </div>
             </div>
@@ -384,7 +384,7 @@
                             </div>
 
                             <button type="submit"
-                                class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                                class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
 
                         </form>
                     </div>

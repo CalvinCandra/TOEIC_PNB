@@ -118,7 +118,7 @@
                                                 <li>
                                                     <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}"
                                                         class="flex items-center w-full px-4 py-2 text-red-400 hover:bg-gray-100 hover:scale-95">
-                                                        <i class="fa-solid fa-paper-plane me-1"></i>
+                                                        <i class="fa-solid fa-arrows-rotate me-1"></i>
                                                         Reset Default Password
                                                     </a>
                                                 </li>
@@ -285,7 +285,7 @@
                             </div>
 
                             <button type="submit"
-                                class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                                class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
 
                         </form>
                     </div>

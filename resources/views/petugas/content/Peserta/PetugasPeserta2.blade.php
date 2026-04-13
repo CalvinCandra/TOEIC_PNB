@@ -118,7 +118,7 @@
                                                 <li>
                                                     <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}"
                                                         class="flex items-center w-full px-4 py-2 text-red-400 hover:bg-gray-100 hover:scale-95">
-                                                        <i class="fa-solid fa-paper-plane me-1"></i>
+                                                        <i class="fa-solid fa-arrows-rotate me-1"></i>
                                                         Reset Default Password
                                                     </a>
                                                 </li>
@@ -394,21 +394,19 @@
 
                 <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
 
-                <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete All?</p>
-                <div class="flex justify-center items-center space-x-4">
-                    <form class="modal-form" action="{{ url('/DeleteAllPetugas/Sesione') }}" method="POST">
-                        @csrf
+                <button type="submit"
+                    class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
 
-                        <button data-modal-toggle="DeleteAll" type="button"
-                            class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
-                            Cancel</button>
-                        <input type="submit"
-                            class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-                            value="Yes, I'm Sure!">
-                    </form>
-                </div>
+                <button data-modal-toggle="DeleteAll" type="button"
+                    class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
+                    Cancel</button>
+                <input type="submit"
+                    class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                    value="Yes, I'm Sure!">
+                </form>
             </div>
         </div>
+    </div>
     </div>
     {{-- End Modal Delete All --}}
 

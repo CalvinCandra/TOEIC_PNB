@@ -46,7 +46,7 @@
                 <div class="flex mt-5 justify-between">
                     <!-- Modal toggle -->
                     <button data-modal-target="TambahBankSoal" data-modal-toggle="TambahBankSoal"
-                        class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+                        class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
                         type="button">
                         Create Bank Question
                     </button>
@@ -230,7 +230,7 @@
                         </div>
 
                         <button type="submit"
-                            class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                            class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
                     </form>
                 </div>
             </div>
@@ -315,7 +315,7 @@
                             </div>
 
                             <button type="submit"
-                                class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                                class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
 
                         </form>
                     </div>

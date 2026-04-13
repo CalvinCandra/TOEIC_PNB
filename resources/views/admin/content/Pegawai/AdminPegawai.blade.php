@@ -45,7 +45,7 @@
                 <div class="flex justify-between mt-5">
                     <!-- Modal toggle -->
                     <button data-modal-target="TambahPetugas" data-modal-toggle="TambahPetugas"
-                        class="block text-white bg-sky-800 hover:bg-blue-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+                        class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
                         type="button">
                         Create Staff Data
                     </button>
@@ -165,7 +165,7 @@
                         </div>
 
                         <button id="tambah" type="submit"
-                            class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                            class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
 
                     </form>
                 </div>
@@ -220,7 +220,7 @@
                         </div>
 
                         <button id="update" type="submit"
-                            class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+                            class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
 
                     </form>
                 </div>

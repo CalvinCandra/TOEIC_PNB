@@ -13,10 +13,10 @@
 
         {{-- Desktop Nav Links --}}
         <ul class="hidden md:flex items-center gap-8 list-none m-0 p-0">
-            <li><a href="#home"    class="nav-link text-base font-normal text-slate-600 no-underline hover:text-blue-950 transition-colors">Home</a></li>
-            <li><a href="#about"   class="nav-link text-base font-normal text-slate-600 no-underline hover:text-blue-950 transition-colors">About</a></li>
-            <li><a href="#tutorial" class="nav-link text-base font-normal text-slate-600 no-underline hover:text-blue-950 transition-colors">Tutorial</a></li>
-            <li><a href="#contact" class="nav-link text-base font-normal text-slate-600 no-underline hover:text-blue-950 transition-colors">Contact</a></li>
+            <li><a href="#home"    class="nav-link text-base font-normal text-slate-600 no-underline hover:text-brand transition-colors">Home</a></li>
+            <li><a href="#about"   class="nav-link text-base font-normal text-slate-600 no-underline hover:text-brand transition-colors">About</a></li>
+            <li><a href="#tutorial" class="nav-link text-base font-normal text-slate-600 no-underline hover:text-brand transition-colors">Tutorial</a></li>
+            <li><a href="#contact" class="nav-link text-base font-normal text-slate-600 no-underline hover:text-brand transition-colors">Contact</a></li>
         </ul>
 
         {{-- Auth --}}
@@ -49,7 +49,7 @@
                 </div>
             @else
                 <a href="{{ url('/login') }}"
-                    class="bg-blue-950 hover:bg-blue-900 text-white text-base font-normal px-5 py-2.5 rounded-lg transition-colors no-underline">
+                    class="bg-brand hover:bg-brand-hover text-white text-base font-normal px-5 py-2.5 rounded-lg transition-colors no-underline">
                     Sign In
                 </a>
             @endauth

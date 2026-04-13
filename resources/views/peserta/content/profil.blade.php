@@ -31,7 +31,7 @@
                     <div class="">
                         <label for="name" class="block mb-2 text-sm font-semibold">Participant Name</label>
                         <input type="text" name="name" id="name" value="{{ $peserta->nama_peserta }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand focus:border-brand block w-full p-2.5"
                             required>
                     </div>
                     <div class="">
@@ -44,14 +44,14 @@
                         <label for="nim"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant NIM</label>
                         <input type="text" name="nim" id="nim" value="{{ $peserta->nim }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand focus:border-brand block w-full p-2.5"
                             required>
                     </div>
                     <div>
                         <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Study
                             Program</label>
                         <select id="category" name="jurusan"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand focus:border-brand block w-full p-2.5">
                             <option value="{{ $peserta->jurusan }}" selected hidden>{{ $peserta->jurusan }}</option>
                             <option value="Akutansi">Akutansi</option>
                             <option value="Pariwisata">Pariwisata</option>
@@ -64,7 +64,7 @@
                 </div>
 
                 <button type="submit"
-                    class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+                    class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-brand rounded-lg focus:ring-4 focus:ring-brand/20 hover:bg-brand-hover transition-colors">
                     Update Profile
                 </button>
             </form>
