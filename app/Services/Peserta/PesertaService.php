@@ -6,8 +6,10 @@ use App\Exports\PesertaExport;
 use App\Imports\UserImport;
 use App\Models\Peserta;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -61,65 +63,65 @@ class PesertaService
         }
     }
 
-public function updatePeserta(Request $request): bool
-{
-    Log::info('[PesertaService::updatePeserta] Memulai update peserta', [
-        'id_peserta' => $request->id_peserta,
-    ]);
-
-    $peserta = Peserta::find($request->id_peserta);
-    $user    = $peserta?->user;
-
-    // Validasi NIM selalu dijalankan
-    $rules = [
-        'nim' => 'min:10|max:10',
-    ];
-
-    // Validasi unique email HANYA jika email berubah
-    if ($request->email !== $user?->email) {
-        $rules['email'] = 'email|unique:users,email';
-    }
-
-    $request->validate($rules, [
-        'nim.max'      => 'NIM Must be 10 Numbers',
-        'nim.min'      => 'NIM Must be 10 Numbers',
-        'email.unique' => 'Email already exists',
-    ]);
-
-    DB::beginTransaction();
-    try {
-        Peserta::where('id_peserta', $request->id_peserta)->update([
-            'nama_peserta' => $request->name,
-            'nim'          => $request->nim,
-            'sesi'         => $request->sesi,
-            'status'       => $request->status,
-        ]);
-
-        User::where('id', $user->id)->update([
-            'name'  => $request->name,
-            'email' => $request->email,
-        ]);
-
-        DB::commit();
-
-        Log::info('[PesertaService::updatePeserta] Update peserta berhasil', [
+    public function updatePeserta(Request $request): bool
+    {
+        Log::info('[PesertaService::updatePeserta] Memulai update peserta', [
             'id_peserta' => $request->id_peserta,
         ]);
 
-        return true;
-    } catch (\Throwable $th) {
-        DB::rollBack();
+        $peserta = Peserta::find($request->id_peserta);
+        $user    = $peserta?->user;
 
-        Log::error('[PesertaService::updatePeserta] Update peserta gagal', [
-            'id_peserta' => $request->id_peserta,
-            'error'      => $th->getMessage(),
-            'file'       => $th->getFile(),
-            'line'       => $th->getLine(),
+        // Validasi NIM selalu dijalankan
+        $rules = [
+            'nim' => 'min:10|max:10',
+        ];
+
+        // Validasi unique email HANYA jika email berubah
+        if ($request->email !== $user?->email) {
+            $rules['email'] = 'email|unique:users,email';
+        }
+
+        $request->validate($rules, [
+            'nim.max'      => 'NIM Must be 10 Numbers',
+            'nim.min'      => 'NIM Must be 10 Numbers',
+            'email.unique' => 'Email already exists',
         ]);
 
-        return false;
+        DB::beginTransaction();
+        try {
+            Peserta::where('id_peserta', $request->id_peserta)->update([
+                'nama_peserta' => $request->name,
+                'nim'          => $request->nim,
+                'sesi'         => $request->sesi,
+                'status'       => $request->status,
+            ]);
+
+            User::where('id', $user->id)->update([
+                'name'  => $request->name,
+                'email' => $request->email,
+            ]);
+
+            DB::commit();
+
+            Log::info('[PesertaService::updatePeserta] Update peserta berhasil', [
+                'id_peserta' => $request->id_peserta,
+            ]);
+
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            Log::error('[PesertaService::updatePeserta] Update peserta gagal', [
+                'id_peserta' => $request->id_peserta,
+                'error'      => $th->getMessage(),
+                'file'       => $th->getFile(),
+                'line'       => $th->getLine(),
+            ]);
+
+            return false;
+        }
     }
-}
 
     public function deletePeserta(Request $request): bool
     {
@@ -162,5 +164,18 @@ public function updatePeserta(Request $request): bool
         ]);
 
         return Excel::download(new PesertaExport($sesi), 'Data_Peserta_'.$sesi.'.xlsx');
+    }
+
+    public function resetPasswordPeserta($id_peserta) {
+        $user = Peserta::findOrFail($id_peserta);
+
+        $format_tgl = Carbon::parse($user->tanggal_lahir)->format('dmY');
+
+        User::where('id', $user->id_users)->update([
+            'password' => Hash::make($format_tgl),
+            'is_password_changed' => false,
+        ]);
+
+        return true;
     }
 }

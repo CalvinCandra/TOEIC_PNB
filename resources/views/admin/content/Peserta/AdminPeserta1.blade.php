@@ -116,6 +116,13 @@
                                                     </a>
                                                 </li>
                                                 <li>
+                                                    <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}"
+                                                        class="flex items-center w-full px-4 py-2 text-red-400 hover:bg-gray-100 hover:scale-95">
+                                                        <i class="fa-solid fa-paper-plane me-1"></i>
+                                                        Reset Default Password
+                                                    </a>
+                                                </li>
+                                                <li>
                                                     <button type="button"
                                                         data-modal-target="UpdatePeserta{{ $data->id_peserta }}"
                                                         data-modal-toggle="UpdatePeserta{{ $data->id_peserta }}"

@@ -135,6 +135,15 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    public function ResetPasswordPeserta($id)
+    {
+        $this->pesertaService->resetPasswordPeserta($id)
+            ? toast('Password Peserta Berhasil Direset', 'success')
+            : toast('Gagal Reset Password Peserta', 'error');
+
+        return redirect()->back();
+    }
+
     public function ResetAllStatusPeserta($sesi)
     {
         $this->pesertaService->resetAllStatusPeserta($sesi);

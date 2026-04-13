@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\DisableHistory;
+use App\Http\Middleware\isChangePassword;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -66,6 +68,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'level' => \App\Http\Middleware\Level::class,
-        'DisableHistory' => \App\Http\Middleware\DisableHistory::class,
+        'DisableHistory' => DisableHistory::class,
+        'isChangePassword' => isChangePassword::class,
     ];
 }
