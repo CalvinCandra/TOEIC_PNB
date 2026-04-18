@@ -76,20 +76,32 @@ class PetugasAdminService
     {
         Log::info('[PetugasAdminService::updatePetugas] Memulai update petugas', [
             'id_petugas' => $request->id_petugas,
-            'id_users' => $request->id_users,
         ]);
 
-        $request->validate([
-            'email' => 'required|email|unique:users,email,'.$request->id_users,
+        $petugas = Petugas::find($request->id_petugas);
+        $user    = $petugas?->user;
+
+        // Validasi NIM selalu dijalankan
+        $rules = [
+            'name' => 'required|string|max:255',
+        ];
+
+        // Validasi unique email HANYA jika email berubah
+        if ($request->email !== $user?->email) {
+            $rules['email'] = 'email|unique:users,email';
+        }
+
+        $request->validate($rules, [
+            'email.unique' => 'Email already exists',
         ]);
 
         DB::beginTransaction();
         try {
             Petugas::where('id_petugas', $request->id_petugas)->update([
-                'nama_petugas' => $request->nama_petugas,
+                'nama_petugas' => $request->name,
             ]);
             User::where('id', $request->id_users)->update([
-                'name' => $request->nama_petugas,
+                'name' => $request->name,
                 'email' => $request->email,
             ]);
             DB::commit();
