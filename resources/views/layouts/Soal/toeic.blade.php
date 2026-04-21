@@ -10,42 +10,48 @@
     </script>
 </head>
 
-<body class="min-h-screen flex flex-col bg-[#E0E0E0]">
-    {{-- Animation Loading --}}
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-50 items-center justify-center z-[999] hidden" id="overlay">
-        <div class="text-center">
-            <div role="status">
-                <svg aria-hidden="true" class="inline w-10 h-10 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                </svg>
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
+<body class="bg-[#f8fafc] min-h-screen flex flex-col font-['Poppins'] relative text-slate-800">
+    
+    {{-- Animation Loading (Glass Blur - Sync with Dashboard) --}}
+    <div id="overlay" class="fixed inset-0 z-[999]"
+         style="display:none;background:rgba(15,23,42,0.30);backdrop-filter:blur(3px);align-items:center;justify-content:center;">
+        <svg class="animate-spin" width="45" height="45" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="3" opacity=".25"/>
+            <path d="M4 12a8 8 0 018-8" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        </svg>
     </div>
 
-    <header class="bg-white py-4 shadow w-full lg:hidden">
-        <nav class="flex items-center justify-between px-10">
+    {{-- Top Navigation Bar --}}
+    <header class="bg-white border-b border-gray-200 px-4 md:px-6 py-2.5 sticky top-0 z-50 shadow-sm">
+        <nav class="max-w-5xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="{{asset('img/logo unit.png')}}" alt="Logo PNB" class="h-8 md:h-9">
+                <div class="hidden sm:flex flex-col leading-tight">
+                    <span class="text-[13px] font-bold text-slate-800 tracking-wide">TOEIC Assessment</span>
+                    <span class="text-[10px] text-slate-500">Politeknik Negeri Bali</span>
+                </div>
+            </div>
+            
             <div class="flex items-center">
                 @yield('timer')
             </div>
         </nav>
     </header>
 
-    <div class="flex px-3 py-4 mt-3">
-        <aside class="lg:w-[30%] bg-white p-4 mr-1 rounded overflow-y-auto justify-center hidden lg:block sticky top-2 h-52">
-            <!-- Sidebar content -->
-            @yield('sidebar')
-        </aside>
+    {{-- Main Content Area --}}
+    <main class="flex-1 max-w-5xl mx-auto w-full p-4 md:p-6 relative">
+        @yield('content')
+    </main>
 
-        <main class="w-full lg:w-[70%] bg-white p-4 ml-1 rounded">
-            <!-- Main content goes here -->
-            @yield('content')
-        </main>
+    {{-- Global Image Lightbox Modal --}}
+    <div id="image-modal" class="fixed inset-0 z-[1000] hidden bg-slate-900/90 backdrop-blur-sm cursor-zoom-out items-center justify-center p-4">
+        <img id="modal-img" src="" alt="Zoomed Image" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl transition-transform duration-300">
+        <button id="close-modal" class="absolute top-4 right-4 md:top-6 md:right-6 text-white bg-slate-800/50 hover:bg-slate-700 rounded-full w-10 h-10 flex items-center justify-center transition-colors">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
     </div>
 
-
-    {{-- matiin fungsi back pada browser --}}
+    {{-- Mencegah navigasi back pada browser --}}
     <script>
         history.replaceState(null, null, document.URL);
         window.addEventListener('popstate', function() {
@@ -53,26 +59,57 @@
         });
     </script>
 
-    {{-- atur animasi loading --}}
+    {{-- Script Interaktivitas (Loading & Lightbox) --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const forms = document.querySelectorAll('.modal-form');
+            // --- Loading Overlay ---
+            const forms = document.querySelectorAll('form');
             const overlay = document.getElementById('overlay');
     
-            // Menampilkan overlay saat pengguna meninggalkan halaman
-            window.addEventListener('beforeunload', function(event) {
-                overlay.classList.remove('hidden');
-                overlay.classList.add('flex');
+            forms.forEach(form => {
+                form.addEventListener('submit', function() {
+                    overlay.style.display = 'flex';
+                });
             });
     
-            // Menyembunyikan overlay setelah halaman sepenuhnya dimuat
-            window.addEventListener('load', function(event) {
-                overlay.classList.remove('flex');
-                overlay.classList.add('hidden');
+            window.addEventListener('load', function() {
+                overlay.style.display = 'none';
+            });
+
+            window.addEventListener('pageshow', (event) => {
+                if (event.persisted) { overlay.style.display = 'none'; }
+            });
+
+            // --- Image Lightbox Modal ---
+            const imageModal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            const clickableImages = document.querySelectorAll('.zoomable-image');
+
+            clickableImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    modalImg.src = this.src;
+                    imageModal.classList.remove('hidden');
+                    imageModal.classList.add('flex');
+                    document.body.style.overflow = 'hidden'; // prevent background scrolling
+                });
+            });
+
+            // Close modal by clicking anywhere or pressing Esc
+            const closeModal = () => {
+                imageModal.classList.add('hidden');
+                imageModal.classList.remove('flex');
+                document.body.style.overflow = '';
+            };
+
+            imageModal.addEventListener('click', closeModal);
+            
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && !imageModal.classList.contains('hidden')) {
+                    closeModal();
+                }
             });
         });
     </script>
 
 </body>
-
 </html>

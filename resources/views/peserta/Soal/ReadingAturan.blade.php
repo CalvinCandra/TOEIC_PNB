@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CDN Tailwind -->
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     @vite('resources/css/app.css')
 
-    <!-- CDN Fontawsome -->
+    <!-- CDN Fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- favicon --}}
     <link rel="shortcut icon" href="{{asset('img/logo unit.png')}}" type="image/x-icon">
 
-    {{-- goole font --}}
+    {{-- google font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -22,68 +20,91 @@
         window.history.forward(1);
     </script>
 
-    <title>Reading</title>
+    <title>Reading - Rules & Directions</title>
 </head>
 
-<body style="font-family: 'Poppins'" class="bg-gray-100 relative">
+<body style="font-family: 'Poppins'" class="bg-[#f1f5f9] h-screen overflow-hidden flex flex-col relative">
 
-    <header class="bg-white py-4 shadow w-full">
-        <nav class="flex items-center justify-between px-10">
-            <div class="flex justify-between items-center">
-                <img src="{{asset('img/logo unit.png')}}" alt="Logo PNB" class="max-h-10 pe-2">
-                <h1 class="font-bold text-xl">TOEIC</h1>
+    {{-- Top Navbar --}}
+    <header class="bg-white border-b border-gray-200 hidden md:block px-6 py-3 sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="{{asset('img/logo unit.png')}}" alt="Logo PNB" class="h-9">
+                <div class="flex flex-col leading-tight">
+                    <span class="text-sm font-bold text-slate-800 tracking-wide">TOEIC Assessment</span>
+                    <span class="text-[11px] text-slate-500">Politeknik Negeri Bali</span>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <span class="bg-blue-50 text-blue-700 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i> Reading Section
+                </span>
             </div>
         </nav>
     </header>
 
-    <div class="h-full flex justify-center items-center">
-    <div class="bg-white m-4 py-5 px-8 h-full w-full rounded-lg overflow-y-auto">
-        <h1 class="font-bold text-xl">Reading Test - Direction</h1>
+    {{-- Main Content --}}
+    <main class="flex-1 min-h-0 max-w-5xl mx-auto w-full p-4 md:py-6 md:px-8 flex flex-col">
+        
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col flex-1 min-h-0 overflow-hidden">
+            
+            {{-- Header --}}
+            <div class="bg-slate-50 border-b border-slate-100 p-5 md:p-6 flex items-center gap-4 shrink-0">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-lg md:text-xl shadow-inner">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-xl md:text-2xl text-slate-800">Reading Test - Direction</h1>
+                    <p class="text-slate-500 text-xs md:text-sm mt-1">Please read the following instructions carefully before proceeding.</p>
+                </div>
+            </div>
 
-        <div class="bg-gray-100 h-[32rem] m-4 md:m-6 overflow-y-auto px-5 py-6"> 
-            <ol class="space-y-5 text-black list-decimal list-inside text-justify">
-                <li>
-                    <span class="font-bold">No Cheating:</span> Any form of cheating, such as attempting to with other test takers, using unauthorized materials, or copying answers, will result in immediate disqualification.
-                </li>
+            {{-- Rules List --}}
+            <div class="p-5 md:p-8 bg-white flex-1 overflow-y-auto custom-scrollbar"> 
+                <ol class="space-y-4 md:space-y-5 text-slate-600 list-decimal list-outside ml-5 text-[13px] md:text-[14px] leading-relaxed text-justify marker:font-bold marker:text-blue-500">
+                    <li>
+                        <span class="font-bold text-slate-800">No Cheating:</span> Any form of cheating, such as attempting to with other test takers, using unauthorized materials, or copying answers, will result in immediate disqualification.
+                    </li>
+                    <li>
+                        <span class="font-bold text-slate-800">Follow Instructions:</span> Test takers must carefully listen to and follow all instructions provided by the test administrator. Failure to do so may result in penalties or disqualification.
+                    </li>
+                    <li>
+                        <span class="font-bold text-slate-800">No Writing During Reading:</span> Writing or marking on any materials during the Reading section is strictly prohibited as the time is also limited. Answers should be recorded only during designated answer periods.
+                    </li>
+                    <li>
+                        <span class="font-bold text-slate-800">Total Reading Questions:</span> On the Reading test, there are 100 questions that you must answer. The question type is multiple choice.
+                    </li>
+                    <li>
+                        <span class="font-bold text-slate-800">Total Times Reading:</span> In the Reading test, the total time given to complete this test is 75 minutes.
+                    </li>
+                    <li>
+                        <span class="font-bold text-slate-800">Complete the Test Independently:</span> Each test taker is expected to complete the test independently. Collaboration or sharing of answers is not permitted.
+                    </li>
+                    <li>
+                        <span class="font-bold text-slate-800">Stay until the End:</span> Test takers must remain seated until the completion of the entire test.
+                    </li>
+                    <li>
+                        <span class="font-bold text-slate-800">No Test Retake:</span> The test can ONLY be done once and there will be no chance to resit the test. Failure to maintain good internet connection or time management will not be tolerated.
+                    </li>
+                </ol>
+            </div>
 
-                <li>
-                    <span class="font-bold">Follow Instructions:</span> Test takers must carefully listen to and follow all instructions provided by the test administrator. Failure to do so may result in penalties or disqualification.
-                </li>
-
-                <li>
-                    <span class="font-bold">No Writing During Reading:</span> Writing or marking on any materials during the Reading section is strictly prohibited as the time is also limited. Answers should be recorded only during designated answer periods.
-                </li>
-
-                <li>
-                    <span class="font-bold">Total Reading Questions:</span> On the Reading test, there are 100 questions that you must answer. The question type is multiple choice.
-                </li>
-
-                <li>
-                    <span class="font-bold">Total Times Reading:</span> In the Reading test, the total time given to complete this test is 75 minutes.
-                </li>
-
-                <li>
-                    <span class="font-bold">Complete the Test Independently:</span> Each test taker is expected to complete the test independently. Collaboration or sharing of answers is not permitted.
-                </li>
-
-                <li>
-                    <span class="font-bold">Stay until the End:</span> Test takers must remain seated until the completion of the entire test.
-                </li>
-
-                <li>
-                    <span class="font-bold">No Test Retake:</span> The test can ONLY be done once and there will be no chance to resit the test. Failure to maintain good internet connection or time management will not be tolerated.
-                </li>
-            </ol>
+            {{-- Footer Action --}}
+            <div class="bg-slate-50 border-t border-slate-100 p-5 md:p-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4 shrink-0">
+                <div class="flex items-center gap-3 text-amber-700 bg-amber-50 px-4 py-3 rounded-xl border border-amber-100 flex-1 md:max-w-md">
+                    <i class="fa-solid fa-clock text-amber-500 text-lg"></i>
+                    <p class="text-xs font-medium leading-relaxed"><span class="font-bold">Important Note:</span> The countdown timer starts immediately.</p>
+                </div>
+                
+                <button id="startQuizButton" type="button" class="flex justify-center items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm px-8 py-3.5 transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-blue-600/20 active:scale-95 w-full md:w-auto">
+                    Start Reading Test <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
 
-        <div class="flex-warp md:flex md:justify-between md:items-center">
-            <p class="my-4 md:my-0"><span class="font-bold">Note :</span> Timer start when you start the test</p>
-            <button id="startQuizButton" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Start Reading Test</button>
-        </div>
-    </div>
-</div>
+    </main>
     
-    {{-- matiin fungsi back pada browser --}}
+    {{-- Mencegah navigasi back pada browser --}}
     <script>
         history.replaceState(null, null, document.URL);
         window.addEventListener('popstate', function() {
@@ -91,29 +112,26 @@
         });
     </script>
 
-    {{-- redirect ke halaman Readingtest --}}
+    {{-- Script Pindah ke Halaman Test --}}
     <script>
-        function startQuiz(){
+        document.getElementById("startQuizButton").addEventListener("click", function() {
+            // Animasi loading pada tombol
+            this.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-lg"></i> Preparing test...';
+            this.disabled = true;
+            this.classList.add('opacity-80', 'cursor-not-allowed');
+
             const now = Date.now();
             // Simpan waktu mulai di localStorage
-            localStorage.setItem("quizStartTime", Date.now().toString());
+            localStorage.setItem("quizStartTime", now.toString());
             // Hentikan countdown sebelumnya (jika ada)
-            if (typeof x != 'undefined') {
-                clearInterval(x);
+            if (typeof window.x !== 'undefined') {
+                clearInterval(window.x);
             }
 
-            // URL tujuan
-            const targetUrl = "{{url('/SoalReading')}}"; // Ubah URL sesuai dengan yang dibutuhkan
-
-            // Arahkan browser ke URL tersebut
-            // window.location.href = targetUrl;
-            window.location.replace(targetUrl);
-        }
-
-         // Tambahkan event listener ke tombol dengan id "startQuizButton"
-         document.getElementById("startQuizButton").addEventListener("click", startQuiz);
+            // Redirect
+            window.location.replace("{{url('/SoalReading')}}");
+        });
     </script>
 
 </body>
-
 </html>
