@@ -1,24 +1,14 @@
 @extends('layouts.Soal.toeic')
 
-@section('title')
-TOEIC Test
-@endsection
+@section('title', 'Reading Test - TOEIC')
 
 @section('timer')
-<div class="mr-3 text-blue-500">
-    Reading
-</div>
-
-<span id="countdown-nav" class="bg-[#023047] p-2 rounded-lg text-white">Timer</span>
-@endsection
-
-@section('sidebar')
-<h1 class="text-center text-5xl font-bold px-5 mb-9 text-blue-500">
-    Reading
-</h1>
-
-<div class="flex justify-center">
-    <span id="countdown-sid" class="bg-[#023047] p-2 rounded-lg text-white text-4xl">Timer</span>
+<div class="flex items-center gap-3">
+    <div class="hidden sm:block text-slate-500 font-medium text-xs"><i class="fa-solid fa-book-open mr-1 text-slate-400"></i> Reading</div>
+    <div class="bg-indigo-600 text-white font-mono font-bold tracking-widest px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-2 tabular-nums text-sm">
+        <i class="fa-regular fa-clock opacity-80"></i>
+        <span id="countdown-nav">--:--:--</span>
+    </div>
 </div>
 @endsection
 
@@ -26,138 +16,180 @@ TOEIC Test
 
 @section('content')
 
-<form action="{{url('/ProsesJawabReading')}}" method="POST" id="toeic_form">
+<form action="{{url('/ProsesJawabReading')}}" method="POST" id="toeic_form" class="space-y-6">
     @csrf
     <!-- Save id part -->
-    <div class="">
-        <input type="hidden" name="id_part" value="{{ $part->id_part}}">
-    </div>
+    <input type="hidden" name="id_part" value="{{ $part->id_part}}">
 
-    <!-- Part disini (include gambar/audio) -->
-    <div class="border rounded-xl relative z-30 text-justify block" id="petunjuk">
-        {{-- judul --}}
-        <h1 class="text-xl font-bold mb-5 bg-[#D7E1FB] p-3 rounded-t-lg border-b">
-            {{$part->part}} Reading - Question <span id="currentQuestion">{{$part->dari_nomor}} to
-                {{$part->sampai_nomor}}</span>
-        </h1>
-
-        {{-- petunjuk --}}
-        <div class="px-2 pb-2">
-            <p class="">{!! $part->petunjuk !!}</p>
+    <!-- Part Direction Container -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden" id="petunjuk">
+        {{-- header --}}
+        <div class="bg-slate-50 border-b border-slate-200 p-4 flex items-center justify-between">
+            <h1 class="text-[15px] font-bold text-slate-800 flex items-center gap-2">
+                <span class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-md shadow-inner text-xs uppercase tracking-wider">{{$part->part}} Reading</span>
+                Question {{$part->dari_nomor}} - {{$part->sampai_nomor}}
+            </h1>
         </div>
 
-        {{-- gambar atau audio --}}
-        <div class="mx-2 mb-2">
-            @if (!empty($part->id_gambar))
-            <img src="{{asset('storage/gambar/'.$part->gambar->gambar)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
-            @endif
-        </div>
-        <div class="mx-2 mb-2">
-            @if (!empty($part->id_gambar_1))
-            <img src="{{asset('storage/gambar/'.$part->gambar->gambar1)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
-            @endif
-        </div>
-        <div class="mx-2 mb-2">
-            @if (!empty($part->id_gambar_2))
-            <img src="{{asset('storage/gambar/'.$part->gambar->gambar2)}}" alt="gambar soal" class="max-h-96 pb-2 mt-3">
-            @endif
+        {{-- direction content --}}
+        <div class="p-5 md:p-6">
+            <div class="prose max-w-none text-slate-600 text-[14px] leading-relaxed mb-4">
+                <p>{!! $part->petunjuk !!}</p>
+            </div>
+
+            {{-- media --}}
+            <div class="flex flex-col gap-3">
+                @if (!empty($part->id_gambar))
+                <div class="border border-slate-100 rounded-xl p-2 bg-slate-50 self-start cursor-zoom-in group relative">
+                    <img src="{{asset('storage/gambar/'.$part->gambar->gambar)}}" alt="gambar soal" class="zoomable-image max-h-64 object-contain rounded-lg">
+                    <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass-plus text-slate-700 bg-white/80 p-2 rounded-full shadow-sm"></i>
+                    </div>
+                </div>
+                @endif
+                @if (!empty($part->id_gambar_1))
+                <div class="border border-slate-100 rounded-xl p-2 bg-slate-50 self-start cursor-zoom-in group relative">
+                    <img src="{{asset('storage/gambar/'.$part->gambar->gambar1)}}" alt="gambar soal" class="zoomable-image max-h-64 object-contain rounded-lg">
+                    <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass-plus text-slate-700 bg-white/80 p-2 rounded-full shadow-sm"></i>
+                    </div>
+                </div>
+                @endif
+                @if (!empty($part->id_gambar_2))
+                <div class="border border-slate-100 rounded-xl p-2 bg-slate-50 self-start cursor-zoom-in group relative">
+                    <img src="{{asset('storage/gambar/'.$part->gambar->gambar2)}}" alt="gambar soal" class="zoomable-image max-h-64 object-contain rounded-lg">
+                    <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass-plus text-slate-700 bg-white/80 p-2 rounded-full shadow-sm"></i>
+                    </div>
+                </div>
+                @endif
+            </div>
         </div>
     </div>
 
     {{-- Multi Question --}}
     @if (!$part->multi_soal == NULL)
-    <div class="border-2 relative z-30 text-justify block mt-5" id="multi">
-        {{-- judul --}}
-        <h1 class="text-md font-bold mb-5 p-3 border-b">
-            Multiple Question Number <span id="currentQuestion">{{$part->dari_nomor}} to {{$part->sampai_nomor}}</span>
+    <div class="bg-amber-50/50 rounded-2xl border border-amber-200 p-5 shadow-sm" id="multi">
+        <h1 class="text-xs font-bold text-amber-800 uppercase tracking-widest mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-layer-group"></i> Multiple Questions: <span class="text-amber-600">{{$part->dari_nomor}} to {{$part->sampai_nomor}}</span>
         </h1>
-
-        {{-- multiSoal --}}
-        <div class="px-2 pb-2">
-            <p class="">{!! $part->multi_soal !!}</p>
+        <div class="prose max-w-none text-amber-900 text-[14px] leading-relaxed">
+            <p>{!! $part->multi_soal !!}</p>
         </div>
     </div>
     @endif
 
-    <div class="block" id="soal">
+    <div class="space-y-4" id="soal">
         @foreach ($soalReading as $data)
-        <div class="border rounded-lg relative z-30 text-justify mt-10 mb-5">
-            <!-- Save id soal -->
-            <div class="">
-                <input type="hidden" name="id_soal[]" value="{{ $data->id_soal }}">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative">
+            <input type="hidden" name="id_soal[]" value="{{ $data->id_soal }}">
+
+            <div class="p-5 md:p-6">
+                
+                {{-- passage text --}}
+                @if(!empty($data->text))
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 md:p-5 mb-5 prose max-w-none prose-slate text-slate-800 leading-loose text-[14px]">
+                    {!! $data->text !!}
+                </div>
+                @endif
+
+                <div class="flex flex-col gap-5">
+                    
+                    {{-- Media Content --}}
+                    <div class="w-full flex flex-col gap-3">
+                        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2 mb-1">
+                            <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center shadow-inner">{{$data->nomor_soal}}</div>
+                            Question
+                        </h2>
+
+                        @if (!empty($data->id_audio))
+                            @if (!$audioPlayed)
+                            <div class="bg-slate-50 rounded-xl p-2 border border-slate-100 sm:w-max">
+                                <audio id="audio" controls controlsList="nodownload" class="max-w-full h-8 w-full">
+                                    <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3">
+                                </audio>
+                            </div>
+                            @else
+                            <p class="text-[11px] text-slate-500 italic px-2"><i class="fa-solid fa-circle-info"></i> Audio has already played</p>
+                            @endif
+                        @else
+                            {{-- Line separator only if no text above, otherwise it's clean enough --}}
+                            @if(empty($data->text))<div class="w-full h-px bg-slate-100"></div>@endif
+                        @endif
+
+                        @if (!empty($data->id_gambar))
+                        <div class="border border-slate-100 rounded-xl p-1.5 bg-slate-50 cursor-zoom-in group relative self-start">
+                            <img src="{{asset('storage/gambar/'.$data->gambar->gambar)}}" alt="question image" class="zoomable-image max-h-64 object-contain rounded-lg w-full">
+                            <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
+                                <i class="fa-solid fa-magnifying-glass-plus text-slate-700 bg-white/80 p-2 rounded-full shadow-sm"></i>
+                            </div>
+                        </div>
+                        @endif
+                        @if (!empty($data->id_gambar_1))
+                        <div class="border border-slate-100 rounded-xl p-1.5 bg-slate-50 cursor-zoom-in group relative self-start">
+                            <img src="{{asset('storage/gambar/'.$data->gambar1->gambar)}}" alt="question image" class="zoomable-image max-h-64 object-contain rounded-lg w-full">
+                            <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
+                                <i class="fa-solid fa-magnifying-glass-plus text-slate-700 bg-white/80 p-2 rounded-full shadow-sm"></i>
+                            </div>
+                        </div>
+                        @endif
+                        @if (!empty($data->id_gambar_2))
+                        <div class="border border-slate-100 rounded-xl p-1.5 bg-slate-50 cursor-zoom-in group relative self-start">
+                            <img src="{{asset('storage/gambar/'.$data->gambar2->gambar)}}" alt="question image" class="zoomable-image max-h-64 object-contain rounded-lg w-full">
+                            <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
+                                <i class="fa-solid fa-magnifying-glass-plus text-slate-700 bg-white/80 p-2 rounded-full shadow-sm"></i>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+
+                    {{-- Question & Options Area --}}
+                    <div class="flex-1">
+                        @if(!empty($data->soal))
+                        <div class="text-slate-800 font-medium text-[15px] leading-relaxed mb-4 p-3 bg-slate-50 rounded-xl border border-slate-100">{{$data->soal}}</div>
+                        @endif
+
+                        {{-- Options --}}
+                        <div class="space-y-2">
+                            @foreach (['a', 'b', 'c', 'd'] as $opt)
+                                @php $jawabanKey = 'jawaban_' . $opt; @endphp
+                                @if (!is_null($data->$jawabanKey))
+                                <label for="option{{ strtoupper($opt) }}_{{ $data->id_soal }}" 
+                                       class="flex items-center p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-blue-50/50 hover:border-blue-300 transition-colors group has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500 relative">
+                                    <div class="flex items-center h-5 mr-3 shrink-0">
+                                        <input type="radio" 
+                                               id="option{{ strtoupper($opt) }}_{{ $data->id_soal }}" 
+                                               name="jawaban[{{ $data->id_soal }}]" 
+                                               value="{{ strtoupper($opt) }}" 
+                                               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 cursor-pointer">
+                                    </div>
+                                    <div class="text-slate-700 text-[14px] group-hover:text-slate-900 group-has-[:checked]:font-semibold select-none leading-snug w-full">
+                                        {{ $data->$jawabanKey }}
+                                    </div>
+                                </label>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+
+                </div>
             </div>
-
-            {{-- judul --}}
-            <h1 class="text-md font-bold mb-5 bg-[#F3F3F3] p-3 rounded-t-lg border-b">
-                Reading - Question <span id="currentQuestion">{{$data->nomor_soal}}</span>
-            </h1>
-
-            {{-- paragraf --}}
-            <div class="px-2 pb-2">
-                <p class="mb-3 mt-3">{!! $data->text !!}</p>
-            </div>
-
-            {{-- gambar atau audio --}}
-            <div class="mx-4 mb-3">
-                @if (!empty($data->id_audio))
-                @if (!$audioPlayed)
-                <audio id="audio" controls>
-                    <source src="{{asset('storage/audio/'.$data->audio->audio)}}" type="audio/mp3"
-                        class="bg-[#023047] text-white">
-                    Your browser does not support the audio element.
-                </audio>
-                @else
-                <p>Audio has already played</p>
-                @endif
-                @endif
-
-                @if (!empty($data->id_gambar))
-                <img src="{{asset('storage/gambar/'.$data->gambar->gambar)}}" alt="gambar soal"
-                    class="max-h-96 pb-2 mt-3">
-                @endif
-                @if (!empty($data->id_gambar_1))
-                <img src="{{asset('storage/gambar/'.$data->gambar1->gambar)}}" alt="gambar soal"
-                    class="max-h-96 pb-2 mt-3">
-                @endif
-                @if (!empty($data->id_gambar_2))
-                <img src="{{asset('storage/gambar/'.$data->gambar2->gambar)}}" alt="gambar soal"
-                    class="max-h-96 pb-2 mt-3">
-                @endif
-            </div>
-
-            {{-- soal --}}
-            <p class="mx-4 mb-3 bg-[#F3F3F3] mt-5">{{$data->soal}}</p>
-
-            {{-- jawaban --}}
-            <div class="my-2 mx-4">
-                <input type="radio" id="optiona" name="jawaban[{{ $data->id_soal }}]" value="A" class="w-5 h-5 pb-2">
-                <label for="option1">{{$data->jawaban_a}}</label><br>
-
-                <input type="radio" id="optionb" name="jawaban[{{ $data->id_soal }}]" value="B" class="w-5 h-5 pb-2">
-                <label for="option2">{{$data->jawaban_b}}</label><br>
-
-                <input type="radio" id="optionc" name="jawaban[{{ $data->id_soal }}]" value="C" class="w-5 h-5 pb-2">
-                <label for="option3">{{$data->jawaban_c}}</label><br>
-
-                <input type="radio" id="optiond" name="jawaban[{{ $data->id_soal }}]" value="D" class="w-5 h-5 pb-2">
-                <label for="option4">{{$data->jawaban_d}}</label><br>
-            </div>
-
         </div>
         @endforeach
     </div>
 
-    <div class="block" id="button">
-        @if ($part->tanda < count($GetAllPart)) <div class="flex justify-end items-end">
+    <div class="pt-4 border-t border-slate-200 flex justify-end pb-8">
+        @if ($part->tanda < count($GetAllPart)) 
             <button type="submit" name="tombol" value="next" id="nextButton"
-                class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white bottom-8">Next</button>
-    </div>
-    @else
-    <div class="flex justify-end items-end">
-        <button type="submit" name="tombol" value="Submit" id="submitButton"
-            class="bg-[#0066FF] rounded px-10 py-3  hover:bg-gradient-to-br from-blue-700 to-blue-800 text-white bottom-8">Submit</button>
-    </div>
-    @endif
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl px-8 py-3.5 transition-all shadow-md active:scale-95 flex items-center gap-2 w-full sm:w-auto justify-center">
+                Next Section <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        @else
+            <button type="submit" name="tombol" value="Submit" id="submitButton"
+                    class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl px-8 py-3.5 transition-all shadow-md active:scale-95 flex items-center gap-2 w-full sm:w-auto justify-center">
+                Submit Answers <i class="fa-solid fa-check"></i>
+            </button>
+        @endif
     </div>
 </form>
 
@@ -189,17 +221,24 @@ TOEIC Test
         const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-        document.getElementById("countdown-nav").innerHTML = `${hours} h : ${minutes} m : ${seconds} s`;
-        document.getElementById("countdown-sid").innerHTML = `${hours} h : ${minutes} m : ${seconds} s`;
+        // Format angka 0 di depan jika di bawah 10
+        const formatTime = (time) => String(time).padStart(2, '0');
+
+        const navTimer = document.getElementById("countdown-nav");
+        if(navTimer) {
+            if (remainingTime < 0) {
+                navTimer.innerHTML = "Time Out";
+            } else {
+                navTimer.innerHTML = `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+            }
+        }
 
         if (remainingTime < 0 && !formSubmitted) {
             formSubmitted = true;
             clearInterval(window.x);
-            document.getElementById("countdown-nav").innerHTML = "Time Out";
-            document.getElementById("countdown-sid").innerHTML = "Time Out";
             form.submit();
         }
-    }, 100);
+    }, 500);
 </script>
 
 <script>
@@ -213,8 +252,10 @@ TOEIC Test
             formSubmitted = true;
             clearInterval(checkAccessTime);
             clearInterval(window.x);
-            document.getElementById("countdown-nav").innerHTML = "Time Out";
-            document.getElementById("countdown-sid").innerHTML = "Time Out";
+            
+            const navTimer = document.getElementById("countdown-nav");
+            if(navTimer) navTimer.innerHTML = "Time Out";
+            
             formm.submit();
         }
     }, 1000);
