@@ -67,8 +67,8 @@
 
                             {{-- Category / Jurusan --}}
                             <div class="md:col-span-2 relative">
-                                <label class="block mb-2 text-sm font-semibold text-gray-800">Study Program</label>
-                                
+                                <label class="block mb-2 text-sm font-semibold text-gray-800">Major</label>
+
                                 {{-- Hidden Native Select for Form Submission --}}
                                 <select id="real-jurusan-select" name="jurusan" class="hidden">
                                     <option value="{{ $peserta->jurusan }}" selected>{{ $peserta->jurusan }}</option>
@@ -83,21 +83,25 @@
 
                                 {{-- Custom Dropdown UI --}}
                                 <div class="relative w-full text-left" id="custom-dropdown-wrapper">
-                                    <button type="button" id="custom-dropdown-btn" 
-                                            class="flex justify-between items-center bg-slate-50 border border-slate-200 text-gray-900 text-sm rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-500 w-full p-3.5 transition-all duration-300 cursor-pointer shadow-sm">
-                                        <span id="custom-dropdown-text" class="font-medium truncate">{{ $peserta->jurusan }}</span>
-                                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300" id="custom-dropdown-arrow"></i>
+                                    <button type="button" id="custom-dropdown-btn"
+                                        class="flex justify-between items-center bg-slate-50 border border-slate-200 text-gray-900 text-sm rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-blue-500 w-full p-3.5 transition-all duration-300 cursor-pointer shadow-sm">
+                                        <span id="custom-dropdown-text"
+                                            class="font-medium truncate">{{ $peserta->jurusan }}</span>
+                                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"
+                                            id="custom-dropdown-arrow"></i>
                                     </button>
 
                                     <!-- Dropdown Menu -->
-                                    <div id="custom-dropdown-menu" 
-                                         class="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible translate-y-1 transition-all duration-200 pointer-events-none transform origin-top-right overflow-hidden">
+                                    <div id="custom-dropdown-menu"
+                                        class="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible translate-y-1 transition-all duration-200 pointer-events-none transform origin-top-right overflow-hidden">
                                         <ul class="py-1 text-sm text-gray-700 max-h-60 overflow-y-auto">
-                                            @foreach(['Akutansi' => 'Akuntansi', 'Pariwisata' => 'Pariwisata', 'Teknik Sipil' => 'Teknik Sipil', 'Teknik Mesin' => 'Teknik Mesin', 'Teknik Elektro' => 'Teknik Elektro', 'Teknologi Informasi' => 'Teknologi Informasi'] as $val => $label)
+                                            @foreach (['Akutansi' => 'Akuntansi', 'Pariwisata' => 'Pariwisata', 'Teknik Sipil' => 'Teknik Sipil', 'Teknik Mesin' => 'Teknik Mesin', 'Teknik Elektro' => 'Teknik Elektro', 'Teknologi Informasi' => 'Teknologi Informasi'] as $val => $label)
                                                 <li>
-                                                    <button type="button" class="w-full text-left px-5 py-3 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium text-slate-600 flex items-center gap-2 custom-opt-btn"
-                                                            data-value="{{ $val }}" data-label="{{ $label }}">
-                                                        <span class="w-1.5 h-1.5 rounded-full {{ $peserta->jurusan == $val ? 'bg-blue-500' : 'bg-transparent' }} opt-indicator"></span>
+                                                    <button type="button"
+                                                        class="w-full text-left px-5 py-3 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium text-slate-600 flex items-center gap-2 custom-opt-btn"
+                                                        data-value="{{ $val }}" data-label="{{ $label }}">
+                                                        <span
+                                                            class="w-1.5 h-1.5 rounded-full {{ $peserta->jurusan == $val ? 'bg-blue-500' : 'bg-transparent' }} opt-indicator"></span>
                                                         {{ $label }}
                                                     </button>
                                                 </li>
@@ -136,7 +140,8 @@
                     <i class="fa-solid fa-floppy-disk text-blue-600 text-xl"></i>
                 </div>
                 <h3 class="mb-2 text-lg font-bold text-gray-900">Save Changes?</h3>
-                <p class="mb-6 text-sm text-gray-500">Are you sure you want to save the new profile data? This information will be used for your official records.</p>
+                <p class="mb-6 text-sm text-gray-500">Are you sure you want to save the new profile data? This information
+                    will be used for your official records.</p>
                 <div class="flex justify-center gap-3">
                     <button onclick="closeConfirmModal()" type="button"
                         class="w-full py-2.5 text-sm font-semibold text-gray-700 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
@@ -195,16 +200,18 @@
                 optBtn.addEventListener('click', (e) => {
                     const val = optBtn.getAttribute('data-value');
                     const label = optBtn.getAttribute('data-label');
-                    
+
                     // Update Text
                     text.textContent = label;
-                    
+
                     // Update Real Select Form Value
                     realSelect.value = val;
-                    
+
                     // Update Indicators dots
-                    document.querySelectorAll('.opt-indicator').forEach(ind => ind.classList.remove('bg-blue-500'));
-                    document.querySelectorAll('.opt-indicator').forEach(ind => ind.classList.add('bg-transparent'));
+                    document.querySelectorAll('.opt-indicator').forEach(ind => ind.classList.remove(
+                        'bg-blue-500'));
+                    document.querySelectorAll('.opt-indicator').forEach(ind => ind.classList.add(
+                        'bg-transparent'));
                     optBtn.querySelector('.opt-indicator').classList.add('bg-blue-500');
                     optBtn.querySelector('.opt-indicator').classList.remove('bg-transparent');
 
@@ -220,7 +227,7 @@
 
         window.openConfirmModal = () => {
             // Validasi html form bawaan jika diperlukan, kalau fail jangan buka
-            if(!profilForm.reportValidity()) return;
+            if (!profilForm.reportValidity()) return;
 
             confirmModal.classList.remove('pointer-events-none');
             requestAnimationFrame(() => {
@@ -240,8 +247,8 @@
         window.submitProfilForm = () => {
             // Tampilkan loading overlay jika ada sebelum submit (opsional)
             const overlay = document.getElementById('overlay');
-            if(overlay) overlay.style.display = 'flex';
-            
+            if (overlay) overlay.style.display = 'flex';
+
             closeConfirmModal();
             profilForm.submit();
         };

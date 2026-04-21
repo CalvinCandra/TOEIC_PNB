@@ -31,7 +31,7 @@
                 </div>
                 <div class="hidden md:flex flex-col text-left mr-1">
                     <span class="text-xs font-bold text-slate-700 leading-tight">{{ auth()->user()->name }}</span>
-                    <span class="text-[10px] text-slate-500 capitalize leading-tight">{{ auth()->user()->level }}</span>
+                    <span class="text-[10px] text-slate-500 capitalize leading-tight">{{ auth()->user()->level == 'peserta' ? 'Participant' : (auth()->user()->level == 'petugas' ? 'Staff' : 'Admin') }}</span>
                 </div>
                 <i id="navbar-user-chevron"
                     class="fa-solid fa-chevron-down text-xs text-gray-400 hidden md:block transition-transform duration-200"></i>
