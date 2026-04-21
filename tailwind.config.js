@@ -13,15 +13,15 @@ module.exports = {
                 Poppins: ['Poppins', 'sans-serif'],
             },
             colors: {
-                // ── Brand Color System ──────────────────────────────
-                // Ganti nilai di sini untuk mengubah warna seluruh aplikasi
+                // ── Brand Color System (Pure Blue) ─────────────────
                 brand: {
-                    DEFAULT:      '#1e3a8a', // blue-950 — tombol, panel, hero
-                    hover:        '#1e40af', // blue-900 — hover tombol
-                    light:        '#eff6ff', // blue-50  — bg badge, active sidebar
-                    muted:        '#bfdbfe', // blue-200 — teks terang di atas brand
-                    accent:       '#f97316', // orange-500 — CTA sekunder (Start Now)
-                    'accent-hover': '#ea580c', // orange-600 — hover CTA
+                    DEFAULT:      '#0c1f3f', // deep navy   — hero, footer, dark panels
+                    card:         '#132952', // navy card   — card bg on dark section
+                    light:        '#eff6ff', // blue-50     — light section bg tint
+                    muted:        '#bfdbfe', // blue-200    — soft readable text on dark bg
+                    accent:       '#2563eb', // blue-600    — CTA buttons, section labels
+                    'accent-hover': '#1d4ed8', // blue-700  — hover state
+                    soft:         '#dbeafe', // blue-100    — badge bg on light section
                 },
             },
         },

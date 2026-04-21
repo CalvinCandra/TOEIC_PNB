@@ -16,8 +16,8 @@
     );
 
     $activeClass = fn(string|array $paths): string => $isActive($paths)
-        ? 'bg-brand/10 text-brand font-semibold'
-        : 'text-gray-900 hover:bg-gray-100';
+        ? 'bg-blue-50 text-blue-700 font-bold border-r-4 border-blue-600'
+        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border-r-4 border-transparent font-medium';
 
     // Cek apakah grup menu aktif (untuk auto-expand dropdown)
     $userPaths = array_merge(
@@ -37,13 +37,16 @@
 
         {{-- ══════ ADMIN & PETUGAS ══════ --}}
         @if ($isAdmin || $isPetugas)
-            <ul class="space-y-2">
+            <ul class="space-y-3 font-medium mt-4">
+                <li class="px-3">
+                    <div class="text-xs font-semibold text-slate-400 uppercase tracking-widest pl-2 mb-2">Main Menu</div>
+                </li>
 
                 {{-- Dashboard --}}
                 <li>
                     <a href="{{ url("/{$urlHome}") }}"
-                        class="flex items-center p-2 text-base font-medium rounded-lg {{ $activeClass($urlHome) }}">
-                        <i class="fa-solid fa-house text-xl"></i>
+                        class="flex items-center px-4 py-2.5 text-sm rounded-xl {{ $activeClass($urlHome) }} transition-colors">
+                        <i class="fa-solid fa-house w-5 text-center text-lg"></i>
                         <span class="ml-3">Dashboard</span>
                     </a>
                 </li>
@@ -52,8 +55,8 @@
                 @if ($isAdmin)
                     <li>
                         <a href="{{ url('/dashPetugas') }}"
-                            class="flex items-center p-2 text-base font-medium rounded-lg {{ $activeClass('dashPetugas') }}">
-                            <i class="fa-solid fa-user-tie text-xl"></i>
+                            class="flex items-center px-4 py-2.5 text-sm rounded-xl {{ $activeClass('dashPetugas') }} transition-colors">
+                            <i class="fa-solid fa-user-tie w-5 text-center text-lg"></i>
                             <span class="ml-3">Staff</span>
                         </a>
                     </li>
@@ -62,24 +65,24 @@
                 {{-- Participants (dropdown) --}}
                 <li>
                     <button type="button" aria-controls="dropdown-user" data-collapse-toggle="dropdown-user"
-                        class="flex items-center p-2 w-full text-base font-medium rounded-lg transition duration-75
-                        {{ $userMenuOpen ? 'bg-brand/10 text-brand font-semibold' : 'text-gray-900 hover:bg-gray-100' }}">
-                        <i class="fa-solid fa-user text-xl"></i>
-                        <span class="flex-1 ml-4 text-left whitespace-nowrap">Peserta</span>
+                        class="flex items-center px-4 py-2.5 w-full text-sm font-medium rounded-xl transition duration-75
+                        {{ $userMenuOpen ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border-transparent' }}">
+                        <i class="fa-solid fa-user w-5 text-center text-lg"></i>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Peserta</span>
                         <i
                             class="fa-solid fa-caret-down {{ $userMenuOpen ? 'rotate-180' : '' }} transition-transform duration-200"></i>
                     </button>
-                    <ul id="dropdown-user" class="{{ $userMenuOpen ? '' : 'hidden' }} py-2 space-y-2">
+                    <ul id="dropdown-user" class="{{ $userMenuOpen ? '' : 'hidden' }} py-2 space-y-1">
                         <li>
                             <a href="{{ url("/{$urlUser}") }}"
-                                class="flex items-center p-2 pl-11 w-full text-base font-medium rounded-lg {{ $activeClass($urlUser) }}">
+                                class="flex items-center px-4 py-2.5 pl-12 w-full text-sm font-medium rounded-xl {{ $activeClass($urlUser) }} transition-colors">
                                 All Data
                             </a>
                         </li>
                         @foreach (range(1, 2) as $s)
                             <li>
                                 <a href="{{ url("/{$urlUser}{$s}") }}"
-                                    class="flex items-center p-2 pl-11 w-full text-base font-medium rounded-lg {{ $activeClass($urlUser . $s) }}">
+                                    class="flex items-center px-4 py-2.5 pl-12 w-full text-sm font-medium rounded-xl {{ $activeClass($urlUser . $s) }} transition-colors">
                                     Session {{ $s }}
                                 </a>
                             </li>
@@ -90,29 +93,29 @@
                 {{-- Question (dropdown) --}}
                 <li>
                     <button type="button" aria-controls="dropdown-question" data-collapse-toggle="dropdown-question"
-                        class="flex items-center p-2 w-full text-base font-medium rounded-lg transition duration-75
-                        {{ $questionMenuOpen ? 'bg-brand/10 text-brand font-semibold' : 'text-gray-900 hover:bg-gray-100' }}">
-                        <i class="fa-solid fa-book-atlas text-xl"></i>
-                        <span class="flex-1 ml-4 text-left whitespace-nowrap">Question</span>
+                        class="flex items-center px-4 py-2.5 w-full text-sm font-medium rounded-xl transition duration-75
+                        {{ $questionMenuOpen ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border-transparent' }}">
+                        <i class="fa-solid fa-book-atlas w-5 text-center text-lg"></i>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Question</span>
                         <i
                             class="fa-solid fa-caret-down {{ $questionMenuOpen ? 'rotate-180' : '' }} transition-transform duration-200"></i>
                     </button>
-                    <ul id="dropdown-question" class="{{ $questionMenuOpen ? '' : 'hidden' }} py-2 space-y-2">
+                    <ul id="dropdown-question" class="{{ $questionMenuOpen ? '' : 'hidden' }} py-2 space-y-1">
                         <li>
                             <a href="{{ url("/{$urlGambar}") }}"
-                                class="flex items-center p-2 pl-11 w-full text-base font-medium rounded-lg {{ $activeClass($urlGambar) }}">
+                                class="flex items-center px-4 py-2.5 pl-12 w-full text-sm font-medium rounded-xl {{ $activeClass($urlGambar) }} transition-colors">
                                 Add Image
                             </a>
                         </li>
                         <li>
                             <a href="{{ url("/{$urlAudio}") }}"
-                                class="flex items-center p-2 pl-11 w-full text-base font-medium rounded-lg {{ $activeClass($urlAudio) }}">
+                                class="flex items-center px-4 py-2.5 pl-12 w-full text-sm font-medium rounded-xl {{ $activeClass($urlAudio) }} transition-colors">
                                 Add Audio
                             </a>
                         </li>
                         <li>
                             <a href="{{ url("/{$urlBankSoal}") }}"
-                                class="flex items-center p-2 pl-11 w-full text-base font-medium rounded-lg {{ $activeClass($urlBankSoal) }}">
+                                class="flex items-center px-4 py-2.5 pl-12 w-full text-sm font-medium rounded-xl {{ $activeClass($urlBankSoal) }} transition-colors">
                                 Bank Code
                             </a>
                         </li>
@@ -123,25 +126,28 @@
 
             {{-- ══════ PESERTA ══════ --}}
         @else
-            <ul class="space-y-2">
+            <ul class="space-y-3 font-medium mt-4">
+                <li class="px-3">
+                    <div class="text-xs font-semibold text-slate-400 uppercase tracking-widest pl-2 mb-2">Main Menu</div>
+                </li>
                 <li>
                     <a href="{{ url('/peserta') }}"
-                        class="flex items-center p-2 text-base font-medium rounded-lg {{ $activeClass('peserta') }}">
-                        <i class="fa-solid fa-house text-xl"></i>
+                        class="flex items-center px-4 py-2.5 text-sm rounded-xl {{ $activeClass('peserta') }} transition-colors">
+                        <i class="fa-solid fa-house w-5 text-center text-lg"></i>
                         <span class="ml-3">Dashboard</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/Profil') }}"
-                        class="flex items-center p-2 text-base font-medium rounded-lg {{ $activeClass('Profil') }}">
-                        <i class="fa-solid fa-user text-xl"></i>
+                        class="flex items-center px-4 py-2.5 text-sm rounded-xl {{ $activeClass('Profil') }} transition-colors">
+                        <i class="fa-solid fa-user w-5 text-center text-lg"></i>
                         <span class="ml-3">Profile</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ url('/DashboardSoal') }}"
-                        class="flex items-center p-2 text-base font-medium rounded-lg {{ $activeClass('DashboardSoal') }}">
-                        <i class="fa-solid fa-pencil text-xl"></i>
+                        class="flex items-center px-4 py-2.5 text-sm rounded-xl {{ $activeClass('DashboardSoal') }} transition-colors">
+                        <i class="fa-solid fa-pencil w-5 text-center text-lg"></i>
                         <span class="ml-3">Take Exam</span>
                     </a>
                 </li>
