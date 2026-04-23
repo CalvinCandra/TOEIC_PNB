@@ -23,7 +23,6 @@
     $userPaths = array_merge(
         [$urlUser],
         array_map(fn($s) => $urlUser . $s, range(1, 2)),
-        $isAdmin ? ['dashPetugas'] : [],
     );
     $questionPaths = [$urlGambar, $urlAudio, $urlBankSoal];
     $userMenuOpen = $isActive($userPaths);
@@ -68,7 +67,7 @@
                         class="flex items-center px-4 py-2.5 w-full text-sm font-medium rounded-xl transition duration-75
                         {{ $userMenuOpen ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border-transparent' }}">
                         <i class="fa-solid fa-user w-5 text-center text-lg"></i>
-                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Peserta</span>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Participants</span>
                         <i
                             class="fa-solid fa-caret-down {{ $userMenuOpen ? 'rotate-180' : '' }} transition-transform duration-200"></i>
                     </button>
