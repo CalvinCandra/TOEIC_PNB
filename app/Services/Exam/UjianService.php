@@ -139,4 +139,13 @@ class UjianService
 
         return ['benar' => $benar, 'salah' => $salah, 'skor' => $skor];
     }
+
+    public function leaveExam(Peserta $peserta): void
+    {
+        if ($peserta->status === 'Sudah') {
+            return;
+        }
+
+        $peserta->update(['status' => 'Sudah']);
+    }
 }

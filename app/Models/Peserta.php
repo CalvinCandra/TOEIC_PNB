@@ -27,6 +27,13 @@ class Peserta extends Model
         'id_users',
         'created_at',
         'update_at',
+        'listening_start_at',
+        'reading_start_at',
+    ];
+
+    protected $casts = [
+        'listening_start_at' => 'datetime',
+        'reading_start_at' => 'datetime',
     ];
 
     // users

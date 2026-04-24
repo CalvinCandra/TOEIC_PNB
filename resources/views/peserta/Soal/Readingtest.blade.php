@@ -196,69 +196,135 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 {{-- matiin fungsi back pada browser --}}
+{{-- Timer Server-Sync: tidak bisa dimanipulasi via localStorage/DevTools --}}
 <script>
-    history.replaceState(null, null, document.URL);
-        window.addEventListener('popstate', function() {
-            history.replaceState(null, null, document.URL);
-        });
-</script>
-
-{{-- countdown --}}
-<script>
+(function () {
+    const TYPE = 'reading';
+    const CSRF = document.querySelector('meta[name="csrf-token"]').content;
     const form = document.getElementById('toeic_form');
-    let formSubmitted = false; // Flag untuk menghindari double submit
 
-    const countdownDuration = 75 * 60 * 1000;
-    const quizStartTime = parseInt(localStorage.getItem("quizStartTime"));
-    const endTime = quizStartTime + countdownDuration;
+    let remainingSeconds = 0;
+    let timerInterval = null;
 
-    clearInterval(window.x);
+    async function initTimer() {
+        try {
+            const res = await fetch(`/api/remaining-time/${TYPE}`, {
+                headers: {
+                    'X-CSRF-TOKEN': CSRF,
+                    'Accept': 'application/json',
+                }
+            });
 
-    window.x = setInterval(function () {
-        const currentTime = Date.now();
-        const remainingTime = endTime - currentTime;
-        const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-        const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+            if (!res.ok) throw new Error('Server response tidak OK: ' + res.status);
 
-        // Format angka 0 di depan jika di bawah 10
-        const formatTime = (time) => String(time).padStart(2, '0');
+            const data = await res.json();
 
-        const navTimer = document.getElementById("countdown-nav");
-        if(navTimer) {
-            if (remainingTime < 0) {
-                navTimer.innerHTML = "Time Out";
-            } else {
-                navTimer.innerHTML = `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+            if (data.auto_submit || data.remaining <= 0) {
+                autoSubmit();
+                return;
             }
+
+            remainingSeconds = data.remaining;
+            startCountdown();
+
+        } catch (e) {
+            console.warn('[Timer] Gagal fetch dari server, fallback ke session waktu_akhir', e);
+            fallbackToSessionTime();
+        }
+    }
+
+    function startCountdown() {
+        updateDisplay(remainingSeconds);
+
+        if (timerInterval) clearInterval(timerInterval);
+
+        timerInterval = setInterval(function () {
+            remainingSeconds--;
+            updateDisplay(remainingSeconds);
+
+            if (remainingSeconds > 0 && remainingSeconds % 30 === 0) {
+                syncWithServer();
+            }
+
+            if (remainingSeconds <= 0) {
+                clearInterval(timerInterval);
+                autoSubmit();
+            }
+        }, 1000);
+    }
+
+    async function syncWithServer() {
+        try {
+            const res = await fetch(`/api/remaining-time/${TYPE}`, {
+                headers: { 'Accept': 'application/json' }
+            });
+            const data = await res.json();
+
+            if (data.auto_submit || data.remaining <= 0) {
+                clearInterval(timerInterval);
+                autoSubmit();
+                return;
+            }
+
+            if (Math.abs(remainingSeconds - data.remaining) > 5) {
+                console.warn('[Timer] Selisih terdeteksi, koreksi dari server:', data.remaining);
+                remainingSeconds = data.remaining;
+            }
+
+        } catch (e) {
+            console.warn('[Timer] Sync ke server gagal, timer lokal tetap jalan', e);
+        }
+    }
+
+    function fallbackToSessionTime() {
+        const endAccessTime = "{{ session('waktu_akhir') ?? '' }}";
+        if (!endAccessTime) {
+            console.error('[Timer] Tidak ada waktu_akhir di session dan API gagal');
+            return;
         }
 
-        if (remainingTime < 0 && !formSubmitted) {
-            formSubmitted = true;
-            clearInterval(window.x);
-            form.submit();
-        }
-    }, 500);
-</script>
+        const accessLimit = new Date(endAccessTime).getTime();
+        const remaining = Math.floor((accessLimit - Date.now()) / 1000);
 
-<script>
-    const formm = document.getElementById('toeic_form');
-    const endAccessTime = "{{ session('waktu_akhir') }}";
-    const accessLimit = new Date(endAccessTime).getTime();
-
-    const checkAccessTime = setInterval(() => {
-        const now = Date.now();
-        if (now >= accessLimit && !formSubmitted) {
-            formSubmitted = true;
-            clearInterval(checkAccessTime);
-            clearInterval(window.x);
-            
-            const navTimer = document.getElementById("countdown-nav");
-            if(navTimer) navTimer.innerHTML = "Time Out";
-            
-            formm.submit();
+        if (remaining <= 0) {
+            autoSubmit();
+            return;
         }
-    }, 1000);
+
+        remainingSeconds = remaining;
+        startCountdown();
+    }
+
+    function updateDisplay(seconds) {
+        if (seconds < 0) seconds = 0;
+
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+
+        const display = `${pad(h)} h : ${pad(m)} m : ${pad(s)} s`;
+        const elNav = document.getElementById('countdown-nav');
+        if (elNav) elNav.textContent = display;
+
+        if (seconds <= 300 && elNav) elNav.classList.add('bg-red-600');
+    }
+
+    function pad(num) {
+        return String(num).padStart(2, '0');
+    }
+
+    function autoSubmit() {
+        const elNav = document.getElementById('countdown-nav');
+        if (elNav) elNav.textContent = 'Time Out';
+
+        const overlay = document.getElementById('overlay');
+        if (overlay) overlay.style.display = 'flex';
+
+        if (form) form.submit();
+    }
+
+    document.addEventListener('DOMContentLoaded', initTimer);
+})();
 </script>
 
 <script>

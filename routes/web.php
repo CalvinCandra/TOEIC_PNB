@@ -225,7 +225,11 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
         Route::get('/TokenQuestion', [PesertaController::class, 'TokenQuestion']);
     
         Route::middleware(['DisableHistory'])->group(function () {
-            // Soal Reading
+            // API Timer
+            Route::get('/api/remaining-time/{type}', [SoalController::class, 'getRemainingTime'])
+                ->where('type', 'listening|reading');
+
+            // Reading
             Route::get('/Reading', [SoalController::class, 'Reading']);
             Route::get('/SoalReading', [SoalController::class, 'GetReading']);
             Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
@@ -243,8 +247,13 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
         });
     });
 
+    Route::post('/exam/leave', [SoalController::class, 'leaveExam'])
+        ->middleware('throttle:5,1');
+
     Route::get('/destory', [SoalController::class, 'destory']);
 
-    // funcition result sementara
-    Route::get('/Result', [NilaiController::class, 'Result']);
+    // Route result - menggunakan DisableHistory untuk proteksi no-cache
+    Route::middleware(['DisableHistory'])->group(function () {
+        Route::get('/Result', [NilaiController::class, 'Result']);
+    });
 });
