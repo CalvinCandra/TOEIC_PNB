@@ -17,9 +17,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
 
-    {{-- disable back button --}}
-    <script type="text/javascript">
-        window.history.forward(1);
+    <!-- Anti-Back di halaman Result: push state awal -->
+    <script>
+        (function () {
+            history.pushState(null, "", location.href);
+            history.pushState(null, "", location.href);
+        })();
     </script>
 </head>
 
@@ -286,16 +289,42 @@
                 const score2 = {{ $skorReading }};
                 const maxScore2 = 495;
                 updateProgressBar(score2, maxScore2, 'progress-bar-2', 'score-2');
-            }, 300); // give a slight delay for better UX
+            }, 300);
         });
     </script>
 
-    {{-- matiin fungsi back browser --}}
+    <!-- Anti-Back Handler di halaman Result -->
     <script>
-        history.replaceState(null, null, document.URL);
-        window.addEventListener('popstate', function() {
-            history.replaceState(null, null, document.URL);
-        });
+        (function () {
+            "use strict";
+
+            document.addEventListener("DOMContentLoaded", function () {
+                history.pushState(null, "", location.href);
+                history.pushState(null, "", location.href);
+            });
+
+            window.addEventListener("popstate", function () {
+                window.location.replace("/peserta");
+            });
+
+            document.addEventListener("keydown", function (e) {
+                if ((e.altKey && e.key === "ArrowLeft") || e.key === "BrowserBack") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.location.replace("/peserta");
+                }
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const dashboardLink = document.querySelector('a[href="/destory"]');
+                if (dashboardLink) {
+                    dashboardLink.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        window.location.replace("/peserta");
+                    });
+                }
+            });
+        })();
     </script>
 
 </body>

@@ -16,8 +16,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-    <script type="text/javascript">
-        window.history.forward(1);
+    <!-- Anti-Back Browser -->
+    <script>
+        (function () {
+            history.pushState(null, '', location.href);
+            history.pushState(null, '', location.href);
+
+            window.addEventListener('popstate', function () {
+                history.pushState(null, '', location.href);
+                history.pushState(null, '', location.href);
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if ((e.altKey && e.key === 'ArrowLeft') || e.key === 'BrowserBack') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+        })();
     </script>
 
     <title>Listening - Rules & Directions</title>
@@ -104,30 +120,21 @@
 
     </main>
 
-    {{-- Mencegah navigasi back pada browser --}}
+    {{-- Script Start Listening Test --}}
+    {{-- localStorage dihapus — waktu mulai dicatat oleh server saat hit /SoalListening --}}
     <script>
-        history.replaceState(null, null, document.URL);
-        window.addEventListener('popstate', function() {
-            history.replaceState(null, null, document.URL);
-        });
-    </script>
-
-    {{-- Script Pindah ke Halaman Test --}}
-    <script>
-        document.getElementById("startQuizButton").addEventListener("click", function() {
-            // Animasi loading pada tombol (biar terasa responsif & native)
+        document.getElementById("startQuizButton").addEventListener("click", function () {
             this.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-lg"></i> Preparing test...';
             this.disabled = true;
             this.classList.add('opacity-80', 'cursor-not-allowed');
-
-            localStorage.setItem("quizStartTime", Date.now().toString());
 
             if (typeof window.x !== 'undefined') {
                 clearInterval(window.x);
             }
 
-            // Redirect ke halaman soal listening
-            window.location.href = "{{ url('/SoalListening') }}";
+            localStorage.removeItem('quizStartTime');
+
+            window.location.replace("{{ url('/SoalListening') }}");
         });
     </script>
     

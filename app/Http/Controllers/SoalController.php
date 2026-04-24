@@ -24,6 +24,12 @@ class SoalController extends Controller
         $request->session()->forget(['bank', 'waktu', 'quizEndTime']);
     }
 
+    private function setNavToken(Request $request, string $token, int $ttl = 30): void
+    {
+        $request->session()->put('exam_nav_token', $token);
+        $request->session()->put('exam_nav_expiry', time() + $ttl);
+    }
+
     // ============================================================
     // LISTENING
     // ============================================================
@@ -47,6 +53,19 @@ class SoalController extends Controller
             return redirect('/DashboardSoal');
         }
 
+        $peserta = $this->ujianService->getPesertaByUser(auth()->id());
+        $bank    = $this->ujianService->getBankFromSession($request->session()->get('bank'));
+
+        if (! $bank) {
+            Log::warning('[SoalController::GetListening] Bank soal tidak ditemukan');
+
+            return redirect('/DashboardSoal');
+        }
+
+        if ($peserta && is_null($peserta->listening_start_at)) {
+            $peserta->update(['listening_start_at' => now()]);
+        }
+
         $getBank = $this->ujianService->getBankFromSession($request->session()->get('bank'));
 
         if (! $getBank) {
@@ -68,6 +87,8 @@ class SoalController extends Controller
             'id_peserta' => $peserta->id_peserta,
             'token_part' => $partPertama->token_part,
         ]);
+
+        $this->setNavToken($request, $partPertama->token_part);
 
         return redirect("/SoalListening/{$partPertama->token_part}");
     }
@@ -101,7 +122,8 @@ class SoalController extends Controller
         $remainingTime = Carbon::now()->diffInSeconds($request->session()->get('quizEndTime'));
         $request->session()->put('waktu', $remainingTime);
 
-        return view('peserta.Soal.Listeningtest', compact('soalListening', 'part', 'GetAllPart'));
+        return view('peserta.Soal.Listeningtest', compact('soalListening', 'part', 'GetAllPart'))
+            ->with('type', 'listening');
     }
 
     public function ProsesJawabListening(Request $request)
@@ -138,6 +160,8 @@ class SoalController extends Controller
 
         if ($request->tombol === 'next') {
             $nextPart = $this->ujianService->getNextPart((int) $request->id_part, $getBank->id_bank, 'Listening');
+
+            $this->setNavToken($request, $nextPart->token_part);
 
             return redirect("/SoalListening/{$nextPart->token_part}");
         }
@@ -197,6 +221,20 @@ class SoalController extends Controller
             return redirect('/DashboardSoal');
         }
 
+        $peserta = $this->ujianService->getPesertaByUser(auth()->id());
+        $bank    = $this->ujianService->getBankFromSession($request->session()->get('bank'));
+
+        if (! $bank) {
+            $this->clearExamSession($request);
+            Alert::error('Information', 'Waktu habis atau token tidak valid.');
+
+            return redirect('/DashboardSoal');
+        }
+
+        if ($peserta && is_null($peserta->reading_start_at)) {
+            $peserta->update(['reading_start_at' => now()]);
+        }
+
         $getBank = $this->ujianService->getBankFromSession($request->session()->get('bank'));
 
         if (! $getBank) {
@@ -211,6 +249,8 @@ class SoalController extends Controller
         $request->session()->put('waktu_akhir', Carbon::today()->format('Y-m-d').' '.$getBank->waktu_akhir);
 
         $partPertama = Part::where('kategori', 'Reading')->where('id_bank', $getBank->id_bank)->first();
+
+        $this->setNavToken($request, $partPertama->token_part);
 
         return redirect("/SoalReading/{$partPertama->token_part}");
     }
@@ -252,7 +292,8 @@ class SoalController extends Controller
         $remainingTime = Carbon::now()->diffInSeconds($request->session()->get('quizEndTime'));
         $request->session()->put('waktu', $remainingTime);
 
-        return view('peserta.Soal.Readingtest', compact('soalReading', 'part', 'GetAllPart'));
+        return view('peserta.Soal.Readingtest', compact('soalReading', 'part', 'GetAllPart'))
+            ->with('type', 'reading');
     }
 
     public function ProsesJawabReading(Request $request)
@@ -289,6 +330,8 @@ class SoalController extends Controller
 
         if ($request->tombol === 'next') {
             $nextPart = $this->ujianService->getNextPart((int) $request->id_part, $getBank->id_bank, 'Reading');
+
+            $this->setNavToken($request, $nextPart->token_part);
 
             return redirect("/SoalReading/{$nextPart->token_part}");
         }
@@ -334,5 +377,49 @@ class SoalController extends Controller
         ]);
 
         return redirect('/DashboardSoal');
+    }
+
+    public function getRemainingTime(string $type)
+    {
+        $peserta = $this->ujianService->getPesertaByUser(auth()->id());
+
+        if (!$peserta) {
+            return response()->json(['remaining' => 0, 'auto_submit' => true]);
+        }
+
+        $durasiDetik = $type === 'listening' ? (46 * 60) : (75 * 60);
+
+        $startAt = $type === 'listening'
+            ? $peserta->listening_start_at
+            : $peserta->reading_start_at;
+
+        if (!$startAt) {
+            return response()->json([
+                'remaining'   => $durasiDetik,
+                'auto_submit' => false,
+            ]);
+        }
+
+        $elapsed   = now()->diffInSeconds($startAt);
+        $remaining = max(0, $durasiDetik - $elapsed);
+
+        return response()->json([
+            'remaining'   => (int) $remaining,
+            'auto_submit' => $remaining <= 0,
+        ]);
+    }
+
+    public function leaveExam(Request $request)
+    {
+        $peserta = $this->ujianService->getPesertaByUser(auth()->id());
+
+        if (!$peserta) {
+            return response()->json(['success' => false], 404);
+        }
+
+        $this->ujianService->leaveExam($peserta);
+        $this->clearExamSession($request);
+
+        return response()->json(['success' => true]);
     }
 }
