@@ -3,8 +3,11 @@
 <head>
     @include('layouts.header')
     <title>@yield('Title')</title>
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
-    <!-- Anti-Back dari Halaman Soal -->
+    <!-- Anti-Back dari Halaman Soares -->
     <script>
         (function () {
             const cameFromExam = sessionStorage.getItem('came_from_exam');
@@ -66,7 +69,7 @@
 
     @include('sweetalert::alert')
 
-    <!-- Anti-Back dari Halaman Soal + Modal "Already Left" -->
+    <!-- Anti-Back dari Halaman Soares + Modal "Already Left" -->
     <script>
         (function () {
             'use strict';

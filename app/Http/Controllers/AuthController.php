@@ -10,22 +10,35 @@ class AuthController extends Controller
 {
     public function __construct(protected AuthService $authService) {}
 
+    /**
+     * Tampilkan halaman login.
+     *
+     * Header Cache-Control: no-store → browser tidak boleh cache halaman ini.
+     *
+     * Fix back button:
+     * (1) Setelah logout → tekan Back → browser fetch ulang ke server
+     *     → middleware auth belum login → redirect /login
+     *     → tampil halaman login, bukan halaman protected dari cache ✅
+     *
+     * (2) Sudah login → tekan Back ke /login → browser fetch ulang
+     *     → RedirectIfAuthenticated → redirect ke dashboard ✅
+     */
     public function index()
     {
-        return view('login');
+        return response()
+            ->view('login')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     public function ProsesLogin(Request $request)
     {
-        if (! $request->isMethod('post')) {
-            return;
-        }
-
+        // Jika sudah login, jangan proses ulang — redirect sesuai level
         if (auth()->check()) {
-            $level = auth()->user()->level;
             Alert::info('Failed', 'If you have already logged in, please log out first');
 
-            return redirect($this->redirectByLevel($level));
+            return redirect($this->redirectByLevel(auth()->user()->level));
         }
 
         $level = $this->authService->attempt($request);
@@ -53,9 +66,9 @@ class AuthController extends Controller
     private function redirectByLevel(string $level): string
     {
         return match ($level) {
-            'admin' => '/admin',
+            'admin'   => '/admin',
             'petugas' => '/petugas',
-            default => '/peserta',
+            default   => '/peserta',
         };
     }
 }
