@@ -28,7 +28,12 @@ class MediaService
 
         DB::beginTransaction();
         try {
-            $path = $request->file('gambar')->store('public/gambar');
+             $filename = pathinfo($request->file('gambar')->getClientOriginalName(), PATHINFO_FILENAME);
+            $ext = $request->file('gambar')->getClientOriginalExtension();
+            $newFilename = $filename.'_'.date('His').'.'.$ext;
+
+            $path = $request->file('gambar')->storeAs('public/gambar', $newFilename);
+
             Gambar::create(['gambar' => basename($path)]);
             DB::commit();
             Log::info('[MediaService::storeGambar] Upload gambar berhasil', [
@@ -103,7 +108,13 @@ class MediaService
 
         DB::beginTransaction();
         try {
-            $path = $request->file('audio')->store('public/audio');
+
+            $filename = pathinfo($request->file('audio')->getClientOriginalName(), PATHINFO_FILENAME);
+            $ext = $request->file('audio')->getClientOriginalExtension();
+            $newFilename = $filename.'_'.date('His').'.'.$ext;
+
+            $path = $request->file('audio')->storeAs('public/audio', $newFilename);
+
             Audio::create(['audio' => basename($path)]);
             DB::commit();
             Log::info('[MediaService::storeAudio] Upload audio berhasil', [
