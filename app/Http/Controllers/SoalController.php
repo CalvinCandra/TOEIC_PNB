@@ -8,6 +8,7 @@ use App\Services\Exam\UjianService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SoalController extends Controller
@@ -122,7 +123,10 @@ class SoalController extends Controller
         $remainingTime = Carbon::now()->diffInSeconds($request->session()->get('quizEndTime'));
         $request->session()->put('waktu', $remainingTime);
 
-        return view('peserta.Soal.Listeningtest', compact('soalListening', 'part', 'GetAllPart'))
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+        $urlpathaudio = Storage::disk('s3')->url('audio/');
+
+        return view('peserta.Soal.Listeningtest', compact('soalListening', 'part', 'GetAllPart', 'urlpathimage', 'urlpathaudio'))
             ->with('type', 'listening');
     }
 
@@ -292,7 +296,9 @@ class SoalController extends Controller
         $remainingTime = Carbon::now()->diffInSeconds($request->session()->get('quizEndTime'));
         $request->session()->put('waktu', $remainingTime);
 
-        return view('peserta.Soal.Readingtest', compact('soalReading', 'part', 'GetAllPart'))
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+
+        return view('peserta.Soal.Readingtest', compact('soalReading', 'part', 'GetAllPart', 'urlpathimage'))
             ->with('type', 'reading');
     }
 

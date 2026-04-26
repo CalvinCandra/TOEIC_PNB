@@ -10,6 +10,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class GeneratePdfResultJob implements ShouldQueue
@@ -31,58 +33,57 @@ class GeneratePdfResultJob implements ShouldQueue
     public function handle(): void
     {
         $peserta = Peserta::with('user')->find($this->pesertaId);
-
-        if (! $peserta) {
-            return;
-        }
-
         $peserta->update(['pdf_status' => 'processing']);
 
-        $nilaiListening = Nilai::where('jawaban_benar', $this->listeningBenar)->first();
-        $nilaiReading   = Nilai::where('jawaban_benar', $this->readingBenar)->first();
+        try {
+            $nilaiListening = Nilai::where('jawaban_benar', $this->listeningBenar)->first();
+            $nilaiReading   = Nilai::where('jawaban_benar', $this->readingBenar)->first();
 
-        $skorListening = $nilaiListening ? $nilaiListening->skor_listening : 0;
-        $skorReading   = $nilaiReading   ? $nilaiReading->skor_reading    : 0;
-        $totalSkor     = $skorListening + $skorReading;
+            $skorListening = $nilaiListening ? $nilaiListening->skor_listening : 0;
+            $skorReading   = $nilaiReading   ? $nilaiReading->skor_reading    : 0;
+            $totalSkor     = $skorListening + $skorReading;
 
-        $result    = $this->determineCategory($totalSkor);
-        $kategori  = $result['kategori'];
-        $rangeSkor = $result['range'];
-        $detail    = $result['detail'];
+            $pdf = Pdf::loadView('vendor.pdf.result', [
+                'nama_peserta'   => $peserta->nama_peserta,
+                'email'          => $peserta->user->email,
+                'nim'            => $peserta->nim,
+                'jurusan'        => $peserta->jurusan,
+                'skorReading'    => $skorReading,
+                'benarReading'   => $this->readingBenar,
+                'salahReading'   => $this->readingSalah,
+                'skorListening'  => $skorListening,
+                'benarListening' => $this->listeningBenar,
+                'salahListening' => $this->listeningSalah,
+                'totalSkor'      => $totalSkor,
+                'kategori'       => $this->determineCategory($totalSkor)['kategori'],
+                'rangeSkor'      => $this->determineCategory($totalSkor)['range'],
+                'detail'         => $this->determineCategory($totalSkor)['detail'],
+            ])->setPaper('a4');
 
-        $pdf = Pdf::loadView('vendor.pdf.result', [
-            'nama_peserta'   => $peserta->nama_peserta,
-            'email'          => $peserta->user->email,
-            'nim'            => $peserta->nim,
-            'jurusan'        => $peserta->jurusan,
-            'skorReading'    => $skorReading,
-            'benarReading'   => $this->readingBenar,
-            'salahReading'   => $this->readingSalah,
-            'skorListening'  => $skorListening,
-            'benarListening' => $this->listeningBenar,
-            'salahListening' => $this->listeningSalah,
-            'totalSkor'      => $totalSkor,
-            'kategori'       => $kategori,
-            'rangeSkor'      => $rangeSkor,
-            'detail'         => $detail,
-        ])->setPaper('a4', 'portrait')
-          ->setOption('isRemoteEnabled', true);
+            $sesiFolderName = str_replace(' ', '_', strtolower($peserta->sesi));
+            $fileName       = 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_' . Str::random(5) . '.pdf';
+            $s3Path         = "result/{$sesiFolderName}/{$fileName}";
 
-        $sesiFolderName = str_replace(' ', '_', strtolower($peserta->sesi));
-        $pdfDir         = storage_path("app/public/result/{$sesiFolderName}/");
-        $fileName       = 'Result_' . $peserta->nim . '_' . $peserta->sesi . '_' . Str::random(5) . '.pdf';
-        $pdfPath        = $pdfDir . $fileName;
+            $tempDir  = storage_path('app/temp');
+            $tempPath = $tempDir . '/' . $fileName;
+            @mkdir($tempDir, 0755, true);
+            $pdf->save($tempPath);
 
-        if (! is_dir($pdfDir)) {
-            mkdir($pdfDir, 0755, true);
+            Storage::disk('s3')->put($s3Path, file_get_contents($tempPath), 'public');
+
+            @unlink($tempPath);
+
+            $peserta->update([
+                'pdf_status' => 'done',
+                'pdf_path'   => $s3Path,
+            ]);
+
+            Log::info("PDF Result uploaded to S3: {$s3Path}");
+        } catch (\Throwable $th) {
+            $peserta->update(['pdf_status' => 'failed']);
+            Log::error('Gagal generate PDF ke S3: ' . $th->getMessage());
+            throw $th;
         }
-
-        $pdf->save($pdfPath);
-
-        $peserta->update([
-            'pdf_status' => 'done',
-            'pdf_path'   => "result/{$sesiFolderName}/{$fileName}",
-        ]);
     }
 
     public function failed(\Throwable $exception): void

@@ -12,26 +12,29 @@
 {{-- membuat content disini --}}
 @section('content')
 
-{{-- konten --}}
-<section class="p-4 md:ml-64 h-auto pt-20">
-    <a href="{{url('/dashAdminSoal')}}" class="w-[20%] md:w-[10%] block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5" type="button">
-        Back
-    </a>
-    <h1>Question Listening Data</h1>
+    {{-- konten --}}
+    <section class="p-4 md:ml-64 h-auto pt-20">
+        <a href="{{ url('/dashAdminSoal') }}"
+            class="w-[20%] md:w-[10%] block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+            type="button">
+            Back
+        </a>
+        <h1>Question Listening Data</h1>
 
 
-    <div class="p-3 sm:p-5 antialiased">
-        @if (count($errors) > 0)
-            <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li class="ml-3 text-sm font-medium">{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-3">
-            <!-- search form -->
+        <div class="p-3 sm:p-5 antialiased">
+            @if (count($errors) > 0)
+                <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li class="ml-3 text-sm font-medium">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-3">
+                <!-- search form -->
                 <div class="w-full">
                     <form class="flex items-center" method="GET">
                         <label for="simple-search" class="sr-only">Search</label>
@@ -94,8 +97,9 @@
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_a }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_b }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_c }}</td>
-                                        @if ($data->jawaban_d == NULL)   
-                                            <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
+                                        @if ($data->jawaban_d == null)
+                                            <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing
+                                            </td>
                                         @else
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jawaban_d }}</td>
                                         @endif
@@ -103,48 +107,52 @@
 
                                         @if (!$data->id_gambar == null)
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">
-                                                <a class="" href="{{ asset('storage/gambar/'.$data->gambar->gambar) }}" data-lightbox="example-1" target="__blank" id='link-foto'>
-                                                    <h1 class="text-sky-500 italic font-weight-bold hover:underline">See Image</h1>
+                                                <a class="" href="{{ $urlpathimage . $data->gambar->gambar }}"
+                                                    data-lightbox="example-1" target="__blank" id='link-foto'>
+                                                    <h1 class="text-sky-500 italic font-weight-bold hover:underline">See
+                                                        Image</h1>
                                                 </a>
                                             </td>
-                                        @else 
-                                            <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
+                                        @else
+                                            <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing
+                                            </td>
                                         @endif
 
 
-                                      @if (!$data->id_users == null)
-                                            <td class="px-4 py-3 border-2 whitespace-nowrap">{{$data->user->name}}</td>
-                                      @else 
-                                            <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing</td>
-                                      @endif
+                                        @if (!$data->id_users == null)
+                                            <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->user->name }}</td>
+                                        @else
+                                            <td class="px-4 py-3 border-2 whitespace-nowrap italic text-slate-300">Nothing
+                                            </td>
+                                        @endif
 
-                                      <td class="px-4 py-3 border-2">
-                                          <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
-                                              <li>
-                                                  <button
-                                                      type="button" data-modal-target="UpdateSoal{{$data->id_soal}}"
-                                                      data-modal-toggle="UpdateSoal{{$data->id_soal}}"
-                                                      class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
-                                                      <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
-                                                      Update
-                                                  </button>
-                                              </li>
-                                              <li>
-                                                  <button
-                                                      onclick="hapus('baris{{$data->nomor_soal}}', '{{$data->id_soal}}')"
-                                                      type="button" data-modal-target="DeleteSoal"
-                                                      data-modal-toggle="DeleteSoal"
-                                                      class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
-                                                      <i class="fa-solid fa-trash me-1"></i>
-                                                      Delete
-                                                  </button>
-                                              </li>
-                                          </ul>
-                                      </td>
-                                  </tr>
-                              @endforeach
-                          </tbody>
-                      </table>
+                                        <td class="px-4 py-3 border-2">
+                                            <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
+                                                <li>
+                                                    <button type="button"
+                                                        data-modal-target="UpdateSoal{{ $data->id_soal }}"
+                                                        data-modal-toggle="UpdateSoal{{ $data->id_soal }}"
+                                                        class="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 hover:scale-95">
+                                                        <i class="fa-solid fa-pen-to-square me-1 -mt-0.5"></i>
+                                                        Update
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        onclick="hapus('baris{{ $data->nomor_soal }}', '{{ $data->id_soal }}')"
+                                                        type="button" data-modal-target="DeleteSoal"
+                                                        data-modal-toggle="DeleteSoal"
+                                                        class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
+                                                        <i class="fa-solid fa-trash me-1"></i>
+                                                        Delete
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="">
@@ -197,7 +205,8 @@
 
                         <div>
                             <label class="block mb-2 text-sm font-semibold text-gray-900">Question</label>
-                            <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If there are Question, please fill in this form, otherwise please leave it blank.</p>
+                            <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If
+                                there are Question, please fill in this form, otherwise please leave it blank.</p>
                             <textarea id="message" name="soal" rows="4"
                                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Write question here"></textarea>
@@ -238,7 +247,8 @@
                             <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span
                                     class="text-red-500">*</span></label>
                             <select id="countries" name="kunci_jawaban"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                required>
                                 <option selected hidden value="">-- Choose a Key --</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -248,11 +258,13 @@
                         </div>
 
                         <div class="">
-                            <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File Image (Opsional)</label>
-                            <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                            <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File
+                                Image (Opsional)</label>
+                            <select id="countries" name="gambar"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                 <option selected hidden value="">-- Choose a File Image --</option>
                                 @foreach ($gambar as $item)
-                                    <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
+                                    <option value="{{ $item->id_gambar }}">{{ $item->gambar }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -293,21 +305,24 @@
 
                     <!-- Modal body -->
                     <div class="p-4 md:p-5">
-                        <form class="space-y-4 modal-form" action="{{ url('/UpdateSoalListeningAdmin') }}" method="POST">
+                        <form class="space-y-4 modal-form" action="{{ url('/UpdateSoalListeningAdmin') }}"
+                            method="POST">
                             @csrf
 
                             <input type="hidden" name="id_soal" value="{{ $data->id_soal }}">
-                            
-                             <div>
-                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number Question<span class="text-red-500">*</span></label>
+
+                            <div>
+                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number
+                                    Question<span class="text-red-500">*</span></label>
                                 <input type="number" name="nomor_soal"
                                     class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                    value="{{$data->nomor_soal}}" readonly />
+                                    value="{{ $data->nomor_soal }}" readonly />
                             </div>
 
                             <div>
                                 <label class="block mb-2 text-sm font-semibold text-gray-900">Question</label>
-                        <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If there are Question, please fill in this form, otherwise please leave it blank.</p>
+                                <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If
+                                    there are Question, please fill in this form, otherwise please leave it blank.</p>
                                 <textarea id="message" name="soal" rows="4"
                                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Write question here">{{ $data->soal }}</textarea>
@@ -338,7 +353,8 @@
                             </div>
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option D</label>
+                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option
+                                    D</label>
                                 <input type="text" name="jawaban_d" value="{{ $data->jawaban_d }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     placeholder="Example : This is answer d" />
@@ -348,7 +364,8 @@
                                 <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span
                                         class="text-red-500">*</span></label>
                                 <select id="countries" name="kunci_jawaban"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                    required>
                                     <option selected hidden value="{{ $data->kunci_jawaban }}">{{ $data->kunci_jawaban }}
                                     </option>
                                     <option value="A">A</option>
@@ -359,23 +376,27 @@
                             </div>
 
                             <div class="">
-                                <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File Image</label>
-                                <select id="countries" name="gambar" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File
+                                    Image</label>
+                                <select id="countries" name="gambar"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                     @php
                                         $Gambar = Gambar::where('id_gambar', $data->id_gambar)->first();
                                     @endphp
-        
+
                                     @if (!$data->id_gambar)
                                         <option selected hidden value="">-- Choose a File Image --</option>
                                         @foreach ($gambar as $item)
-                                            <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
+                                            <option value="{{ $item->id_gambar }}">{{ $item->gambar }}</option>
                                         @endforeach
                                     @else
-                                        <option selected hidden value="{{$Gambar->id_gambar}}">{{ $Gambar->gambar }}</option>
+                                        <option selected hidden value="{{ $Gambar->id_gambar }}">{{ $Gambar->gambar }}
+                                        </option>
                                         @foreach ($gambar as $item)
-                                            <option value="{{$item->id_gambar}}">{{$item->gambar}}</option>
+                                            <option value="{{ $item->id_gambar }}">{{ $item->gambar }}</option>
                                         @endforeach
-                                        <option value="" class="italic text-red-500">Remove Image From Question</option>
+                                        <option value="" class="italic text-red-500">Remove Image From Question
+                                        </option>
                                     @endif
                                 </select>
                             </div>

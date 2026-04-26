@@ -4,6 +4,7 @@ namespace App\Services\Media;
 
 use App\Models\Audio;
 use App\Models\Gambar;
+use App\Models\Soal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,73 +21,50 @@ class MediaService
 
     public function storeGambar(Request $request): bool
     {
-        Log::info('[MediaService::storeGambar] Memulai upload gambar');
-
         $request->validate([
             'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         DB::beginTransaction();
         try {
-             $filename = pathinfo($request->file('gambar')->getClientOriginalName(), PATHINFO_FILENAME);
-            $ext = $request->file('gambar')->getClientOriginalExtension();
-            $newFilename = $filename.'_'.date('His').'.'.$ext;
+            $filename    = pathinfo($request->file('gambar')->getClientOriginalName(), PATHINFO_FILENAME);
+            $ext         = $request->file('gambar')->getClientOriginalExtension();
+            $newFilename = $filename . '_' . date('His') . '.' . $ext;
 
-            $path = $request->file('gambar')->storeAs('public/gambar', $newFilename);
-
-            Gambar::create(['gambar' => basename($path)]);
-            DB::commit();
-            Log::info('[MediaService::storeGambar] Upload gambar berhasil', [
-                'gambar' => basename($path),
+            $request->file('gambar')->storeAs('gambar', $newFilename, [
+                'disk'       => 's3',
+                'visibility' => 'public',
             ]);
 
+            Gambar::create(['gambar' => $newFilename]);
+            DB::commit();
+
+            Log::info('Gambar uploaded to S3: gambar/' . $newFilename);
             return true;
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('[MediaService::storeGambar] Upload gambar gagal', [
-                'error' => $th->getMessage(),
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-            ]);
-
+            Log::error('Gagal upload gambar ke S3: ' . $th->getMessage());
             return false;
         }
     }
 
     public function deleteGambar(int $id_gambar): bool
     {
-        Log::info('[MediaService::deleteGambar] Memulai hapus gambar', [
-            'id_gambar' => $id_gambar,
-        ]);
-
         $gambar = Gambar::find($id_gambar);
 
         if (! $gambar) {
-            Log::warning('[MediaService::deleteGambar] Gambar tidak ditemukan', [
-                'id_gambar' => $id_gambar,
-            ]);
-
             return false;
         }
 
         try {
-            \App\Models\Soal::where('id_gambar', $id_gambar)->update(['id_gambar' => null]);
-            Storage::delete('public/gambar/'.$gambar->gambar);
+            soal::where('id_gambar', $id_gambar)->update(['id_gambar' => null]);
+            Storage::disk('s3')->delete('gambar/' . $gambar->gambar);
             $gambar->delete();
-            Log::info('[MediaService::deleteGambar] Hapus gambar berhasil', [
-                'id_gambar' => $id_gambar,
-                'gambar' => $gambar->gambar,
-            ]);
 
+            Log::info('Gambar deleted from S3: gambar/' . $gambar->gambar);
             return true;
         } catch (\Throwable $th) {
-            Log::error('[MediaService::deleteGambar] Hapus gambar gagal', [
-                'id_gambar' => $id_gambar,
-                'error' => $th->getMessage(),
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-            ]);
-
+            Log::error('Gagal hapus gambar dari S3: ' . $th->getMessage());
             return false;
         }
     }
@@ -100,74 +78,50 @@ class MediaService
 
     public function storeAudio(Request $request): bool
     {
-        Log::info('[MediaService::storeAudio] Memulai upload audio');
-
         $request->validate([
             'audio' => 'required|mimes:mp3,wav,ogg|max:10240',
         ]);
 
         DB::beginTransaction();
         try {
+            $filename    = pathinfo($request->file('audio')->getClientOriginalName(), PATHINFO_FILENAME);
+            $ext         = $request->file('audio')->getClientOriginalExtension();
+            $newFilename = $filename . '_' . date('His') . '.' . $ext;
 
-            $filename = pathinfo($request->file('audio')->getClientOriginalName(), PATHINFO_FILENAME);
-            $ext = $request->file('audio')->getClientOriginalExtension();
-            $newFilename = $filename.'_'.date('His').'.'.$ext;
-
-            $path = $request->file('audio')->storeAs('public/audio', $newFilename);
-
-            Audio::create(['audio' => basename($path)]);
-            DB::commit();
-            Log::info('[MediaService::storeAudio] Upload audio berhasil', [
-                'audio' => basename($path),
+            $request->file('audio')->storeAs('audio', $newFilename, [
+                'disk'       => 's3',
+                'visibility' => 'public',
             ]);
 
+            Audio::create(['audio' => $newFilename]);
+            DB::commit();
+
+            Log::info('Audio uploaded to S3: audio/' . $newFilename);
             return true;
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('[MediaService::storeAudio] Upload audio gagal', [
-                'error' => $th->getMessage(),
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-            ]);
-
+            Log::error('Gagal upload audio ke S3: ' . $th->getMessage());
             return false;
         }
     }
 
     public function deleteAudio(int $id_audio): bool
     {
-        Log::info('[MediaService::deleteAudio] Memulai hapus audio', [
-            'id_audio' => $id_audio,
-        ]);
-
         $audio = Audio::find($id_audio);
 
         if (! $audio) {
-            Log::warning('[MediaService::deleteAudio] Audio tidak ditemukan', [
-                'id_audio' => $id_audio,
-            ]);
-
             return false;
         }
 
         try {
-            \App\Models\Soal::where('id_audio', $id_audio)->update(['id_audio' => null]);
-            Storage::delete('public/audio/'.$audio->audio);
+            soal::where('id_audio', $id_audio)->update(['id_audio' => null]);
+            Storage::disk('s3')->delete('audio/' . $audio->audio);
             $audio->delete();
-            Log::info('[MediaService::deleteAudio] Hapus audio berhasil', [
-                'id_audio' => $id_audio,
-                'audio' => $audio->audio,
-            ]);
 
+            Log::info('Audio deleted from S3: audio/' . $audio->audio);
             return true;
         } catch (\Throwable $th) {
-            Log::error('[MediaService::deleteAudio] Hapus audio gagal', [
-                'id_audio' => $id_audio,
-                'error' => $th->getMessage(),
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-            ]);
-
+            Log::error('Gagal hapus audio dari S3: ' . $th->getMessage());
             return false;
         }
     }

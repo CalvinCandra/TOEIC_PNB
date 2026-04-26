@@ -20,9 +20,11 @@ yarn-error.log
 /storage/*
 !/storage/app
 !/storage/app/public
+storage/app/public/Template/*.xlsx
 !/storage/framework
 !/storage/framework/cache
 !/storage/framework/sessions
 !/storage/framework/views
 !/storage/logs
+/storage/app/temp/
 docs/

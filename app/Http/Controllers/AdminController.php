@@ -11,6 +11,7 @@ use App\Services\Staff\PetugasAdminService;
 use App\Services\TemplateExcelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -195,7 +196,9 @@ class AdminController extends Controller
     {
         $gambar = $this->mediaService->getGambarAll();
 
-        return view('admin.content.Gambar.gambarAdmin', compact('gambar'));
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+
+        return view('admin.content.Gambar.gambarAdmin', compact('gambar', 'urlpathimage'));
     }
 
     public function TambahGambar(Request $request)
@@ -220,7 +223,9 @@ class AdminController extends Controller
     {
         $audio = $this->mediaService->getAudioAll();
 
-        return view('admin.content.Audio.audioAdmin', compact('audio'));
+        $urlpathaudio = Storage::disk('s3')->url('audio/');
+
+        return view('admin.content.Audio.audioAdmin', compact('audio', 'urlpathaudio'));
     }
 
     public function TambahAudio(Request $request)
@@ -248,7 +253,9 @@ class AdminController extends Controller
         $data = $this->soalService->getDashListening((int) $id, $request->search);
         $id_bank = $id;
 
-        return view('admin.content.SoalListening.dashSoalListening', array_merge($data, compact('id_bank')));
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+
+        return view('admin.content.SoalListening.dashSoalListening', array_merge($data, compact('id_bank', 'urlpathimage')));
     }
 
     public function TambahSoalListeningAdmin(Request $request)
@@ -285,7 +292,9 @@ class AdminController extends Controller
         $data = $this->soalService->getDashReading((int) $id, $request->search);
         $id_bank = $id;
 
-        return view('admin.content.SoalReading.dashSoalReading', array_merge($data, compact('id_bank')));
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+
+        return view('admin.content.SoalReading.dashSoalReading', array_merge($data, compact('id_bank', 'urlpathimage')));
     }
 
     public function TambahSoalReadingAdmin(Request $request)
@@ -322,7 +331,10 @@ class AdminController extends Controller
         $data = $this->partService->getDashListening((int) $id, $request->search);
         $id_bank = $id;
 
-        return view('admin.content.Part.partListening', array_merge($data, compact('id_bank')));
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+        $urlpathaudio = Storage::disk('s3')->url('audio/');
+
+        return view('admin.content.Part.partListening', array_merge($data, compact('id_bank', 'urlpathimage', 'urlpathaudio')));
     }
 
     public function TambahListeningPartAdmin(Request $request)
@@ -361,7 +373,9 @@ class AdminController extends Controller
         $data = $this->partService->getDashReading((int) $id, $request->search);
         $id_bank = $id;
 
-        return view('admin.content.Part.partReading', array_merge($data, compact('id_bank')));
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+
+        return view('admin.content.Part.partReading', array_merge($data, compact('id_bank', 'urlpathimage')));
     }
 
     public function TambahReadingPartAdmin(Request $request)
