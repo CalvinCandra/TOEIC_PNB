@@ -63,6 +63,8 @@ class PesertaService
         }
     }
 
+    
+
     public function updatePeserta(Request $request): bool
     {
         Log::info('[PesertaService::updatePeserta] Memulai update peserta', [
@@ -154,7 +156,7 @@ class PesertaService
     }
 
     public function resetAllStatusPeserta(string $sesi) {
-        Peserta::where('sesi', $sesi)->update(['status' => 'Belum']);
+        Peserta::where('sesi', $sesi)->update(['status' => 'Belum', 'listening_start_at' => null, 'reading_start_at' => null]);
     }
 
     public function exportExcel(string $sesi)

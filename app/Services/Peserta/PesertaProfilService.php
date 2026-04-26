@@ -65,7 +65,7 @@ class PesertaProfilService
         }
     }
 
-    public function downloadResult(int $userId)
+    public function downloadResult(int $userId): array|null
     {
         $peserta = Peserta::with('user')->where('id_users', $userId)->first();
 
@@ -74,32 +74,62 @@ class PesertaProfilService
                 'id_users' => $userId,
             ]);
 
-            return null;
+            return ['status' => 'not_found'];
         }
 
-        $sesiFolderName = str_replace(' ', '_', strtolower($peserta->sesi));
-        $folder = storage_path("app/public/result/{$sesiFolderName}");
-        $pattern = "Result_{$peserta->nim}_{$peserta->sesi}_*.pdf";
-        $files = glob("{$folder}/{$pattern}");
+        return match ($peserta->pdf_status) {
 
-        if (empty($files)) {
-            Log::warning('[PesertaProfilService::downloadResult] File PDF tidak ditemukan', [
-                'nim' => $peserta->nim,
+            'pending' => [
+                'status'  => 'pending',
+                'message' => 'Your result has not been processed yet. Please wait a moment.',
+            ],
+
+            'processing' => [
+                'status'  => 'processing',
+                'message' => 'Your result is currently being calculated. Please wait a moment and try again.',
+            ],
+
+            'done' => $this->streamPdf($peserta),
+
+            'failed' => [
+                'status'  => 'failed',
+                'message' => 'Your result PDF could not be generated. Please contact the exam committee.',
+            ],
+
+            default => [
+                'status'  => 'unknown',
+                'message' => 'An unexpected error occurred. Please contact the exam committee.',
+            ],
+        };
+    }
+
+    private function streamPdf(Peserta $peserta): array
+    {
+        $path = $peserta->pdf_path;
+
+        if (! Storage::disk('public')->exists($path)) {
+            Log::error('[PesertaProfilService::downloadResult] File PDF tidak ditemukan di storage', [
+                'nim'  => $peserta->nim,
                 'sesi' => $peserta->sesi,
+                'path' => $path,
             ]);
 
-            return null;
+            return [
+                'status'  => 'file_missing',
+                'message' => 'Your result PDF file was not found. Please contact the exam committee.',
+            ];
         }
 
-        usort($files, fn ($a, $b) => filemtime($b) - filemtime($a));
-        $filename = basename($files[0]);
-
-        Log::info('[PesertaProfilService::downloadResult] Download PDF', [
-            'nim' => $peserta->nim,
-            'filename' => $filename,
+        Log::info('[PesertaProfilService::downloadResult] Download PDF berhasil', [
+            'nim'  => $peserta->nim,
+            'sesi' => $peserta->sesi,
+            'path' => $path,
         ]);
 
-        return Storage::disk('public')->download("result/{$sesiFolderName}/{$filename}");
+        return [
+            'status'   => 'done',
+            'download' => Storage::disk('public')->download($path),
+        ];
     }
 
     public function resetPassword(Request $request, int $userId): bool|string

@@ -29,6 +29,8 @@ class Peserta extends Model
         'update_at',
         'listening_start_at',
         'reading_start_at',
+        'pdf_status',
+        'pdf_path',
     ];
 
     protected $casts = [
