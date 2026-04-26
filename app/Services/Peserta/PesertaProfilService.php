@@ -107,8 +107,8 @@ class PesertaProfilService
     {
         $path = $peserta->pdf_path;
 
-        if (! Storage::disk('public')->exists($path)) {
-            Log::error('[PesertaProfilService::downloadResult] File PDF tidak ditemukan di storage', [
+        if (! Storage::disk('s3')->exists($path)) {
+            Log::error('[PesertaProfilService::downloadResult] File PDF tidak ditemukan di S3', [
                 'nim'  => $peserta->nim,
                 'sesi' => $peserta->sesi,
                 'path' => $path,
@@ -128,7 +128,7 @@ class PesertaProfilService
 
         return [
             'status'   => 'done',
-            'download' => Storage::disk('public')->download($path),
+            'download' => redirect(Storage::disk('s3')->url($path)),
         ];
     }
 

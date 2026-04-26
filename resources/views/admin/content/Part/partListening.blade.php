@@ -91,8 +91,7 @@
 
                                         @if (!$data->id_gambar == null)
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">
-                                                <a class=""
-                                                    href="{{ asset('storage/gambar/' . $data->gambar->gambar) }}"
+                                                <a class="" href="{{ $urlpathimage . $data->gambar->gambar }}"
                                                     data-lightbox="example-1" target="__blank" id='link-foto'>
                                                     <h1 class="text-sky-500 italic font-weight-bold hover:underline">See
                                                         Image</h1>
@@ -106,8 +105,8 @@
                                         @if (!$data->id_audio == null)
                                             <td class="px-4 py-3 border-2">
                                                 <audio id="audio" controls>
-                                                    <source src="{{ asset('storage/audio/' . $data->audio->audio) }}"
-                                                        type="audio/mp3" class="bg-[#023047] text-white">
+                                                    <source src="{{ $urlpathaudio . $data->audio->audio }}" type="audio/mp3"
+                                                        class="bg-[#023047] text-white">
                                                     Your browser does not support the audio element.
                                                 </audio>
                                             </td>

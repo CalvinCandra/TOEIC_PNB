@@ -10,6 +10,7 @@ use App\Services\Soal\SoalCrudService;
 use App\Services\TemplateExcelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PetugasController extends Controller
 {
@@ -149,7 +150,9 @@ class PetugasController extends Controller
     {
         $gambar = $this->mediaService->getGambarAll();
 
-        return view('petugas.content.Gambar.gambarPetugas', compact('gambar'));
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+
+        return view('petugas.content.Gambar.gambarPetugas', compact('gambar', 'urlpathimage'));
     }
 
     public function TambahGambar(Request $request)
@@ -174,7 +177,9 @@ class PetugasController extends Controller
     {
         $audio = $this->mediaService->getAudioAll();
 
-        return view('petugas.content.Audio.audioPetugas', compact('audio'));
+        $urlpathaudio = Storage::disk('s3')->url('audio/');
+
+        return view('petugas.content.Audio.audioPetugas', compact('audio', 'urlpathaudio'));
     }
 
     public function TambahAudio(Request $request)
@@ -202,7 +207,10 @@ class PetugasController extends Controller
         $data = $this->soalService->getDashListening((int) $id, $request->search);
         $id_bank = $id;
 
-        return view('petugas.content.soalListening.dashSoalListening', array_merge($data, compact('id_bank')));
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+        $urlpathaudio = Storage::disk('s3')->url('audio/');
+
+        return view('petugas.content.soalListening.dashSoalListening', array_merge($data, compact('id_bank', 'urlpathimage', 'urlpathaudio')));
     }
 
     public function TambahSoalListeningPetugas(Request $request)
@@ -239,7 +247,9 @@ class PetugasController extends Controller
         $data = $this->soalService->getDashReading((int) $id, $request->search);
         $id_bank = $id;
 
-        return view('petugas.content.soalReading.dashSoalReading', array_merge($data, compact('id_bank')));
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+
+        return view('petugas.content.soalReading.dashSoalReading', array_merge($data, compact('id_bank', 'urlpathimage')));
     }
 
     public function TambahSoalReadingPetugas(Request $request)
@@ -276,7 +286,10 @@ class PetugasController extends Controller
         $data = $this->partService->getDashListening((int) $id, $request->search);
         $id_bank = $id;
 
-        return view('petugas.content.Part.partListening', array_merge($data, compact('id_bank')));
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+        $urlpathaudio = Storage::disk('s3')->url('audio/');
+
+        return view('petugas.content.Part.partListening', array_merge($data, compact('id_bank', 'urlpathimage', 'urlpathaudio')));
     }
 
     public function TambahListeningPartPetugas(Request $request)
@@ -315,7 +328,9 @@ class PetugasController extends Controller
         $data = $this->partService->getDashReading((int) $id, $request->search);
         $id_bank = $id;
 
-        return view('petugas.content.Part.partReading', array_merge($data, compact('id_bank')));
+        $urlpathimage = Storage::disk('s3')->url('gambar/');
+
+        return view('petugas.content.Part.partReading', array_merge($data, compact('id_bank', 'urlpathimage')));
     }
 
     public function TambahReadingPartPetugas(Request $request)

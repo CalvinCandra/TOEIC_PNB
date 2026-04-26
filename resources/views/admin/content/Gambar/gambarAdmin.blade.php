@@ -79,7 +79,7 @@
                                         <td class="px-4 py-3 border-2">{{ $loop->iteration }}</td>
                                         <td class="px-4 py-3 border-2">{{ $data->gambar }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">
-                                            <a class="" href="{{ asset('storage/gambar/' . $data->gambar) }}"
+                                            <a class="" href="{{ $urlpathimage . $data->gambar }}"
                                                 data-lightbox="example-1" target="__blank" id='link-foto'>
                                                 <h1 class="text-sky-500 italic font-weight-bold hover:underline">See Image
                                                 </h1>
