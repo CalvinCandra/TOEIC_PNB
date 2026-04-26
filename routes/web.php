@@ -215,6 +215,8 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
     // profile
     Route::get('/Profil', [PesertaController::class, 'Profil']);
     Route::get('/download-result', [PesertaController::class, 'DownloadResutl']);
+    Route::get('/DownloadResultDirect', [PesertaController::class, 'DownloadResultDirect'])
+        ->name('result.download.direct');
     Route::get('/reset-password', [PesertaController::class, 'ResetPasswordPage']);
     Route::post('/reset-password', [PesertaController::class, 'ResetPassword'])->middleware('throttle:5,1');
     Route::post('/UpdateProfil', [PesertaController::class, 'UpdateProfil'])->middleware('throttle:5,1');

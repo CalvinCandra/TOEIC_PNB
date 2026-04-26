@@ -43,15 +43,23 @@ class PesertaController extends Controller
 
     public function DownloadResutl(Request $request)
     {
-        $response = $this->profilService->downloadResult(auth()->id());
+        $result = $this->profilService->downloadResult(auth()->id());
 
-        if (! $response) {
-            Alert::info('Information', 'Result file not found');
-
-            return redirect('/Profil');
+        // Jika status done dan ada file download, langsung return file
+        if (isset($result['status']) && $result['status'] === 'done') {
+            return $result['download'];
         }
 
-        return $response;
+        // Semua status selain done → tampilkan pesan sesuai status
+        $message = $result['message'] ?? 'Something went wrong. Please try again.';
+
+        match ($result['status'] ?? 'unknown') {
+            'pending', 'processing' => toast('Please Wait '.$message, 'success'),
+            'failed', 'file_missing' => toast('PDF Failed '.$message, 'error'),
+            default                  => toast('Not Found '.$message, 'warning'),
+        };
+
+        return redirect()->back();
     }
 
     public function ResetPasswordPage()
@@ -147,5 +155,19 @@ class PesertaController extends Controller
         $request->session()->put('bank', $cekBank->bank);
 
         return redirect('/Listening');
+    }
+
+    public function DownloadResultDirect(\Illuminate\Http\Request $request): mixed
+    {
+        $peserta = \App\Models\Peserta::where('id_users', auth()->id())->first();
+
+        if (! $peserta || $peserta->pdf_status !== 'done' || ! $peserta->pdf_path) {
+            return response()->json([
+                'status'  => $peserta->pdf_status ?? 'pending',
+                'message' => 'not_ready',
+            ]);
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('public')->download($peserta->pdf_path);
     }
 }
