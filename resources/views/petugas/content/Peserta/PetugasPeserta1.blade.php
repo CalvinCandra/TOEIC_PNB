@@ -106,30 +106,48 @@
                                             {{ $data->skor_listening + $data->skor_reading }}
                                         </td>
 
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">
-                                            <ul class="flex py-1 text-sm" aria-labelledby="apple-imac-27-dropdown-button">
-                                                <button id="dropdownMenuIconHorizontalButton"
-                                                    data-dropdown-toggle="dropdownDotsHorizontal"
-                                                    class="text-heading bg-neutral-primary box-border border border-transparent hover:bg-neutral-secondary-medium focus:ring-4 focus:ring-neutral-tertiary font-medium leading-5 rounded-base text-sm p-2 focus:outline-none"
-                                                    type="button">
-                                                    <svg class="w-6 h-6" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        fill="none" viewBox="0 0 24 24">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="3"
-                                                            d="M6 12h.01m6 0h.01m5.99 0h.01" />
-                                                    </svg>
-                                                </button>
-                                                <li>
-                                                    <button
-                                                        onclick="hapus('baris{{ $loop->iteration }}', '{{ $data->id_peserta }}')"
-                                                        type="button" data-modal-target="DeletePeserta"
-                                                        data-modal-toggle="DeletePeserta"
-                                                        class="flex items-center w-full px-4 py-2 text-red-500 hover:bg-gray-100 hover:scale-95">
-                                                        <i class="fa-solid fa-trash me-1"></i>
-                                                        Delete
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap text-center">
+                                            <button id="dropdownMenuIconButton{{ $data->id_peserta }}" data-dropdown-toggle="dropdownDotsHorizontal{{ $data->id_peserta }}" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-700 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-700 transition duration-150 ease-in-out" type="button">
+                                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                                                    <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                                                </svg>
+                                            </button>
+                                            
+                                            <!-- Dropdown menu -->
+                                            <div id="dropdownDotsHorizontal{{ $data->id_peserta }}" class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-56 dark:bg-gray-700 dark:divide-gray-600 border border-gray-200 text-left">
+                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton{{ $data->id_peserta }}">
+                                                    <li>
+                                                        <button type="button" data-modal-target="UpdatePeserta{{ $data->id_peserta }}" data-modal-toggle="UpdatePeserta{{ $data->id_peserta }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i class="fa-solid fa-pen-to-square w-5 text-blue-500 mr-2 text-center"></i> 
+                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Update Participation</span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ url('/SendMail/Peserta/' . $data->id_peserta) }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i class="fa-solid fa-envelope w-5 text-green-500 mr-2 text-center"></i> 
+                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Send Mail</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i class="fa-solid fa-key w-5 text-yellow-500 mr-2 text-center"></i> 
+                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Reset Password</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ url('/reset-status-peserta-petugas/' . $data->id_peserta) }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i class="fa-solid fa-rotate-right w-5 text-orange-500 mr-2 text-center"></i> 
+                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Reset Status</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div class="py-1">
+                                                    <button onclick="hapus('baris{{ $loop->iteration }}', '{{ $data->id_peserta }}')" type="button" data-modal-target="DeletePeserta" data-modal-toggle="DeletePeserta" class="flex items-center w-full px-4 py-2.5 text-red-600 hover:bg-red-50 dark:hover:bg-gray-600 dark:text-red-500 dark:hover:text-white transition-colors">
+                                                        <i class="fa-solid fa-trash w-5 mr-2 text-center"></i> 
+                                                        <span class="font-medium">Delete Participant</span>
                                                     </button>
-                                                </li>
-                                            </ul>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -323,37 +341,7 @@
     </div>
     {{-- End Modal Delete --}}
 
-    {{-- Modal Dropdown Action Update --}}
-    <div id="dropdownDotsHorizontal"
-        class="z-10 hidden bg-white border border-default-medium rounded-base shadow-lg w-44">
-        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
-            <li class="border-b-2 border-gray-300">
-                <button type="button" data-modal-target="UpdatePeserta{{ $data->id_peserta }}"
-                    data-modal-toggle="UpdatePeserta{{ $data->id_peserta }}" class="block px-4 py-2 hover:bg-gray-100">
-                    Update Participation
-                </button>
-            </li>
-            <li class="border-b-2 border-gray-300">
-                <a href="{{ url('/SendMail/Peserta/' . $data->id_peserta) }}"
-                    class="block px-4 py-2 hover:bg-gray-100 text-green-400 ">
-                    Send Mail
-                </a>
-            </li>
-            <li class="border-b-2 border-gray-300">
-                <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}"
-                    class="block px-4 py-2 hover:bg-gray-100 text-red-400 ">
-                    Reset Default Password
-                </a>
-            </li>
-            <li class="border-b-2 border-gray-300">
-                <a href="{{ url('/reset-status-peserta-petugas/' . $data->id_peserta) }}"
-                    class="block px-4 py-2 hover:bg-gray-100 text-orange-500">
-                    Reset Status
-                </a>
-            </li>
-        </ul>
-    </div>
-    {{-- End Modal Dropdown Action Update --}}
+
 
     {{-- Modal Reset Status --}}
     <div id="ResetStatus" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
