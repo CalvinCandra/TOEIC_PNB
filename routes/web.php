@@ -85,7 +85,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     // Route::post('/TambahPeserta', [AdminController::class, 'TambahPeserta']);
     Route::post('/TambahPesertaExcelAdmin', [AdminController::class, 'TambahPesertaExcel']);
     Route::post('/UpdateAdminPeserta', [AdminController::class, 'UpdatePeserta']);
-    Route::get('/reset-status-peserta/{id}', [AdminController::class, 'UpdateStatusPeserta']);
+    Route::get('/reset-status-peserta-admin/{id}', [AdminController::class, 'UpdateStatusPeserta']);
     Route::post('/DeleteAdminPeserta', [AdminController::class, 'DeletePeserta']);
     Route::get('/ExportExcelAdmin/{sesi}', [AdminController::class, 'ExportExcelAdmin']);
     Route::post('/ResetStatusAdmin/{sesi}', [AdminController::class, 'ResetAllStatusPeserta']);
@@ -155,7 +155,7 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     // Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
     Route::post('/TambahPesertaExcelPetugas', [PetugasController::class, 'TambahPesertaExcel']);
     Route::post('/UpdatePetugasPeserta', [PetugasController::class, 'UpdatePetugasPeserta']);
-    Route::get('/reset-status-peserta/{id}', [PetugasController::class, 'UpdateStatusPeserta']);
+    Route::get('/reset-status-peserta-petugas/{id}', [PetugasController::class, 'UpdateStatusPeserta']);
     Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
     Route::get('/ExportExcelPetugas/{sesi}', [PetugasController::class, 'ExportExcelPetugas']);
     Route::post('/ResetStatusPetugas/{sesi}', [PetugasController::class, 'ResetStatusPetugas']);
