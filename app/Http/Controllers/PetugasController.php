@@ -99,6 +99,15 @@ class PetugasController extends Controller
         return redirect()->back();
     }
 
+    public function UpdateStatusPeserta($id)
+    {
+        $this->pesertaService->resetStatusPeserta($id)
+            ? toast('Status Peserta Berhasil Direset', 'success')
+            : toast('Gagal Reset Status Peserta', 'error');
+
+        return redirect()->back();
+    }
+
     public function ResetAllStatusPeserta($sesi)
     {
         $this->pesertaService->resetAllStatusPeserta($sesi);

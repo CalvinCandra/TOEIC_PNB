@@ -96,7 +96,6 @@ class PesertaService
                 'nama_peserta' => $request->name,
                 'nim'          => $request->nim,
                 'sesi'         => $request->sesi,
-                'status'       => $request->status,
             ]);
 
             User::where('id', $user->id)->update([
@@ -155,8 +154,54 @@ class PesertaService
         }
     }
 
+    public function resetStatusPeserta($id_peserta): bool
+    {
+        Log::info('[PesertaService::resetStatusPeserta] Memulai reset status peserta', [
+            'id_peserta' => $id_peserta,
+        ]);
+
+        try {
+            Peserta::where('id_peserta', $id_peserta)->update([
+                'status'            => 'Belum',
+                'pdf_status'        => 'Pending',
+                'pdf_path'          => null,
+                'benar_listening'   => 0,
+                'benar_reading'     => 0,
+                'skor_listening'    => 0,
+                'skor_reading'      => 0,
+                'listening_start_at'=> null,
+                'reading_start_at'  => null,
+            ]);
+
+            Log::info('[PesertaService::resetStatusPeserta] Reset status peserta berhasil', [
+                'id_peserta' => $id_peserta,
+            ]);
+
+            return true;
+        } catch (\Throwable $th) {
+            Log::error('[PesertaService::resetStatusPeserta] Reset status peserta gagal', [
+                'id_peserta' => $id_peserta,
+                'error'      => $th->getMessage(),
+                'file'       => $th->getFile(),
+                'line'       => $th->getLine(),
+            ]);
+
+            return false;
+        }
+    }
+
     public function resetAllStatusPeserta(string $sesi) {
-        Peserta::where('sesi', $sesi)->update(['status' => 'Belum', 'listening_start_at' => null, 'reading_start_at' => null]);
+        Peserta::where('sesi', $sesi)->update([
+            'status'            => 'Belum',
+            'pdf_status'        => 'Pending',
+            'pdf_path'          => null,
+            'benar_listening'   => 0,
+            'benar_reading'     => 0,
+            'skor_listening'    => 0,
+            'skor_reading'      => 0,
+            'listening_start_at'=> null,
+            'reading_start_at'  => null,
+        ]);
     }
 
     public function exportExcel(string $sesi)
