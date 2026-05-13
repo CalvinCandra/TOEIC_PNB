@@ -45,7 +45,7 @@
                         <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 w-full sm:w-max">
                             <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-2 ml-1"><i
                                     class="fa-solid fa-volume-high mr-1"></i> Part Audio</p>
-                            <audio id="audiopart" class="audiopart max-w-full h-8" data-id-part="{{ $part->id_part }}"
+                            <audio preload="none" id="audiopart" class="audiopart max-w-full h-8" data-id-part="{{ $part->id_part }}"
                                 controls controlsList="nodownload">
                                 <source src="{{ $urlpathaudio . $part->audio->audio }}" type="audio/mp3">
                                 Your browser does not support the audio element.
@@ -56,7 +56,7 @@
                     @if (!empty($part->id_gambar))
                         <div
                             class="border border-slate-100 rounded-xl p-2 bg-slate-50 self-start mt-1 cursor-zoom-in group relative">
-                            <img src="{{ $urlpathimage . $part->gambar->gambar }}" alt="gambar part soal"
+                            <img loading="lazy" src="{{ $urlpathimage . $part->gambar->gambar }}" alt="gambar part soal"
                                 class="zoomable-image max-h-64 object-contain rounded-lg">
                             <div
                                 class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
@@ -90,7 +90,7 @@
 
                                 @if (!empty($data->id_audio))
                                     <div class="bg-slate-50 rounded-xl p-2 border border-slate-100 sm:w-max">
-                                        <audio class="audio max-w-full h-8 w-full" data-id-soal="{{ $data->id_soal }}"
+                                        <audio preload="none" class="audio max-w-full h-8 w-full" data-id-soal="{{ $data->id_soal }}"
                                             controls controlsList="nodownload">
                                             <source src="{{ $urlpathaudio . $data->audio->audio }}" type="audio/mp3">
                                         </audio>
@@ -102,7 +102,7 @@
                                 @if (!empty($data->id_gambar))
                                     <div
                                         class="border border-slate-100 rounded-xl p-1.5 bg-slate-50 cursor-zoom-in group relative self-start">
-                                        <img src="{{ $urlpathimage . $data->gambar->gambar }}" alt="question image"
+                                        <img loading="lazy" src="{{ $urlpathimage . $data->gambar->gambar }}" alt="question image"
                                             class="zoomable-image max-h-64 object-contain rounded-lg w-full">
                                         <div
                                             class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
