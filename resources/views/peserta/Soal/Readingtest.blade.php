@@ -46,7 +46,7 @@
                     @if (!empty($part->id_gambar))
                         <div
                             class="border border-slate-100 rounded-xl p-2 bg-slate-50 self-start cursor-zoom-in group relative">
-                            <img src="{{ $urlpathimage . $part->gambar->gambar }}" alt="gambar soal"
+                            <img loading="lazy" src="{{ $urlpathimage . $part->gambar->gambar }}" alt="gambar soal"
                                 class="zoomable-image max-h-64 object-contain rounded-lg">
                             <div
                                 class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
@@ -58,7 +58,7 @@
                     @if (!empty($part->id_gambar_1))
                         <div
                             class="border border-slate-100 rounded-xl p-2 bg-slate-50 self-start cursor-zoom-in group relative">
-                            <img src="{{ $urlpathimage . $part->gambar->gambar1 }}" alt="gambar soal"
+                            <img loading="lazy" src="{{ $urlpathimage . $part->gambar->gambar1 }}" alt="gambar soal"
                                 class="zoomable-image max-h-64 object-contain rounded-lg">
                             <div
                                 class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
@@ -70,7 +70,7 @@
                     @if (!empty($part->id_gambar_2))
                         <div
                             class="border border-slate-100 rounded-xl p-2 bg-slate-50 self-start cursor-zoom-in group relative">
-                            <img src="{{ $urlpathimage . $part->gambar->gambar2 }}" alt="gambar soal"
+                            <img loading="lazy" src="{{ $urlpathimage . $part->gambar->gambar2 }}" alt="gambar soal"
                                 class="zoomable-image max-h-64 object-contain rounded-lg">
                             <div
                                 class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
@@ -126,8 +126,8 @@
                                 @if (!empty($data->id_audio))
                                     @if (!$audioPlayed)
                                         <div class="bg-slate-50 rounded-xl p-2 border border-slate-100 sm:w-max">
-                                            <audio id="audio" controls controlsList="nodownload"
-                                                class="max-w-full h-8 w-full">
+                                            <audio preload="none" id="audio" controls controlsList="nodownload"
+                                                class="max-w-full h-8 w-full" preload="none">
                                                 <source src="{{ asset('storage/audio/' . $data->audio->audio) }}"
                                                     type="audio/mp3">
                                             </audio>
@@ -146,7 +146,7 @@
                                 @if (!empty($data->id_gambar))
                                     <div
                                         class="border border-slate-100 rounded-xl p-1.5 bg-slate-50 cursor-zoom-in group relative self-start">
-                                        <img src="{{ $urlpathimage . $data->gambar->gambar }}" alt="question image"
+                                        <img loading="lazy" src="{{ $urlpathimage . $data->gambar->gambar }}" alt="question image"
                                             class="zoomable-image max-h-64 object-contain rounded-lg w-full">
                                         <div
                                             class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
@@ -158,7 +158,7 @@
                                 @if (!empty($data->id_gambar_1))
                                     <div
                                         class="border border-slate-100 rounded-xl p-1.5 bg-slate-50 cursor-zoom-in group relative self-start">
-                                        <img src="{{ $urlpathimage . $data->gambar1->gambar }}" alt="question image"
+                                        <img loading="lazy" src="{{ $urlpathimage . $data->gambar1->gambar }}" alt="question image"
                                             class="zoomable-image max-h-64 object-contain rounded-lg w-full">
                                         <div
                                             class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
@@ -170,7 +170,7 @@
                                 @if (!empty($data->id_gambar_2))
                                     <div
                                         class="border border-slate-100 rounded-xl p-1.5 bg-slate-50 cursor-zoom-in group relative self-start">
-                                        <img src="{{ $urlpathimage . $data->gambar2->gambar }}" alt="question image"
+                                        <img loading="lazy" src="{{ $urlpathimage . $data->gambar2->gambar }}" alt="question image"
                                             class="zoomable-image max-h-64 object-contain rounded-lg w-full">
                                         <div
                                             class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg pointer-events-none">
