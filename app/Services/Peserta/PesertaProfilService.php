@@ -81,7 +81,7 @@ class PesertaProfilService
 
             'pending' => [
                 'status'  => 'pending',
-                'message' => 'Your result has not been processed yet. Please wait a moment.',
+                'message' => "You haven't done the test yet, please do the test.",
             ],
 
             'processing' => [
