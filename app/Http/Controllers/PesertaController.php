@@ -54,7 +54,7 @@ class PesertaController extends Controller
         $message = $result['message'] ?? 'Something went wrong. Please try again.';
 
         match ($result['status'] ?? 'unknown') {
-            'pending', 'processing' => toast('Please Wait '.$message, 'success'),
+            'pending', 'processing' => toast('Please Wait '.$message, 'info'),
             'failed', 'file_missing' => toast('PDF Failed '.$message, 'error'),
             default                  => toast('Not Found '.$message, 'warning'),
         };
@@ -162,10 +162,11 @@ class PesertaController extends Controller
         $peserta = \App\Models\Peserta::where('id_users', auth()->id())->first();
 
         if (! $peserta || $peserta->pdf_status !== 'done' || ! $peserta->pdf_path) {
-            return response()->json([
-                'status'  => $peserta->pdf_status ?? 'pending',
-                'message' => 'not_ready',
-            ]);
+            return toast('The system is calculating, please wait.', 'info');
+            // return response()->json([
+            //     'status'  => $peserta->pdf_status ?? 'pending',
+            //     'message' => 'not_ready',
+            // ]);
         }
 
         return \Illuminate\Support\Facades\Storage::disk('public')->download($peserta->pdf_path);

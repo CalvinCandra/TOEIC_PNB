@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BankSoal extends Model
@@ -21,14 +21,13 @@ class BankSoal extends Model
         'updated_at',
     ];
 
-    public function soal(): BelongsTo
+    public function soal(): HasMany
     {
-        return $this->belongsTo(Soal::class, 'id_bank', 'id_bank');
+        return $this->hasMany(Soal::class, 'id_bank', 'id_bank');
     }
 
-     // part
-     public function part(): BelongsTo
-     {
-         return $this->belongsTo(Part::class, 'id_bank', 'id_bank');
-     }
+    public function part(): HasMany
+    {
+        return $this->hasMany(Part::class, 'id_bank', 'id_bank');
+    }
 }

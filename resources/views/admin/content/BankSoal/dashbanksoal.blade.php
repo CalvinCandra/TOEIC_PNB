@@ -205,12 +205,6 @@
                                 <option selected hidden value="">-- Select --</option>
                                 <option value="Session 1">Session 1</option>
                                 <option value="Session 2">Session 2</option>
-                                <option value="Session 3">Session 3</option>
-                                <option value="Session 4">Session 4</option>
-                                <option value="Session 5">Session 5</option>
-                                <option value="Session 6">Session 6</option>
-                                <option value="Session 7">Session 7</option>
-                                <option value="Session 8">Session 8</option>
                             </select>
                         </div>
 
@@ -287,12 +281,6 @@
                                     </option>
                                     <option value="Session 1">Session 1</option>
                                     <option value="Session 2">Session 2</option>
-                                    <option value="Session 3">Session 3</option>
-                                    <option value="Session 4">Session 4</option>
-                                    <option value="Session 5">Session 5</option>
-                                    <option value="Session 6">Session 6</option>
-                                    <option value="Session 7">Session 7</option>
-                                    <option value="Session 8">Session 8</option>
                                 </select>
                             </div>
 

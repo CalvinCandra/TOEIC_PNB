@@ -72,7 +72,7 @@
 
         <div class="border-t border-blue-400/15 pt-6 text-center">
             <p class="text-sm font-normal text-blue-200/40">
-                &copy; 2026 TOEIC Assessment — Politeknik Negeri Bali. All rights reserved.
+                &copy; 2026 TOEIC Assessment v.2 — Politeknik Negeri Bali. All rights reserved.
             </p>
         </div>
 

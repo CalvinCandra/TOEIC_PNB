@@ -7,7 +7,7 @@ use App\Models\JawabanPeserta;
 use App\Models\Nilai;
 use App\Models\Part;
 use App\Models\Peserta;
-use App\Models\soal;
+use App\Models\Soal;
 use Illuminate\Support\Facades\Log;
 
 class UjianService
@@ -29,17 +29,24 @@ class UjianService
     public function simpanJawaban(int $idPeserta, array $idSoalList, array $jawaban): void
     {
         Log::info('[UjianService::simpanJawaban] Menyimpan jawaban', [
-            'id_peserta' => $idPeserta,
+            'id_peserta'  => $idPeserta,
             'jumlah_soal' => count($idSoalList),
         ]);
 
-        foreach ($idSoalList as $idSoal) {
-            JawabanPeserta::create([
-                'id_peserta' => $idPeserta,
-                'id_soal' => $idSoal,
-                'jawaban' => $jawaban[$idSoal] ?? 'N',
-            ]);
+        if (empty($idSoalList)) {
+            return;
         }
+
+        $data = [];
+        foreach ($idSoalList as $idSoal) {
+            $data[] = [
+                'id_peserta' => $idPeserta,
+                'id_soal'    => (int) $idSoal,
+                'jawaban'    => $jawaban[$idSoal] ?? 'N',
+            ];
+        }
+
+        JawabanPeserta::insert($data);
     }
 
     public function getNextPart(int $idPart, int $idBank, string $kategori): ?Part
@@ -70,7 +77,7 @@ class UjianService
             ->where('soal.id_bank', $bank->id_bank)
             ->pluck('jawaban_peserta.jawaban', 'jawaban_peserta.id_soal');
 
-        $soalListening = soal::where('kategori', 'Listening')
+        $soalListening = Soal::where('kategori', 'Listening')
             ->where('id_bank', $bank->id_bank)
             ->pluck('kunci_jawaban', 'id_soal');
 
@@ -109,7 +116,7 @@ class UjianService
         $jawabanPeserta = JawabanPeserta::where('id_peserta', $peserta->id_peserta)
             ->pluck('jawaban', 'id_soal');
 
-        $soalReading = soal::where('kategori', 'Reading')
+        $soalReading = Soal::where('kategori', 'Reading')
             ->where('id_bank', $bank->id_bank)
             ->pluck('kunci_jawaban', 'id_soal');
 

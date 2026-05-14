@@ -63,7 +63,6 @@ class PesertaService
         }
     }
 
-    
 
     public function updatePeserta(Request $request): bool
     {
@@ -148,6 +147,40 @@ class PesertaService
                 'error' => $th->getMessage(),
                 'file' => $th->getFile(),
                 'line' => $th->getLine(),
+            ]);
+
+            return false;
+        }
+    }
+
+    public function deleteAllPeserta(string $sesi): bool
+    {
+        Log::info('[PesertaService::deleteAllPeserta] Memulai hapus semua peserta', [
+            'sesi' => $sesi,
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $pesertaList = Peserta::where('sesi', $sesi)->get();
+            $userIds = $pesertaList->pluck('id_users')->toArray();
+
+            Peserta::where('sesi', $sesi)->delete();
+            User::whereIn('id', $userIds)->delete();
+
+            DB::commit();
+
+            Log::info('[PesertaService::deleteAllPeserta] Hapus semua peserta berhasil', [
+                'sesi' => $sesi,
+                'total' => count($pesertaList),
+            ]);
+
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            Log::error('[PesertaService::deleteAllPeserta] Hapus semua peserta gagal', [
+                'sesi' => $sesi,
+                'error' => $th->getMessage(),
             ]);
 
             return false;
