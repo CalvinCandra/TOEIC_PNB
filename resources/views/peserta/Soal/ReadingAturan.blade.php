@@ -45,7 +45,7 @@
     <header class="bg-white border-b border-gray-200 hidden md:block px-6 py-3 sticky top-0 z-50">
         <nav class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <img src="{{asset('img/logo unit.png')}}" alt="Logo PNB" class="h-9">
+                <img src="{{asset('img/logo unit.png')}}" alt="Logo PNB" class="h-9" loading="lazy">
                 <div class="flex flex-col leading-tight">
                     <span class="text-sm font-bold text-slate-800 tracking-wide">TOEIC Assessment</span>
                     <span class="text-[11px] text-slate-500">Politeknik Negeri Bali</span>
