@@ -72,66 +72,77 @@
     <!-- Anti-Back dari Halaman Soares + Modal "Already Left" -->
     <script>
         (function () {
-            'use strict';
-
-            const flag = sessionStorage.getItem('came_from_exam');
-            const flagAt = parseInt(sessionStorage.getItem('came_from_exam_time') || '0');
-            const TTL = 30 * 60 * 1000;
-            const isValid = flag === '1' && Date.now() - flagAt < TTL;
+            const flag = sessionStorage.getItem("came_from_exam");
+            const flagAt = parseInt(
+                sessionStorage.getItem("came_from_exam_time") || "0",
+            );
+            const TTL = 60 * 60 * 1000; // 1 jam
+            const isValid = flag === "1" && Date.now() - flagAt < TTL;
 
             if (!isValid) return;
 
             const EXAM_PATHS = [
-                '/SoalReading',
-                '/SoalListening',
-                '/Reading',
-                '/Listening',
+                "/SoalReading",
+                "/SoalListening",
+                "/Reading",
+                "/Listening",
             ];
 
-            const isExamPath = (pathname) =>
-                EXAM_PATHS.some((p) => pathname.startsWith(p));
+            function isExamPath(path) {
+                return EXAM_PATHS.some(function (p) {
+                    return path.startsWith(p);
+                });
+            }
 
-            const modal = document.getElementById('alreadyLeftModal');
-            const modalOk = document.getElementById('alreadyLeftModalOk');
+            function lockHistory() {
+                history.pushState(null, "", location.href);
+            }
 
-            const showModal = () => modal?.classList.replace('hidden', 'flex');
-            const hideModal = () => modal?.classList.replace('flex', 'hidden');
-            const lockHistory = () => {
-                history.pushState(null, '', location.href);
-                history.pushState(null, '', location.href);
-            };
+            function showModal() {
+                const modal = document.getElementById("alreadyLeftModal");
+                if (modal) {
+                    modal.classList.remove("hidden");
+                    modal.classList.add("flex");
+                }
+            }
 
-            document.addEventListener('DOMContentLoaded', lockHistory);
+            // Cek saat halaman load — tangani refresh & back dari cache
+            if (isExamPath(location.pathname)) {
+                history.replaceState(null, "", "/DashboardSoal");
+                showModal();
+                return;
+            }
 
-            window.addEventListener('popstate', () => {
+            lockHistory();
+
+            window.addEventListener("popstate", function () {
                 if (isExamPath(location.pathname)) {
                     lockHistory();
                     showModal();
+                } else {
+                    lockHistory();
                 }
             });
 
-            document.addEventListener('keydown', (e) => {
-                if ((e.altKey && e.key === 'ArrowLeft') || e.key === 'BrowserBack') {
+            document.addEventListener("keydown", function (e) {
+                if ((e.altKey && e.key === "ArrowLeft") || e.key === "BrowserBack") {
                     e.preventDefault();
                     e.stopPropagation();
                     showModal();
                 }
             });
 
-            modalOk?.addEventListener('click', () => {
-                hideModal();
-                if (isExamPath(location.pathname)) {
-                    window.location.replace('/peserta');
-                } else {
-                    lockHistory();
+            // Tombol OK di modal: hapus flag dan ke dashboard
+            document.addEventListener("DOMContentLoaded", function () {
+                const okBtn = document.getElementById("alreadyLeftModalOk");
+                if (okBtn) {
+                    okBtn.addEventListener("click", function () {
+                        sessionStorage.removeItem("came_from_exam");
+                        sessionStorage.removeItem("came_from_exam_time");
+                        window.location.replace("/DashboardSoal");
+                    });
                 }
             });
-
-            const remaining = TTL - (Date.now() - flagAt);
-            setTimeout(() => {
-                sessionStorage.removeItem('came_from_exam');
-                sessionStorage.removeItem('came_from_exam_time');
-            }, remaining);
         })();
     </script>
 

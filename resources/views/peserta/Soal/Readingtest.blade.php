@@ -261,7 +261,12 @@
                     const data = await res.json();
 
                     if (data.auto_submit || data.remaining <= 0) {
-                        autoSubmit();
+                        // Jangan langsung auto-submit saat halaman baru load
+                        // Tunggu 2 detik — server seharusnya sudah mengembalikan
+                        // waktu yang benar dari DB (setelah Fix 1 diterapkan)
+                        setTimeout(function () {
+                            autoSubmit();
+                        }, 2000);
                         return;
                     }
 
@@ -357,6 +362,9 @@
             }
 
             function autoSubmit() {
+                sessionStorage.setItem("came_from_exam", "1");
+                sessionStorage.setItem("came_from_exam_time", Date.now().toString());
+
                 const elNav = document.getElementById('countdown-nav');
                 if (elNav) elNav.textContent = 'Time Out';
 
@@ -367,6 +375,13 @@
             }
 
             document.addEventListener('DOMContentLoaded', initTimer);
+
+            if (form) {
+                form.addEventListener('submit', function () {
+                    sessionStorage.setItem("came_from_exam", "1");
+                    sessionStorage.setItem("came_from_exam_time", Date.now().toString());
+                });
+            }
         })();
     </script>
 

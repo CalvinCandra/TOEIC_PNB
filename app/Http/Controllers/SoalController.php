@@ -26,7 +26,22 @@ class SoalController extends Controller
      */
     private function guardSession(Request $request): bool
     {
-        return $request->session()->get('bank') !== null;
+        if ($request->session()->get('bank') === null) {
+            return false;
+        }
+
+        $peserta = $this->ujianService->getPesertaByUser(auth()->id());
+
+        if (! $peserta) {
+            return false;
+        }
+
+        if ($peserta->status === 'Sudah') {
+            $this->clearExamSession($request);
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -40,21 +55,10 @@ class SoalController extends Controller
             'waktu',
             'quizEndTime',
             'waktu_akhir',
-            'exam_nav_token',   // FIX: sebelumnya tidak dihapus
-            'exam_nav_expiry',  // FIX: sebelumnya tidak dihapus
         ]);
     }
 
-    /**
-     * Simpan nav token ke session untuk keperluan navigasi antar part.
-     */
-    private function setNavToken(Request $request, string $token, int $ttl = 30): void
-    {
-        $request->session()->put('exam_nav_token', $token);
-        $request->session()->put('exam_nav_expiry', time() + $ttl);
-    }
-
-    /**
+/**
      * Hitung sisa waktu ujian dalam detik.
      * FIX: dilindungi dari nilai null dan negatif.
      * Nilai negatif menyebabkan JavaScript timer langsung trigger auto-submit
@@ -69,6 +73,8 @@ class SoalController extends Controller
         }
 
         $diff = Carbon::now()->diffInSeconds(Carbon::parse($quizEndTime), false);
+
+        
 
         // false = signed diff; positif = masih ada waktu, negatif = sudah lewat
         return max(0, $diff);
@@ -156,8 +162,6 @@ class SoalController extends Controller
             'token_part' => $partPertama->token_part,
         ]);
 
-        $this->setNavToken($request, $partPertama->token_part);
-
         return redirect("/SoalListening/{$partPertama->token_part}");
     }
 
@@ -206,22 +210,37 @@ class SoalController extends Controller
             ->orderBy('nomor_soal')
             ->get();
 
-        // FIX: dilindungi dari nilai null dan negatif
-        // Nilai negatif menyebabkan JS timer langsung auto-submit → redirect ke Aturan
-        $remainingTime = $this->getRemainingSeconds($request);
+        // Hitung sisa waktu dari DB (listening_start_at), bukan dari session quizEndTime
+        $peserta = $this->ujianService->getPesertaByUser(auth()->id());
+
+        if ($peserta && $peserta->listening_start_at) {
+            $durasiDetik   = 46 * 60;
+            $elapsed       = now()->diffInSeconds($peserta->listening_start_at);
+            $remainingTime = max(0, $durasiDetik - $elapsed);
+
+            $newEndTime = \Carbon\Carbon::parse($peserta->listening_start_at)->addSeconds($durasiDetik);
+            $request->session()->put('quizEndTime', $newEndTime);
+        } else {
+            $remainingTime = $this->getRemainingSeconds($request);
+        }
+
         $request->session()->put('waktu', $remainingTime);
 
         // OPTIMASI: URL S3 di-cache, tidak di-generate ulang setiap request
         $urlpathimage = $this->getS3Url('gambar');
         $urlpathaudio = $this->getS3Url('audio');
 
-        return view('peserta.Soal.Listeningtest', compact(
-            'soalListening',
-            'part',
-            'GetAllPart',
-            'urlpathimage',
-            'urlpathaudio'
-        ))->with('type', 'listening');
+        return response()
+            ->view('peserta.Soal.Listeningtest', compact(
+                'soalListening',
+                'part',
+                'GetAllPart',
+                'urlpathimage',
+                'urlpathaudio'
+            ) + ['type' => 'listening'])
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     public function ProsesJawabListening(Request $request)
@@ -268,8 +287,6 @@ class SoalController extends Controller
                 $getBank->id_bank,
                 'Listening'
             );
-
-            $this->setNavToken($request, $nextPart->token_part);
 
             return redirect("/SoalListening/{$nextPart->token_part}");
         }
@@ -372,8 +389,6 @@ class SoalController extends Controller
             return redirect('/DashboardSoal');
         }
 
-        $this->setNavToken($request, $partPertama->token_part);
-
         return redirect("/SoalReading/{$partPertama->token_part}");
     }
 
@@ -419,19 +434,35 @@ class SoalController extends Controller
             ->orderBy('nomor_soal')
             ->get();
 
-        // FIX: dilindungi dari nilai null dan negatif
-        $remainingTime = $this->getRemainingSeconds($request);
+        // Hitung sisa waktu dari DB (reading_start_at), bukan dari session quizEndTime
+        $peserta = $this->ujianService->getPesertaByUser(auth()->id());
+
+        if ($peserta && $peserta->reading_start_at) {
+            $durasiDetik   = 75 * 60;
+            $elapsed       = now()->diffInSeconds($peserta->reading_start_at);
+            $remainingTime = max(0, $durasiDetik - $elapsed);
+
+            $newEndTime = \Carbon\Carbon::parse($peserta->reading_start_at)->addSeconds($durasiDetik);
+            $request->session()->put('quizEndTime', $newEndTime);
+        } else {
+            $remainingTime = $this->getRemainingSeconds($request);
+        }
+
         $request->session()->put('waktu', $remainingTime);
 
         // OPTIMASI: URL S3 di-cache
         $urlpathimage = $this->getS3Url('gambar');
 
-        return view('peserta.Soal.Readingtest', compact(
-            'soalReading',
-            'part',
-            'GetAllPart',
-            'urlpathimage'
-        ))->with('type', 'reading');
+        return response()
+            ->view('peserta.Soal.Readingtest', compact(
+                'soalReading',
+                'part',
+                'GetAllPart',
+                'urlpathimage'
+            ) + ['type' => 'reading'])
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     public function ProsesJawabReading(Request $request)
@@ -478,8 +509,6 @@ class SoalController extends Controller
                 $getBank->id_bank,
                 'Reading'
             );
-
-            $this->setNavToken($request, $nextPart->token_part);
 
             return redirect("/SoalReading/{$nextPart->token_part}");
         }
@@ -534,8 +563,6 @@ class SoalController extends Controller
             'email_sent',
             'result_generated',
             'quizEndTime',
-            'exam_nav_token',
-            'exam_nav_expiry',
         ]);
 
         return redirect('/DashboardSoal');
@@ -562,8 +589,17 @@ class SoalController extends Controller
             ]);
         }
 
-        $elapsed   = now()->diffInSeconds($startAt);
+        $elapsed   = \Carbon\Carbon::parse($startAt)->diffInSeconds(now());
         $remaining = max(0, $durasiDetik - $elapsed);
+
+        Log::info('[getRemainingTime]', [
+            'type' => $type,
+            'startAt' => $startAt,
+            'startAt_type' => gettype($startAt),
+            'now' => now(),
+            'elapsed' => $elapsed,
+            'remaining' => $remaining,
+        ]);
 
         return response()->json([
             'remaining'   => (int) $remaining,
