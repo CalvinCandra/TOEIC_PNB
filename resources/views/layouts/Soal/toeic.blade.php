@@ -324,7 +324,8 @@
 
                 this.textContent = 'Refreshing...';
                 this.disabled = true;
-                location.reload();
+
+                window.location.replace(window.location.href);
             });
         }
     }
