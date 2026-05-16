@@ -46,7 +46,7 @@
                             <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mb-2 ml-1"><i
                                     class="fa-solid fa-volume-high mr-1"></i> Part Audio</p>
                             <audio preload="none" id="audiopart" class="audiopart max-w-full h-8" data-id-part="{{ $part->id_part }}"
-                                controls controlsList="nodownload">
+                                controls controlsList="nodownload noplaybackrate">
                                 <source src="{{ $urlpathaudio . $part->audio->audio }}" type="audio/mp3">
                                 Your browser does not support the audio element.
                             </audio>
@@ -91,7 +91,7 @@
                                 @if (!empty($data->id_audio))
                                     <div class="bg-slate-50 rounded-xl p-2 border border-slate-100 sm:w-max">
                                         <audio preload="none" class="audio max-w-full h-8 w-full" data-id-soal="{{ $data->id_soal }}"
-                                            controls controlsList="nodownload">
+                                            controls controlsList="nodownload noplaybackrate">
                                             <source src="{{ $urlpathaudio . $data->audio->audio }}" type="audio/mp3">
                                         </audio>
                                     </div>

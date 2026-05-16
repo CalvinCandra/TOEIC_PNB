@@ -293,12 +293,28 @@ class SoalController extends Controller
             ->select('soal.*')
             ->get();
 
+        // Hitung offset agar penomoran reading melanjutkan dari nomor soal listening terakhir.
+        // Offset hanya diterapkan jika nomor_soal reading di DB masih dimulai dari 1
+        // (belum melanjutkan dari listening). Jika sudah benar di DB, offset = 0.
+        $listeningCount = soal::where('id_bank', $getBank->id_bank)
+            ->where('kategori', 'Listening')
+            ->count();
+
+        $readingNomorPertama = soal::where('id_bank', $getBank->id_bank)
+            ->where('kategori', 'Reading')
+            ->orderBy('nomor_soal', 'asc')
+            ->value('nomor_soal');
+
+        $listeningOffset = ($readingNomorPertama !== null && $readingNomorPertama <= $listeningCount)
+            ? $listeningCount
+            : 0;
+
         $remainingTime = Carbon::now()->diffInSeconds($request->session()->get('quizEndTime'));
         $request->session()->put('waktu', $remainingTime);
 
         $urlpathimage = Storage::disk('s3')->url('gambar/');
 
-        return view('peserta.Soal.Readingtest', compact('soalReading', 'part', 'GetAllPart', 'urlpathimage'))
+        return view('peserta.Soal.Readingtest', compact('soalReading', 'part', 'GetAllPart', 'urlpathimage', 'listeningOffset'))
             ->with('type', 'reading');
     }
 

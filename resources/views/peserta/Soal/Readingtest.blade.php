@@ -31,7 +31,7 @@
                     <span
                         class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-md shadow-inner text-xs uppercase tracking-wider">{{ $part->part }}
                         Reading</span>
-                    Question {{ $part->dari_nomor }} - {{ $part->sampai_nomor }}
+                    Question {{ $part->dari_nomor + $listeningOffset }} - {{ $part->sampai_nomor + $listeningOffset }}
                 </h1>
             </div>
 
@@ -88,7 +88,7 @@
             <div class="bg-amber-50/50 rounded-2xl border border-amber-200 p-5 shadow-sm" id="multi">
                 <h1 class="text-xs font-bold text-amber-800 uppercase tracking-widest mb-2 flex items-center gap-2">
                     <i class="fa-solid fa-layer-group"></i> Multiple Questions: <span
-                        class="text-amber-600">{{ $part->dari_nomor }} to {{ $part->sampai_nomor }}</span>
+                        class="text-amber-600">{{ $part->dari_nomor + $listeningOffset }} to {{ $part->sampai_nomor + $listeningOffset }}</span>
                 </h1>
                 <div class="prose max-w-none text-amber-900 text-[14px] leading-relaxed">
                     <p>{!! $part->multi_soal !!}</p>
@@ -119,14 +119,14 @@
                                     class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2 mb-1">
                                     <div
                                         class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center shadow-inner">
-                                        {{ $data->nomor_soal }}</div>
+                                        {{ $data->nomor_soal + $listeningOffset }}</div>
                                     Question
                                 </h2>
 
                                 @if (!empty($data->id_audio))
                                     @if (!$audioPlayed)
                                         <div class="bg-slate-50 rounded-xl p-2 border border-slate-100 sm:w-max">
-                                            <audio preload="none" id="audio" controls controlsList="nodownload"
+                                            <audio preload="none" id="audio" controls controlsList="nodownload noplaybackrate"
                                                 class="max-w-full h-8 w-full" preload="none">
                                                 <source src="{{ asset('storage/audio/' . $data->audio->audio) }}"
                                                     type="audio/mp3">
