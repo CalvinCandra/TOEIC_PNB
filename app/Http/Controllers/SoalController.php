@@ -453,12 +453,26 @@ class SoalController extends Controller
         // OPTIMASI: URL S3 di-cache
         $urlpathimage = $this->getS3Url('gambar');
 
+        $listeningCount = Soal::where('id_bank', $getBank->id_bank)
+            ->where('kategori', 'Listening')
+            ->count();
+
+        $readingNomorPertama = Soal::where('id_bank', $getBank->id_bank)
+            ->where('kategori', 'Reading')
+            ->orderBy('nomor_soal', 'asc')
+            ->value('nomor_soal');
+
+        $listeningOffset = ($readingNomorPertama !== null && $readingNomorPertama <= $listeningCount)
+            ? $listeningCount
+            : 0;
+
         return response()
             ->view('peserta.Soal.Readingtest', compact(
                 'soalReading',
                 'part',
                 'GetAllPart',
-                'urlpathimage'
+                'urlpathimage',
+                'listeningOffset'
             ) + ['type' => 'reading'])
             ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
             ->header('Pragma', 'no-cache')
