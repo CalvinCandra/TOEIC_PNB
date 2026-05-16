@@ -228,6 +228,9 @@
     document.addEventListener('DOMContentLoaded', function () {
         history.pushState(null, '', location.href);
         history.pushState(null, '', location.href);
+        if (isExamPage) {
+            activateBeforeUnload(); // Aktifkan peringatan reload native browser sejak awal ujian
+        }
     });
 
     // popstate handler

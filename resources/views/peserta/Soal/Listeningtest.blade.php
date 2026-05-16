@@ -311,6 +311,10 @@
     </script>
 
     <script>
+        window.isUnloading = false;
+        window.addEventListener('beforeunload', () => { window.isUnloading = true; });
+        window.addEventListener('pagehide', () => { window.isUnloading = true; });
+
         document.addEventListener('DOMContentLoaded', () => {
             const audioElements = document.querySelectorAll('.audio');
 
@@ -348,12 +352,22 @@
                 audio.classList.add('opacity-50');
                 
                 showStatus(audio, 'playing', '<i class="fa-solid fa-lock text-amber-500"></i> Audio is playing... (Cannot pause)');
+
+                // Lepaskan fokus dari audio player agar shortcut keyboard (F5) tetap terdeteksi oleh dokumen
+                audio.blur();
+                window.focus();
             });
 
             audio.addEventListener('pause', (e) => {
+                // Jangan paksa play jika halaman sedang direload/ditutup (mencegah infinite loop)
+                if (window.isUnloading) return;
+
                 // Cegah pause kecuali audio benar-benar sudah selesai atau ada kendala/error
                 if (!audio.ended && !audio.error) {
-                    audio.play();
+                    let playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => { console.log("Auto-play prevented", error); });
+                    }
                 }
             });
 
