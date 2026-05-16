@@ -334,36 +334,71 @@
         });
 
         function handleAudioPlay(audio, id) {
-            let playCount = localStorage.getItem(`audio-play-count-${id}`) || 0;
+            let isFinished = localStorage.getItem(`audio-finished-${id}`) === 'true';
 
-            if (playCount >= 5) {
-                audio.setAttribute('disabled', 'disabled');
-                audio.removeAttribute('controls');
+            if (isFinished) {
+                disableAudioUI(audio);
+                showStatus(audio, 'finished', '<i class="fa-solid fa-circle-check text-green-500"></i> Audio finished');
+                return;
             }
 
             audio.addEventListener('play', () => {
-                playCount = localStorage.getItem(`audio-play-count-${id}`) || 0;
-                playCount++;
-                localStorage.setItem(`audio-play-count-${id}`, playCount);
+                // Kunci interaksi agar tidak bisa di-pause atau di-seek
+                audio.style.pointerEvents = 'none';
+                audio.classList.add('opacity-50');
+                
+                showStatus(audio, 'playing', '<i class="fa-solid fa-lock text-amber-500"></i> Audio is playing... (Cannot pause)');
+            });
 
-                if (playCount >= 5) {
-                    audio.setAttribute('disabled', 'disabled');
-                    audio.removeAttribute('controls');
+            audio.addEventListener('pause', (e) => {
+                // Cegah pause kecuali audio benar-benar sudah selesai atau ada kendala/error
+                if (!audio.ended && !audio.error) {
+                    audio.play();
                 }
             });
+
+            audio.addEventListener('ended', () => {
+                localStorage.setItem(`audio-finished-${id}`, 'true');
+                disableAudioUI(audio);
+                showStatus(audio, 'finished', '<i class="fa-solid fa-circle-check text-green-500"></i> Audio finished');
+            });
+
+            audio.addEventListener('error', () => {
+                // Jika error/glitch (kendala audio), buka kembali kuncinya agar user bisa klik play lagi
+                audio.style.pointerEvents = 'auto';
+                audio.classList.remove('opacity-50');
+                showStatus(audio, 'error', '<i class="fa-solid fa-triangle-exclamation text-red-500"></i> Gagal memuat audio. Silakan coba play lagi.');
+            });
+        }
+
+        function disableAudioUI(audio) {
+            audio.removeAttribute('controls');
+            audio.style.display = 'none';
+        }
+
+        function showStatus(audio, type, messageHtml) {
+            let existing = audio.parentNode.querySelector('.audio-status-msg');
+            if (existing) existing.remove();
+
+            if (type === 'none') return;
+
+            let msg = document.createElement('div');
+            msg.className = 'audio-status-msg text-[11px] font-bold mt-2 p-2 bg-white rounded-lg border border-slate-100 shadow-sm text-slate-600';
+            msg.innerHTML = messageHtml;
+            audio.parentNode.appendChild(msg);
         }
 
         function resetPlayCounts() {
             const audioElements = document.querySelectorAll('.audio');
             audioElements.forEach(audio => {
                 const id = audio.getAttribute('data-id-soal');
-                localStorage.removeItem(`audio-play-count-${id}`);
+                localStorage.removeItem(`audio-finished-${id}`);
             });
 
             const audiopart = document.getElementById('audiopart');
             if (audiopart) {
                 const partId = audiopart.getAttribute('data-id-part');
-                localStorage.removeItem(`audio-play-count-${partId}`);
+                localStorage.removeItem(`audio-finished-${partId}`);
             }
         }
     </script>
