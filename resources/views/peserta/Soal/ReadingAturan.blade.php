@@ -39,7 +39,7 @@
     <title>Reading - Rules & Directions</title>
 </head>
 
-<body style="font-family: 'Poppins'" class="bg-[#f1f5f9] h-screen overflow-hidden flex flex-col relative">
+<body style="font-family: 'Poppins'" class="bg-[#f1f5f9] h-screen h-[100dvh] overflow-hidden flex flex-col relative">
 
     {{-- Top Navbar --}}
     <header class="bg-white border-b border-gray-200 hidden md:block px-6 py-3 sticky top-0 z-50">
