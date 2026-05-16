@@ -39,7 +39,7 @@
     <title>Reading - Rules & Directions</title>
 </head>
 
-<body style="font-family: 'Poppins'" class="bg-[#f1f5f9] h-screen h-[100dvh] overflow-hidden flex flex-col relative">
+<body style="font-family: 'Poppins'" class="bg-[#f1f5f9] min-h-screen md:h-screen md:overflow-hidden flex flex-col relative">
 
     {{-- Top Navbar --}}
     <header class="bg-white border-b border-gray-200 hidden md:block px-6 py-3 sticky top-0 z-50">
@@ -60,9 +60,9 @@
     </header>
 
     {{-- Main Content --}}
-    <main class="flex-1 min-h-0 max-w-5xl mx-auto w-full p-4 md:py-6 md:px-8 flex flex-col">
+    <main class="flex-1 md:min-h-0 max-w-5xl mx-auto w-full p-4 md:py-6 md:px-8 flex flex-col">
         
-        <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col flex-1 min-h-0 overflow-hidden">
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col flex-1 md:min-h-0 overflow-hidden mb-4 md:mb-0">
             
             {{-- Header --}}
             <div class="bg-slate-50 border-b border-slate-100 p-5 md:p-6 flex items-center gap-4 shrink-0">
@@ -76,7 +76,7 @@
             </div>
 
             {{-- Rules List --}}
-            <div class="p-5 md:p-8 bg-white flex-1 overflow-y-auto custom-scrollbar"> 
+            <div class="p-5 md:p-8 bg-white flex-1 md:overflow-y-auto custom-scrollbar"> 
                 <ol class="space-y-4 md:space-y-5 text-slate-600 list-decimal list-outside ml-5 text-[13px] md:text-[14px] leading-relaxed text-justify marker:font-bold marker:text-blue-500">
                     <li>
                         <span class="font-bold text-slate-800">No Cheating:</span> Any form of cheating, such as attempting to with other test takers, using unauthorized materials, or copying answers, will result in immediate disqualification.

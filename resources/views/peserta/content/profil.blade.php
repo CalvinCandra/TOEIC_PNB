@@ -56,13 +56,16 @@
                                 </div>
                             </div>
 
-                            {{-- NIM --}}
+                            {{-- NIM (Locked) --}}
                             <div>
                                 <label for="nim" class="block mb-2 text-sm font-semibold text-gray-800">NIM (Student
                                     ID)</label>
-                                <input type="text" name="nim" id="nim" value="{{ $peserta->nim }}"
-                                    class="bg-slate-50 border border-slate-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-3.5 transition-colors"
-                                    required>
+                                <div class="relative">
+                                    <input type="text" name="nim" id="nim" value="{{ $peserta->nim }}"
+                                        readonly
+                                        class="bg-gray-100/70 border border-slate-200 text-gray-500 text-sm rounded-xl block w-full p-3.5 cursor-not-allowed">
+                                    <i class="fa-solid fa-lock absolute right-4 top-4 text-gray-400 text-sm"></i>
+                                </div>
                             </div>
 
                             {{-- Category / Jurusan --}}
