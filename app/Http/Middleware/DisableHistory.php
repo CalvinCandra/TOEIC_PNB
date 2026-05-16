@@ -17,8 +17,13 @@ class DisableHistory
             if ($peserta) {
                 $path = $request->path();
 
+                // ============================================
+                // LAPIS 1: Cek status peserta
+                // Mencegah peserta yang sudah selesai (status = Sudah)
+                // mengakses kembali halaman ujian dari manapun
+                // ============================================
                 if ($peserta->status === 'Sudah') {
-                    $examPaths = ['Listening', 'SoalListening', 'Reading', 'SoalReading'];
+                    $examPaths  = ['Listening', 'SoalListening', 'Reading', 'SoalReading'];
                     $isExamPath = in_array($path, $examPaths)
                         || str_starts_with($path, 'SoalListening/')
                         || str_starts_with($path, 'SoalReading/');
@@ -29,10 +34,15 @@ class DisableHistory
                     }
                 }
 
+                // ============================================
+                // LAPIS 2: Cek urutan ujian
+                // Mencegah peserta skip urutan atau kembali ke sesi sebelumnya
+                // ============================================
                 $isListeningPath = in_array($path, ['Listening', 'SoalListening'])
                     || str_starts_with($path, 'SoalListening/');
 
-                if ($isListeningPath && !is_null($peserta->reading_start_at)) {
+                // Jika sudah masuk Reading, tidak bisa kembali ke Listening
+                if ($isListeningPath && ! is_null($peserta->reading_start_at)) {
                     return redirect('/Reading')
                         ->with('error', 'Sesi Listening sudah selesai. Lanjutkan ujian Reading.');
                 }
@@ -40,45 +50,27 @@ class DisableHistory
                 $isReadingPath = in_array($path, ['Reading', 'SoalReading'])
                     || str_starts_with($path, 'SoalReading/');
 
+                // Jika belum memulai Listening, tidak bisa masuk Reading
                 if ($isReadingPath && is_null($peserta->listening_start_at)) {
                     return redirect('/Listening')
                         ->with('error', 'Selesaikan ujian Listening terlebih dahulu.');
                 }
 
-                if (str_starts_with($path, 'SoalListening/')) {
-                    $urlToken     = $request->route('token');
-                    $sessionToken = $request->session()->get('exam_nav_token');
-                    $expiry       = $request->session()->get('exam_nav_expiry', 0);
-                    $isValid      = ($sessionToken === $urlToken) && (time() < $expiry);
-
-                    if (!$isValid) {
-                        $request->session()->forget(['exam_nav_token', 'exam_nav_expiry']);
-
-                        return redirect('/Listening')
-                            ->with('info', 'Silakan mulai ujian Listening dari halaman ini.');
-                    }
-
-                    $request->session()->forget(['exam_nav_token', 'exam_nav_expiry']);
-                }
-
-                if (str_starts_with($path, 'SoalReading/')) {
-                    $urlToken     = $request->route('token');
-                    $sessionToken = $request->session()->get('exam_nav_token');
-                    $expiry       = $request->session()->get('exam_nav_expiry', 0);
-                    $isValid      = ($sessionToken === $urlToken) && (time() < $expiry);
-
-                    if (!$isValid) {
-                        $request->session()->forget(['exam_nav_token', 'exam_nav_expiry']);
-
-                        return redirect('/Reading')
-                            ->with('info', 'Silakan mulai ujian Reading dari halaman ini.');
-                    }
-
-                    $request->session()->forget(['exam_nav_token', 'exam_nav_expiry']);
-                }
+                // ============================================
+                // LAPIS 3: DIHAPUS
+                // Token navigasi one-time use menyebabkan refresh
+                // selalu redirect ke halaman aturan karena token
+                // sudah dihapus setelah load pertama.
+                // Lapis 1 dan 2 sudah cukup melindungi akses tidak sah.
+                // ============================================
             }
         }
 
+        // ============================================
+        // LAPIS 4: Set header no-cache
+        // Mencegah browser cache halaman ujian
+        // Tombol Back tidak bisa tampilkan halaman dari cache
+        // ============================================
         $response = $next($request);
 
         return $response

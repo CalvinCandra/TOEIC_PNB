@@ -167,10 +167,10 @@
     <div id="dropdownHover"
         class="relative z-20 hidden bg-white divide-y divide-gray-100 rounded-lg border-2 border-gray-300 w-44">
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-            <li>
+            {{-- <li>
                 <a href="{{ url('/SendMailPesertaAll/Sesione') }}"
                     class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{ url('/ExportExcelPetugas/Sesione') }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
@@ -341,7 +341,40 @@
     </div>
     {{-- End Modal Delete --}}
 
-
+    {{-- Modal Dropdown Action Update --}}
+    @foreach ($peserta as $data)
+        <div id="dropdownDotsHorizontal"
+            class="z-10 hidden bg-white border border-default-medium rounded-base shadow-lg w-44">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
+                <li class="border-b-2 border-gray-300">
+                    <button type="button" data-modal-target="UpdatePeserta{{ $data->id_peserta }}"
+                        data-modal-toggle="UpdatePeserta{{ $data->id_peserta }}"
+                        class="block px-4 py-2 hover:bg-gray-100">
+                        Update Participation
+                    </button>
+                </li>
+                <li class="border-b-2 border-gray-300">
+                    <a href="{{ url('/SendMail/Peserta/' . $data->id_peserta) }}"
+                        class="block px-4 py-2 hover:bg-gray-100 text-green-400 ">
+                        Send Mail
+                    </a>
+                </li>
+                <li class="border-b-2 border-gray-300">
+                    <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}"
+                        class="block px-4 py-2 hover:bg-gray-100 text-red-400 ">
+                        Reset Default Password
+                    </a>
+                </li>
+                <li class="border-b-2 border-gray-300">
+                    <a href="{{ url('/reset-status-peserta-petugas/' . $data->id_peserta) }}"
+                        class="block px-4 py-2 hover:bg-gray-100 text-orange-500">
+                        Reset Status
+                    </a>
+                </li>
+            </ul>
+        </div>
+    @endforeach
+    {{-- End Modal Dropdown Action Update --}}
 
     {{-- Modal Reset Status --}}
     <div id="ResetStatus" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"

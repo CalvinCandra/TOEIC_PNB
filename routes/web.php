@@ -2,18 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ZipController;
-use App\Http\Middleware\DisableHistory;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NilaiController;
-use App\Http\Controllers\ResultController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\BankSoalController;
-use App\Http\Middleware\isChangePassword;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,7 +86,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::post('/DeleteAdminPeserta', [AdminController::class, 'DeletePeserta']);
     Route::get('/ExportExcelAdmin/{sesi}', [AdminController::class, 'ExportExcelAdmin']);
     Route::post('/ResetStatusAdmin/{sesi}', [AdminController::class, 'ResetAllStatusPeserta']);
-    Route::post('/DeleteAllAdmin/{sesi}', [AdminController::class, 'DeleteAllAdmin']);
+    Route::post('/DeleteAllAdmin/{sesi}', [AdminController::class, 'DeleteAllPeserta']);
     Route::get('/downloadtemplate', [AdminController::class, 'Template']);
     Route::get('/reset-default-password/{id}', [AdminController::class, 'ResetPasswordPeserta']);
 
@@ -159,7 +156,7 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     Route::post('/DeletePetugasPeserta', [PetugasController::class, 'DeletePetugasPeserta']);
     Route::get('/ExportExcelPetugas/{sesi}', [PetugasController::class, 'ExportExcelPetugas']);
     Route::post('/ResetStatusPetugas/{sesi}', [PetugasController::class, 'ResetStatusPetugas']);
-    Route::post('/DeleteAllPetugas/{sesi}', [PetugasController::class, 'DeleteAllPetugas']);
+    Route::post('/DeleteAllPetugas/{sesi}', [PetugasController::class, 'DeletePetugasAllPeserta']);
     Route::get('/downloadtemplatepetugas', [PetugasController::class, 'Template']);
     Route::post('/reset-default-password/{id}', [AdminController::class, 'ResetPasswordPeserta']);
 

@@ -162,6 +162,15 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    public function DeleteAllPeserta($sesi)
+    {
+        $sesiTran = $sesi === 'Sesione' ? 'Session 1' : ($sesi === 'Sesitwo' ? 'Session 2' : null);
+        $this->pesertaService->deleteAllPeserta($sesiTran);
+        toast('Semua Peserta Dihapus', 'success');
+
+        return redirect()->back();
+    }
+
     public function ExportExcelAdmin($sesi)
     {
         return $this->pesertaService->exportExcel($sesi);

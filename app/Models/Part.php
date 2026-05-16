@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -28,33 +29,28 @@ class Part extends Model
         'updated_at',
     ];
 
-     // bank
-     public function bank(): HasOne
-     {
-         return $this->hasOne(BankSoal::class, 'id_bank', 'id_bank');
-     }
+     public function bank(): BelongsTo
+    {
+        return $this->belongsTo(BankSoal::class, 'id_bank', 'id_bank');
+    }
 
-     // gambar
-     public function gambar(): HasOne
-     {
-         return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar');
-     }
+    public function gambar(): BelongsTo
+    {
+        return $this->belongsTo(Gambar::class, 'id_gambar', 'id_gambar');
+    }
 
-     // gambar
-     public function gambar1(): HasOne
-     {
-         return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar_1');
-     }
+    public function gambar1(): HasOne
+    {
+        return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar');
+    }
 
-     // gambar
-     public function gambar2(): HasOne
-     {
-         return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar_2');
-     }
+    public function gambar2(): HasOne
+    {
+        return $this->hasOne(Gambar::class, 'id_gambar', 'id_gambar');
+    }
 
-     // audio
-     public function audio(): HasOne
-     {
-         return $this->hasOne(Audio::class, 'id_audio', 'id_audio');
-     }
+    public function audio(): BelongsTo
+    {
+        return $this->belongsTo(Audio::class, 'id_audio', 'id_audio');
+    }
 }

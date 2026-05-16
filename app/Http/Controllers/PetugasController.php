@@ -99,6 +99,15 @@ class PetugasController extends Controller
         return redirect()->back();
     }
 
+    public function DeletePetugasAllPeserta($sesi)
+    {
+        $sesiTran = $sesi === 'Sesione' ? 'Session 1' : ($sesi === 'Sesitwo' ? 'Session 2' : null);
+        $this->pesertaService->deleteAllPeserta($sesiTran);
+        toast('Semua Peserta Dihapus', 'success');
+
+        return redirect()->back();
+    }
+
     public function UpdateStatusPeserta($id)
     {
         $this->pesertaService->resetStatusPeserta($id)
@@ -123,9 +132,9 @@ class PetugasController extends Controller
 
     public function dashPetugasSoal()
     {
-        $bankSoal = $this->bankSoalService->getBankSoalAll();
+        $bank = $this->bankSoalService->getBankSoalAll();
 
-        return view('petugas.content.BankSoal.dashbanksoal', compact('bankSoal'));
+        return view('petugas.content.BankSoal.dashbanksoal', compact('bank'));
     }
 
     public function TambahBankSoal(Request $request)
@@ -140,7 +149,7 @@ class PetugasController extends Controller
     public function UpdateBankSoal(Request $request)
     {
         $this->bankSoalService->updateBankSoal($request)
-            ? toast('Bank Soares Diupdate', 'success')
+            ? toast('Bank Soal Diupdate', 'success')
             : toast('Gagal', 'error');
 
         return redirect()->back();
@@ -149,7 +158,7 @@ class PetugasController extends Controller
     public function DeleteBankSoal(Request $request)
     {
         $this->bankSoalService->deleteBankSoal($request->id_bank)
-            ? toast('Bank Soares Dihapus', 'success')
+            ? toast('Bank Soal  Dihapus', 'success')
             : toast('Gagal', 'error');
 
         return redirect()->back();

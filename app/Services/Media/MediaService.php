@@ -79,7 +79,7 @@ class MediaService
     public function storeAudio(Request $request): bool
     {
         $request->validate([
-            'audio' => 'required|mimes:mp3,wav,ogg|max:10240',
+            'audio' => 'required|mimes:mp3,wav,ogg|max:35000',
         ]);
 
         DB::beginTransaction();
