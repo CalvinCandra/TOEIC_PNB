@@ -44,28 +44,44 @@
                     <span class="block text-sm font-bold text-gray-900 truncate">{{ auth()->user()->name }}</span>
                     <span class="block text-xs text-gray-500 truncate mt-0.5">{{ auth()->user()->email }}</span>
                 </div>
-                <ul class="py-1 text-gray-700" aria-labelledby="user-menu-button">
-                    <li>
-                        <a href="{{ url('/') }}"
-                            class="flex items-center px-4 py-2.5 text-sm hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                            <i class="fa-solid fa-house w-5 text-gray-400"></i> Landing Page
-                        </a>
-                    </li>
-                    @if (auth()->user()->level == 'peserta')
+                    <ul class="py-1 text-gray-700" aria-labelledby="user-menu-button">
                         <li>
-                            <a href="{{ url('/reset-password') }}"
+                            <a href="{{ url('/') }}"
                                 class="flex items-center px-4 py-2.5 text-sm hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                <i class="fa-solid fa-lock w-5 text-gray-400"></i> Change Password
+                                <i class="fa-solid fa-house w-5 text-gray-400"></i> Landing Page
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ url('/download-result') }}" target="_blank"
-                                class="flex items-center px-4 py-2.5 text-sm hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                <i class="fa-solid fa-download w-5 text-gray-400"></i> Download Result
-                            </a>
-                        </li>
-                    @endif
-                </ul>
+                        @if (auth()->user()->level == 'admin')
+                            <li class="border-t border-gray-50">
+                                <form action="/Admin/TestingMode" method="POST" class="w-full m-0">
+                                    @csrf
+                                    <button type="submit" class="flex items-center justify-between w-full px-4 py-2 text-sm hover:bg-blue-50 transition-colors {{ \Illuminate\Support\Facades\Cache::get('testing_mode', false) ? 'text-emerald-700' : 'text-gray-700' }}" title="Click to toggle Testing Mode">
+                                        <div class="flex items-center font-medium">
+                                            <i class="fa-solid fa-flask w-5 {{ \Illuminate\Support\Facades\Cache::get('testing_mode', false) ? 'text-emerald-500' : 'text-gray-400' }}"></i> 
+                                            Testing Mode
+                                        </div>
+                                        <div class="relative inline-flex h-4 w-8 items-center rounded-full transition-colors {{ \Illuminate\Support\Facades\Cache::get('testing_mode', false) ? 'bg-emerald-500' : 'bg-gray-300' }}">
+                                            <span class="inline-block h-3 w-3 transform rounded-full bg-white shadow-sm transition-transform {{ \Illuminate\Support\Facades\Cache::get('testing_mode', false) ? 'translate-x-4' : 'translate-x-1' }}"></span>
+                                        </div>
+                                    </button>
+                                </form>
+                            </li>
+                        @endif
+                        @if (auth()->user()->level == 'peserta')
+                            <li>
+                                <a href="{{ url('/reset-password') }}"
+                                    class="flex items-center px-4 py-2.5 text-sm hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                    <i class="fa-solid fa-lock w-5 text-gray-400"></i> Change Password
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/download-result') }}" target="_blank"
+                                    class="flex items-center px-4 py-2.5 text-sm hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                    <i class="fa-solid fa-download w-5 text-gray-400"></i> Download Result
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
                 <div class="py-1">
                     <button id="btn-signout-trigger" onclick="openSignOutModal()"
                         class="flex w-full items-center px-4 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50 transition-colors text-left">

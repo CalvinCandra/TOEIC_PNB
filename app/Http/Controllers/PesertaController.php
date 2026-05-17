@@ -112,6 +112,37 @@ class PesertaController extends Controller
             return redirect('/DashboardSoal');
         }
 
+        if (\Illuminate\Support\Facades\Cache::get('testing_mode', false)) {
+            Log::info('[PesertaController::TokenQuestion] Testing Mode is ON. Resetting state for participant.', [
+                'id_peserta' => $peserta->id_peserta,
+            ]);
+
+            $peserta->update([
+                'status' => 'Belum',
+                'listening_start_at' => null,
+                'reading_start_at' => null,
+                'skor_listening' => 0,
+                'skor_reading' => 0,
+                'benar_listening' => 0,
+                'benar_reading' => 0,
+            ]);
+
+            \App\Models\JawabanPeserta::where('id_peserta', $peserta->id_peserta)->delete();
+
+            $request->session()->forget([
+                'benarListening',
+                'salahListening',
+                'benarReading',
+                'salahReading',
+                'bank',
+                'waktu',
+                'quizEndTime',
+                'waktu_akhir',
+                'email_sent',
+                'result_generated'
+            ]);
+        }
+
         if (in_array($peserta->status, ['Sudah', 'Kerjain'])) {
             Log::warning('[PesertaController::TokenQuestion] Peserta sudah mengerjakan', [
                 'id_peserta' => $peserta->id_peserta,
