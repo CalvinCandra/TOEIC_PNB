@@ -60,6 +60,7 @@ Route::get('/downloadresult/{sesi}', [ZipController::class, 'index'])->middlewar
 Route::middleware(['auth', 'level:admin'])->group(function () {
     // tampilan dashboard
     Route::get('/admin', [AdminController::class, 'index']);
+    Route::post('/Admin/TestingMode', [AdminController::class, 'toggleTestingMode']);
 
     // dashboard Petugas
     Route::get('/dashPetugas', [AdminController::class, 'dashPetugas']);

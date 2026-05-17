@@ -54,6 +54,17 @@ class AdminController extends Controller
         return view('admin.content.dashboard', compact('sessions', 'statuses', 'chartData'));
     }
 
+    public function toggleTestingMode(Request $request)
+    {
+        $currentMode = \Illuminate\Support\Facades\Cache::get('testing_mode', false);
+        \Illuminate\Support\Facades\Cache::forever('testing_mode', !$currentMode);
+
+        $statusText = !$currentMode ? 'diaktifkan' : 'dinonaktifkan';
+        toast("Testing Mode berhasil $statusText", 'success');
+
+        return redirect()->back();
+    }
+
     public function dashPetugas()
     {
         $petugas = $this->petugasService->getPetugasAll(request('search'));

@@ -629,7 +629,23 @@ class SoalController extends Controller
             return response()->json(['success' => false], 404);
         }
 
-        $this->ujianService->leaveExam($peserta);
+        $getBank = $this->ujianService->getBankFromSession($request->session()->get('bank'));
+
+        if ($getBank) {
+            // Jika peserta belum menyelesaikan Listening (belum ada sesi 'benarListening'),
+            // hitung skor Listening berdasarkan jawaban sejauh ini.
+            if (! $request->session()->has('benarListening')) {
+                $this->ujianService->hitungSkorListening($peserta, $getBank);
+            }
+
+            // Hitung skor Reading berdasarkan jawaban sejauh ini.
+            // Fungsi ini otomatis akan mengubah status peserta menjadi 'Sudah'
+            $this->ujianService->hitungSkorReading($peserta, $getBank);
+        } else {
+            // Fallback jika session bank sudah tidak ada
+            $this->ujianService->leaveExam($peserta);
+        }
+
         $this->clearExamSession($request);
 
         return response()->json(['success' => true]);
