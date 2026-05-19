@@ -121,6 +121,40 @@
                     </ul>
                 </li>
 
+                {{-- Self Study History (dropdown) --}}
+                @php
+                    $rolePrefix = Auth::user()->level === 'admin' ? 'Admin' : 'Petugas';
+                    $historyPaths = [
+                        "dash{$rolePrefix}SelfStudyHistory",
+                        "dash{$rolePrefix}SelfStudyHistoryPeserta*",
+                    ];
+                    $historyMenuOpen = $isActive($historyPaths);
+                @endphp
+                <li>
+                    <button type="button" aria-controls="dropdown-selfstudy" data-collapse-toggle="dropdown-selfstudy"
+                        class="flex items-center px-4 py-2.5 w-full text-sm font-medium rounded-xl transition duration-75
+                        {{ $historyMenuOpen ? 'bg-blue-50 text-blue-700 font-bold' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border-transparent' }}">
+                        <i class="fa-solid fa-history w-5 text-center text-lg"></i>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Self Study History</span>
+                        <i
+                            class="fa-solid fa-caret-down {{ $historyMenuOpen ? 'rotate-180' : '' }} transition-transform duration-200"></i>
+                    </button>
+                    <ul id="dropdown-selfstudy" class="{{ $historyMenuOpen ? '' : 'hidden' }} py-2 space-y-1">
+                        <li>
+                            <a href="{{ url("/dash{$rolePrefix}SelfStudyHistory") }}"
+                                class="flex items-center px-4 py-2.5 pl-12 w-full text-sm font-medium rounded-xl {{ $activeClass("dash{$rolePrefix}SelfStudyHistory") }} transition-colors">
+                                All Attempts
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url("/dash{$rolePrefix}SelfStudyHistoryPeserta") }}"
+                                class="flex items-center px-4 py-2.5 pl-12 w-full text-sm font-medium rounded-xl {{ $activeClass("dash{$rolePrefix}SelfStudyHistoryPeserta*") }} transition-colors">
+                                By Participant
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
 
             {{-- ══════ PESERTA ══════ --}}

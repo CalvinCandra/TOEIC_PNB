@@ -13,6 +13,82 @@
             <p class="text-sm text-blue-100 mt-1">Here's the participant overview for today.</p>
         </div>
 
+        {{-- Feature Controls: TOEIC Toggle --}}
+        @php
+            $toeicEnabled = \App\Models\FeatureToggle::isEnabled('toeic_simulation');
+        @endphp
+        <div class="bg-white border rounded-lg p-5 mb-6">
+            <h3 class="font-bold text-lg mb-4 text-gray-800">Feature Controls</h3>
+            <div class="flex items-center justify-between p-4 border rounded">
+                <div>
+                    <div class="font-semibold text-gray-800">TOEIC Simulation</div>
+                    <div class="text-sm text-gray-500">
+                        Enable or disable the TOEIC card for all participants.
+                        Self Study is always active and not affected by this toggle.
+                    </div>
+                    <div class="text-xs mt-1 {{ $toeicEnabled ? 'text-green-600' : 'text-red-600' }}">
+                        Current status: <strong>{{ $toeicEnabled ? 'ENABLED' : 'DISABLED' }}</strong>
+                    </div>
+                </div>
+                <button type="button"
+                    data-modal-target="ConfirmToggleToeic" data-modal-toggle="ConfirmToggleToeic"
+                    class="block text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center
+                           {{ $toeicEnabled ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600' }}">
+                    {{ $toeicEnabled ? 'Disable' : 'Enable' }}
+                </button>
+
+                {{-- Modal Confirmation Toggle TOEIC --}}
+                <div id="ConfirmToggleToeic" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
+                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative w-full max-w-md max-h-full p-4">
+                        <div class="relative bg-white rounded-lg shadow">
+
+                            {{-- Close button --}}
+                            <button type="button"
+                                class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                                data-modal-hide="ConfirmToggleToeic">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+
+                            {{-- Modal body --}}
+                            <div class="p-4 md:p-5 text-center">
+                                {{-- Icon --}}
+                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+
+                                <h3 class="mb-5 text-lg font-normal text-gray-600">
+                                    Are you sure want to <strong>{{ $toeicEnabled ? 'Disable' : 'Enable' }}</strong> TOEIC Simulation?
+                                </h3>
+
+                                {{-- Action buttons --}}
+                                <form action="/feature-toggle/toeic_simulation" method="POST" class="inline">
+                                    @csrf
+                                    <input type="hidden" name="is_enabled" value="{{ $toeicEnabled ? 0 : 1 }}">
+                                    <button type="submit"
+                                        class="text-white font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center
+                                               {{ $toeicEnabled ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600' }}">
+                                        Yes, I'm Sure!
+                                    </button>
+                                </form>
+                                <button type="button" data-modal-hide="ConfirmToggleToeic"
+                                    class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100">
+                                    No, Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- End Modal --}}
+            </div>
+        </div>
+
         {{-- Donut Charts Grid --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
             @foreach ($sessions as $sesi)

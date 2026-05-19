@@ -54,10 +54,17 @@
                     </form>
                 </div>
                 {{-- end search --}}
+                @if(isset($isListeningFull) && $isListeningFull)
+                    <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 border border-yellow-200">
+                        <span class="font-medium">Maximum reached!</span>
+                        This bank already has 4 Listening Parts (Part 1-4). You cannot add more.
+                    </div>
+                @endif
                 <div class="flex mt-5 justify-between">
                     <!-- Modal toggle -->
                     <button data-modal-target="TambahPartListening" data-modal-toggle="TambahPartListening"
-                        class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+                        @if(isset($isListeningFull) && $isListeningFull) disabled @endif
+                        class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5 {{ ($isListeningFull ?? false) ? 'opacity-50 cursor-not-allowed' : '' }}"
                         type="button">
                         Create Part Listening
                     </button>
@@ -189,10 +196,12 @@
                         <input type="hidden" value="{{ $nomor }}" name="tanda">
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Part</label>
-                            <input type="text" name="part" id="name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                placeholder="Example : Part 1" required />
+                            <label for="part" class="block mb-2 text-sm font-medium text-gray-900">Part</label>
+                            <input type="text" name="part" id="part"
+                                value="{{ $nextPartName ?? 'Part 1' }}"
+                                readonly
+                                class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 cursor-not-allowed">
+                            <p class="text-xs text-gray-500 mt-1">Part name is auto-generated based on order</p>
                         </div>
 
                         <div>

@@ -11,6 +11,9 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\BankSoalController;
+use App\Http\Controllers\SelfStudyController;
+use App\Http\Controllers\SelfStudyHistoryController;
+use App\Http\Controllers\FeatureToggleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,6 +134,15 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::post('/TambahSoalListeningAdmin', [AdminController::class, 'TambahSoalListeningAdmin']);
     Route::post('/UpdateSoalListeningAdmin', [AdminController::class, 'UpdateSoalListeningAdmin']);
     Route::post('/DeleteSoalListeningAdmin', [AdminController::class, 'DeleteSoalListeningAdmin']);
+
+    // === FEATURE TOGGLE (Admin only) ===
+    Route::post('/feature-toggle/{key}', [FeatureToggleController::class, 'update']);
+
+    // === SELF STUDY HISTORY (read-only) ===
+    Route::get('/dashAdminSelfStudyHistory', [SelfStudyHistoryController::class, 'index']);
+    Route::get('/dashAdminSelfStudyHistoryPeserta', [SelfStudyHistoryController::class, 'listPeserta']);
+    Route::get('/dashAdminSelfStudyHistoryPeserta/{idPeserta}', [SelfStudyHistoryController::class, 'detailPeserta']);
+    Route::get('/dashAdminSelfStudyHistoryPeserta/{idPeserta}/Bank/{idBank}', [SelfStudyHistoryController::class, 'detailBank']);
 });
 
 //  ======================================== Grup Petugas =========================================
@@ -200,6 +212,12 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     Route::post('/TambahSoalListeningPetugas', [PetugasController::class, 'TambahSoalListeningPetugas']);
     Route::post('/UpdateSoalListeningPetugas', [PetugasController::class, 'UpdateSoalListeningPetugas']);
     Route::post('/DeleteSoalListeningPetugas', [PetugasController::class, 'DeleteSoalListeningPetugas']);
+
+    // === SELF STUDY HISTORY (read-only, sama akses dengan admin) ===
+    Route::get('/dashPetugasSelfStudyHistory', [SelfStudyHistoryController::class, 'index']);
+    Route::get('/dashPetugasSelfStudyHistoryPeserta', [SelfStudyHistoryController::class, 'listPeserta']);
+    Route::get('/dashPetugasSelfStudyHistoryPeserta/{idPeserta}', [SelfStudyHistoryController::class, 'detailPeserta']);
+    Route::get('/dashPetugasSelfStudyHistoryPeserta/{idPeserta}/Bank/{idBank}', [SelfStudyHistoryController::class, 'detailBank']);
 });
 
 // ======================================== Grup Peserta =========================================
@@ -220,31 +238,44 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
     Route::post('/UpdateProfil', [PesertaController::class, 'UpdateProfil'])->middleware('throttle:5,1');
 
     Route::middleware(['isChangePassword'])->group(function () {
-        // dash soal
-        Route::get('/DashboardSoal', [PesertaController::class, 'dashSoal']);
-        Route::get('/TokenQuestion', [PesertaController::class, 'TokenQuestion']);
-    
-        Route::middleware(['DisableHistory'])->group(function () {
-            // API Timer
-            Route::get('/api/remaining-time/{type}', [SoalController::class, 'getRemainingTime'])
-                ->where('type', 'listening|reading');
 
-            // Reading
-            Route::get('/Reading', [SoalController::class, 'Reading']);
-            Route::get('/SoalReading', [SoalController::class, 'GetReading']);
-            Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
-            Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading'])->middleware('throttle:35,1');
-            Route::get('/nilaiReading', [SoalController::class, 'GetNilaiReading'])->name('nilaiReading');
-    
-            // Listening
-            Route::get('/Listening', [SoalController::class, 'Listening']);
-            Route::get('/SoalListening', [SoalController::class, 'GetListening']);
-            Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
-            Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening'])->middleware('throttle:35,1');
-            Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
-            Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed'])->middleware('throttle:35,1');
-            Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed'])->middleware('throttle:35,1');
+        // ===== TOEIC SIMULATION (dengan toggle feature) =====
+        Route::middleware(['feature:toeic_simulation'])->group(function () {
+            // dash soal
+            Route::get('/DashboardSoal', [PesertaController::class, 'dashSoal']);
+            Route::get('/TokenQuestion', [PesertaController::class, 'TokenQuestion']);
+        
+            Route::middleware(['DisableHistory'])->group(function () {
+                // API Timer
+                Route::get('/api/remaining-time/{type}', [SoalController::class, 'getRemainingTime'])
+                    ->where('type', 'listening|reading');
+
+                // Reading
+                Route::get('/Reading', [SoalController::class, 'Reading']);
+                Route::get('/SoalReading', [SoalController::class, 'GetReading']);
+                Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
+                Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading'])->middleware('throttle:35,1');
+                Route::get('/nilaiReading', [SoalController::class, 'GetNilaiReading'])->name('nilaiReading');
+        
+                // Listening
+                Route::get('/Listening', [SoalController::class, 'Listening']);
+                Route::get('/SoalListening', [SoalController::class, 'GetListening']);
+                Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
+                Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening'])->middleware('throttle:35,1');
+                Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
+                Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed'])->middleware('throttle:35,1');
+                Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed'])->middleware('throttle:35,1');
+            });
         });
+
+        // ===== SELF STUDY (TANPA DisableHistory, TANPA feature toggle) =====
+        Route::get('/SelfStudy', [SelfStudyController::class, 'banks']);
+        Route::get('/SelfStudy/Bank/{idBank}', [SelfStudyController::class, 'parts']);
+        Route::get('/SelfStudy/Bank/{idBank}/Review', [SelfStudyController::class, 'review']);
+        Route::get('/SelfStudy/Bank/{idBank}/Part/{tokenPart}', [SelfStudyController::class, 'latihan']);
+        Route::get('/SelfStudy/Bank/{idBank}/Part/{tokenPart}/Result', [SelfStudyController::class, 'result']);
+        Route::post('/SelfStudy/Submit', [SelfStudyController::class, 'submit'])
+            ->middleware('throttle:35,1');
     });
 
     Route::post('/exam/leave', [SoalController::class, 'leaveExam'])

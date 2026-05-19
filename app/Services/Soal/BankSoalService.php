@@ -21,6 +21,7 @@ class BankSoalService
     {
         Log::info('[BankSoalService::storeBankSoal] Memulai tambah bank soal', [
             'sesi_bank' => $request->sesi_bank,
+            'mode' => $request->mode ?? 'toeic',
             'waktu_mulai' => $request->waktu_mulai,
             'waktu_akhir' => $request->waktu_akhir,
         ]);
@@ -32,6 +33,7 @@ class BankSoalService
                 'sesi_bank' => $request->sesi_bank,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_akhir' => $request->waktu_akhir,
+                'mode' => $request->mode ?? 'toeic',
             ]);
             DB::commit();
             Log::info('[BankSoalService::storeBankSoal] Tambah bank soal berhasil', [
@@ -59,12 +61,26 @@ class BankSoalService
 
         DB::beginTransaction();
         try {
-            BankSoal::where('id_bank', $request->id_bank)->update([
+            $updateData = [
                 'bank' => $request->bank,
                 'sesi_bank' => $request->sesi_bank,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_akhir' => $request->waktu_akhir,
-            ]);
+            ];
+
+            if ($request->has('mode')) {
+                $hasAttempts = \App\Models\SelfStudyAttempt::where('id_bank', $request->id_bank)->exists();
+                $bank = BankSoal::find($request->id_bank);
+                if ($hasAttempts && $bank && $bank->mode !== $request->mode) {
+                    Log::warning('[BankSoalService::updateBankSoal] Cannot change mode, bank has attempts', [
+                        'id_bank' => $request->id_bank,
+                    ]);
+                    throw new \Exception('Cannot change mode: this bank already has participant attempts.');
+                }
+                $updateData['mode'] = $request->mode;
+            }
+
+            BankSoal::where('id_bank', $request->id_bank)->update($updateData);
             DB::commit();
             Log::info('[BankSoalService::updateBankSoal] Update bank soal berhasil', [
                 'id_bank' => $request->id_bank,

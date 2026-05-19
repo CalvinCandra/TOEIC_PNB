@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'level' => \App\Http\Middleware\Level::class,
         'DisableHistory' => DisableHistory::class,
         'isChangePassword' => isChangePassword::class,
+        'feature' => \App\Http\Middleware\CheckFeatureEnabled::class,
     ];
 }

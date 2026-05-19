@@ -30,10 +30,15 @@
             <p class="text-gray-500 mt-1 text-xs max-w-2xl">Choose the simulation type you want to take. Ensure you have your test code ready before starting the timed simulator.</p>
         </div>
 
+        @php
+            $toeicEnabled = \App\Models\FeatureToggle::isEnabled('toeic_simulation');
+        @endphp
+
         {{-- Grid 2 card --}}
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
-            {{-- ── Card 1: TOEIC Simulation (existing) ── --}}
+            {{-- ── Card 1: TOEIC Simulation (toggle-aware) ── --}}
+            @if($toeicEnabled)
             <a data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
                 class="group flex flex-col bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 cursor-pointer overflow-hidden relative">
                 
@@ -71,35 +76,59 @@
                     </div>
                 </div>
             </a>
-
-            {{-- ── Card 2: Manual Test — Coming Soon ── --}}
-            <div class="flex flex-col bg-slate-50 border border-slate-100 rounded-2xl shadow-sm opacity-60 cursor-not-allowed overflow-hidden relative grayscale-[30%] hover:grayscale-0 transition-all duration-500">
-                
-                {{-- Label Coming Soon --}}
+            @else
+            <div class="flex flex-col bg-slate-50 border border-slate-100 rounded-2xl shadow-sm opacity-60 cursor-not-allowed overflow-hidden relative grayscale-[30%]">
                 <div class="absolute top-3 right-3 z-10">
-                    <span class="bg-slate-800/90 backdrop-blur-md text-white text-[9px] font-bold px-2 py-1 rounded-full tracking-widest uppercase shadow-sm">
-                        Coming Soon
-                    </span>
+                    <span class="bg-red-600/90 backdrop-blur-md text-white text-[9px] font-bold px-2 py-1 rounded-full tracking-widest uppercase shadow-sm">Disabled</span>
                 </div>
-
                 <div class="h-36 w-full bg-slate-200 flex items-center justify-center relative">
                     <div class="absolute inset-0 bg-slate-800/5 mix-blend-multiply border-b border-slate-200"></div>
-                    <i class="fa-solid fa-person-chalkboard text-5xl text-slate-400 drop-shadow-sm"></i>
+                    <i class="fa-solid fa-file-pen text-5xl text-slate-400 drop-shadow-sm"></i>
                 </div>
-
                 <div class="flex flex-col p-5 flex-1">
-                    <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-500">Self-Paced Test</h5>
-                    <p class="text-xs text-gray-400 leading-relaxed mb-4">
-                        Take the TOEIC Try Out at your own pace without a strict countdown timer. Answer questions freely and comprehensively review them before finalizing your submission.
-                    </p>
-                    <div class="mt-auto pt-2">
-                        <div class="bg-slate-100/50 p-3 rounded-xl border border-dashed border-slate-300 text-center">
-                            <p class="text-[10px] text-slate-500 font-medium tracking-wide">THIS FEATURE IS UNDER DEVELOPMENT</p>
-                        </div>
+                    <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-500">TOEIC Simulation</h5>
+                    <p class="text-xs text-gray-400 leading-relaxed mb-4">This feature is currently disabled by admin. Please check back later.</p>
+                </div>
+            </div>
+            @endif
+
+            {{-- ── Card 2: Self-Paced Test (SELALU AKTIF) ── --}}
+            <a href="/SelfStudy"
+               class="group flex flex-col bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md hover:border-green-200 transition-all duration-300 cursor-pointer overflow-hidden relative">
+                
+                <div class="h-36 w-full overflow-hidden relative bg-green-50">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <i class="fa-solid fa-person-chalkboard text-6xl text-green-300 drop-shadow-sm"></i>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-green-900/80 via-green-900/20 to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-3 left-4">
+                        <span class="bg-green-600/90 backdrop-blur-md text-white text-[9px] font-bold px-2 py-1 rounded-full uppercase tracking-widest shadow-sm">Self-Paced</span>
                     </div>
                 </div>
 
-            </div>
+                <div class="flex flex-col p-5 flex-1">
+                    <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 group-hover:text-green-600 transition-colors">Self-Paced Test</h5>
+                    <div class="mb-4 space-y-3">
+                        <p class="text-xs text-gray-500 leading-relaxed">
+                            Take the test at your own pace without a strict countdown timer. Answer questions freely and review them comprehensively.
+                        </p>
+                        <div class="bg-green-50/50 rounded-xl p-3 border border-green-100/50">
+                            <h6 class="text-[10px] font-bold text-green-900 uppercase tracking-widest mb-1.5"><i class="fa-regular fa-lightbulb mr-1"></i> FEATURES</h6>
+                            <ul class="text-xs text-green-800/80 space-y-0.5 ml-1 list-inside list-disc font-medium">
+                                <li>No time limit per part</li>
+                                <li>Unlimited audio replay</li>
+                                <li>Repeat parts to improve score</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-auto pt-1 flex justify-end">
+                        <div class="flex items-center gap-1.5 text-xs font-bold text-green-600 group-hover:bg-green-600 group-hover:text-white px-4 py-2 rounded-lg transition-all duration-300">
+                            Start Practice <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
 
         </div>
     </div>

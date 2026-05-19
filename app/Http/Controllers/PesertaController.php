@@ -102,7 +102,7 @@ class PesertaController extends Controller
             'bank_token_prefix' => substr($request->bankSoal ?? '', 0, 3).'***',
         ]);
 
-        $cekBank = BankSoal::where('bank', $request->bankSoal)->first();
+        $cekBank = BankSoal::where('bank', $request->bankSoal)->forToeic()->first();
         $peserta = Peserta::where('id_users', auth()->id())->first();
 
         if (! $cekBank) {

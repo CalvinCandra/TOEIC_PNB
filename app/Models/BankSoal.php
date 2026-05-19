@@ -17,9 +17,25 @@ class BankSoal extends Model
         'sesi_bank',
         'waktu_mulai',
         'waktu_akhir',
+        'mode',
         'created_at',
         'updated_at',
     ];
+
+    public function scopeForToeic($query)
+    {
+        return $query->where('mode', 'toeic');
+    }
+
+    public function scopeForSelfStudy($query)
+    {
+        return $query->where('mode', 'self_study');
+    }
+
+    public function selfStudyAttempts()
+    {
+        return $this->hasMany(\App\Models\SelfStudyAttempt::class, 'id_bank', 'id_bank');
+    }
 
     public function soal(): HasMany
     {

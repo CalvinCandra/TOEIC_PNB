@@ -32,12 +32,15 @@ class PartService
         $gambar = Gambar::all();
         $audio = Audio::all();
 
-        // Auto-increment tanda (urutan part)
-        $tanda = Part::where('id_bank', $id_bank)
+        // Cross-category sequential numbering — Listening range tanda 1-4
+        $lastPartListening = Part::where('id_bank', $id_bank)
             ->where('kategori', 'Listening')
             ->orderBy('tanda', 'desc')
             ->first();
-        $nomor = $tanda ? intval($tanda->tanda) + 1 : 1;
+
+        $nextTanda = $lastPartListening ? intval($lastPartListening->tanda) + 1 : 1;
+        $isListeningFull = $nextTanda > 4;
+        $nextPartName = "Part {$nextTanda}";
 
         // Auto-increment nomor soal — dari Listening saja
         $nomorSoal = Part::where('id_bank', $id_bank)
@@ -46,7 +49,15 @@ class PartService
             ->first();
         $angka = $nomorSoal ? intval($nomorSoal->sampai_nomor) + 1 : 1;
 
-        return compact('part', 'gambar', 'audio', 'nomor', 'angka');
+        return [
+            'part' => $part,
+            'gambar' => $gambar,
+            'audio' => $audio,
+            'nomor' => $nextTanda,
+            'angka' => $angka,
+            'nextPartName' => $nextPartName,
+            'isListeningFull' => $isListeningFull,
+        ];
     }
 
     public function storeListening(Request $request): bool|string
@@ -62,11 +73,24 @@ class PartService
             'petunjuk.required' => 'Direction cannot be empty',
         ]);
 
+        // Validasi max 4 Listening Part per bank
+        $listeningCount = Part::where('id_bank', $request->id_bank)
+            ->where('kategori', 'Listening')
+            ->count();
+
+        if ($listeningCount >= 4) {
+            return 'Maximum 4 Listening parts allowed per bank (Part 1-4).';
+        }
+
         if ($request->dari_nomor >= $request->sampai_nomor) {
             return 'Please do not fill in the numbers below '.$request->dari_nomor;
         }
 
-        $partSame = Part::where('part', $request->part)
+        // Auto-generate nama Part (override input)
+        $autoTanda = $listeningCount + 1;
+        $autoPartName = "Part {$autoTanda}";
+
+        $partSame = Part::where('part', $autoPartName)
             ->where('kategori', 'Listening')
             ->where('id_bank', $request->id_bank)
             ->first();
@@ -78,20 +102,21 @@ class PartService
         DB::beginTransaction();
         try {
             Part::create([
-                'part' => $request->part,
+                'part' => $autoPartName,
                 'kategori' => 'Listening',
                 'petunjuk' => $request->petunjuk,
                 'dari_nomor' => $request->dari_nomor,
                 'sampai_nomor' => $request->sampai_nomor,
                 'token_part' => strtoupper(Str::password(5, true, true, false, false)),
-                'tanda' => $request->tanda,
+                'tanda' => $autoTanda,
                 'id_bank' => $request->id_bank,
                 'id_gambar' => $request->gambar,
                 'id_audio' => $request->audio,
             ]);
             DB::commit();
             Log::info('[PartService::storeListening] Tambah part listening berhasil', [
-                'part' => $request->part,
+                'part' => $autoPartName,
+                'tanda' => $autoTanda,
             ]);
 
             return true;
@@ -178,32 +203,52 @@ class PartService
 
         $gambar = Gambar::all();
 
-        // Auto-increment tanda (urutan part)
-        $tanda = Part::where('id_bank', $id_bank)
+        // Reading mulai dari tanda 5 minimal
+        $lastPartReading = Part::where('id_bank', $id_bank)
             ->where('kategori', 'Reading')
             ->orderBy('tanda', 'desc')
             ->first();
-        $nomor = $tanda ? intval($tanda->tanda) + 1 : 1;
 
-        // Auto-increment nomor soal — gabung Listening + Reading
-        $nomorSoalListening = Part::where('id_bank', $id_bank)
+        $nextTanda = $lastPartReading
+            ? intval($lastPartReading->tanda) + 1
+            : 5;
+
+        $isReadingFull = $nextTanda > 7;
+        $nextPartName = "Part {$nextTanda}";
+
+        // Cek apakah Reading boleh dibuat (wajib ada minimal 1 Listening)
+        $hasListening = Part::where('id_bank', $id_bank)
+            ->where('kategori', 'Listening')
+            ->exists();
+
+        // Auto-increment nomor soal lintas kategori
+        $lastListening = Part::where('id_bank', $id_bank)
             ->where('kategori', 'Listening')
             ->orderBy('sampai_nomor', 'desc')
             ->first();
-        $nomorSoalReading = Part::where('id_bank', $id_bank)
+
+        $lastReadingByNomor = Part::where('id_bank', $id_bank)
             ->where('kategori', 'Reading')
             ->orderBy('sampai_nomor', 'desc')
             ->first();
 
-        if (! $nomorSoalListening && ! $nomorSoalReading) {
-            $angka = 1;
-        } elseif (! $nomorSoalReading) {
-            $angka = intval($nomorSoalListening->sampai_nomor) + 1;
+        if ($lastReadingByNomor) {
+            $angka = intval($lastReadingByNomor->sampai_nomor) + 1;
+        } elseif ($lastListening) {
+            $angka = intval($lastListening->sampai_nomor) + 1;
         } else {
-            $angka = intval($nomorSoalReading->sampai_nomor) + 1;
+            $angka = 1;
         }
 
-        return compact('part', 'gambar', 'nomor', 'angka');
+        return [
+            'part' => $part,
+            'gambar' => $gambar,
+            'nomor' => $nextTanda,
+            'angka' => $angka,
+            'nextPartName' => $nextPartName,
+            'isReadingFull' => $isReadingFull,
+            'hasListening' => $hasListening,
+        ];
     }
 
     public function storeReading(Request $request): bool|string
@@ -213,11 +258,42 @@ class PartService
             'id_bank' => $request->id_bank,
         ]);
 
+        // Validasi wajib ada minimal 1 Listening Part dulu
+        $hasListening = Part::where('id_bank', $request->id_bank)
+            ->where('kategori', 'Listening')
+            ->exists();
+
+        if (! $hasListening) {
+            return 'Please add at least 1 Listening Part first before creating Reading Part.';
+        }
+
+        // Validasi max 3 Reading Part per bank
+        $readingCount = Part::where('id_bank', $request->id_bank)
+            ->where('kategori', 'Reading')
+            ->count();
+
+        if ($readingCount >= 3) {
+            return 'Maximum 3 Reading parts allowed per bank (Part 5-7).';
+        }
+
         if ($request->dari_nomor >= $request->sampai_nomor) {
             return 'Please do not fill in the numbers below '.$request->dari_nomor;
         }
 
-        $partSame = Part::where('part', $request->part)
+        // Validasi cross-category nomor — Reading harus > sampai_nomor Listening
+        $maxListeningNomor = Part::where('id_bank', $request->id_bank)
+            ->where('kategori', 'Listening')
+            ->max('sampai_nomor');
+
+        if ($maxListeningNomor && $request->dari_nomor <= $maxListeningNomor) {
+            return "Reading must start from question number ".($maxListeningNomor + 1)." or higher.";
+        }
+
+        // Auto-generate nama & tanda
+        $autoTanda = 5 + $readingCount;
+        $autoPartName = "Part {$autoTanda}";
+
+        $partSame = Part::where('part', $autoPartName)
             ->where('kategori', 'Reading')
             ->where('id_bank', $request->id_bank)
             ->first();
@@ -229,21 +305,22 @@ class PartService
         DB::beginTransaction();
         try {
             Part::create([
-                'part' => $request->part,
+                'part' => $autoPartName,
                 'kategori' => 'Reading',
                 'petunjuk' => $request->petunjuk,
                 'multi_soal' => $request->multi,
                 'dari_nomor' => $request->dari_nomor,
                 'sampai_nomor' => $request->sampai_nomor,
                 'token_part' => strtoupper(Str::password(5, true, true, false, false)),
-                'tanda' => $request->tanda,
+                'tanda' => $autoTanda,
                 'id_bank' => $request->id_bank,
                 'id_gambar' => $request->gambar,
                 'id_audio' => null,
             ]);
             DB::commit();
             Log::info('[PartService::storeReading] Tambah part reading berhasil', [
-                'part' => $request->part,
+                'part' => $autoPartName,
+                'tanda' => $autoTanda,
             ]);
 
             return true;

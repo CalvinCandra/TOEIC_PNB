@@ -53,10 +53,24 @@
                     </form>
                 </div>
                 {{-- end search --}}
+                @if(isset($hasListening) && ! $hasListening)
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 border border-red-200">
+                        <span class="font-medium">Cannot add Reading Part yet!</span>
+                        Please add at least 1 Listening Part first before creating Reading Parts.
+                    </div>
+                @elseif(isset($isReadingFull) && $isReadingFull)
+                    <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 border border-yellow-200">
+                        <span class="font-medium">Maximum reached!</span>
+                        This bank already has 3 Reading Parts (Part 5-7). You cannot add more.
+                    </div>
+                @endif
                 <div class="flex mt-5 justify-between">
                     <!-- Modal toggle -->
                     <button data-modal-target="TambahPartReading" data-modal-toggle="TambahPartReading"
-                        class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5"
+                        @if((isset($hasListening) && !$hasListening) || (isset($isReadingFull) && $isReadingFull))
+                            disabled
+                        @endif
+                        class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5 {{ ((!$hasListening ?? false) || ($isReadingFull ?? false)) ? 'opacity-50 cursor-not-allowed' : '' }}"
                         type="button">
                         Create Part Reading
                     </button>
@@ -185,10 +199,12 @@
                         <input type="hidden" value="{{ $nomor }}" name="tanda">
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Part</label>
-                            <input type="text" name="part" id="name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                placeholder="Example : Part 1" required />
+                            <label for="part" class="block mb-2 text-sm font-medium text-gray-900">Part</label>
+                            <input type="text" name="part" id="part"
+                                value="{{ $nextPartName ?? 'Part 5' }}"
+                                readonly
+                                class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 cursor-not-allowed">
+                            <p class="text-xs text-gray-500 mt-1">Part name is auto-generated based on order</p>
                         </div>
 
                         <div>

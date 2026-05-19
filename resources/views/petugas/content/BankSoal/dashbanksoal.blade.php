@@ -61,6 +61,7 @@
                                     <th scope="col" class="px-4 py-4 border-2">No</th>
                                     <th scope="col" class="px-4 py-3 border-2">Code Question</th>
                                     <th scope="col" class="px-4 py-3 border-2">Session</th>
+                                    <th scope="col" class="px-4 py-3 border-2">Mode</th>
                                     <th scope="col" class="px-4 py-3 border-2">Start Time</th>
                                     <th scope="col" class="px-4 py-3 border-2">End Time</th>
                                     <th scope="col" class="px-4 py-3 border-2">Actions</th>
@@ -72,6 +73,12 @@
                                         <th class="px-4 py-3 border-2">{{ $loop->iteration }}</th>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->bank }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->sesi_bank }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">
+                                            <span class="text-xs font-semibold px-2 py-1 rounded
+                                                {{ $data->mode === 'toeic' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700' }}">
+                                                {{ $data->mode === 'toeic' ? 'TOEIC' : 'Self Study' }}
+                                            </span>
+                                        </td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->waktu_mulai }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->waktu_akhir }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">
@@ -208,18 +215,26 @@
                         </div>
 
                         <div>
-                            <label for="start_time" class="block mb-2 text-sm font-medium text-gray-900">Start
+                            <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">End
                                 Time</label>
-                            <input type="time" name="waktu_mulai" id="start_time"
+                            <input type="time" name="waktu_akhir" id="end_time"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                 required />
                         </div>
 
-                        <div>
-                            <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">End Time</label>
-                            <input type="time" name="waktu_akhir" id="end_time"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                required />
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold mb-1">Mode <span class="text-red-500">*</span></label>
+                            <select name="mode" required class="w-full border rounded px-3 py-2">
+                                <option value="toeic" selected>
+                                    TOEIC Simulation — Used for official timed exam
+                                </option>
+                                <option value="self_study">
+                                    Self Study — Practice mode (no timer, unlimited audio)
+                                </option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">
+                                Choose which feature this bank will be used in. Cannot be changed after participants start attempts.
+                            </p>
                         </div>
 
                         <button type="submit"
@@ -299,6 +314,21 @@
                                     value="{{ $data->waktu_akhir }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     required />
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-semibold mb-1">Mode <span class="text-red-500">*</span></label>
+                                <select name="mode" required class="w-full border rounded px-3 py-2">
+                                    <option value="toeic" {{ $data->mode === 'toeic' ? 'selected' : '' }}>
+                                        TOEIC Simulation — Used for official timed exam
+                                    </option>
+                                    <option value="self_study" {{ $data->mode === 'self_study' ? 'selected' : '' }}>
+                                        Self Study — Practice mode (no timer, unlimited audio)
+                                    </option>
+                                </select>
+                                <p class="text-xs text-gray-500 mt-1">
+                                    Choose which feature this bank will be used in. Cannot be changed after participants start attempts.
+                                </p>
                             </div>
 
                             <button type="submit"
