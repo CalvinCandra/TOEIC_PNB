@@ -60,7 +60,7 @@
                         @if ($bank->total_attempts > 0)
                             <div class="mt-3 text-sm text-gray-600 flex items-center gap-3">
                                 <span>
-                                    Best: <strong class="text-green-500">{{ $bank->best_skor }}%</strong>
+                                    Best: <strong class="text-green-500">{{ $bank->best_skor }}</strong>
                                 </span>
                                 <span class="text-gray-300">|</span>
                                 <span>{{ $bank->total_attempts }} attempts</span>

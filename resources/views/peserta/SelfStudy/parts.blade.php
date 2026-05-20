@@ -91,11 +91,11 @@
                             <div class="bg-gray-50 rounded-lg p-3 mb-3 text-sm">
                                 <div class="flex justify-between mb-1">
                                     <span class="text-gray-600">First Score</span>
-                                    <strong class="text-gray-900">{{ $part->first_skor }}%</strong>
+                                    <strong class="text-gray-900">{{ $part->first_skor }}</strong>
                                 </div>
                                 <div class="flex justify-between mb-1">
                                     <span class="text-gray-600">Best Score</span>
-                                    <strong class="text-green-500">{{ $part->best_skor }}%</strong>
+                                    <strong class="text-green-500">{{ $part->best_skor }}</strong>
                                 </div>
                                 <div class="flex justify-between text-xs">
                                     <span class="text-gray-500">Attempts</span>

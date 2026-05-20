@@ -28,19 +28,19 @@
         <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
             <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5">
                 <div class="text-xs text-gray-500 uppercase tracking-wider">First Score</div>
-                <div class="text-2xl font-bold text-gray-900 mt-1">{{ $chartData['first'] }}%</div>
+                <div class="text-2xl font-bold text-gray-900 mt-1">{{ $chartData['first'] }}</div>
             </div>
             <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5">
                 <div class="text-xs text-gray-500 uppercase tracking-wider">Best Score</div>
-                <div class="text-2xl font-bold text-green-500 mt-1">{{ $chartData['best'] }}%</div>
+                <div class="text-2xl font-bold text-green-500 mt-1">{{ $chartData['best'] }}</div>
             </div>
             <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5">
                 <div class="text-xs text-gray-500 uppercase tracking-wider">Last Score</div>
-                <div class="text-2xl font-bold text-gray-900 mt-1">{{ $chartData['last'] }}%</div>
+                <div class="text-2xl font-bold text-gray-900 mt-1">{{ $chartData['last'] }}</div>
             </div>
             <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5">
                 <div class="text-xs text-gray-500 uppercase tracking-wider">Average</div>
-                <div class="text-2xl font-bold text-gray-900 mt-1">{{ $chartData['avg'] }}%</div>
+                <div class="text-2xl font-bold text-gray-900 mt-1">{{ $chartData['avg'] }}</div>
             </div>
             <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5">
                 <div class="text-xs text-gray-500 uppercase tracking-wider">Attempts</div>
@@ -149,9 +149,9 @@
                                     max: 100,
                                     ticks: {
                                         stepSize: 10,
-                                        callback: (val) => val + '%'
+                                        callback: (val) => val
                                     },
-                                    title: { display: true, text: 'Score (%)' },
+                                    title: { display: true, text: 'Score' },
                                     grid: { color: 'rgba(0,0,0,0.05)' }
                                 },
                                 x: {
@@ -167,7 +167,7 @@
                                     titleFont: { size: 13, weight: 'bold' },
                                     bodyFont: { size: 12 },
                                     callbacks: {
-                                        label: (ctx) => `Score: ${ctx.parsed.y}%`
+                                        label: (ctx) => `Score: ${ctx.parsed.y}`
                                     }
                                 }
                             }

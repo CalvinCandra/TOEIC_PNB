@@ -342,20 +342,36 @@ class SelfStudyService
 
         $partsData = $parts->map(function ($part) use ($byPart) {
             $partAttempts = $byPart->get($part->id_part, collect());
+
             $part->all_attempts = $partAttempts;
             $part->first_skor   = $partAttempts->first()?->skor;
             $part->last_skor    = $partAttempts->last()?->skor;
             $part->best_skor    = $partAttempts->max('skor');
             $part->total        = $partAttempts->count();
+
+            $part->chart = [
+                'labels' => $partAttempts->pluck('attempt_number')
+                    ->map(fn ($n) => "Attempt #{$n}")->values()->toArray(),
+                'data'   => $partAttempts->pluck('skor')->values()->toArray(),
+            ];
+
             return $part;
         });
 
         $overallChart = $this->getOverallChart($idPeserta, $idBank);
 
+        $totalParts = $parts->count();
+        $sumLastScores = $partsData->sum(fn ($p) => $p->last_skor ?? 0);
+        $totalAverageScore = $totalParts > 0
+            ? (int) round($sumLastScores / $totalParts)
+            : 0;
+
         return [
-            'bank'         => $bank,
-            'parts_data'   => $partsData,
-            'overall_chart' => $overallChart,
+            'bank'                => $bank,
+            'parts_data'          => $partsData,
+            'overall_chart'       => $overallChart,
+            'total_average_score' => $totalAverageScore,
+            'total_parts'         => $totalParts,
         ];
     }
 }

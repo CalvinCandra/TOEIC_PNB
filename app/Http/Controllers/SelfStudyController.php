@@ -118,9 +118,15 @@ class SelfStudyController extends Controller
         $peserta = Peserta::where('id_users', auth()->id())->firstOrFail();
         $bank = BankSoal::forSelfStudy()->findOrFail($idBank);
 
-        $chartData = $this->service->getOverallChart($peserta->id_peserta, $bank->id_bank);
-        $partsStats = $this->service->getPartsInBank($peserta->id_peserta, $bank);
+        $detail = $this->service->getPesertaBankDetail($peserta->id_peserta, $idBank);
 
-        return view('peserta.SelfStudy.review', compact('bank', 'chartData', 'partsStats', 'peserta'));
+        return view('peserta.SelfStudy.review', [
+            'bank'                => $detail['bank'],
+            'parts_data'          => $detail['parts_data'],
+            'overall_chart'       => $detail['overall_chart'],
+            'total_average_score' => $detail['total_average_score'],
+            'total_parts'         => $detail['total_parts'],
+            'peserta'             => $peserta,
+        ]);
     }
 }

@@ -8,18 +8,6 @@
         <div class="p-3 sm:p-5 antialiased">
             <div class="bg-white shadow-md sm:rounded-lg overflow-hidden p-3">
 
-                {{-- Tab navigation --}}
-                <div class="flex gap-2 mb-5">
-                    <a href="/dash{{ $routePrefix }}SelfStudyHistory"
-                        class="block text-gray-700 bg-gray-100 hover:bg-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">
-                        All Attempts
-                    </a>
-                    <a href="/dash{{ $routePrefix }}SelfStudyHistoryPeserta"
-                        class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5">
-                        By Participant
-                    </a>
-                </div>
-
                 {{-- Filter Form --}}
                 <form method="GET" action="/dash{{ $routePrefix }}SelfStudyHistoryPeserta" class="mb-5">
                     <div class="mb-3">
@@ -64,7 +52,7 @@
                                         <td class="px-4 py-3 border-2">{{ $p->nama_peserta }}</td>
                                         <td class="px-4 py-3 border-2 text-center">{{ $p->total_banks }}</td>
                                         <td class="px-4 py-3 border-2 text-center">{{ $p->total_attempts }}</td>
-                                        <td class="px-4 py-3 border-2 font-semibold">{{ $p->best_skor }}%</td>
+                                        <td class="px-4 py-3 border-2 font-semibold">{{ $p->best_skor }}</td>
                                         <td class="px-4 py-3 border-2 text-xs">
                                             {{ \Carbon\Carbon::parse($p->last_activity)->format('d/m/Y H:i') }}
                                         </td>

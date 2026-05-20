@@ -139,7 +139,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::post('/feature-toggle/{key}', [FeatureToggleController::class, 'update']);
 
     // === SELF STUDY HISTORY (read-only) ===
-    Route::get('/dashAdminSelfStudyHistory', [SelfStudyHistoryController::class, 'index']);
+    Route::get('/dashAdminSelfStudyHistory', fn () => redirect('/dashAdminSelfStudyHistoryPeserta'));
     Route::get('/dashAdminSelfStudyHistoryPeserta', [SelfStudyHistoryController::class, 'listPeserta']);
     Route::get('/dashAdminSelfStudyHistoryPeserta/{idPeserta}', [SelfStudyHistoryController::class, 'detailPeserta']);
     Route::get('/dashAdminSelfStudyHistoryPeserta/{idPeserta}/Bank/{idBank}', [SelfStudyHistoryController::class, 'detailBank']);
@@ -214,7 +214,7 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     Route::post('/DeleteSoalListeningPetugas', [PetugasController::class, 'DeleteSoalListeningPetugas']);
 
     // === SELF STUDY HISTORY (read-only, sama akses dengan admin) ===
-    Route::get('/dashPetugasSelfStudyHistory', [SelfStudyHistoryController::class, 'index']);
+    Route::get('/dashPetugasSelfStudyHistory', fn () => redirect('/dashPetugasSelfStudyHistoryPeserta'));
     Route::get('/dashPetugasSelfStudyHistoryPeserta', [SelfStudyHistoryController::class, 'listPeserta']);
     Route::get('/dashPetugasSelfStudyHistoryPeserta/{idPeserta}', [SelfStudyHistoryController::class, 'detailPeserta']);
     Route::get('/dashPetugasSelfStudyHistoryPeserta/{idPeserta}/Bank/{idBank}', [SelfStudyHistoryController::class, 'detailBank']);

@@ -22,22 +22,6 @@ class SelfStudyHistoryController extends Controller
         return auth()->user()->level === 'admin' ? 'Admin' : 'Petugas';
     }
 
-    public function index(Request $request)
-    {
-        $filters = $request->only(['id_bank', 'kategori', 'date_from', 'date_to', 'search']);
-
-        $attempts = $this->service
-            ->queryAttemptsForAdmin($filters)
-            ->paginate(25)
-            ->withQueryString();
-
-        $banks = BankSoal::forSelfStudy()->orderBy('bank')->get(['id_bank', 'bank']);
-        $routePrefix = $this->routePrefix();
-
-        return view("{$this->viewPrefix()}.content.SelfStudyHistory.index",
-            compact('attempts', 'filters', 'banks', 'routePrefix'));
-    }
-
     public function listPeserta(Request $request)
     {
         $filters = $request->only(['search']);
