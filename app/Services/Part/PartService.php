@@ -49,6 +49,10 @@ class PartService
             ->first();
         $angka = $nomorSoal ? intval($nomorSoal->sampai_nomor) + 1 : 1;
 
+        $hasReading = Part::where('id_bank', $id_bank)
+            ->where('kategori', 'Reading')
+            ->exists();
+
         return [
             'part' => $part,
             'gambar' => $gambar,
@@ -57,6 +61,7 @@ class PartService
             'angka' => $angka,
             'nextPartName' => $nextPartName,
             'isListeningFull' => $isListeningFull,
+            'hasReading' => $hasReading,
         ];
     }
 
@@ -72,6 +77,16 @@ class PartService
         ], [
             'petunjuk.required' => 'Direction cannot be empty',
         ]);
+
+        // 🩹 Validasi block Listening setelah Reading ada
+        $hasReading = Part::where('id_bank', $request->id_bank)
+            ->where('kategori', 'Reading')
+            ->exists();
+
+        if ($hasReading) {
+            return 'Cannot add new Listening Part after Reading Parts exist. '
+                 . 'Please delete all Reading Parts first if you need to add more Listening.';
+        }
 
         // Validasi max 4 Listening Part per bank
         $listeningCount = Part::where('id_bank', $request->id_bank)

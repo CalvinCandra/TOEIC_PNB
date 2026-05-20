@@ -54,7 +54,13 @@
                     </form>
                 </div>
                 {{-- end search --}}
-                @if(isset($isListeningFull) && $isListeningFull)
+                @if (isset($hasReading) && $hasReading)
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 border border-red-200">
+                        <span class="font-medium">⚠️ Cannot add new Listening Part</span>
+                        <p class="mt-1">This bank already has Reading Part(s). To maintain question number consistency,
+                        you cannot add more Listening Parts after Reading exists. Delete all Reading Parts first if needed.</p>
+                    </div>
+                @elseif (isset($isListeningFull) && $isListeningFull)
                     <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 border border-yellow-200">
                         <span class="font-medium">Maximum reached!</span>
                         This bank already has 4 Listening Parts (Part 1-4). You cannot add more.
@@ -63,8 +69,8 @@
                 <div class="flex mt-5 justify-between">
                     <!-- Modal toggle -->
                     <button data-modal-target="TambahPartListening" data-modal-toggle="TambahPartListening"
-                        @if(isset($isListeningFull) && $isListeningFull) disabled @endif
-                        class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5 {{ ($isListeningFull ?? false) ? 'opacity-50 cursor-not-allowed' : '' }}"
+                        @if((isset($hasReading) && $hasReading) || (isset($isListeningFull) && $isListeningFull)) disabled @endif
+                        class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-5 {{ ((isset($hasReading) && $hasReading) || (isset($isListeningFull) && $isListeningFull)) ? 'opacity-50 cursor-not-allowed' : '' }}"
                         type="button">
                         Create Part Listening
                     </button>

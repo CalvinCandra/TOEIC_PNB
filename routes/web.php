@@ -239,10 +239,11 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
 
     Route::middleware(['isChangePassword'])->group(function () {
 
+        // dash soal
+        Route::get('/DashboardSoal', [PesertaController::class, 'dashSoal']);
+
         // ===== TOEIC SIMULATION (dengan toggle feature) =====
         Route::middleware(['feature:toeic_simulation'])->group(function () {
-            // dash soal
-            Route::get('/DashboardSoal', [PesertaController::class, 'dashSoal']);
             Route::get('/TokenQuestion', [PesertaController::class, 'TokenQuestion']);
         
             Route::middleware(['DisableHistory'])->group(function () {

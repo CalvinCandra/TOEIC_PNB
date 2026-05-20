@@ -51,10 +51,30 @@
         {{-- Chart Card --}}
         <div class="bg-white border border-gray-200 rounded-2xl p-5 mb-6">
             <div class="p-4">
-                <h2 class="text-lg font-semibold text-gray-900 mb-3">Score Progress</h2>
-                <div class="relative" style="height: 300px;">
-                    <canvas id="progressChart"></canvas>
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-lg font-semibold text-gray-900">Score Progress</h2>
+                    <div class="flex gap-3 text-xs text-gray-500">
+                        <span class="flex items-center gap-1">
+                            <span class="inline-block w-3 h-3 rounded-full bg-blue-500"></span>
+                            First Attempts
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <span class="inline-block w-3 h-3 rounded-full bg-emerald-500"></span>
+                            Latest Attempts
+                        </span>
+                    </div>
                 </div>
+
+                @if ($chartData['total'] > 0)
+                    <div class="relative" style="height: 320px;">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                @else
+                    <div class="text-center py-10 text-gray-400">
+                        <i class="fa-solid fa-chart-line text-4xl mb-2"></i>
+                        <p>No attempts yet. Start practicing to see your progress!</p>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -69,42 +89,92 @@
                 <i class="fa-solid fa-arrow-left me-1"></i> Back to Parts
             </a>
         </div>
+
+        {{-- 🩹 BUG 1 FIX: Chart.js + script DI DALAM @section('content') --}}
+        @if ($chartData['total'] > 0)
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const canvas = document.getElementById('progressChart');
+                    if (!canvas) return;
+
+                    const labels = @json($chartData['labels']);
+                    const scoreData = @json($chartData['data']);
+                    const totalAttempts = scoreData.length;
+
+                    // 🎨 Color gradient per attempt: dari biru (early) → emerald (latest)
+                    const startColor = { r: 59, g: 130, b: 246 };   // Blue-500
+                    const endColor   = { r: 16, g: 185, b: 129 };   // Emerald-500
+
+                    function interpolateColor(idx, total) {
+                        if (total <= 1) return `rgb(${startColor.r}, ${startColor.g}, ${startColor.b})`;
+                        const ratio = idx / (total - 1);
+                        const r = Math.round(startColor.r + (endColor.r - startColor.r) * ratio);
+                        const g = Math.round(startColor.g + (endColor.g - startColor.g) * ratio);
+                        const b = Math.round(startColor.b + (endColor.b - startColor.b) * ratio);
+                        return `rgb(${r}, ${g}, ${b})`;
+                    }
+
+                    const pointColors = scoreData.map((_, idx) => interpolateColor(idx, totalAttempts));
+
+                    new Chart(canvas.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Score',
+                                data: scoreData,
+                                borderColor: 'rgba(99, 102, 241, 0.6)',
+                                backgroundColor: 'rgba(99, 102, 241, 0.08)',
+                                tension: 0.35,
+                                fill: true,
+                                pointRadius: 7,
+                                pointHoverRadius: 10,
+                                pointBackgroundColor: pointColors,
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 2,
+                                borderWidth: 2,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: {
+                                intersect: false,
+                                mode: 'index',
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    ticks: {
+                                        stepSize: 10,
+                                        callback: (val) => val + '%'
+                                    },
+                                    title: { display: true, text: 'Score (%)' },
+                                    grid: { color: 'rgba(0,0,0,0.05)' }
+                                },
+                                x: {
+                                    title: { display: true, text: 'Attempt' },
+                                    grid: { display: false }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                                    padding: 12,
+                                    titleFont: { size: 13, weight: 'bold' },
+                                    bodyFont: { size: 12 },
+                                    callbacks: {
+                                        label: (ctx) => `Score: ${ctx.parsed.y}%`
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+        @endif
     </section>
 @endsection
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script>
-    new Chart(document.getElementById('progressChart').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: @json($chartData['labels']),
-            datasets: [{
-                label: 'Score',
-                data: @json($chartData['data']),
-                borderColor: 'rgb(59, 130, 246)',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                tension: 0.3, fill: true, pointRadius: 5, pointHoverRadius: 8,
-                pointBackgroundColor: 'rgb(59, 130, 246)',
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    ticks: {
-                        stepSize: 10,
-                        callback: (val) => val + '%'
-                    },
-                    title: { display: true, text: 'Score (%)' }
-                },
-                x: { title: { display: true, text: 'Attempt' } }
-            },
-            plugins: {
-                legend: { display: false },
-                tooltip: { callbacks: { label: (ctx) => `Score: ${ctx.parsed.y}%` } }
-            }
-        }
-    });
-</script>

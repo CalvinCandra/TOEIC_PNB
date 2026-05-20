@@ -181,40 +181,84 @@
                 @if ($overall_chart['total_rounds'] > 0)
                     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
                     <script>
-                        new Chart(document.getElementById('overallChart').getContext('2d'), {
-                            type: 'line',
-                            data: {
-                                labels: @json($overall_chart['labels']),
-                                datasets: [{
-                                    label: 'Avg Score',
-                                    data: @json($overall_chart['data']),
-                                    borderColor: 'rgb(34, 197, 94)',
-                                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                                    tension: 0.3,
-                                    fill: true,
-                                    pointRadius: 5,
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        max: 100,
-                                        ticks: {
-                                            stepSize: 10,
-                                            callback: (v) => v + '%'
-                                        },
-                                        title: { display: true, text: 'Avg Score (%)' }
-                                    },
-                                    x: { title: { display: true, text: 'Round' } }
-                                },
-                                plugins: {
-                                    legend: { display: false },
-                                    tooltip: { callbacks: { label: (ctx) => `Avg: ${ctx.parsed.y}%` } }
-                                }
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const canvas = document.getElementById('overallChart');
+                            if (!canvas) return;
+
+                            const labels = @json($overall_chart['labels']);
+                            const scoreData = @json($overall_chart['data']);
+                            const totalRounds = scoreData.length;
+
+                            const startColor = { r: 168, g: 85, b: 247 };
+                            const endColor   = { r: 236, g: 72, b: 153 };
+
+                            function interpolateColor(idx, total) {
+                                if (total <= 1) return `rgb(${startColor.r}, ${startColor.g}, ${startColor.b})`;
+                                const ratio = idx / (total - 1);
+                                const r = Math.round(startColor.r + (endColor.r - startColor.r) * ratio);
+                                const g = Math.round(startColor.g + (endColor.g - startColor.g) * ratio);
+                                const b = Math.round(startColor.b + (endColor.b - startColor.b) * ratio);
+                                return `rgb(${r}, ${g}, ${b})`;
                             }
+
+                            const pointColors = scoreData.map((_, idx) => interpolateColor(idx, totalRounds));
+
+                            new Chart(canvas.getContext('2d'), {
+                                type: 'line',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Avg Score',
+                                        data: scoreData,
+                                        borderColor: 'rgba(168, 85, 247, 0.6)',
+                                        backgroundColor: 'rgba(168, 85, 247, 0.08)',
+                                        tension: 0.35,
+                                        fill: true,
+                                        pointRadius: 7,
+                                        pointHoverRadius: 10,
+                                        pointBackgroundColor: pointColors,
+                                        pointBorderColor: '#fff',
+                                        pointBorderWidth: 2,
+                                        borderWidth: 2,
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    interaction: {
+                                        intersect: false,
+                                        mode: 'index',
+                                    },
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            max: 100,
+                                            ticks: {
+                                                stepSize: 10,
+                                                callback: (v) => v + '%'
+                                            },
+                                            title: { display: true, text: 'Avg Score (%)' },
+                                            grid: { color: 'rgba(0,0,0,0.05)' }
+                                        },
+                                        x: {
+                                            title: { display: true, text: 'Round' },
+                                            grid: { display: false }
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: { display: false },
+                                        tooltip: {
+                                            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                                            padding: 12,
+                                            titleFont: { size: 13, weight: 'bold' },
+                                            bodyFont: { size: 12 },
+                                            callbacks: {
+                                                label: (ctx) => `Avg: ${ctx.parsed.y}%`
+                                            }
+                                        }
+                                    }
+                                }
+                            });
                         });
                     </script>
                 @endif
