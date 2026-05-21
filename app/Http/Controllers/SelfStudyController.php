@@ -83,6 +83,26 @@ class SelfStudyController extends Controller
             $request->durasi_detik ? (int) $request->durasi_detik : null
         );
 
+        // Grade and save session analysis detail
+        $soalList = Soal::where('kategori', $part->kategori)
+            ->where('id_bank', $part->id_bank)
+            ->whereBetween('nomor_soal', [$part->dari_nomor, $part->sampai_nomor])
+            ->orderBy('nomor_soal')
+            ->get();
+
+        $jawabanPeserta = $request->jawaban ?? [];
+        $analysis = [];
+        foreach ($soalList as $soal) {
+            $userAns = $jawabanPeserta[$soal->id_soal] ?? null;
+            $isCorrect = ($userAns !== null && strtoupper($userAns) === strtoupper($soal->kunci_jawaban));
+            $analysis[$soal->id_soal] = [
+                'nomor_soal' => $soal->nomor_soal,
+                'user_answer' => $userAns,
+                'is_correct' => $isCorrect,
+            ];
+        }
+        session()->put("self_study_analysis_{$part->id_part}", $analysis);
+
         Log::info('[SelfStudyController::submit]', [
             'id_peserta' => $peserta->id_peserta,
             'id_bank'    => $bank->id_bank,
@@ -110,7 +130,16 @@ class SelfStudyController extends Controller
             return redirect("/SelfStudy/Bank/{$idBank}");
         }
 
-        return view('peserta.SelfStudy.result', compact('bank', 'part', 'chartData', 'peserta'));
+        $soal = Soal::with(['audio', 'gambar'])
+            ->where('kategori', $part->kategori)
+            ->where('id_bank', $bank->id_bank)
+            ->whereBetween('nomor_soal', [$part->dari_nomor, $part->sampai_nomor])
+            ->orderBy('nomor_soal')
+            ->get();
+
+        $analysis = session()->get("self_study_analysis_{$part->id_part}");
+
+        return view('peserta.SelfStudy.result', compact('bank', 'part', 'chartData', 'peserta', 'soal', 'analysis'));
     }
 
     public function review(int $idBank)
