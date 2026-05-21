@@ -204,7 +204,7 @@ class SelfStudyService
             ->where('id_bank', $idBank)
             ->where('id_part', $idPart)
             ->orderBy('attempt_number')
-            ->get(['attempt_number', 'skor', 'jumlah_benar', 'created_at']);
+            ->get(['attempt_number', 'skor', 'jumlah_benar', 'jumlah_salah', 'durasi_detik', 'created_at']);
 
         return [
             'labels' => $attempts->pluck('attempt_number')->map(fn ($n) => "Attempt #{$n}")->toArray(),
@@ -214,6 +214,9 @@ class SelfStudyService
             'last'   => (int) ($attempts->last()->skor ?? 0),
             'avg'    => $attempts->count() ? (int) round($attempts->avg('skor')) : 0,
             'total'  => $attempts->count(),
+            'last_benar' => (int) ($attempts->last()->jumlah_benar ?? 0),
+            'last_salah' => (int) ($attempts->last()->jumlah_salah ?? 0),
+            'last_durasi'=> $attempts->last() ? $attempts->last()->durasi_detik : null,
         ];
     }
 

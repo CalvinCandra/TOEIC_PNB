@@ -11,7 +11,7 @@
                 {{-- Filter Form --}}
                 <form method="GET" action="/dash{{ $routePrefix }}SelfStudyHistoryPeserta" class="mb-5">
                     <div class="mb-3">
-                        <label for="search" class="block mb-2 text-sm font-medium text-gray-900">Search (NIM/Nama)</label>
+                        <label for="search" class="block mb-2 text-sm font-medium text-gray-900">Search (NIM/Name)</label>
                         <input type="text" name="search" id="search" value="{{ $filters['search'] ?? '' }}"
                             placeholder="Search by NIM or name..."
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
@@ -36,7 +36,7 @@
                                 <tr>
                                     <th scope="col" class="px-4 py-4 border-2">No</th>
                                     <th scope="col" class="px-4 py-3 border-2">NIM</th>
-                                    <th scope="col" class="px-4 py-3 border-2">Nama</th>
+                                    <th scope="col" class="px-4 py-3 border-2">Name</th>
                                     <th scope="col" class="px-4 py-3 border-2">Banks Done</th>
                                     <th scope="col" class="px-4 py-3 border-2">Total Attempts</th>
                                     <th scope="col" class="px-4 py-3 border-2">Best Score</th>
@@ -47,7 +47,9 @@
                             <tbody>
                                 @forelse ($peserta as $p)
                                     <tr class="border-b">
-                                        <th class="px-4 py-3 border-2">{{ $loop->iteration + ($peserta->currentPage() - 1) * $peserta->perPage() }}</th>
+                                        <th class="px-4 py-3 border-2">
+                                            {{ $loop->iteration + ($peserta->currentPage() - 1) * $peserta->perPage() }}
+                                        </th>
                                         <td class="px-4 py-3 border-2">{{ $p->nim }}</td>
                                         <td class="px-4 py-3 border-2">{{ $p->nama_peserta }}</td>
                                         <td class="px-4 py-3 border-2 text-center">{{ $p->total_banks }}</td>

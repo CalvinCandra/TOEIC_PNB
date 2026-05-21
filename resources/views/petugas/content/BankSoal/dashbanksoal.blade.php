@@ -72,7 +72,13 @@
                                     <tr class="border-b" id="baris{{ $loop->iteration }}">
                                         <th class="px-4 py-3 border-2">{{ $loop->iteration }}</th>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->bank }}</td>
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->sesi_bank }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">
+                                            @if($data->mode === 'self_study')
+                                                <span class="text-xs text-gray-400 italic">— (Self Study)</span>
+                                            @else
+                                                {{ $data->sesi_bank }}
+                                            @endif
+                                        </td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">
                                             <span class="text-xs font-semibold px-2 py-1 rounded
                                                 {{ $data->mode === 'toeic' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700' }}">
@@ -196,49 +202,43 @@
                     <form class="space-y-4 modal-form" action="{{ url('/TambahBankSoal') }}" method="POST">
                         @csrf
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code
-                                Question</label>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code Question</label>
                             <input type="text" name="bank" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                 placeholder="Example : KD-1A" required />
                         </div>
 
-                        <div>
-                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
-                            <select id="countries" name="sesi_bank"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                required>
+                        {{-- Mode first --}}
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold mb-1">Mode <span class="text-red-500">*</span></label>
+                            <select name="mode" id="tambah-mode" required class="w-full border rounded px-3 py-2">
+                                <option value="toeic" selected>TOEIC Simulation — Used for official timed exam</option>
+                                <option value="self_study">Self Study — Practice mode (no timer, unlimited audio)</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">Choose which feature this bank will be used in.</p>
+                        </div>
+
+                        {{-- Session — hidden when Self Study --}}
+                        <div id="tambah-session-group">
+                            <label for="tambah-sesi" class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
+                            <select id="tambah-sesi" name="sesi_bank"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option selected hidden value="">-- Select --</option>
                                 <option value="Session 1">Session 1</option>
                                 <option value="Session 2">Session 2</option>
                             </select>
                         </div>
+                        <input type="hidden" id="tambah-sesi-hidden" name="sesi_bank" value="Self Study" disabled>
 
-                        <div>
-                            <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">End
-                                Time</label>
+                        {{-- Time field — hidden when Self Study --}}
+                        <div id="tambah-time-group">
+                            <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">End Time</label>
                             <input type="time" name="waktu_akhir" id="end_time"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                required />
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="block text-sm font-semibold mb-1">Mode <span class="text-red-500">*</span></label>
-                            <select name="mode" required class="w-full border rounded px-3 py-2">
-                                <option value="toeic" selected>
-                                    TOEIC Simulation — Used for official timed exam
-                                </option>
-                                <option value="self_study">
-                                    Self Study — Practice mode (no timer, unlimited audio)
-                                </option>
-                            </select>
-                            <p class="text-xs text-gray-500 mt-1">
-                                Choose which feature this bank will be used in. Cannot be changed after participants start attempts.
-                            </p>
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
                         </div>
 
                         <button type="submit"
-                            class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                            class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
                     </form>
                 </div>
             </div>
@@ -275,65 +275,49 @@
                     <div class="p-4 md:p-5">
                         <form class="space-y-4 modal-form" action="{{ url('/UpdateBankSoal') }}" method="POST">
                             @csrf
-
                             <input type="hidden" name="id_bank" value="{{ $data->id_bank }}">
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code
-                                    Question</label>
+                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Code Question</label>
                                 <input type="text" name="bank" value="{{ $data->bank }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                     placeholder="Example : KD-1A" required />
                             </div>
 
-                            <div>
-                                <label for="name"
-                                    class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
-                                <select id="countries" name="sesi_bank"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                    <option selected hidden value="{{ $data->sesi_bank }}">{{ $data->sesi_bank }}
-                                    </option>
+                            {{-- Mode first --}}
+                            <div class="mb-4">
+                                <label class="block text-sm font-semibold mb-1">Mode <span class="text-red-500">*</span></label>
+                                <select name="mode" id="update-mode-{{ $data->id_bank }}" required class="w-full border rounded px-3 py-2 update-mode-select"
+                                    data-bank-id="{{ $data->id_bank }}">
+                                    <option value="toeic" {{ $data->mode === 'toeic' ? 'selected' : '' }}>TOEIC Simulation — Used for official timed exam</option>
+                                    <option value="self_study" {{ $data->mode === 'self_study' ? 'selected' : '' }}>Self Study — Practice mode (no timer, unlimited audio)</option>
+                                </select>
+                                <p class="text-xs text-gray-500 mt-1">Choose which feature this bank will be used in.</p>
+                            </div>
+
+                            {{-- Session — hidden when Self Study --}}
+                            <div id="update-session-group-{{ $data->id_bank }}" {{ $data->mode === 'self_study' ? 'style=display:none' : '' }}>
+                                <label class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
+                                <select id="update-sesi-{{ $data->id_bank }}" name="sesi_bank"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <option selected hidden value="{{ $data->sesi_bank }}">{{ $data->sesi_bank }}</option>
                                     <option value="Session 1">Session 1</option>
                                     <option value="Session 2">Session 2</option>
                                 </select>
                             </div>
+                            <input type="hidden" id="update-sesi-hidden-{{ $data->id_bank }}" name="sesi_bank" value="Self Study"
+                                {{ $data->mode !== 'self_study' ? 'disabled' : '' }}>
 
-                            <div>
-                                <label for="start_time" class="block mb-2 text-sm font-medium text-gray-900">Start
-                                    Time</label>
-                                <input type="time" name="waktu_mulai" id="start_time"
-                                    value="{{ $data->waktu_mulai }}"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                    required />
-                            </div>
-
-                            <div>
-                                <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">End
-                                    Time</label>
+                            {{-- Time field — hidden when Self Study --}}
+                            <div id="update-time-group-{{ $data->id_bank }}" {{ $data->mode === 'self_study' ? 'style=display:none' : '' }}>
+                                <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">End Time</label>
                                 <input type="time" name="waktu_akhir" id="end_time"
                                     value="{{ $data->waktu_akhir }}"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                                    required />
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="block text-sm font-semibold mb-1">Mode <span class="text-red-500">*</span></label>
-                                <select name="mode" required class="w-full border rounded px-3 py-2">
-                                    <option value="toeic" {{ $data->mode === 'toeic' ? 'selected' : '' }}>
-                                        TOEIC Simulation — Used for official timed exam
-                                    </option>
-                                    <option value="self_study" {{ $data->mode === 'self_study' ? 'selected' : '' }}>
-                                        Self Study — Practice mode (no timer, unlimited audio)
-                                    </option>
-                                </select>
-                                <p class="text-xs text-gray-500 mt-1">
-                                    Choose which feature this bank will be used in. Cannot be changed after participants start attempts.
-                                </p>
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
                             </div>
 
                             <button type="submit"
-                                class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
-
+                                class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -386,10 +370,50 @@
 
     <script>
         function hapus(baris, id) {
-            const td = document.querySelectorAll('#' + baris + ' td');
-
             document.getElementById('hapus-bank').value = id;
         }
+
+        /* ── Create modal: Mode → show/hide Session & Time ── */
+        (function () {
+            const modeSelect   = document.getElementById('tambah-mode');
+            const sessionGroup = document.getElementById('tambah-session-group');
+            const sesiSelect   = document.getElementById('tambah-sesi');
+            const sesiHidden   = document.getElementById('tambah-sesi-hidden');
+            const timeGroup    = document.getElementById('tambah-time-group');
+
+            function applyTambahMode(val) {
+                const isSelfStudy = val === 'self_study';
+                sessionGroup.style.display = isSelfStudy ? 'none' : '';
+                timeGroup.style.display    = isSelfStudy ? 'none' : '';
+                sesiSelect.disabled        = isSelfStudy;
+                sesiHidden.disabled        = !isSelfStudy;
+            }
+
+            if (modeSelect) {
+                modeSelect.addEventListener('change', () => applyTambahMode(modeSelect.value));
+                applyTambahMode(modeSelect.value);
+            }
+        })();
+
+        /* ── Update modals: Mode → show/hide per bank ID ── */
+        document.querySelectorAll('.update-mode-select').forEach(select => {
+            const id = select.dataset.bankId;
+            const sessionGroup = document.getElementById('update-session-group-' + id);
+            const sesiSelect   = document.getElementById('update-sesi-' + id);
+            const sesiHidden   = document.getElementById('update-sesi-hidden-' + id);
+            const timeGroup    = document.getElementById('update-time-group-' + id);
+
+            function applyUpdateMode(val) {
+                const isSelfStudy = val === 'self_study';
+                if (sessionGroup) sessionGroup.style.display = isSelfStudy ? 'none' : '';
+                if (timeGroup)    timeGroup.style.display    = isSelfStudy ? 'none' : '';
+                if (sesiSelect)   sesiSelect.disabled        = isSelfStudy;
+                if (sesiHidden)   sesiHidden.disabled        = !isSelfStudy;
+            }
+
+            select.addEventListener('change', () => applyUpdateMode(select.value));
+            applyUpdateMode(select.value);
+        });
     </script>
 
 @endsection
