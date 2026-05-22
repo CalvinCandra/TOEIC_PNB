@@ -197,15 +197,15 @@
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-4xl max-h-full">
             <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow">
+            <div class="relative bg-white rounded-3xl shadow-xl border border-slate-100/50 overflow-hidden">
 
                 <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
+                <div class="flex items-center justify-between p-5 border-b border-slate-100 rounded-t-3xl bg-slate-50/50">
                     <h3 class="text-xl font-semibold text-gray-900">
                         Create Question Reading
                     </h3>
                     <button type="button"
-                        class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        class="text-slate-400 hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer absolute top-3.5 right-3.5"
                         data-modal-hide="TambahSoal">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
@@ -224,71 +224,71 @@
                         <input type="hidden" value="{{ $id_bank }}" name="id_bank">
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number
+                            <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Number
                                 Question<span class="text-red-500">*</span></label>
                             <input type="number" name="nomor_soal"
-                                class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                class="bg-gray-100 border border-gray-200 text-slate-400 text-sm rounded-xl block w-full p-3.5 transition-all duration-200 font-medium cursor-not-allowed"
                                 value="{{ $nomor }}" readonly />
                         </div>
 
                         <div>
-                            <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences
+                            <label class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Supporting sentences
                                 (Opsional)</label>
-                            <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If
+                            <p class="text-xs italic text-slate-400 mt-2.5 mb-3 block font-medium"><span class="font-bold text-slate-500">Note:</span> If
                                 there
                                 are Supporting sentences, please fill in this form, otherwise please leave it blank.</p>
                             <textarea rows="5" name="text" id="editorTambah"
                                 style="visibility: hidden; height: 0; position: absolute; z-index: -1;"
-                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"></textarea>
                         </div>
 
                         <div>
-                            <label class="block mb-2 text-sm font-semibold text-gray-900">Question</label>
-                            <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If
+                            <label class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Question</label>
+                            <p class="text-xs italic text-slate-400 mt-2.5 mb-3 block font-medium"><span class="font-bold text-slate-500">Note:</span> If
                                 there
                                 are Question, please fill in this form, otherwise please leave it blank.</p>
                             <textarea id="message" name="soal" rows="4"
-                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                 placeholder="Write question here"></textarea>
                         </div>
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option A<span
+                            <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Option A<span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="jawaban_a"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                 placeholder="Example : This is answer a" required />
                         </div>
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option B<span
+                            <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Option B<span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="jawaban_b"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                 placeholder="Example : This is answer b" required />
                         </div>
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option C<span
+                            <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Option C<span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="jawaban_c"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                 placeholder="Example : This is answer c" required />
                         </div>
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option D<span
+                            <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Option D<span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="jawaban_d"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                 placeholder="Example : This is answer d" required />
                         </div>
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span
+                            <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Key<span
                                     class="text-red-500">*</span></label>
                             <select id="countries" name="kunci_jawaban"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium"
                                 required>
                                 <option selected hidden value="">Choose a Key</option>
                                 <option value="A">A</option>
@@ -299,10 +299,10 @@
                         </div>
 
                         <div class="">
-                            <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File
+                            <label for="countries" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Select an File
                                 Image 1 (Opsional)</label>
                             <select id="countries" name="gambar"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                 <option selected hidden value="">-- Choose a File Image --</option>
                                 @foreach ($gambar as $item)
                                     <option value="{{ $item->id_gambar }}">{{ $item->gambar }}</option>
@@ -311,10 +311,10 @@
                         </div>
 
                         <div class="">
-                            <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File
+                            <label for="countries" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Select an File
                                 Image 2 (Opsional)</label>
                             <select id="countries" name="gambar1"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                 <option selected hidden value="">-- Choose a File Image --</option>
                                 @foreach ($gambar as $item)
                                     <option value="{{ $item->id_gambar }}">{{ $item->gambar }}</option>
@@ -323,10 +323,10 @@
                         </div>
 
                         <div class="">
-                            <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">Select an File
+                            <label for="countries" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Select an File
                                 Image 3 (Opsional)</label>
                             <select id="countries" name="gambar2"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                 <option selected hidden value="">-- Choose a File Image --</option>
                                 @foreach ($gambar as $item)
                                     <option value="{{ $item->id_gambar }}">{{ $item->gambar }}</option>
@@ -335,7 +335,7 @@
                         </div>
 
                         <button type="submit"
-                            class="w-full text-white bg-brand hover:bg-brand-hover font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer mt-2">Submit</button>
                     </form>
                 </div>
             </div>
@@ -349,15 +349,15 @@
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative w-full max-w-4xl max-h-full">
                 <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow">
+                <div class="relative bg-white rounded-3xl shadow-xl border border-slate-100/50 overflow-hidden">
 
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
+                    <div class="flex items-center justify-between p-5 border-b border-slate-100 rounded-t-3xl bg-slate-50/50">
                         <h3 class="text-xl font-semibold text-gray-900">
                             Update Question Data
                         </h3>
                         <button type="button"
-                            class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            class="text-slate-400 hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer absolute top-3.5 right-3.5"
                             data-modal-hide="UpdateSoal{{ $data->id_soal }}">
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 14 14">
@@ -376,17 +376,17 @@
                             <input type="hidden" name="id_soal" value="{{ $data->id_soal }}">
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Number
+                                <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Number
                                     Question<span class="text-red-500">*</span></label>
                                 <input type="number" name="nomor_soal"
-                                    class="bg-gray-300 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="bg-gray-100 border border-gray-200 text-slate-400 text-sm rounded-xl block w-full p-3.5 transition-all duration-200 font-medium cursor-not-allowed"
                                     value="{{ $data->nomor_soal }}" readonly />
                             </div>
 
                             <div>
-                                <label class="block mb-2 text-sm font-semibold text-gray-900">Supporting sentences
+                                <label class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Supporting sentences
                                     (Opsional)</label>
-                                <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If
+                                <p class="text-xs italic text-slate-400 mt-2.5 mb-3 block font-medium"><span class="font-bold text-slate-500">Note:</span> If
                                     there
                                     are Supporting sentences, please fill in this form, otherwise please leave it blank.</p>
                                 <textarea rows="5" name="text" id="editorUpdate{{ $data->id_soal }}"
@@ -394,52 +394,52 @@
                             </div>
 
                             <div>
-                                <label class="block mb-2 text-sm font-semibold text-gray-900">Question</label>
-                                <p class="text-sm italic text-gray-500 -mt-3"><span class="font-semibold">Note :</span>If
+                                <label class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Question</label>
+                                <p class="text-xs italic text-slate-400 mt-2.5 mb-3 block font-medium"><span class="font-bold text-slate-500">Note:</span> If
                                     there
                                     are Question, please fill in this form, otherwise please leave it blank.</p>
                                 <textarea id="message" name="soal" rows="4"
-                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                     placeholder="Write question here">{{ $data->soal }}</textarea>
                             </div>
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option A<span
+                                <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Option A<span
                                         class="text-red-500">*</span></label>
                                 <input type="text" name="jawaban_a" value="{{ $data->jawaban_a }}"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                     placeholder="Example : This is answer a" required />
                             </div>
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option B<span
+                                <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Option B<span
                                         class="text-red-500">*</span></label>
                                 <input type="text" name="jawaban_b" value="{{ $data->jawaban_b }}"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                     placeholder="Example : This is answer b" required />
                             </div>
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option C<span
+                                <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Option C<span
                                         class="text-red-500">*</span></label>
                                 <input type="text" name="jawaban_c" value="{{ $data->jawaban_c }}"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                     placeholder="Example : This is answer c" required />
                             </div>
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Option D<span
+                                <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Option D<span
                                         class="text-red-500">*</span></label>
                                 <input type="text" name="jawaban_d" value="{{ $data->jawaban_d }}"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                     placeholder="Example : This is answer d" required />
                             </div>
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Key<span
+                                <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Key<span
                                         class="text-red-500">*</span></label>
                                 <select id="countries" name="kunci_jawaban"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium"
                                     required>
                                     <option selected hidden value="{{ $data->kunci_jawaban }}">{{ $data->kunci_jawaban }}
                                     </option>
@@ -451,10 +451,10 @@
                             </div>
 
                             <div class="">
-                                <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File
+                                <label for="countries" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">File
                                     Image</label>
                                 <select id="countries" name="gambar"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                     @php
                                         $Gambar = Gambar::where('id_gambar', $data->id_gambar)->first();
                                     @endphp
@@ -477,10 +477,10 @@
                             </div>
 
                             <div class="">
-                                <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File
+                                <label for="countries" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">File
                                     Image</label>
                                 <select id="countries" name="gambar1"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                     @php
                                         $Gambar = Gambar::where('id_gambar', $data->id_gambar_1)->first();
                                     @endphp
@@ -503,10 +503,10 @@
                             </div>
 
                             <div class="">
-                                <label for="countries" class="block mb-2 text-sm font-semibold text-gray-900">File
+                                <label for="countries" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">File
                                     Image</label>
                                 <select id="countries" name="gambar2"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                     @php
                                         $Gambar = Gambar::where('id_gambar', $data->id_gambar_2)->first();
                                     @endphp
@@ -529,7 +529,7 @@
                             </div>
 
                             <button type="submit"
-                                class="w-full text-white bg-brand hover:bg-brand-hover font-semibold rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                                class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer mt-2">Submit</button>
 
                         </form>
                     </div>
@@ -542,14 +542,14 @@
     {{-- Modal Delete --}}
     <div id="DeleteSoal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative p-4 w-full max-w-sm max-h-full">
             <!-- Modal content -->
-            <div class="relative p-4 text-center bg-white rounded-lg shadow ">
+            <div class="relative p-6 text-center bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
 
                 <button type="button"
-                    class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    class="text-slate-400 absolute top-3.5 right-3.5 bg-transparent hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer"
                     data-modal-toggle="DeleteSoal">
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                    <svg aria-hidden="true" class="w-3 h-3" fill="currentColor" viewbox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -558,20 +558,26 @@
                     <span class="sr-only">Close modal</span>
                 </button>
 
-                <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
+                <div class="mx-auto flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mb-4">
+                    <i class="fa-solid fa-trash text-red-500 text-lg"></i>
+                </div>
 
-                <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
-                <div class="flex justify-center items-center space-x-4">
-                    <form class="modal-form" action="{{ url('/DeleteSoalReadingAdmin') }}" method="POST">
+                <h3 class="mb-2 text-lg font-bold text-gray-900">Delete Question?</h3>
+                <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to delete this question? This action cannot be undone and all associated data will be permanently removed.</p>
+
+                <div class="flex justify-center gap-3">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteSoalReadingAdmin') }}" method="POST">
                         @csrf
                         <input type="hidden" id="hapus-soal" name="id_soal">
 
                         <button data-modal-toggle="DeleteSoal" type="button"
-                            class="py-2 px-3 text-sm font-semibold text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
-                            Cancel</button>
-                        <input type="submit"
-                            class="py-2 px-3 text-sm font-semibold text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-                            value="Yes, I'm Sure!">
+                            class="w-full py-2.5 text-sm font-semibold text-gray-700 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors outline-none cursor-pointer text-center">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="w-full py-2.5 text-sm font-semibold text-center text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors outline-none cursor-pointer text-center">
+                            Yes, Confirm
+                        </button>
                     </form>
                 </div>
             </div>

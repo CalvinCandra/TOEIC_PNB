@@ -126,15 +126,15 @@
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-md max-h-full p-4">
             <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow">
+            <div class="relative bg-white rounded-3xl shadow-xl border border-slate-100/50 overflow-hidden">
 
                 <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
+                <div class="flex items-center justify-between p-5 border-b border-slate-100 rounded-t-3xl bg-slate-50/50">
                     <h3 class="text-xl font-semibold text-gray-900">
                         Create Staff Data
                     </h3>
                     <button type="button"
-                        class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        class="text-slate-400 hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer absolute top-3.5 right-3.5"
                         data-modal-hide="TambahPetugas">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
@@ -151,21 +151,21 @@
                         @csrf
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name Full</label>
+                            <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Full Name</label>
                             <input type="text" name="name" id="name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                 placeholder="Example : Sopo Jarwo" required />
                         </div>
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                            <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Email</label>
                             <input type="email" name="email" id="email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                 placeholder="Example : youremail@gmail.com" required />
                         </div>
 
                         <button id="tambah" type="submit"
-                            class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer mt-2">Submit</button>
 
                     </form>
                 </div>
@@ -179,15 +179,15 @@
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-md max-h-full p-4">
             <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow">
+            <div class="relative bg-white rounded-3xl shadow-xl border border-slate-100/50 overflow-hidden">
 
                 <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
+                <div class="flex items-center justify-between p-5 border-b border-slate-100 rounded-t-3xl bg-slate-50/50">
                     <h3 class="text-xl font-semibold text-gray-900">
                         Update Staff Data
                     </h3>
                     <button type="button"
-                        class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        class="text-slate-400 hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer absolute top-3.5 right-3.5"
                         data-modal-hide="UpdatePetugas">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
@@ -206,21 +206,21 @@
                         <input type="hidden" name="id_petugas" id="edit-petugas">
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name Full</label>
+                            <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Full Name</label>
                             <input type="text" name="name" id="edit-name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                 placeholder="Example : Sopo Jarwo" required />
                         </div>
 
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                            <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Email</label>
                             <input type="email" name="email" id="edit-email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                 placeholder="Example : youremail@gmail.com" required />
                         </div>
 
                         <button id="update" type="submit"
-                            class="w-full text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+                            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer mt-2">Submit</button>
 
                     </form>
                 </div>
@@ -232,14 +232,14 @@
     {{-- Modal Delete --}}
     <div id="DeletePetugas" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative p-4 w-full max-w-sm max-h-full">
             <!-- Modal content -->
-            <div class="relative p-4 text-center bg-white rounded-lg shadow ">
+            <div class="relative p-6 text-center bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
 
                 <button type="button"
-                    class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    class="text-slate-400 absolute top-3.5 right-3.5 bg-transparent hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer"
                     data-modal-toggle="DeletePetugas">
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                    <svg aria-hidden="true" class="w-3 h-3" fill="currentColor" viewbox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -248,20 +248,26 @@
                     <span class="sr-only">Close modal</span>
                 </button>
 
-                <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
+                <div class="mx-auto flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mb-4">
+                    <i class="fa-solid fa-trash text-red-500 text-lg"></i>
+                </div>
 
-                <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
-                <div class="flex justify-center items-center space-x-4">
-                    <form class="modal-form" action="{{ url('/DeletePetugas') }}" method="POST">
+                <h3 class="mb-2 text-lg font-bold text-gray-900">Delete Staff Member?</h3>
+                <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to delete this staff member? This action cannot be undone and their access rights will be immediately revoked.</p>
+
+                <div class="flex justify-center gap-3">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeletePetugas') }}" method="POST">
                         @csrf
                         <input type="hidden" id="hapus-petugas" name="id_petugas">
 
                         <button data-modal-toggle="DeletePetugas" type="button"
-                            class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
-                            Cancel</button>
+                            class="w-full py-2.5 text-sm font-semibold text-gray-700 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors outline-none cursor-pointer text-center">
+                            Cancel
+                        </button>
                         <button type="submit"
-                            class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">Yes,
-                            I'm Sure!</button>
+                            class="w-full py-2.5 text-sm font-semibold text-center text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors outline-none cursor-pointer text-center">
+                            Yes, Confirm
+                        </button>
                     </form>
                 </div>
             </div>

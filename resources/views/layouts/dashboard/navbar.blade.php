@@ -53,8 +53,9 @@
                         </li>
                         @if (auth()->user()->level == 'admin')
                             @php
-                                $testingModeOn = \Illuminate\Support\Facades\Cache::get('testing_mode', false);
-                                $toeicEnabled  = \App\Models\FeatureToggle::isEnabled('toeic_simulation');
+                                $testingModeOn    = \Illuminate\Support\Facades\Cache::get('testing_mode', false);
+                                $toeicEnabled     = \App\Models\FeatureToggle::isEnabled('toeic_simulation');
+                                $selfStudyEnabled = \App\Models\FeatureToggle::isEnabled('self_study');
                             @endphp
 
                             {{-- Hidden forms — submitted only after modal confirms --}}
@@ -64,6 +65,10 @@
                             <form id="form-toeic-toggle" action="/feature-toggle/toeic_simulation" method="POST" class="hidden">
                                 @csrf
                                 <input type="hidden" name="is_enabled" value="{{ $toeicEnabled ? 0 : 1 }}">
+                            </form>
+                            <form id="form-selfstudy-toggle" action="/feature-toggle/self_study" method="POST" class="hidden">
+                                @csrf
+                                <input type="hidden" name="is_enabled" value="{{ $selfStudyEnabled ? 0 : 1 }}">
                             </form>
 
                             <li class="border-t border-gray-50">
@@ -91,6 +96,20 @@
                                     </div>
                                     <div class="relative inline-flex h-4 w-8 items-center rounded-full transition-colors {{ $toeicEnabled ? 'bg-emerald-500' : 'bg-gray-300' }}">
                                         <span class="inline-block h-3 w-3 transform rounded-full bg-white shadow-sm transition-transform {{ $toeicEnabled ? 'translate-x-4' : 'translate-x-1' }}"></span>
+                                    </div>
+                                </button>
+                            </li>
+                            <li class="border-t border-gray-50">
+                                <button type="button"
+                                    onclick="openToggleModal('self-study')"
+                                    class="flex items-center justify-between w-full px-4 py-2 text-sm hover:bg-blue-50 transition-colors {{ $selfStudyEnabled ? 'text-emerald-700' : 'text-gray-700' }}"
+                                    title="Click to toggle Self Study">
+                                    <div class="flex items-center font-medium">
+                                        <i class="fa-solid fa-book-open w-5 {{ $selfStudyEnabled ? 'text-emerald-500' : 'text-gray-400' }}"></i>
+                                        Self Study
+                                    </div>
+                                    <div class="relative inline-flex h-4 w-8 items-center rounded-full transition-colors {{ $selfStudyEnabled ? 'bg-emerald-500' : 'bg-gray-300' }}">
+                                        <span class="inline-block h-3 w-3 transform rounded-full bg-white shadow-sm transition-transform {{ $selfStudyEnabled ? 'translate-x-4' : 'translate-x-1' }}"></span>
                                     </div>
                                 </button>
                             </li>
@@ -198,6 +217,45 @@
     </div>
 </div>
 
+{{-- ══ Self Study Confirmation Modal ══ --}}
+@php $selfStudyEnabledModal = \App\Models\FeatureToggle::isEnabled('self_study'); @endphp
+<div id="self-study-modal"
+    class="fixed inset-0 z-[999] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-150 ease-out"
+    aria-modal="true" role="dialog">
+    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+    <div id="self-study-dialog"
+        class="relative bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden w-full max-w-sm mx-4 transform scale-95 transition-transform duration-150 ease-out">
+        <div class="p-6 text-center">
+            <div class="mx-auto flex items-center justify-center w-12 h-12 rounded-full mb-4
+                {{ $selfStudyEnabledModal ? 'bg-red-50' : 'bg-emerald-50' }}">
+                <i class="fa-solid fa-book-open text-lg
+                    {{ $selfStudyEnabledModal ? 'text-red-500' : 'text-emerald-500' }}"></i>
+            </div>
+            <h3 class="mb-2 text-lg font-bold text-gray-900">
+                {{ $selfStudyEnabledModal ? 'Disable Self Study?' : 'Enable Self Study?' }}
+            </h3>
+            <p class="mb-6 text-sm text-gray-500">
+                @if ($selfStudyEnabledModal)
+                    The Self Study card will be <strong>hidden</strong> from all participants immediately.
+                @else
+                    The Self Study card will become <strong>visible</strong> to all participants immediately.
+                @endif
+            </p>
+            <div class="flex justify-center gap-3">
+                <button onclick="closeToggleModal('self-study')" type="button"
+                    class="w-full py-2.5 text-sm font-semibold text-gray-700 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
+                    Cancel
+                </button>
+                <button onclick="document.getElementById('form-selfstudy-toggle').submit()"
+                    class="w-full py-2.5 text-sm font-semibold rounded-xl transition-colors
+                    {{ $selfStudyEnabledModal ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-emerald-600 hover:bg-emerald-700 text-white' }}">
+                    {{ $selfStudyEnabledModal ? 'Yes, Disable' : 'Yes, Enable' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- ══ Sign Out Confirmation Modal ══ --}}
 <div id="signout-modal"
     class="fixed inset-0 z-[999] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-150 ease-out"
@@ -275,7 +333,7 @@
     /* ── ESC key closes any open modal ── */
     document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
-        ['testing-mode', 'toeic'].forEach(k => closeToggleModal(k));
+        ['testing-mode', 'toeic', 'self-study'].forEach(k => closeToggleModal(k));
         closeSignOutModal();
     });
 

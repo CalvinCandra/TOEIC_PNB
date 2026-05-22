@@ -27,3 +27,22 @@
 <link
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
+
+<style>
+    /* Force Flowbite modal backdrops to stack above fixed top layout navbar (z-50) & sidebar (z-40) */
+    [modal-backdrop],
+    .fixed.inset-0.bg-gray-900\/50,
+    .fixed.inset-0.bg-slate-900\/40 {
+        z-index: 60 !important;
+        background-color: rgba(15, 23, 42, 0.4) !important; /* bg-slate-900/40 */
+        backdrop-filter: blur(4px) !important; /* backdrop-blur-sm */
+        -webkit-backdrop-filter: blur(4px) !important;
+    }
+
+    /* Ensure all Flowbite modals sit above the backdrop (z-60) */
+    div[tabindex="-1"].fixed.z-50,
+    div[tabindex="-1"].fixed.z-\[50\],
+    [data-modal-backdrop="static"] {
+        z-index: 70 !important;
+    }
+</style>

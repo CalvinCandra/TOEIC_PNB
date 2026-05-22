@@ -44,16 +44,13 @@
                                     required>
                             </div>
 
-                            {{-- Email (Disabled) --}}
+                            {{-- Email (Editable) --}}
                             <div>
                                 <label for="email" class="block mb-2 text-sm font-semibold text-gray-800">Email
                                     Address</label>
-                                <div class="relative">
-                                    <input type="email" name="email" id="email" value="{{ $peserta->user->email }}"
-                                        disabled
-                                        class="bg-gray-100/70 border border-slate-200 text-gray-500 text-sm rounded-xl block w-full p-3.5 cursor-not-allowed">
-                                    <i class="fa-solid fa-lock absolute right-4 top-4 text-gray-400 text-sm"></i>
-                                </div>
+                                <input type="email" name="email" id="email" value="{{ $peserta->user->email }}"
+                                    class="bg-slate-50 border border-slate-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-3.5 transition-colors"
+                                    required>
                             </div>
 
                             {{-- NIM (Locked) --}}
