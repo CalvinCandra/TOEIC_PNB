@@ -20,10 +20,14 @@ class PesertaProfilService
     public function updateProfil(Request $request, int $userId): bool|string
     {
         $request->validate([
-            'nim' => 'min:10|max:10',
+            'nim'   => 'min:10|max:10',
+            'email' => 'required|email|unique:users,email,' . $userId,
         ], [
-            'nim.max' => 'NIM Must be 10 Numbers',
-            'nim.min' => 'NIM Must be 10 Numbers',
+            'nim.max'        => 'NIM Must be 10 Numbers',
+            'nim.min'        => 'NIM Must be 10 Numbers',
+            'email.unique'   => 'This email address is already used by another account.',
+            'email.required' => 'Email address is required.',
+            'email.email'    => 'Please enter a valid email address.',
         ]);
 
         $peserta = Peserta::where('id_users', $userId)->first();
@@ -37,7 +41,8 @@ class PesertaProfilService
         DB::beginTransaction();
         try {
             User::where('id', $userId)->update([
-                'name' => $request->name,
+                'name'  => $request->name,
+                'email' => $request->email,
             ]);
 
             Peserta::where('id_users', $userId)->update([

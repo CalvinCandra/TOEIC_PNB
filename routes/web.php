@@ -269,14 +269,16 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
             });
         });
 
-        // ===== SELF STUDY (TANPA DisableHistory, TANPA feature toggle) =====
-        Route::get('/SelfStudy', [SelfStudyController::class, 'banks']);
-        Route::get('/SelfStudy/Bank/{idBank}', [SelfStudyController::class, 'parts']);
-        Route::get('/SelfStudy/Bank/{idBank}/Review', [SelfStudyController::class, 'review']);
-        Route::get('/SelfStudy/Bank/{idBank}/Part/{tokenPart}', [SelfStudyController::class, 'latihan']);
-        Route::get('/SelfStudy/Bank/{idBank}/Part/{tokenPart}/Result', [SelfStudyController::class, 'result']);
-        Route::post('/SelfStudy/Submit', [SelfStudyController::class, 'submit'])
-            ->middleware('throttle:35,1');
+        // ===== SELF STUDY (dengan feature toggle self_study) =====
+        Route::middleware(['feature:self_study'])->group(function () {
+            Route::get('/SelfStudy', [SelfStudyController::class, 'banks']);
+            Route::get('/SelfStudy/Bank/{idBank}', [SelfStudyController::class, 'parts']);
+            Route::get('/SelfStudy/Bank/{idBank}/Review', [SelfStudyController::class, 'review']);
+            Route::get('/SelfStudy/Bank/{idBank}/Part/{tokenPart}', [SelfStudyController::class, 'latihan']);
+            Route::get('/SelfStudy/Bank/{idBank}/Part/{tokenPart}/Result', [SelfStudyController::class, 'result']);
+            Route::post('/SelfStudy/Submit', [SelfStudyController::class, 'submit'])
+                ->middleware('throttle:35,1');
+        });
     });
 
     Route::post('/exam/leave', [SoalController::class, 'leaveExam'])

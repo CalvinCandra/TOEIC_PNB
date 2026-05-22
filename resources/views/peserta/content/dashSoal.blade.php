@@ -31,7 +31,8 @@
         </div>
 
         @php
-            $toeicEnabled = \App\Models\FeatureToggle::isEnabled('toeic_simulation');
+            $toeicEnabled     = \App\Models\FeatureToggle::isEnabled('toeic_simulation');
+            $selfStudyEnabled = \App\Models\FeatureToggle::isEnabled('self_study');
         @endphp
 
         {{-- Grid 2 card --}}
@@ -120,7 +121,8 @@
             @endif
 
 
-            {{-- ── Card 2: Self Study (SELALU AKTIF) ── --}}
+            {{-- ── Card 2: Self Study (toggle-aware) ── --}}
+            @if($selfStudyEnabled)
             <a href="/SelfStudy"
                class="group flex flex-col bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-300 cursor-pointer overflow-hidden relative">
                 
@@ -157,6 +159,50 @@
                     </div>
                 </div>
             </a>
+            @else
+            {{-- Self Study Disabled / Coming Soon --}}
+            <div class="flex flex-col bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden relative select-none">
+
+                {{-- Unavailable banner --}}
+                <div class="h-36 w-full overflow-hidden relative bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-10">
+                        <i class="fa-solid fa-person-chalkboard text-7xl text-white drop-shadow-sm"></i>
+                    </div>
+                    <div class="absolute inset-0 bg-slate-900/60"></div>
+
+                    {{-- Lock icon centred --}}
+                    <div class="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                        <div class="w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                            <i class="fa-solid fa-clock text-white text-lg"></i>
+                        </div>
+                        <span class="text-white/70 text-[10px] font-semibold tracking-widest uppercase">Coming Soon</span>
+                    </div>
+
+                    {{-- Top-right badge --}}
+                    <div class="absolute top-3 right-3">
+                        <span class="bg-slate-800/75 backdrop-blur-md text-white/85 text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-widest shadow-sm flex items-center gap-1">
+                            <i class="fa-solid fa-circle-xmark text-red-400 text-[10px]"></i> Disabled
+                        </span>
+                    </div>
+                </div>
+
+                {{-- Card body --}}
+                <div class="flex flex-col p-5 flex-1">
+                    <h5 class="mb-1.5 text-lg font-bold tracking-tight text-slate-400">Self Study</h5>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        Master every section of the TOEIC test at your own pace. Practice questions with unlimited audio replay and review detailed answers.
+                    </p>
+
+                    {{-- Info notice --}}
+                    <div class="mt-auto flex items-start gap-2.5 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3">
+                        <i class="fa-solid fa-circle-info text-slate-400 mt-0.5 shrink-0 text-sm"></i>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            This feature is currently <strong class="text-slate-600">not available</strong>. Please wait for your exam supervisor to open the session.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            @endif
 
         </div>
     </div>

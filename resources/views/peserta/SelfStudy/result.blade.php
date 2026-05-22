@@ -110,6 +110,49 @@
                 </div>
             </div>
 
+            @if ($chartData['last'] < 70)
+                {{-- Score Improvement Recommendation Banner --}}
+                <div class="bg-gradient-to-r from-amber-50 to-orange-50/60 border border-amber-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-sm relative overflow-hidden">
+                    {{-- Decorative background glow --}}
+                    <div class="absolute -right-16 -bottom-16 w-36 h-36 bg-amber-100/40 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="absolute -left-16 -top-16 w-36 h-36 bg-orange-100/20 rounded-full blur-2xl pointer-events-none"></div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-start gap-5">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-black text-xl shadow-md shadow-amber-200 shrink-0">
+                            <i class="fa-solid fa-circle-exclamation animate-pulse"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="inline-flex items-center gap-1 text-[9px] font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 border border-amber-200/60 uppercase tracking-wider">
+                                    Recommended Action
+                                </span>
+                                <h3 class="text-base font-extrabold text-amber-950 tracking-tight">Keep Pushing Forward! You Can Do It! 🚀</h3>
+                            </div>
+                            <p class="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed font-medium">
+                                Your practice score is <span class="font-black text-amber-900 underline underline-offset-4 decoration-amber-400">{{ $chartData['last'] }}</span>/100. Don't be discouraged! To build solid confidence and ensure exam readiness, we highly recommend aiming for a benchmark score of at least <span class="font-bold text-slate-800">70</span>.
+                            </p>
+                            <div class="mt-5 pt-4 border-t border-amber-200/50">
+                                <span class="block text-[10px] text-amber-800 font-bold uppercase tracking-wider mb-2.5">Key steps to boost your score:</span>
+                                <ul class="space-y-2.5 text-xs text-slate-600 font-medium">
+                                    <li class="flex items-start gap-2.5">
+                                        <i class="fa-solid fa-magnifying-glass text-[10px] text-amber-600 mt-1 shrink-0"></i>
+                                        <span>Carefully review your incorrect answers in the <strong>Practice Question Analysis</strong> section below.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <i class="fa-solid fa-book-open text-[10px] text-amber-600 mt-1 shrink-0"></i>
+                                        <span>Understand the correct grammatical patterns and vocabulary rules before your next attempt.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <i class="fa-solid fa-rotate-left text-[10px] text-amber-600 mt-1 shrink-0"></i>
+                                        <span>Click the <strong>Try Practice Again</strong> button at the bottom of the page to re-test your knowledge.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             {{-- Stats Cards Grid --}}
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
                 

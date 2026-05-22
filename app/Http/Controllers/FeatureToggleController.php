@@ -14,7 +14,7 @@ class FeatureToggleController extends Controller
     {
         $request->validate(['is_enabled' => 'required|boolean']);
 
-        $allowedKeys = ['toeic_simulation'];
+        $allowedKeys = ['toeic_simulation', 'self_study'];
         if (! in_array($key, $allowedKeys)) {
             Alert::error('Failed', 'Invalid feature key');
             return back();

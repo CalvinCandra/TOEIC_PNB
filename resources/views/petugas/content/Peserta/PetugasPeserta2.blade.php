@@ -107,7 +107,7 @@
                                         </td>
 
                                         <td class="px-4 py-3 border-2 whitespace-nowrap text-center">
-                                            <button id="dropdownMenuIconButton{{ $data->id_peserta }}" data-dropdown-toggle="dropdownDotsHorizontal{{ $data->id_peserta }}" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-700 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-700 transition duration-150 ease-in-out" type="button">
+                                            <button id="dropdownMenuIconButton{{ $data->id_peserta }}" data-dropdown-toggle="dropdownDotsHorizontal{{ $data->id_peserta }}" data-dropdown-placement="left" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-700 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-700 transition duration-150 ease-in-out" type="button">
                                                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
                                                     <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
                                                 </svg>
@@ -196,15 +196,15 @@
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative w-full max-w-md max-h-full p-4">
                 <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow">
+                <div class="relative bg-white rounded-3xl shadow-xl border border-slate-100/50 overflow-hidden">
 
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 border-b rounded-t md:p-5 ">
+                    <div class="flex items-center justify-between p-5 border-b border-slate-100 rounded-t-3xl bg-slate-50/50">
                         <h3 class="text-xl font-semibold text-gray-900">
                             Update Participants Data
                         </h3>
                         <button type="button"
-                            class="end-2.5 text-sky-950 bg-transparent hover:bg-sky-950 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            class="text-slate-400 hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer absolute top-3.5 right-3.5"
                             data-modal-hide="UpdatePeserta{{ $data->id_peserta }}">
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 14 14">
@@ -223,34 +223,31 @@
                             <input type="hidden" name="id_peserta" value="{{ $data->id_peserta }}">
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name
-                                    Full</label>
+                                <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Full Name</label>
                                 <input type="text" name="name" value="{{ $data->nama_peserta }}"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                     placeholder="Example : Sopo Jarwo" required />
                             </div>
 
                             <div>
-                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                                <label for="email" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Email</label>
                                 <input type="email" name="email" value="{{ $data->user->email }}"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                     placeholder="Example : youremail@gmail.com" required />
                             </div>
 
                             <div>
-                                <label for="nim" class="block mb-2 text-sm font-medium text-gray-900">NIM</label>
+                                <label for="nim" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">NIM</label>
                                 <input type="number" name="nim" value="{{ $data->nim }}"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
                                     placeholder="Example : 221535000" required />
                                 <p class=" text-red-600 text-xs mt-1" id="note"></p>
                             </div>
 
                             <div>
-                                <label for="countries"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Participant
-                                    Major</label>
+                                <label for="countries" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Participant Major</label>
                                 <select id="countries" name="jurusan"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                     <option value="{{ $data->jurusan }}" selected hidden>{{ $data->jurusan }}</option>
                                     <option value="Administrasi Bisnis">Administrasi Bisnis</option>
                                     <option value="Akutansi">Akutansi</option>
@@ -263,10 +260,10 @@
                             </div>
 
                             <div>
-                                <label for="name" class="block mb-2 text-sm font-semibold text-gray-900">Question Work
+                                <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Question Work
                                     Status</label>
                                 <select id="countries" name="status"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                     @if ($data->status == 'Sudah')
                                         <option selected hidden value="{{ $data->status }}">Done</option>
                                     @elseif ($data->status == 'Kerjain')
@@ -281,9 +278,9 @@
 
                             <div>
                                 <label for="name"
-                                    class="block mb-2 text-sm font-semibold text-gray-900">Session</label>
+                                    class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Session</label>
                                 <select id="countries" name="sesi"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                     <option selected hidden value="{{ $data->sesi }}">{{ $data->sesi }}</option>
                                     <option value="Session 1">Session 1</option>
                                     <option value="Session 2">Session 2</option>
@@ -304,14 +301,14 @@
     {{-- Modal Delete --}}
     <div id="DeletePeserta" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative p-4 w-full max-w-sm max-h-full">
             <!-- Modal content -->
-            <div class="relative p-4 text-center bg-white rounded-lg shadow ">
+            <div class="relative p-6 text-center bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
 
                 <button type="button"
-                    class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    class="text-slate-400 absolute top-3.5 right-3.5 bg-transparent hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer"
                     data-modal-toggle="DeletePeserta">
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                    <svg aria-hidden="true" class="w-3 h-3" fill="currentColor" viewbox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -320,20 +317,26 @@
                     <span class="sr-only">Close modal</span>
                 </button>
 
-                <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
+                <div class="mx-auto flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mb-4">
+                    <i class="fa-solid fa-trash text-red-500 text-lg"></i>
+                </div>
 
-                <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete?</p>
-                <div class="flex justify-center items-center space-x-4">
-                    <form class="modal-form" action="{{ url('/DeletePetugasPeserta') }}" method="POST">
+                <h3 class="mb-2 text-lg font-bold text-gray-900">Delete Participant?</h3>
+                <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to delete this participant? This action cannot be undone and all their exam history will be permanently lost.</p>
+
+                <div class="flex justify-center gap-3">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeletePetugasPeserta') }}" method="POST">
                         @csrf
                         <input type="hidden" id="hapus-peserta" name="id_peserta">
 
                         <button data-modal-toggle="DeletePeserta" type="button"
-                            class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
-                            Cancel</button>
-                        <input type="submit"
-                            class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-                            value="Yes, I'm Sure!">
+                            class="w-full py-2.5 text-sm font-semibold text-gray-700 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors outline-none cursor-pointer text-center">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="w-full py-2.5 text-sm font-semibold text-center text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors outline-none cursor-pointer text-center">
+                            Yes, Confirm
+                        </button>
                     </form>
                 </div>
             </div>
@@ -341,52 +344,19 @@
     </div>
     {{-- End Modal Delete --}}
 
-    {{-- Modal Dropdown Action Update --}}
-    @foreach ($peserta as $data)
-        <div id="dropdownDotsHorizontal"
-            class="z-10 hidden bg-white border border-default-medium rounded-base shadow-lg w-44">
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
-                <li class="border-b-2 border-gray-300">
-                    <button type="button" data-modal-target="UpdatePeserta{{ $data->id_peserta }}"
-                        data-modal-toggle="UpdatePeserta{{ $data->id_peserta }}"
-                        class="block px-4 py-2 hover:bg-gray-100">
-                        Update Participation
-                    </button>
-                </li>
-                <li class="border-b-2 border-gray-300">
-                    <a href="{{ url('/SendMail/Peserta/' . $data->id_peserta) }}"
-                        class="block px-4 py-2 hover:bg-gray-100 text-green-400 ">
-                        Send Mail
-                    </a>
-                </li>
-                <li class="border-b-2 border-gray-300">
-                    <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}"
-                        class="block px-4 py-2 hover:bg-gray-100 text-red-400 ">
-                        Reset Default Password
-                    </a>
-                </li>
-                <li class="border-b-2 border-gray-300">
-                    <a href="{{ url('/reset-status-peserta-petugas/' . $data->id_peserta) }}"
-                        class="block px-4 py-2 hover:bg-gray-100 text-orange-500">
-                        Reset Status
-                    </a>
-                </li>
-            </ul>
-        </div>
-    @endforeach
-    {{-- End Modal Dropdown Action Update --}}
+
 
     {{-- Modal Reset Status --}}
     <div id="ResetStatus" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative p-4 w-full max-w-sm max-h-full">
             <!-- Modal content -->
-            <div class="relative p-4 text-center bg-white rounded-lg shadow ">
+            <div class="relative p-6 text-center bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
 
                 <button type="button"
-                    class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    class="text-slate-400 absolute top-3.5 right-3.5 bg-transparent hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer"
                     data-modal-toggle="ResetStatus">
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                    <svg aria-hidden="true" class="w-3 h-3" fill="currentColor" viewbox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -395,19 +365,25 @@
                     <span class="sr-only">Close modal</span>
                 </button>
 
-                <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
+                <div class="mx-auto flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mb-4">
+                    <i class="fa-solid fa-trash text-red-500 text-lg"></i>
+                </div>
 
-                <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Reset All Status?</p>
-                <div class="flex justify-center items-center space-x-4">
-                    <form class="modal-form" action="{{ url('/ResetStatusPetugas/Sesitwo') }}" method="POST">
+                <h3 class="mb-2 text-lg font-bold text-gray-900">Reset All Exam Status?</h3>
+                <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to reset the exam status for all participants? They will be allowed to retake the test. This action cannot be undone.</p>
+
+                <div class="flex justify-center gap-3">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/ResetStatusPetugas/Sesitwo') }}" method="POST">
                         @csrf
 
                         <button data-modal-toggle="ResetStatus" type="button"
-                            class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
-                            Cancel</button>
-                        <input type="submit"
-                            class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-                            value="Yes, I'm Sure!">
+                            class="w-full py-2.5 text-sm font-semibold text-gray-700 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors outline-none cursor-pointer text-center">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="w-full py-2.5 text-sm font-semibold text-center text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors outline-none cursor-pointer text-center">
+                            Yes, Confirm
+                        </button>
                     </form>
                 </div>
             </div>
@@ -417,14 +393,14 @@
     {{-- Modal Delete All --}}
     <div id="DeleteAll" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative p-4 w-full max-w-sm max-h-full">
             <!-- Modal content -->
-            <div class="relative p-4 text-center bg-white rounded-lg shadow ">
+            <div class="relative p-6 text-center bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
 
                 <button type="button"
-                    class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    class="text-slate-400 absolute top-3.5 right-3.5 bg-transparent hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer"
                     data-modal-toggle="DeleteAll">
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                    <svg aria-hidden="true" class="w-3 h-3" fill="currentColor" viewbox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -433,19 +409,25 @@
                     <span class="sr-only">Close modal</span>
                 </button>
 
-                <i class="fa-solid fa-trash text-gray-300 text-3xl mx-auto my-3"></i>
+                <div class="mx-auto flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mb-4">
+                    <i class="fa-solid fa-trash text-red-500 text-lg"></i>
+                </div>
 
-                <p class="mb-4 text-gray-500 dark:text-gray-300">Are You Sure Delete All?</p>
-                <div class="flex justify-center items-center space-x-4">
-                    <form class="modal-form" action="{{ url('/DeleteAllPetugas/Sesitwo') }}" method="POST">
+                <h3 class="mb-2 text-lg font-bold text-gray-900">Delete All Participants?</h3>
+                <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to delete all participants? This will permanently erase all participant records and exam history. This action is irreversible.</p>
+
+                <div class="flex justify-center gap-3">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAllPetugas/Sesitwo') }}" method="POST">
                         @csrf
 
                         <button data-modal-toggle="DeleteAll" type="button"
-                            class="py-2 px-3 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
-                            Cancel</button>
-                        <input type="submit"
-                            class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-                            value="Yes, I'm Sure!">
+                            class="w-full py-2.5 text-sm font-semibold text-gray-700 bg-white rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors outline-none cursor-pointer text-center">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="w-full py-2.5 text-sm font-semibold text-center text-white bg-red-600 hover:bg-red-700 rounded-xl transition-colors outline-none cursor-pointer text-center">
+                            Yes, Confirm
+                        </button>
                     </form>
                 </div>
             </div>
