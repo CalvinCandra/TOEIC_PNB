@@ -72,11 +72,6 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
     Route::get('/dashPeserta1', [AdminController::class, 'dashPeserta1']);
     Route::get('/dashPeserta2', [AdminController::class, 'dashPeserta2']);
     Route::get('/dashPeserta3', [AdminController::class, 'dashPeserta3']);
-    Route::get('/dashPeserta4', [AdminController::class, 'dashPeserta4']);
-    Route::get('/dashPeserta5', [AdminController::class, 'dashPeserta5']);
-    Route::get('/dashPeserta6', [AdminController::class, 'dashPeserta6']);
-    Route::get('/dashPeserta7', [AdminController::class, 'dashPeserta7']);
-    Route::get('/dashPeserta8', [AdminController::class, 'dashPeserta8']);
 
 
     // Route::post('/TambahPeserta', [AdminController::class, 'TambahPeserta']);
@@ -152,11 +147,6 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
     Route::get('/dashPetugasPeserta1', [PetugasController::class, 'dashPetugasPeserta1']);
     Route::get('/dashPetugasPeserta2', [PetugasController::class, 'dashPetugasPeserta2']);
     Route::get('/dashPetugasPeserta3', [PetugasController::class, 'dashPetugasPeserta3']);
-    Route::get('/dashPetugasPeserta4', [PetugasController::class, 'dashPetugasPeserta4']);
-    Route::get('/dashPetugasPeserta5', [PetugasController::class, 'dashPetugasPeserta5']);
-    Route::get('/dashPetugasPeserta6', [PetugasController::class, 'dashPetugasPeserta6']);
-    Route::get('/dashPetugasPeserta7', [PetugasController::class, 'dashPetugasPeserta7']);
-    Route::get('/dashPetugasPeserta8', [PetugasController::class, 'dashPetugasPeserta8']);
 
     // Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
     Route::post('/TambahPesertaExcelPetugas', [PetugasController::class, 'TambahPesertaExcel']);
@@ -251,17 +241,17 @@ Route::middleware(['auth', 'level:peserta'])->group(function () {
                 Route::get('/Reading', [SoalController::class, 'Reading']);
                 Route::get('/SoalReading', [SoalController::class, 'GetReading']);
                 Route::get('/SoalReading/{token}', [SoalController::class, 'SoalReading']);
-                Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading'])->middleware('throttle:35,1');
+                Route::post('/ProsesJawabReading', [SoalController::class, 'ProsesJawabReading'])->middleware('throttle:105,1');
                 Route::get('/nilaiReading', [SoalController::class, 'GetNilaiReading'])->name('nilaiReading');
         
                 // Listening
                 Route::get('/Listening', [SoalController::class, 'Listening']);
                 Route::get('/SoalListening', [SoalController::class, 'GetListening']);
                 Route::get('/SoalListening/{token}', [SoalController::class, 'SoalListening']);
-                Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening'])->middleware('throttle:35,1');
+                Route::post('/ProsesJawabListening', [SoalController::class, 'ProsesJawabListening'])->middleware('throttle:105,1');
                 Route::get('/nilaiListening', [SoalController::class, 'GetNilaiListening'])->name('nilaiListening');
-                Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed'])->middleware('throttle:35,1');
-                Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed'])->middleware('throttle:35,1');
+                Route::post('/set-audio-played', [SoalController::class, 'setPartAudioPlayed'])->middleware('throttle:105,1');
+                Route::post('/set-audio-played/{soalId}', [SoalController::class, 'setAudioPlayed'])->middleware('throttle:105,1');
             });
         });
 

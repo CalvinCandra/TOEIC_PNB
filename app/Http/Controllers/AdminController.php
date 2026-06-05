@@ -36,11 +36,12 @@ class AdminController extends Controller
             ->get();
 
         $sessions = $data->pluck('sesi')->unique()->sort()->values();
+
         $statuses = ['Sudah', 'Kerjain', 'Belum'];
 
-        $chartData = [];
+        $allChartData = [];
         foreach ($sessions as $sesi) {
-            $chartData[] = [
+            $allChartData[$sesi] = [
                 'sesi' => $sesi,
                 'data' => [
                     'Done' => $data->where('sesi', $sesi)->where('status', 'Sudah')->sum('total') ?? 0,
@@ -51,29 +52,42 @@ class AdminController extends Controller
             ];
         }
 
-        $jurusanData = DB::table('peserta')
-            ->select('jurusan', 'status', DB::raw('COUNT(*) as total'))
-            ->whereNotNull('sesi')
-            ->groupBy('jurusan', 'status')
-            ->orderBy('jurusan')
-            ->get();
+        $allJurusanData = [];
+        foreach ($sessions as $sesi) {
+            $jurusanData = DB::table('peserta')
+                ->select('jurusan', 'status', DB::raw('COUNT(*) as total'))
+                ->where('sesi', $sesi)
+                ->groupBy('jurusan', 'status')
+                ->orderBy('jurusan')
+                ->get();
 
-        $jurusanList = $jurusanData->pluck('jurusan')->unique()->sort()->values();
-
-        $jurusanChartData = [];
-        foreach ($jurusanList as $j) {
-            $jurusanChartData[] = [
-                'jurusan' => $j,
-                'data' => [
-                    'Done' => $jurusanData->where('jurusan', $j)->where('status', 'Sudah')->sum('total') ?? 0,
-                    'Work' => $jurusanData->where('jurusan', $j)->where('status', 'Kerjain')->sum('total') ?? 0,
-                    'Not Yet' => $jurusanData->where('jurusan', $j)->where('status', 'Belum')->sum('total') ?? 0,
-                ],
-                'total' => $jurusanData->where('jurusan', $j)->sum('total'),
-            ];
+            $jurusanList = $jurusanData->pluck('jurusan')->unique()->sort()->values();
+            $chartData = [];
+            foreach ($jurusanList as $j) {
+                $chartData[] = [
+                    'jurusan' => $j,
+                    'data' => [
+                        'Done' => $jurusanData->where('jurusan', $j)->where('status', 'Sudah')->sum('total') ?? 0,
+                        'Work' => $jurusanData->where('jurusan', $j)->where('status', 'Kerjain')->sum('total') ?? 0,
+                        'Not Yet' => $jurusanData->where('jurusan', $j)->where('status', 'Belum')->sum('total') ?? 0,
+                    ],
+                    'total' => $jurusanData->where('jurusan', $j)->sum('total'),
+                ];
+            }
+            $allJurusanData[$sesi] = $chartData;
         }
 
-        return view('admin.content.dashboard', compact('sessions', 'statuses', 'chartData', 'jurusanChartData', 'jurusanList'));
+        $allTopScorers = [];
+        foreach ($sessions as $sesi) {
+            $allTopScorers[$sesi] = \App\Models\Peserta::with('user')
+                ->where('sesi', $sesi)
+                ->where('status', 'Sudah')
+                ->orderByRaw('(skor_listening + skor_reading) DESC')
+                ->take(5)
+                ->get();
+        }
+
+        return view('admin.content.dashboard', compact('sessions', 'statuses', 'allChartData', 'allJurusanData', 'allTopScorers'));
     }
 
     public function toggleTestingMode(Request $request)
