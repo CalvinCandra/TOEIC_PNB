@@ -46,7 +46,7 @@
                             </div>
                             <input type="text" id="simple-search" name="search"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Search" autocomplete="off">
+                                value="{{ request('search') }}" placeholder="Search" autocomplete="off">
                         </div>
                     </form>
                 </div>
@@ -76,12 +76,12 @@
                                 <tr>
                                     <th scope="col" class="px-4 py-4 border-2">No</th>
                                     <th scope="col" class="px-4 py-3 border-2">Participants Name</th>
-                                    <th scope="col" class="px-4 py-3 border-2">Participants Email</th>
                                     <th scope="col" class="px-4 py-3 border-2">Participants NIM</th>
                                     <th scope="col" class="px-4 py-3 border-2">Major</th>
                                     <th scope="col" class="px-4 py-3 border-2">Session</th>
-                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status
-                                    </th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Date of Birth</th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Password Status</th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,10 +89,11 @@
                                     <tr class="border-b" id="baris{{ $loop->iteration }}">
                                         <th class="px-4 py-3 border-2">{{ $loop->iteration }}</th>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->nama_peserta }}</td>
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->user->email }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->nim }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jurusan }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->sesi }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->tanggal_lahir }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->user->is_password_changed ? 'Changed' : 'Not Change' }}</td>
 
                                         @if ($data->status == 'Sudah')
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">Done</td>

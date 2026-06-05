@@ -22,7 +22,7 @@
     // Cek apakah grup menu aktif (untuk auto-expand dropdown)
     $userPaths = array_merge(
         [$urlUser],
-        array_map(fn($s) => $urlUser . $s, range(1, 2)),
+        array_map(fn($s) => $urlUser . $s, range(1, 3)),
     );
     $questionPaths = [$urlGambar, $urlAudio, $urlBankSoal];
     $userMenuOpen = $isActive($userPaths);
@@ -79,7 +79,7 @@
                                     All Data
                                 </a>
                             </li>
-                            @foreach (range(1, 2) as $s)
+                            @foreach (range(1, 3) as $s)
                                 <li>
                                     <a href="{{ url("/{$urlUser}{$s}") }}"
                                         class="flex items-center px-4 py-2.5 pl-12 w-full text-sm font-medium rounded-xl {{ $activeClass($urlUser . $s) }} transition-colors">

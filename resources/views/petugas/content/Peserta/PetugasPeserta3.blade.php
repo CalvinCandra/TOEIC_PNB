@@ -9,7 +9,7 @@
 
     {{-- konten --}}
     <section class="p-4 md:ml-64 h-auto pt-20">
-        <h1>Participants Data Session 1</h1>
+        <h1>Participants Data Session 3</h1>
 
         <div class="p-3 sm:p-5 antialiased">
             @if (count($errors) > 0)
@@ -168,16 +168,12 @@
     <div id="dropdownHover"
         class="relative z-20 hidden bg-white divide-y divide-gray-100 rounded-lg border-2 border-gray-300 w-44">
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-            {{-- <li>
-                <a href="{{ url('/SendMailPesertaAll/Sesione') }}"
-                    class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
-            </li> --}}
             <li>
-                <a href="{{ url('/ExportExcelPetugas/Sesione') }}" target="_blank"
+                <a href="{{ url('/ExportExcelPetugas/Sesithree') }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
             </li>
             <li>
-                <a href="{{ url('/downloadresult/session_1') }}" target="_blank"
+                <a href="{{ url('/downloadresult/session_3') }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Download Result (Zip)</a>
             </li>
             <li>
@@ -327,7 +323,7 @@
                 <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to delete this participant? This action cannot be undone and all their exam history will be permanently lost.</p>
 
                 <div class="flex justify-center gap-3">
-                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAdminPeserta') }}" method="POST">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeletePetugasPeserta') }}" method="POST">
                         @csrf
                         <input type="hidden" id="hapus-peserta" name="id_peserta">
 
@@ -375,7 +371,7 @@
                 <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to reset the exam status for all participants? They will be allowed to retake the test. This action cannot be undone.</p>
 
                 <div class="flex justify-center gap-3">
-                    <form class="modal-form w-full flex gap-3" action="{{ url('/ResetStatusPetugas/Sesione') }}" method="POST">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/ResetStatusPetugas/Sesithree') }}" method="POST">
                         @csrf
 
                         <button data-modal-toggle="ResetStatus" type="button"
@@ -419,7 +415,7 @@
                 <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to delete all participants? This will permanently erase all participant records and exam history. This action is irreversible.</p>
 
                 <div class="flex justify-center gap-3">
-                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAllPetugas/Sesione') }}" method="POST">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAllPetugas/Sesithree') }}" method="POST">
                         @csrf
 
                         <button data-modal-toggle="DeleteAll" type="button"

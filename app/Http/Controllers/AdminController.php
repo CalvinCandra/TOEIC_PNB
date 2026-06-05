@@ -51,7 +51,29 @@ class AdminController extends Controller
             ];
         }
 
-        return view('admin.content.dashboard', compact('sessions', 'statuses', 'chartData'));
+        $jurusanData = DB::table('peserta')
+            ->select('jurusan', 'status', DB::raw('COUNT(*) as total'))
+            ->whereNotNull('sesi')
+            ->groupBy('jurusan', 'status')
+            ->orderBy('jurusan')
+            ->get();
+
+        $jurusanList = $jurusanData->pluck('jurusan')->unique()->sort()->values();
+
+        $jurusanChartData = [];
+        foreach ($jurusanList as $j) {
+            $jurusanChartData[] = [
+                'jurusan' => $j,
+                'data' => [
+                    'Done' => $jurusanData->where('jurusan', $j)->where('status', 'Sudah')->sum('total') ?? 0,
+                    'Work' => $jurusanData->where('jurusan', $j)->where('status', 'Kerjain')->sum('total') ?? 0,
+                    'Not Yet' => $jurusanData->where('jurusan', $j)->where('status', 'Belum')->sum('total') ?? 0,
+                ],
+                'total' => $jurusanData->where('jurusan', $j)->sum('total'),
+            ];
+        }
+
+        return view('admin.content.dashboard', compact('sessions', 'statuses', 'chartData', 'jurusanChartData', 'jurusanList'));
     }
 
     public function toggleTestingMode(Request $request)
@@ -120,6 +142,13 @@ class AdminController extends Controller
         return view('admin.content.Peserta.AdminPeserta2', compact('peserta'));
     }
 
+    public function dashPeserta3()
+    {
+        $peserta = $this->pesertaService->getPesertaBySesi('Session 3', request('search'));
+
+        return view('admin.content.Peserta.AdminPeserta3', compact('peserta'));
+    }
+
     public function TambahPesertaExcel(Request $request)
     {
         $this->pesertaService->importPesertaExcel($request)
@@ -175,7 +204,12 @@ class AdminController extends Controller
 
     public function DeleteAllPeserta($sesi)
     {
-        $sesiTran = $sesi === 'Sesione' ? 'Session 1' : ($sesi === 'Sesitwo' ? 'Session 2' : null);
+        $sesiTran = match($sesi) {
+            'Sesione' => 'Session 1',
+            'Sesitwo' => 'Session 2',
+            'Sesithree' => 'Session 3',
+            default => null,
+        };
         $this->pesertaService->deleteAllPeserta($sesiTran);
         toast('Semua Peserta Dihapus', 'success');
 

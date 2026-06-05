@@ -38,6 +38,8 @@ class PesertaExport implements FromCollection, WithHeadings, ShouldAutoSize
                 $query->where('peserta.sesi', 'Session 1');
             }elseif($this->sesi == 'Sesitwo'){
                 $query->where('peserta.sesi', 'Session 2');
+            }elseif($this->sesi == 'Sesithree'){
+                $query->where('peserta.sesi', 'Session 3');
             }
         }
 

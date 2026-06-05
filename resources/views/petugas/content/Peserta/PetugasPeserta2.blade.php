@@ -46,7 +46,7 @@
                             </div>
                             <input type="text" id="simple-search" name="search"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Search" autocomplete="off">
+                                value="{{ request('search') }}" placeholder="Search" autocomplete="off">
                         </div>
                     </form>
                 </div>
@@ -72,11 +72,11 @@
                                 <tr>
                                     <th scope="col" class="px-4 py-4 border-2">No</th>
                                     <th scope="col" class="px-4 py-3 border-2">Participants Name</th>
-                                    <th scope="col" class="px-4 py-3 border-2">Participants Email</th>
                                     <th scope="col" class="px-4 py-3 border-2">Participants NIM</th>
                                     <th scope="col" class="px-4 py-3 border-2">Major</th>
-                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status
-                                    </th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Date of Birth</th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Password Status</th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status</th>
                                     <th scope="col" class="px-4 py-3 border-2">Score Listening</th>
                                     <th scope="col" class="px-4 py-3 border-2">Score Reading</th>
                                     <th scope="col" class="px-4 py-3 border-2">Total Score</th>
@@ -88,9 +88,10 @@
                                     <tr class="border-b" id="baris{{ $loop->iteration }}">
                                         <th class="px-4 py-3 border-2">{{ $loop->iteration }}</th>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->nama_peserta }}</td>
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->user->email }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->nim }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jurusan }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->tanggal_lahir }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->user->is_password_changed ? 'Changed' : 'Not Change' }}</td>
 
                                         @if ($data->status == 'Sudah')
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">Done</td>
@@ -172,11 +173,11 @@
                     class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
             </li> --}}
             <li>
-                <a href="{{ url('/ExportExcelPetugas/Sesione') }}" target="_blank"
+                <a href="{{ url('/ExportExcelPetugas/Sesitwo') }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
             </li>
             <li>
-                <a href="{{ url('/downloadresult/session_1') }}" target="_blank"
+                <a href="{{ url('/downloadresult/session_2') }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Download Result (Zip)</a>
             </li>
             <li>
@@ -284,6 +285,7 @@
                                     <option selected hidden value="{{ $data->sesi }}">{{ $data->sesi }}</option>
                                     <option value="Session 1">Session 1</option>
                                     <option value="Session 2">Session 2</option>
+                                    <option value="Session 3">Session 3</option>
                                 </select>
                             </div>
 

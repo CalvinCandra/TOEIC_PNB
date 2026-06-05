@@ -38,7 +38,7 @@
                             </div>
                             <input type="text" id="simple-search" name="search"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Search" autocomplete="off">
+                                value="{{ request('search') }}" placeholder="Search" autocomplete="off">
                         </div>
                     </form>
                 </div>
@@ -228,6 +228,7 @@
                                 <option selected hidden value="">-- Select --</option>
                                 <option value="Session 1">Session 1</option>
                                 <option value="Session 2">Session 2</option>
+                                <option value="Session 3">Session 3</option>
                             </select>
                         </div>
                         <input type="hidden" id="tambah-sesi-hidden" name="sesi_bank" value="Self Study" disabled>
@@ -313,6 +314,7 @@
                                     <option selected hidden value="{{ $data->sesi_bank }}">{{ $data->sesi_bank }}</option>
                                     <option value="Session 1">Session 1</option>
                                     <option value="Session 2">Session 2</option>
+                                    <option value="Session 3">Session 3</option>
                                 </select>
                             </div>
                             <input type="hidden" id="update-sesi-hidden-{{ $data->id_bank }}" name="sesi_bank" value="Self Study"

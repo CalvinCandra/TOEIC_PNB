@@ -27,7 +27,7 @@ class PartService
             ->where('id_bank', $id_bank)
             ->where('kategori', 'Listening')
             ->when($search, fn ($q) => $q->where('part', 'LIKE', '%'.$search.'%'))
-            ->paginate(15);
+            ->paginate(15)->withQueryString();
 
         $gambar = Gambar::all();
         $audio = Audio::all();
@@ -214,7 +214,7 @@ class PartService
             ->where('id_bank', $id_bank)
             ->where('kategori', 'Reading')
             ->when($search, fn ($q) => $q->where('part', 'LIKE', '%'.$search.'%'))
-            ->paginate(15);
+            ->paginate(15)->withQueryString();
 
         $gambar = Gambar::all();
 

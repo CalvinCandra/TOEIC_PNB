@@ -1,15 +1,15 @@
 {{-- menghubungkan file main --}}
-@extends('petugas.main')
+@extends('admin.main')
 
 {{-- judul halaman disini --}}
-@section('Title', 'Dashboard Petugas | Participants')
+@section('Title', 'Dashboard Admin | Participants')
 
 {{-- membuat content disini --}}
 @section('content')
 
     {{-- konten --}}
     <section class="p-4 md:ml-64 h-auto pt-20">
-        <h1>Participants Data Session 1</h1>
+        <h1>Participants Data Session 3</h1>
 
         <div class="p-3 sm:p-5 antialiased">
             @if (count($errors) > 0)
@@ -108,43 +108,72 @@
                                         </td>
 
                                         <td class="px-4 py-3 border-2 whitespace-nowrap text-center">
-                                            <button id="dropdownMenuIconButton{{ $data->id_peserta }}" data-dropdown-toggle="dropdownDotsHorizontal{{ $data->id_peserta }}" data-dropdown-placement="left" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-700 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-700 transition duration-150 ease-in-out" type="button">
-                                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                                                    <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                                            <button id="dropdownMenuIconButton{{ $data->id_peserta }}"
+                                                data-dropdown-toggle="dropdownDotsHorizontal{{ $data->id_peserta }}"
+                                                data-dropdown-placement="left"
+                                                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-700 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-700 transition duration-150 ease-in-out"
+                                                type="button">
+                                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                    fill="currentColor" viewBox="0 0 16 3">
+                                                    <path
+                                                        d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
                                                 </svg>
                                             </button>
-                                            
+
                                             <!-- Dropdown menu -->
-                                            <div id="dropdownDotsHorizontal{{ $data->id_peserta }}" class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-56 dark:bg-gray-700 dark:divide-gray-600 border border-gray-200 text-left">
-                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton{{ $data->id_peserta }}">
+                                            <div id="dropdownDotsHorizontal{{ $data->id_peserta }}"
+                                                class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-56 dark:bg-gray-700 dark:divide-gray-600 border border-gray-200 text-left">
+                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                    aria-labelledby="dropdownMenuIconButton{{ $data->id_peserta }}">
                                                     <li>
-                                                        <button type="button" data-modal-target="UpdatePeserta{{ $data->id_peserta }}" data-modal-toggle="UpdatePeserta{{ $data->id_peserta }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                                                            <i class="fa-solid fa-pen-to-square w-5 text-blue-500 mr-2 text-center"></i> 
-                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Update Participation</span>
+                                                        <button type="button"
+                                                            data-modal-target="UpdatePeserta{{ $data->id_peserta }}"
+                                                            data-modal-toggle="UpdatePeserta{{ $data->id_peserta }}"
+                                                            class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i
+                                                                class="fa-solid fa-pen-to-square w-5 text-blue-500 mr-2 text-center"></i>
+                                                            <span
+                                                                class="font-medium text-gray-700 dark:text-gray-200">Update
+                                                                Participation</span>
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <a href="{{ url('/SendMail/Peserta/' . $data->id_peserta) }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                                                            <i class="fa-solid fa-envelope w-5 text-green-500 mr-2 text-center"></i> 
-                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Send Mail</span>
+                                                        <a href="{{ url('/SendMail/Peserta/' . $data->id_peserta) }}"
+                                                            class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i
+                                                                class="fa-solid fa-envelope w-5 text-green-500 mr-2 text-center"></i>
+                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Send
+                                                                Mail</span>
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                                                            <i class="fa-solid fa-key w-5 text-yellow-500 mr-2 text-center"></i> 
-                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Reset Password</span>
+                                                        <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}"
+                                                            class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i
+                                                                class="fa-solid fa-key w-5 text-yellow-500 mr-2 text-center"></i>
+                                                            <span
+                                                                class="font-medium text-gray-700 dark:text-gray-200">Reset
+                                                                Password</span>
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="{{ url('/reset-status-peserta-petugas/' . $data->id_peserta) }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                                                            <i class="fa-solid fa-rotate-right w-5 text-orange-500 mr-2 text-center"></i> 
-                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Reset Status</span>
+                                                        <a href="{{ url('/reset-status-peserta-admin/' . $data->id_peserta) }}"
+                                                            class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i
+                                                                class="fa-solid fa-rotate-right w-5 text-orange-500 mr-2 text-center"></i>
+                                                            <span
+                                                                class="font-medium text-gray-700 dark:text-gray-200">Reset
+                                                                Status</span>
                                                         </a>
                                                     </li>
                                                 </ul>
                                                 <div class="py-1">
-                                                    <button onclick="hapus('baris{{ $loop->iteration }}', '{{ $data->id_peserta }}')" type="button" data-modal-target="DeletePeserta" data-modal-toggle="DeletePeserta" class="flex items-center w-full px-4 py-2.5 text-red-600 hover:bg-red-50 dark:hover:bg-gray-600 dark:text-red-500 dark:hover:text-white transition-colors">
-                                                        <i class="fa-solid fa-trash w-5 mr-2 text-center"></i> 
+                                                    <button
+                                                        onclick="hapus('baris{{ $loop->iteration }}', '{{ $data->id_peserta }}')"
+                                                        type="button" data-modal-target="DeletePeserta"
+                                                        data-modal-toggle="DeletePeserta"
+                                                        class="flex items-center w-full px-4 py-2.5 text-red-600 hover:bg-red-50 dark:hover:bg-gray-600 dark:text-red-500 dark:hover:text-white transition-colors">
+                                                        <i class="fa-solid fa-trash w-5 mr-2 text-center"></i>
                                                         <span class="font-medium">Delete Participant</span>
                                                     </button>
                                                 </div>
@@ -168,16 +197,12 @@
     <div id="dropdownHover"
         class="relative z-20 hidden bg-white divide-y divide-gray-100 rounded-lg border-2 border-gray-300 w-44">
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-            {{-- <li>
-                <a href="{{ url('/SendMailPesertaAll/Sesione') }}"
-                    class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
-            </li> --}}
             <li>
-                <a href="{{ url('/ExportExcelPetugas/Sesione') }}" target="_blank"
+                <a href="{{ url('/ExportExcelAdmin/Sesithree') }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
             </li>
             <li>
-                <a href="{{ url('/downloadresult/session_1') }}" target="_blank"
+                <a href="{{ url('/downloadresult/session_3') }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Download Result (Zip)</a>
             </li>
             <li>
@@ -218,7 +243,7 @@
 
                     <!-- Modal body -->
                     <div class="p-4 md:p-5">
-                        <form class="space-y-4 modal-form" action="{{ url('/UpdatePetugasPeserta') }}" method="POST">
+                        <form class="space-y-4 modal-form" action="{{ url('/UpdateAdminPeserta') }}" method="POST">
                             @csrf
 
                             <input type="hidden" name="id_peserta" value="{{ $data->id_peserta }}">
@@ -290,7 +315,7 @@
                             </div>
 
                             <button type="submit"
-                                class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                                class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer mt-2">Submit</button>
 
                         </form>
                     </div>
@@ -375,7 +400,7 @@
                 <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to reset the exam status for all participants? They will be allowed to retake the test. This action cannot be undone.</p>
 
                 <div class="flex justify-center gap-3">
-                    <form class="modal-form w-full flex gap-3" action="{{ url('/ResetStatusPetugas/Sesione') }}" method="POST">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/ResetStatusAdmin/Sesithree') }}" method="POST">
                         @csrf
 
                         <button data-modal-toggle="ResetStatus" type="button"
@@ -419,7 +444,7 @@
                 <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to delete all participants? This will permanently erase all participant records and exam history. This action is irreversible.</p>
 
                 <div class="flex justify-center gap-3">
-                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAllPetugas/Sesione') }}" method="POST">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAllAdmin/Sesithree') }}" method="POST">
                         @csrf
 
                         <button data-modal-toggle="DeleteAll" type="button"

@@ -21,7 +21,7 @@ class PetugasAdminService
         return Petugas::with('user')
             ->when($search, fn ($q) => $q
                 ->where('nama_petugas', 'like', "%{$search}%")
-            )->paginate(15);
+            )->paginate(15)->withQueryString();
     }
 
     public function storePetugas(Request $request): bool

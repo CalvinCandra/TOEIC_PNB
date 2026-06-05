@@ -70,11 +70,55 @@
             @endforeach
         </div>
 
+        {{-- Donut Charts per Jurusan --}}
+        <h2 class="text-base font-semibold text-gray-700 mb-4">📊 Participants per Major</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+            @foreach ($jurusanChartData as $idx => $j)
+                <div
+                    class="bg-white rounded-2xl shadow-sm border border-gray-300 p-5 flex flex-col items-center gap-3 hover:shadow-md transition-shadow">
+                    <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-widest">{{ $j['jurusan'] }}</h2>
+
+                    <div class="relative w-36 h-36">
+                        <canvas id="chartJurusan{{ $idx }}" class="w-full h-full"></canvas>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                            <span class="text-2xl font-bold text-gray-800">{{ $j['total'] }}</span>
+                            <span class="text-xs text-gray-400">Participants</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-1.5 w-full mt-1">
+                        <div class="flex items-center justify-between text-xs text-gray-600">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span>
+                                Done
+                            </div>
+                            <span class="font-semibold text-gray-800">{{ $j['data']['Done'] }}</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-gray-600">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
+                                In Progress
+                            </div>
+                            <span class="font-semibold text-gray-800">{{ $j['data']['Work'] }}</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-gray-600">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-rose-400 inline-block"></span>
+                                Not Yet
+                            </div>
+                            <span class="font-semibold text-gray-800">{{ $j['data']['Not Yet'] }}</span>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
         {{-- Top Scorer Tables per Sesi --}}
         <h2 class="text-base font-semibold text-gray-700 mb-4">🏆 Top Scorers per Session</h2>
 
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
-            @foreach (['Session 1', 'Session 2'] as $sesi)
+            @foreach (['Session 1', 'Session 2', 'Session 3'] as $sesi)
                 @php
                     $topPeserta = \App\Models\Peserta::with('user')
                         ->where('sesi', $sesi)
@@ -196,6 +240,48 @@
                                 enabled: !isEmpty,
                                 callbacks: {
                                     label: (ctx) => ` ${ctx.label}: ${ctx.raw}`
+                                }
+                            }
+                        },
+                        animation: {
+                            animateRotate: true,
+                            duration: 600,
+                        }
+                    }
+                });
+            });
+
+            const jurusanData = @json($jurusanChartData);
+            jurusanData.forEach((j, index) => {
+                const ctx = document.getElementById(`chartJurusan${index}`);
+                if (!ctx) return;
+
+                const done = Math.round(j.data['Done'] ?? 0);
+                const work = Math.round(j.data['Work'] ?? 0);
+                const notYet = Math.round(j.data['Not Yet'] ?? 0);
+                const isEmpty = done === 0 && work === 0 && notYet === 0;
+
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Done', 'In Progress', 'Not Yet'],
+                        datasets: [{
+                            data: isEmpty ? [1] : [done, work, notYet],
+                            backgroundColor: isEmpty ? ['#D1D5DB'] : ['#059669', '#D97706', '#E11D48'],
+                            borderWidth: 0,
+                            hoverOffset: isEmpty ? 0 : 6,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        cutout: '72%',
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                enabled: !isEmpty,
+                                callbacks: {
+                                    label: (c) => ` ${c.label}: ${c.raw}`
                                 }
                             }
                         },

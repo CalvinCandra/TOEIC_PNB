@@ -28,7 +28,7 @@ class PesertaService
                         ->orWhere('nim', 'like', "%{$search}%")
                         ->orWhere('jurusan', 'like', "%{$search}%");
                 })
-            )->paginate(15);
+            )->paginate(15)->withQueryString();
     }
 
     public function getPesertaBySesi(string $sesi, ?string $search = null)
@@ -46,7 +46,7 @@ class PesertaService
                         ->orWhere('nim', 'like', "%{$search}%")
                         ->orWhere('jurusan', 'like', "%{$search}%");
                 })
-            )->paginate(15);
+            )->paginate(15)->withQueryString();
     }
 
     public function importPesertaExcel(Request $request): bool
