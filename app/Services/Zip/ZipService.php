@@ -10,14 +10,14 @@ class ZipService
 {
     public function downloadBySession(string $sesi)
     {
-        Log::info('[ZipService::downloadBySession] Download ZIP sesi', ['sesi' => $sesi]);
+        Log::info('[ZipService::downloadBySession] Mulai proses Download ZIP sesi dari S3', ['sesi' => $sesi]);
 
-        $folderPath = "public/result/{$sesi}";
-        $files = Storage::files($folderPath);
+        $folderPath = "result/{$sesi}"; 
+        
+        $files = Storage::disk('s3')->files($folderPath);
 
         if (empty($files)) {
-            Log::warning('[ZipService::downloadBySession] Folder kosong', ['sesi' => $sesi]);
-
+            Log::warning('[ZipService::downloadBySession] Folder kosong atau tidak ditemukan di S3', ['sesi' => $sesi]);
             return null;
         }
 
@@ -26,19 +26,20 @@ class ZipService
 
         $zip = new ZipArchive;
         if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-            Log::error('[ZipService::downloadBySession] Gagal membuat ZIP', ['sesi' => $sesi]);
-
+            Log::error('[ZipService::downloadBySession] Gagal membuat file ZIP di server lokal', ['sesi' => $sesi]);
             return null;
         }
 
         foreach ($files as $file) {
-            $zip->addFile(storage_path("app/{$file}"), basename($file));
+            $fileContent = Storage::disk('s3')->get($file);
+            
+            $zip->addFromString(basename($file), $fileContent);
         }
         $zip->close();
 
-        Log::info('[ZipService::downloadBySession] ZIP berhasil dibuat', [
+        Log::info('[ZipService::downloadBySession] ZIP berhasil dibuat dari S3', [
             'sesi' => $sesi,
-            'jumlah' => count($files),
+            'jumlah_file' => count($files),
             'zip_path' => $zipPath,
         ]);
 

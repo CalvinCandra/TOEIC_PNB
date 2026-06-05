@@ -201,11 +201,11 @@
                     class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
             </li> --}}
             <li>
-                <a href="{{ url('/ExportExcelAdmin/Sesione') }}" target="_blank"
+                <a href="{{ url('/ExportExcelAdmin/Sesitwo') }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
             </li>
             <li>
-                <a href="{{ url('/downloadresult/session_1') }}" target="_blank"
+                <a href="{{ url('/downloadresult/session_2') }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Download Result (Zip)</a>
             </li>
             <li>
