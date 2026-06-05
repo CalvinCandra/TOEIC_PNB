@@ -23,9 +23,11 @@ class PesertaService
 
         return Peserta::with('user')
             ->when($search, fn ($q) => $q
-                ->where('nama_peserta', 'like', "%{$search}%")
-                ->orWhere('nim', 'like', "%{$search}%")
-                ->orWhere('jurusan', 'like', "%{$search}%")
+                ->where(function ($sub) use ($search) {
+                    $sub->where('nama_peserta', 'like', "%{$search}%")
+                        ->orWhere('nim', 'like', "%{$search}%")
+                        ->orWhere('jurusan', 'like', "%{$search}%");
+                })
             )->paginate(15);
     }
 
@@ -39,7 +41,11 @@ class PesertaService
         return Peserta::with('user')
             ->where('sesi', $sesi)
             ->when($search, fn ($q) => $q
-                ->where('nama_peserta', 'like', "%{$search}%")
+                ->where(function ($sub) use ($search) {
+                    $sub->where('nama_peserta', 'like', "%{$search}%")
+                        ->orWhere('nim', 'like', "%{$search}%")
+                        ->orWhere('jurusan', 'like', "%{$search}%");
+                })
             )->paginate(15);
     }
 

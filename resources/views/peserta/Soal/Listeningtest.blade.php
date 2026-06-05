@@ -294,6 +294,14 @@
             }
 
             function autoSubmit() {
+                // PENTING: Nonaktifkan beforeunload SEBELUM submit
+                // agar browser tidak tampilkan dialog "Leave or Cancel"
+                window.onbeforeunload = null;
+                if (window.__examDeactivateBeforeUnload) {
+                    window.__examDeactivateBeforeUnload();
+                }
+                window.dispatchEvent(new CustomEvent('exam-auto-submit'));
+
                 sessionStorage.setItem("came_from_exam", "1");
                 sessionStorage.setItem("came_from_exam_time", Date.now().toString());
 
@@ -303,7 +311,11 @@
                 const overlay = document.getElementById('overlay');
                 if (overlay) overlay.style.display = 'flex';
 
-                if (form) form.submit();
+                // Jitter 0-3 detik agar tidak semua peserta submit di detik yang sama
+                const jitter = Math.floor(Math.random() * 3000);
+                setTimeout(function() {
+                    if (form) form.submit();
+                }, jitter);
             }
 
             document.addEventListener('DOMContentLoaded', initTimer);

@@ -216,6 +216,15 @@
         window.removeEventListener('beforeunload', beforeUnloadHandler);
     }
 
+    // Expose global agar bisa dipanggil dari autoSubmit() di child page
+    window.__examDeactivateBeforeUnload = deactivateBeforeUnload;
+
+    // Dengarkan auto-submit dari timer (custom event)
+    window.addEventListener('exam-auto-submit', function () {
+        isSubmitting = true;
+        deactivateBeforeUnload();
+    });
+
     // Deteksi submit form
     if (isExamPage) {
         document.addEventListener('submit', function () {
