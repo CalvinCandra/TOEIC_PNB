@@ -44,16 +44,7 @@
                                     required>
                             </div>
 
-                            {{-- Email (Editable) --}}
-                            <div>
-                                <label for="email" class="block mb-2 text-sm font-semibold text-gray-800">Email
-                                    Address</label>
-                                <input type="email" name="email" id="email" value="{{ $peserta->user->email }}"
-                                    class="bg-slate-50 border border-slate-200 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-3.5 transition-colors"
-                                    required>
-                            </div>
-
-                            {{-- NIM (Locked) --}}
+                            {{-- Email removed --}}
                             <div>
                                 <label for="nim" class="block mb-2 text-sm font-semibold text-gray-800">NIM (Student
                                     ID)</label>

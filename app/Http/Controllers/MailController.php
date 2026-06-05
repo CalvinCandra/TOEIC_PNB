@@ -25,22 +25,4 @@ class MailController extends Controller
         return redirect()->back();
     }
 
-    public function SendPeserta(int $id)
-    {
-        $this->mailService->sendToPeserta($id)
-            ? toast('Send Mail Successful!', 'success')
-            : toast('Send Mail Error!', 'error');
-
-        return redirect()->back();
-    }
-
-    public function SendPesertaAll(string $sesi)
-    {
-        $result = $this->mailService->sendToPesertaAll($sesi);
-        $result
-            ? toast('Send Mail Successful!', 'success')
-            : toast('Session tidak valid!', 'error');
-
-        return redirect()->back();
-    }
 }

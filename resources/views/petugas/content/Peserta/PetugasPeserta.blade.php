@@ -199,10 +199,10 @@
                     </div>
 
                     <div>
-                        <label for="email" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Email</label>
-                        <input type="email" name="email" id="email"
+                        <label for="tanggal_lahir" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Date of Birth</label>
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir"
                             class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
-                            placeholder="Example : youremail@gmail.com" required />
+                            required />
                     </div>
 
                     <div>
@@ -289,10 +289,10 @@
                         </div>
 
                         <div>
-                            <label for="email" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Email</label>
-                            <input type="email" name="email" value="{{$data->user->email}}"
+                            <label for="tanggal_lahir" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Date of Birth</label>
+                            <input type="date" name="tanggal_lahir" value="{{$data->tanggal_lahir}}"
                                 class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
-                                placeholder="Example : youremail@gmail.com" required />
+                                required />
                         </div>
 
                         <div>

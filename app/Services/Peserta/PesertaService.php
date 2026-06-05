@@ -84,28 +84,23 @@ class PesertaService
             'nim' => 'min:10|max:10',
         ];
 
-        // Validasi unique email HANYA jika email berubah
-        if ($request->email !== $user?->email) {
-            $rules['email'] = 'email|unique:users,email';
-        }
-
         $request->validate($rules, [
             'nim.max'      => 'NIM Must be 10 Numbers',
             'nim.min'      => 'NIM Must be 10 Numbers',
-            'email.unique' => 'Email already exists',
         ]);
 
         DB::beginTransaction();
         try {
             Peserta::where('id_peserta', $request->id_peserta)->update([
-                'nama_peserta' => $request->name,
-                'nim'          => $request->nim,
-                'sesi'         => $request->sesi,
+                'nama_peserta'   => $request->name,
+                'nim'            => $request->nim,
+                'tanggal_lahir'  => $request->tanggal_lahir,
+                'jurusan'        => $request->jurusan,
+                'sesi'           => $request->sesi,
             ]);
 
             User::where('id', $user->id)->update([
                 'name'  => $request->name,
-                'email' => $request->email,
             ]);
 
             DB::commit();

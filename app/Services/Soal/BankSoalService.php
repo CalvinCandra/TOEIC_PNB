@@ -69,14 +69,6 @@ class BankSoalService
             ];
 
             if ($request->has('mode')) {
-                $hasAttempts = \App\Models\SelfStudyAttempt::where('id_bank', $request->id_bank)->exists();
-                $bank = BankSoal::find($request->id_bank);
-                if ($hasAttempts && $bank && $bank->mode !== $request->mode) {
-                    Log::warning('[BankSoalService::updateBankSoal] Cannot change mode, bank has attempts', [
-                        'id_bank' => $request->id_bank,
-                    ]);
-                    throw new \Exception('Cannot change mode: this bank already has participant attempts.');
-                }
                 $updateData['mode'] = $request->mode;
             }
 

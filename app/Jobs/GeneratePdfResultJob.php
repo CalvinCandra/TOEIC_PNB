@@ -45,7 +45,6 @@ class GeneratePdfResultJob implements ShouldQueue
 
             $pdf = Pdf::loadView('vendor.pdf.result', [
                 'nama_peserta'   => $peserta->nama_peserta,
-                'email'          => $peserta->user->email,
                 'nim'            => $peserta->nim,
                 'jurusan'        => $peserta->jurusan,
                 'skorReading'    => $skorReading,

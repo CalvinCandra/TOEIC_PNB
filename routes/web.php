@@ -50,10 +50,6 @@ Route::post('/bank-soal/create', [BankSoalController::class, 'create'])->name('b
 Route::get('/SendMail/Petugas/{id}', [MailController::class, 'SendPetugas'])->middleware('auth');
 // kirim email petugas sekaligus
 Route::get('/SendMailPetugasAll', [MailController::class, 'SendPetugasAll'])->middleware('auth');
-// kirim email peserta persatu
-Route::get('/SendMail/Peserta/{id}', [MailController::class, 'SendPeserta'])->middleware('auth');
-// kirim email peserta sekaligus
-Route::get('/SendMailPesertaAll/{sesi}', [MailController::class, 'SendPesertaAll'])->middleware('auth');
 
 // download zip sesuai sesi
 Route::get('/downloadresult/{sesi}', [ZipController::class, 'index'])->middleware('auth');

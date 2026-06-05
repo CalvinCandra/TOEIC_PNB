@@ -22,7 +22,6 @@ class PesertaExport implements FromCollection, WithHeadings, ShouldAutoSize
         $query = Peserta::join('users', 'users.id', '=', 'peserta.id_users')
             ->select(
                 'peserta.nama_peserta',
-                'users.email',
                 'peserta.nim',
                 'peserta.jurusan',
                 'peserta.sesi',
@@ -48,6 +47,6 @@ class PesertaExport implements FromCollection, WithHeadings, ShouldAutoSize
 
     public function headings(): array
     {
-        return ["Name", "Email", "NIM", "Major", "Session", "Correct Listening", "Score Listening", "Correct Reading", "Score Reading"];
+        return ["Name", "NIM", "Major", "Session", "Correct Listening", "Score Listening", "Correct Reading", "Score Reading"];
     }
 }

@@ -137,15 +137,7 @@
                                                                 Participation</span>
                                                         </button>
                                                     </li>
-                                                    <li>
-                                                        <a href="{{ url('/SendMail/Peserta/' . $data->id_peserta) }}"
-                                                            class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                                                            <i
-                                                                class="fa-solid fa-envelope w-5 text-green-500 mr-2 text-center"></i>
-                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Send
-                                                                Mail</span>
-                                                        </a>
-                                                    </li>
+                                                    {{-- Send Mail for peserta removed --}}
                                                     <li>
                                                         <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}"
                                                             class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
@@ -256,10 +248,10 @@
                             </div>
 
                             <div>
-                                <label for="email" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Email</label>
-                                <input type="email" name="email" value="{{ $data->user->email }}"
+                                <label for="tanggal_lahir" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Date of Birth</label>
+                                <input type="date" name="tanggal_lahir" value="{{ $data->tanggal_lahir }}"
                                     class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
-                                    placeholder="Example : youremail@gmail.com" required />
+                                    required />
                             </div>
 
                             <div>
@@ -282,23 +274,6 @@
                                     <option value="Teknik Mesin">Teknik Mesin</option>
                                     <option value="Teknik Elektro">Teknik Elektro</option>
                                     <option value="Teknologi Informasi">Teknologi Informasi</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Question Work
-                                    Status</label>
-                                <select id="countries" name="status"
-                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
-                                    @if ($data->status == 'Sudah')
-                                        <option selected hidden value="{{ $data->status }}">Done</option>
-                                    @elseif ($data->status == 'Kerjain')
-                                        <option selected hidden value="{{ $data->status }}">Work</option>
-                                    @else
-                                        <option selected hidden value="{{ $data->status }}">Not Yet</option>
-                                    @endif
-                                    <option value="Sudah">Done</option>
-                                    <option value="Belum">Not yet</option>
                                 </select>
                             </div>
 
