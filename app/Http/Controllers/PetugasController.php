@@ -80,7 +80,7 @@ class PetugasController extends Controller
                 ->where('sesi', $sesi)
                 ->where('status', 'Sudah')
                 ->orderByRaw('(skor_listening + skor_reading) DESC')
-                ->take(5)
+                ->take(10)
                 ->get();
         }
 
