@@ -8,26 +8,11 @@
         <div class="p-3 sm:p-5 antialiased">
             <div class="bg-white shadow-md sm:rounded-lg overflow-hidden p-3">
 
-                {{-- Filter Form --}}
-                <form method="GET" action="/dash{{ $routePrefix }}SelfStudyHistoryPeserta" class="mb-5">
-                    <div class="mb-3">
-                        <label for="search" class="block mb-2 text-sm font-medium text-gray-900">Search (NIM/Name)</label>
-                        <input type="text" name="search" id="search" value="{{ $filters['search'] ?? '' }}"
-                            placeholder="Search by NIM or name..."
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                    </div>
-                    <div class="flex gap-2">
-                        <button type="submit"
-                            class="block text-white bg-brand hover:bg-brand-hover font-medium rounded-lg text-sm px-5 py-2.5">
-                            Filter
-                        </button>
-                        <a href="/dash{{ $routePrefix }}SelfStudyHistoryPeserta"
-                            class="block text-gray-700 bg-gray-100 hover:bg-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">
-                            Reset
-                        </a>
-                    </div>
-                </form>
+                <!-- live search -->
+                @include('layouts.dashboard.live-search', ['placeholder' => 'Search by NIM or name...'])
+                {{-- end search --}}
 
+                <div id="search-results-container">
                 {{-- Table --}}
                 <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <div class="overflow-x-auto w-full">
@@ -86,6 +71,7 @@
                 <div class="px-4 py-3">
                     {{ $peserta->links() }}
                 </div>
+                </div> {{-- end search-results-container --}}
             </div>
         </div>
     </section>

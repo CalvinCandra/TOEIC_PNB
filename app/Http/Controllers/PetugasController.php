@@ -180,7 +180,7 @@ class PetugasController extends Controller
 
     public function dashPetugasSoal()
     {
-        $bank = $this->bankSoalService->getBankSoalAll();
+        $bank = $this->bankSoalService->getBankSoalAll(request('search'));
 
         return view('petugas.content.BankSoal.dashbanksoal', compact('bank'));
     }
@@ -214,7 +214,7 @@ class PetugasController extends Controller
 
     public function dashPetugasGambar()
     {
-        $gambar = $this->mediaService->getGambarAll();
+        $gambar = $this->mediaService->getGambarAll(request('search'));
 
         $urlpathimage = Storage::disk('s3')->url('gambar/');
 
@@ -241,7 +241,7 @@ class PetugasController extends Controller
 
     public function dashPetugasAudio()
     {
-        $audio = $this->mediaService->getAudioAll();
+        $audio = $this->mediaService->getAudioAll(request('search'));
 
         $urlpathaudio = Storage::disk('s3')->url('audio/');
 

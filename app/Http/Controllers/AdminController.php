@@ -237,7 +237,7 @@ class AdminController extends Controller
 
     public function dashAdminSoal()
     {
-        $bank = $this->bankSoalService->getBankSoalAll();
+        $bank = $this->bankSoalService->getBankSoalAll(request('search'));
 
         return view('admin.content.BankSoal.dashbanksoal', compact('bank'));
     }
@@ -271,7 +271,7 @@ class AdminController extends Controller
 
     public function dashAdminGambar()
     {
-        $gambar = $this->mediaService->getGambarAll();
+        $gambar = $this->mediaService->getGambarAll(request('search'));
 
         $urlpathimage = Storage::disk('s3')->url('gambar/');
 
@@ -298,7 +298,7 @@ class AdminController extends Controller
 
     public function dashAdminAudio()
     {
-        $audio = $this->mediaService->getAudioAll();
+        $audio = $this->mediaService->getAudioAll(request('search'));
 
         $urlpathaudio = Storage::disk('s3')->url('audio/');
 

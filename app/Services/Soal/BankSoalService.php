@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Log;
 
 class BankSoalService
 {
-    public function getBankSoalAll()
+    public function getBankSoalAll($search = null)
     {
-        Log::info('[BankSoalService::getBankSoalAll] Mengambil semua bank soal');
+        Log::info('[BankSoalService::getBankSoalAll] Mengambil semua bank soal', ['search' => $search]);
 
-        return BankSoal::latest()->paginate(15);
+        $query = BankSoal::latest();
+
+        if ($search) {
+            $query->where('bank', 'like', "%{$search}%")
+                  ->orWhere('sesi_bank', 'like', "%{$search}%")
+                  ->orWhere('mode', 'like', "%{$search}%");
+        }
+
+        return $query->paginate(15);
     }
 
     public function storeBankSoal(Request $request): bool
