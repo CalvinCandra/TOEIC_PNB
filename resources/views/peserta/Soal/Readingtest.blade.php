@@ -6,8 +6,8 @@
     <div class="flex items-center gap-3">
         <div class="hidden sm:block text-slate-500 font-medium text-xs"><i
                 class="fa-solid fa-book-open mr-1 text-slate-400"></i> Reading</div>
-        <div
-            class="bg-indigo-600 text-white font-mono font-bold tracking-widest px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-2 tabular-nums text-sm">
+        <div id="timer-badge"
+            class="bg-indigo-600 transition-colors duration-500 text-white font-mono font-bold tracking-widest px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-2 tabular-nums text-sm">
             <i class="fa-regular fa-clock opacity-80"></i>
             <span id="countdown-nav">--:--:--</span>
         </div>
@@ -354,7 +354,13 @@
                 const elNav = document.getElementById('countdown-nav');
                 if (elNav) elNav.textContent = display;
 
-                if (seconds <= 300 && elNav) elNav.classList.add('bg-red-600');
+                if (seconds <= 300) {
+                    const timerBadge = document.getElementById('timer-badge');
+                    if (timerBadge) {
+                        timerBadge.classList.remove('bg-indigo-600');
+                        timerBadge.classList.add('bg-red-600', 'shadow-md');
+                    }
+                }
             }
 
             function pad(num) {

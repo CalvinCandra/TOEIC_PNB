@@ -45,7 +45,7 @@
                             </div>
 
                             {{-- Email removed --}}
-                            <div>
+                            <div class="md:col-span-2">
                                 <label for="nim" class="block mb-2 text-sm font-semibold text-gray-800">NIM (Student
                                     ID)</label>
                                 <div class="relative">
