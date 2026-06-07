@@ -220,7 +220,7 @@
         </div>
 
         <div class="pt-4 border-t border-slate-200 flex justify-end pb-8">
-            @if ($part->tanda < count($GetAllPart))
+            @if ($GetAllPart->last()->id_part !== $part->id_part)
                 <button type="submit" name="tombol" value="next" id="nextButton"
                     class="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl px-8 py-3.5 transition-all shadow-md active:scale-95 flex items-center gap-2 w-full sm:w-auto justify-center">
                     Next Section <i class="fa-solid fa-arrow-right"></i>
