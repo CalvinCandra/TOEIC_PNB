@@ -20,7 +20,7 @@ class MediaService
         if ($search) {
             $query->where('gambar', 'like', "%{$search}%");
         }
-        return $query->paginate(20);
+        return $query->paginate(20)->withQueryString();
     }
 
     public function storeGambar(Request $request): bool
@@ -81,7 +81,7 @@ class MediaService
         if ($search) {
             $query->where('audio', 'like', "%{$search}%");
         }
-        return $query->paginate(20);
+        return $query->paginate(20)->withQueryString();
     }
 
     public function storeAudio(Request $request): bool
