@@ -19,7 +19,7 @@ class Kernel extends HttpKernel
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
-        // \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'level' => \App\Http\Middleware\Level::class,
         'DisableHistory' => DisableHistory::class,
         'isChangePassword' => isChangePassword::class,
+        'feature' => \App\Http\Middleware\CheckFeatureEnabled::class,
     ];
 }

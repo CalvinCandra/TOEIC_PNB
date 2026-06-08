@@ -20,10 +20,10 @@ class PesertaProfilService
     public function updateProfil(Request $request, int $userId): bool|string
     {
         $request->validate([
-            'nim' => 'min:10|max:10',
+            'nim'   => 'min:10|max:10',
         ], [
-            'nim.max' => 'NIM Must be 10 Numbers',
-            'nim.min' => 'NIM Must be 10 Numbers',
+            'nim.max'        => 'NIM Must be 10 Numbers',
+            'nim.min'        => 'NIM Must be 10 Numbers',
         ]);
 
         $peserta = Peserta::where('id_users', $userId)->first();
@@ -37,7 +37,7 @@ class PesertaProfilService
         DB::beginTransaction();
         try {
             User::where('id', $userId)->update([
-                'name' => $request->name,
+                'name'  => $request->name,
             ]);
 
             Peserta::where('id_users', $userId)->update([

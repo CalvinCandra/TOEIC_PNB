@@ -10,28 +10,40 @@ use Illuminate\Support\Facades\Log;
 
 class BankSoalService
 {
-    public function getBankSoalAll()
+    public function getBankSoalAll($search = null)
     {
-        Log::info('[BankSoalService::getBankSoalAll] Mengambil semua bank soal');
+        Log::info('[BankSoalService::getBankSoalAll] Mengambil semua bank soal', ['search' => $search]);
 
-        return BankSoal::latest()->paginate(15);
+        $query = BankSoal::latest();
+
+        if ($search) {
+            $query->where('bank', 'like', "%{$search}%")
+                  ->orWhere('sesi_bank', 'like', "%{$search}%")
+                  ->orWhere('mode', 'like', "%{$search}%");
+        }
+
+        return $query->paginate(15)->withQueryString();
     }
 
     public function storeBankSoal(Request $request): bool
     {
         Log::info('[BankSoalService::storeBankSoal] Memulai tambah bank soal', [
             'sesi_bank' => $request->sesi_bank,
+            'mode' => $request->mode ?? 'toeic',
             'waktu_mulai' => $request->waktu_mulai,
             'waktu_akhir' => $request->waktu_akhir,
         ]);
 
         DB::beginTransaction();
         try {
+            $finalSesi = $request->sesi_bank === '__NEW__' ? $request->new_sesi : $request->sesi_bank;
+
             BankSoal::create([
                 'bank' => $request->bank,
-                'sesi_bank' => $request->sesi_bank,
+                'sesi_bank' => $finalSesi,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_akhir' => $request->waktu_akhir,
+                'mode' => $request->mode ?? 'toeic',
             ]);
             DB::commit();
             Log::info('[BankSoalService::storeBankSoal] Tambah bank soal berhasil', [
@@ -59,12 +71,20 @@ class BankSoalService
 
         DB::beginTransaction();
         try {
-            BankSoal::where('id_bank', $request->id_bank)->update([
+            $finalSesi = $request->sesi_bank === '__NEW__' ? $request->new_sesi : $request->sesi_bank;
+
+            $updateData = [
                 'bank' => $request->bank,
-                'sesi_bank' => $request->sesi_bank,
+                'sesi_bank' => $finalSesi,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_akhir' => $request->waktu_akhir,
-            ]);
+            ];
+
+            if ($request->has('mode')) {
+                $updateData['mode'] = $request->mode;
+            }
+
+            BankSoal::where('id_bank', $request->id_bank)->update($updateData);
             DB::commit();
             Log::info('[BankSoalService::updateBankSoal] Update bank soal berhasil', [
                 'id_bank' => $request->id_bank,

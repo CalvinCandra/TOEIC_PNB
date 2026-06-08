@@ -23,10 +23,12 @@ class PesertaService
 
         return Peserta::with('user')
             ->when($search, fn ($q) => $q
-                ->where('nama_peserta', 'like', "%{$search}%")
-                ->orWhere('nim', 'like', "%{$search}%")
-                ->orWhere('jurusan', 'like', "%{$search}%")
-            )->paginate(15);
+                ->where(function ($sub) use ($search) {
+                    $sub->where('nama_peserta', 'like', "%{$search}%")
+                        ->orWhere('nim', 'like', "%{$search}%")
+                        ->orWhere('jurusan', 'like', "%{$search}%");
+                })
+            )->paginate(15)->withQueryString();
     }
 
     public function getPesertaBySesi(string $sesi, ?string $search = null)
@@ -39,8 +41,12 @@ class PesertaService
         return Peserta::with('user')
             ->where('sesi', $sesi)
             ->when($search, fn ($q) => $q
-                ->where('nama_peserta', 'like', "%{$search}%")
-            )->paginate(15);
+                ->where(function ($sub) use ($search) {
+                    $sub->where('nama_peserta', 'like', "%{$search}%")
+                        ->orWhere('nim', 'like', "%{$search}%")
+                        ->orWhere('jurusan', 'like', "%{$search}%");
+                })
+            )->paginate(15)->withQueryString();
     }
 
     public function importPesertaExcel(Request $request): bool
@@ -78,28 +84,25 @@ class PesertaService
             'nim' => 'min:10|max:10',
         ];
 
-        // Validasi unique email HANYA jika email berubah
-        if ($request->email !== $user?->email) {
-            $rules['email'] = 'email|unique:users,email';
-        }
-
         $request->validate($rules, [
             'nim.max'      => 'NIM Must be 10 Numbers',
             'nim.min'      => 'NIM Must be 10 Numbers',
-            'email.unique' => 'Email already exists',
         ]);
 
         DB::beginTransaction();
         try {
+            $finalSesi = $request->sesi === '__NEW__' ? $request->new_sesi : $request->sesi;
+
             Peserta::where('id_peserta', $request->id_peserta)->update([
-                'nama_peserta' => $request->name,
-                'nim'          => $request->nim,
-                'sesi'         => $request->sesi,
+                'nama_peserta'   => $request->name,
+                'nim'            => $request->nim,
+                'tanggal_lahir'  => $request->tanggal_lahir,
+                'jurusan'        => $request->jurusan,
+                'sesi'           => $finalSesi,
             ]);
 
             User::where('id', $user->id)->update([
                 'name'  => $request->name,
-                'email' => $request->email,
             ]);
 
             DB::commit();

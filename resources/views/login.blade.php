@@ -187,7 +187,7 @@
                 {{-- Heading --}}
                 <p class="form-label-brand">TOEIC Assessment</p>
                 <h1 class="form-title">Sign In</h1>
-                <p class="form-subtitle">Enter your email or Student ID to continue.</p>
+                <p class="form-subtitle">Enter your Student ID and Password to continue.</p>
 
                 {{-- Error --}}
                 @if (count($errors) > 0)
@@ -203,9 +203,9 @@
                     @csrf
 
                     <div>
-                        <label class="field-label" for="username">Email or Student ID (NIM)</label>
+                        <label class="field-label" for="username">Student ID (NIM)</label>
                         <input type="text" name="username" id="username"
-                            placeholder="e.g. student@pnb.ac.id or 2215313xxx"
+                            placeholder="e.g. 2215313xxx"
                             value="{{ old('username') }}"
                             class="input-field" />
                     </div>

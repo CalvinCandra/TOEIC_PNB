@@ -36,11 +36,12 @@ class AdminController extends Controller
             ->get();
 
         $sessions = $data->pluck('sesi')->unique()->sort()->values();
+
         $statuses = ['Sudah', 'Kerjain', 'Belum'];
 
-        $chartData = [];
+        $allChartData = [];
         foreach ($sessions as $sesi) {
-            $chartData[] = [
+            $allChartData[$sesi] = [
                 'sesi' => $sesi,
                 'data' => [
                     'Done' => $data->where('sesi', $sesi)->where('status', 'Sudah')->sum('total') ?? 0,
@@ -51,7 +52,42 @@ class AdminController extends Controller
             ];
         }
 
-        return view('admin.content.dashboard', compact('sessions', 'statuses', 'chartData'));
+        $allJurusanData = [];
+        foreach ($sessions as $sesi) {
+            $jurusanData = DB::table('peserta')
+                ->select('jurusan', 'status', DB::raw('COUNT(*) as total'))
+                ->where('sesi', $sesi)
+                ->groupBy('jurusan', 'status')
+                ->orderBy('jurusan')
+                ->get();
+
+            $jurusanList = $jurusanData->pluck('jurusan')->unique()->sort()->values();
+            $chartData = [];
+            foreach ($jurusanList as $j) {
+                $chartData[] = [
+                    'jurusan' => $j,
+                    'data' => [
+                        'Done' => $jurusanData->where('jurusan', $j)->where('status', 'Sudah')->sum('total') ?? 0,
+                        'Work' => $jurusanData->where('jurusan', $j)->where('status', 'Kerjain')->sum('total') ?? 0,
+                        'Not Yet' => $jurusanData->where('jurusan', $j)->where('status', 'Belum')->sum('total') ?? 0,
+                    ],
+                    'total' => $jurusanData->where('jurusan', $j)->sum('total'),
+                ];
+            }
+            $allJurusanData[$sesi] = $chartData;
+        }
+
+        $allTopScorers = [];
+        foreach ($sessions as $sesi) {
+            $allTopScorers[$sesi] = \App\Models\Peserta::with('user')
+                ->where('sesi', $sesi)
+                ->where('status', 'Sudah')
+                ->orderByRaw('(skor_listening + skor_reading) DESC')
+                ->take(10)
+                ->get();
+        }
+
+        return view('admin.content.dashboard', compact('sessions', 'statuses', 'allChartData', 'allJurusanData', 'allTopScorers'));
     }
 
     public function toggleTestingMode(Request $request)
@@ -106,18 +142,11 @@ class AdminController extends Controller
         return view('admin.content.Peserta.AdminPeserta', compact('peserta'));
     }
 
-    public function dashPeserta1()
+    public function dashPesertaSesi($sesi)
     {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 1', request('search'));
+        $peserta = $this->pesertaService->getPesertaBySesi($sesi, request('search'));
 
-        return view('admin.content.Peserta.AdminPeserta1', compact('peserta'));
-    }
-
-    public function dashPeserta2()
-    {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 2', request('search'));
-
-        return view('admin.content.Peserta.AdminPeserta2', compact('peserta'));
+        return view('admin.content.Peserta.AdminPesertaSesi', compact('peserta', 'sesi'));
     }
 
     public function TambahPesertaExcel(Request $request)
@@ -175,8 +204,7 @@ class AdminController extends Controller
 
     public function DeleteAllPeserta($sesi)
     {
-        $sesiTran = $sesi === 'Sesione' ? 'Session 1' : ($sesi === 'Sesitwo' ? 'Session 2' : null);
-        $this->pesertaService->deleteAllPeserta($sesiTran);
+        $this->pesertaService->deleteAllPeserta($sesi);
         toast('Semua Peserta Dihapus', 'success');
 
         return redirect()->back();
@@ -189,7 +217,7 @@ class AdminController extends Controller
 
     public function dashAdminSoal()
     {
-        $bank = $this->bankSoalService->getBankSoalAll();
+        $bank = $this->bankSoalService->getBankSoalAll(request('search'));
 
         return view('admin.content.BankSoal.dashbanksoal', compact('bank'));
     }
@@ -223,7 +251,7 @@ class AdminController extends Controller
 
     public function dashAdminGambar()
     {
-        $gambar = $this->mediaService->getGambarAll();
+        $gambar = $this->mediaService->getGambarAll(request('search'));
 
         $urlpathimage = Storage::disk('s3')->url('gambar/');
 
@@ -250,7 +278,7 @@ class AdminController extends Controller
 
     public function dashAdminAudio()
     {
-        $audio = $this->mediaService->getAudioAll();
+        $audio = $this->mediaService->getAudioAll(request('search'));
 
         $urlpathaudio = Storage::disk('s3')->url('audio/');
 

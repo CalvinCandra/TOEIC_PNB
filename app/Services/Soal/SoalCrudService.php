@@ -25,12 +25,12 @@ class SoalCrudService
         $soal = Soal::with(['user', 'audio', 'gambar'])
             ->where('id_bank', $id_bank)
             ->where('kategori', 'Listening')
-            ->when($search, fn ($q) => $q
-                ->orWhere('nomor_soal', 'LIKE', '%'.$search.'%')
+            ->when($search, fn ($q) => $q->where(fn ($subQuery) => $subQuery
+                ->where('nomor_soal', 'LIKE', '%'.$search.'%')
                 ->orWhere('soal', 'LIKE', '%'.$search.'%')
-            )
+            ))
             ->orderBy('nomor_soal', 'asc')
-            ->paginate(15);
+            ->paginate(15)->withQueryString();
 
         $audio = Audio::all();
         $gambar = Gambar::all();
@@ -146,12 +146,12 @@ class SoalCrudService
         $soal = Soal::with(['user', 'gambar'])
             ->where('id_bank', $id_bank)
             ->where('kategori', 'Reading')
-            ->when($search, fn ($q) => $q
-                ->orWhere('nomor_soal', 'LIKE', '%'.$search.'%')
+            ->when($search, fn ($q) => $q->where(fn ($subQuery) => $subQuery
+                ->where('nomor_soal', 'LIKE', '%'.$search.'%')
                 ->orWhere('soal', 'LIKE', '%'.$search.'%')
-            )
+            ))
             ->orderBy('nomor_soal', 'asc')
-            ->paginate(15);
+            ->paginate(15)->withQueryString();
 
         $gambar = Gambar::all();
 

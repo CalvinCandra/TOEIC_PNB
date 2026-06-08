@@ -6,8 +6,8 @@
     <div class="flex items-center gap-3">
         <div class="hidden sm:block text-slate-500 font-medium text-xs"><i
                 class="fa-solid fa-book-open mr-1 text-slate-400"></i> Reading</div>
-        <div
-            class="bg-indigo-600 text-white font-mono font-bold tracking-widest px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-2 tabular-nums text-sm">
+        <div id="timer-badge"
+            class="bg-indigo-600 transition-colors duration-500 text-white font-mono font-bold tracking-widest px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-2 tabular-nums text-sm">
             <i class="fa-regular fa-clock opacity-80"></i>
             <span id="countdown-nav">--:--:--</span>
         </div>
@@ -220,7 +220,7 @@
         </div>
 
         <div class="pt-4 border-t border-slate-200 flex justify-end pb-8">
-            @if ($part->tanda < count($GetAllPart))
+            @if ($GetAllPart->last()->id_part !== $part->id_part)
                 <button type="submit" name="tombol" value="next" id="nextButton"
                     class="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl px-8 py-3.5 transition-all shadow-md active:scale-95 flex items-center gap-2 w-full sm:w-auto justify-center">
                     Next Section <i class="fa-solid fa-arrow-right"></i>
@@ -354,7 +354,13 @@
                 const elNav = document.getElementById('countdown-nav');
                 if (elNav) elNav.textContent = display;
 
-                if (seconds <= 300 && elNav) elNav.classList.add('bg-red-600');
+                if (seconds <= 300) {
+                    const timerBadge = document.getElementById('timer-badge');
+                    if (timerBadge) {
+                        timerBadge.classList.remove('bg-indigo-600');
+                        timerBadge.classList.add('bg-red-600', 'shadow-md');
+                    }
+                }
             }
 
             function pad(num) {
@@ -362,6 +368,14 @@
             }
 
             function autoSubmit() {
+                // PENTING: Nonaktifkan beforeunload SEBELUM submit
+                // agar browser tidak tampilkan dialog "Leave or Cancel"
+                window.onbeforeunload = null;
+                if (window.__examDeactivateBeforeUnload) {
+                    window.__examDeactivateBeforeUnload();
+                }
+                window.dispatchEvent(new CustomEvent('exam-auto-submit'));
+
                 sessionStorage.setItem("came_from_exam", "1");
                 sessionStorage.setItem("came_from_exam_time", Date.now().toString());
 
@@ -371,7 +385,11 @@
                 const overlay = document.getElementById('overlay');
                 if (overlay) overlay.style.display = 'flex';
 
-                if (form) form.submit();
+                // Jitter 0-3 detik agar tidak semua peserta submit di detik yang sama
+                const jitter = Math.floor(Math.random() * 3000);
+                setTimeout(function() {
+                    if (form) form.submit();
+                }, jitter);
             }
 
             document.addEventListener('DOMContentLoaded', initTimer);
