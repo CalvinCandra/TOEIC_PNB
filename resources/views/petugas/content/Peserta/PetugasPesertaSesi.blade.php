@@ -8,8 +8,11 @@
 @section('content')
 
     {{-- konten --}}
+    @php
+        $existingSessions = \Illuminate\Support\Facades\DB::table('peserta')->whereNotNull('sesi')->distinct()->pluck('sesi')->sort()->values();
+    @endphp
     <section class="p-4 md:ml-64 h-auto pt-20">
-        <h1>Participants Data Session 3</h1>
+        <h1>Participants Data {{ $sesi }}</h1>
 
         <div class="p-3 sm:p-5 antialiased">
             @if (count($errors) > 0)
@@ -74,7 +77,7 @@
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->nama_peserta }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->nim }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jurusan }}</td>
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->tanggal_lahir }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ \Carbon\Carbon::parse($data->tanggal_lahir)->format('d-m-Y') }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->user->is_password_changed ? 'Changed' : 'Not Change' }}</td>
 
                                         @if ($data->status == 'Sudah')
@@ -149,11 +152,11 @@
         class="relative z-20 hidden bg-white divide-y divide-gray-100 rounded-lg border-2 border-gray-300 w-44">
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
             <li>
-                <a href="{{ url('/ExportExcelPetugas/Sesithree') }}" target="_blank"
+                <a href="{{ url('/ExportExcelPetugas/' . rawurlencode($sesi)) }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
             </li>
             <li>
-                <a href="{{ url('/downloadresult/session_3') }}" target="_blank"
+                <a href="{{ url('/downloadresult/' . rawurlencode($sesi)) }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Download Result (Zip)</a>
             </li>
             <li>
@@ -237,19 +240,27 @@
                             </div>
 
                             <div>
-                                <label for="name"
-                                    class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Session</label>
-                                <select id="countries" name="sesi"
-                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
-                                    <option selected hidden value="{{ $data->sesi }}">{{ $data->sesi }}</option>
-                                    <option value="Session 1">Session 1</option>
-                                    <option value="Session 2">Session 2</option>
-                                    <option value="Session 3">Session 3</option>
+                                <label for="sesi" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Session</label>
+                                <select id="sesi_{{ $data->id_peserta }}" name="sesi" onchange="toggleNewSessionInput({{ $data->id_peserta }})"
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium"
+                                    required>
+                                    <option value="{{ $data->sesi }}" selected hidden>{{ $data->sesi }}</option>
+                                    @foreach($existingSessions as $es)
+                                        <option value="{{ $es }}">{{ $es }}</option>
+                                    @endforeach
+                                    <option value="__NEW__" class="font-bold text-blue-600">+ Create New Session</option>
                                 </select>
                             </div>
 
+                            <div id="new_sesi_container_{{ $data->id_peserta }}" class="hidden">
+                                <label for="new_sesi_{{ $data->id_peserta }}" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">New Session Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="new_sesi_{{ $data->id_peserta }}" name="new_sesi" disabled
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
+                                    placeholder="e.g. Session 4" required />
+                            </div>
+
                             <button type="submit"
-                                class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
+                                class="w-full text-white bg-sky-800 hover:bg-sky-950 font-medium rounded-lg text-sm px-5 py-2.5 text-center !mt-6">Submit</button>
 
                         </form>
                     </div>
@@ -286,7 +297,7 @@
                 <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to delete this participant? This action cannot be undone and all their exam history will be permanently lost.</p>
 
                 <div class="flex justify-center gap-3">
-                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeletePetugasPeserta') }}" method="POST">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAdminPeserta') }}" method="POST">
                         @csrf
                         <input type="hidden" id="hapus-peserta" name="id_peserta">
 
@@ -334,7 +345,7 @@
                 <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to reset the exam status for all participants? They will be allowed to retake the test. This action cannot be undone.</p>
 
                 <div class="flex justify-center gap-3">
-                    <form class="modal-form w-full flex gap-3" action="{{ url('/ResetStatusPetugas/Sesithree') }}" method="POST">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/ResetStatusPetugas/' . rawurlencode($sesi)) }}" method="POST">
                         @csrf
 
                         <button data-modal-toggle="ResetStatus" type="button"
@@ -378,7 +389,7 @@
                 <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to delete all participants? This will permanently erase all participant records and exam history. This action is irreversible.</p>
 
                 <div class="flex justify-center gap-3">
-                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAllPetugas/Sesithree') }}" method="POST">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAllPetugas/' . rawurlencode($sesi)) }}" method="POST">
                         @csrf
 
                         <button data-modal-toggle="DeleteAll" type="button"
@@ -397,6 +408,21 @@
     {{-- End Modal Delete All --}}
 
     <script>
+        function toggleNewSessionInput(id) {
+            const select = document.getElementById('sesi_' + id);
+            const container = document.getElementById('new_sesi_container_' + id);
+            const input = document.getElementById('new_sesi_' + id);
+
+            if (select.value === '__NEW__') {
+                container.classList.remove('hidden');
+                input.disabled = false;
+                input.focus();
+            } else {
+                container.classList.add('hidden');
+                input.disabled = true;
+            }
+        }
+
         function hapus(baris, id) {
             const td = document.querySelectorAll('#' + baris + ' td');
 

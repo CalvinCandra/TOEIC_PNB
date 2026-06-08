@@ -142,25 +142,11 @@ class AdminController extends Controller
         return view('admin.content.Peserta.AdminPeserta', compact('peserta'));
     }
 
-    public function dashPeserta1()
+    public function dashPesertaSesi($sesi)
     {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 1', request('search'));
+        $peserta = $this->pesertaService->getPesertaBySesi($sesi, request('search'));
 
-        return view('admin.content.Peserta.AdminPeserta1', compact('peserta'));
-    }
-
-    public function dashPeserta2()
-    {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 2', request('search'));
-
-        return view('admin.content.Peserta.AdminPeserta2', compact('peserta'));
-    }
-
-    public function dashPeserta3()
-    {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 3', request('search'));
-
-        return view('admin.content.Peserta.AdminPeserta3', compact('peserta'));
+        return view('admin.content.Peserta.AdminPesertaSesi', compact('peserta', 'sesi'));
     }
 
     public function TambahPesertaExcel(Request $request)
@@ -218,13 +204,7 @@ class AdminController extends Controller
 
     public function DeleteAllPeserta($sesi)
     {
-        $sesiTran = match($sesi) {
-            'Sesione' => 'Session 1',
-            'Sesitwo' => 'Session 2',
-            'Sesithree' => 'Session 3',
-            default => null,
-        };
-        $this->pesertaService->deleteAllPeserta($sesiTran);
+        $this->pesertaService->deleteAllPeserta($sesi);
         toast('Semua Peserta Dihapus', 'success');
 
         return redirect()->back();

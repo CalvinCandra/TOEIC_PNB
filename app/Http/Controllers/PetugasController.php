@@ -94,25 +94,11 @@ class PetugasController extends Controller
         return view('petugas.content.Peserta.PetugasPeserta', compact('peserta'));
     }
 
-    public function dashPetugasPeserta1()
+    public function dashPetugasPesertaSesi($sesi)
     {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 1', request('search'));
+        $peserta = $this->pesertaService->getPesertaBySesi($sesi, request('search'));
 
-        return view('petugas.content.Peserta.PetugasPeserta1', compact('peserta'));
-    }
-
-    public function dashPetugasPeserta2()
-    {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 2', request('search'));
-
-        return view('petugas.content.Peserta.PetugasPeserta2', compact('peserta'));
-    }
-
-    public function dashPetugasPeserta3()
-    {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 3', request('search'));
-
-        return view('petugas.content.Peserta.PetugasPeserta3', compact('peserta'));
+        return view('petugas.content.Peserta.PetugasPesertaSesi', compact('peserta', 'sesi'));
     }
 
     public function TambahPesertaExcel(Request $request)
@@ -144,13 +130,7 @@ class PetugasController extends Controller
 
     public function DeletePetugasAllPeserta($sesi)
     {
-        $sesiTran = match($sesi) {
-            'Sesione' => 'Session 1',
-            'Sesitwo' => 'Session 2',
-            'Sesithree' => 'Session 3',
-            default => null,
-        };
-        $this->pesertaService->deleteAllPeserta($sesiTran);
+        $this->pesertaService->deleteAllPeserta($sesi);
         toast('Semua Peserta Dihapus', 'success');
 
         return redirect()->back();

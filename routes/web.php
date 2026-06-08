@@ -69,9 +69,7 @@ Route::middleware(['auth', 'level:admin'])->group(function () {
 
     // dashboard Peserta
     Route::get('/dashPeserta', [AdminController::class, 'dashPeserta']);
-    Route::get('/dashPeserta1', [AdminController::class, 'dashPeserta1']);
-    Route::get('/dashPeserta2', [AdminController::class, 'dashPeserta2']);
-    Route::get('/dashPeserta3', [AdminController::class, 'dashPeserta3']);
+    Route::get('/dashPesertaSesi/{sesi}', [AdminController::class, 'dashPesertaSesi']);
 
 
     // Route::post('/TambahPeserta', [AdminController::class, 'TambahPeserta']);
@@ -144,9 +142,7 @@ Route::middleware(['auth', 'level:petugas'])->group(function () {
 
     // Peserta
     Route::get('/dashPetugasPeserta', [PetugasController::class, 'dashPetugasPeserta']);
-    Route::get('/dashPetugasPeserta1', [PetugasController::class, 'dashPetugasPeserta1']);
-    Route::get('/dashPetugasPeserta2', [PetugasController::class, 'dashPetugasPeserta2']);
-    Route::get('/dashPetugasPeserta3', [PetugasController::class, 'dashPetugasPeserta3']);
+    Route::get('/dashPetugasPesertaSesi/{sesi}', [PetugasController::class, 'dashPetugasPesertaSesi']);
 
     // Route::post('/TambahPetugasPeserta', [PetugasController::class, 'TambahPetugasPeserta']);
     Route::post('/TambahPesertaExcelPetugas', [PetugasController::class, 'TambahPesertaExcel']);

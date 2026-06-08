@@ -36,9 +36,11 @@ class BankSoalService
 
         DB::beginTransaction();
         try {
+            $finalSesi = $request->sesi_bank === '__NEW__' ? $request->new_sesi : $request->sesi_bank;
+
             BankSoal::create([
                 'bank' => $request->bank,
-                'sesi_bank' => $request->sesi_bank,
+                'sesi_bank' => $finalSesi,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_akhir' => $request->waktu_akhir,
                 'mode' => $request->mode ?? 'toeic',
@@ -69,9 +71,11 @@ class BankSoalService
 
         DB::beginTransaction();
         try {
+            $finalSesi = $request->sesi_bank === '__NEW__' ? $request->new_sesi : $request->sesi_bank;
+
             $updateData = [
                 'bank' => $request->bank,
-                'sesi_bank' => $request->sesi_bank,
+                'sesi_bank' => $finalSesi,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_akhir' => $request->waktu_akhir,
             ];

@@ -19,10 +19,19 @@
         ? 'bg-blue-50 text-blue-700 font-bold border-r-4 border-blue-600'
         : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border-r-4 border-transparent font-medium';
 
+    // Get unique sessions from database
+    $sessions = \Illuminate\Support\Facades\DB::table('peserta')
+        ->whereNotNull('sesi')
+        ->distinct()
+        ->pluck('sesi')
+        ->sort()
+        ->values()
+        ->toArray();
+
     // Cek apakah grup menu aktif (untuk auto-expand dropdown)
     $userPaths = array_merge(
         [$urlUser],
-        array_map(fn($s) => $urlUser . $s, range(1, 3)),
+        array_map(fn($s) => $urlUser . 'Sesi/' . rawurlencode($s), $sessions),
     );
     $questionPaths = [$urlGambar, $urlAudio, $urlBankSoal];
     $userMenuOpen = $isActive($userPaths);
@@ -79,11 +88,11 @@
                                     All Data
                                 </a>
                             </li>
-                            @foreach (range(1, 3) as $s)
+                            @foreach ($sessions as $s)
                                 <li>
-                                    <a href="{{ url("/{$urlUser}{$s}") }}"
-                                        class="flex items-center px-4 py-2.5 pl-12 w-full text-sm font-medium rounded-xl {{ $activeClass($urlUser . $s) }} transition-colors">
-                                        Session {{ $s }}
+                                    <a href="{{ url("/{$urlUser}Sesi/" . rawurlencode($s)) }}"
+                                        class="flex items-center px-4 py-2.5 pl-12 w-full text-sm font-medium rounded-xl {{ $activeClass($urlUser . 'Sesi/' . rawurlencode($s)) }} transition-colors">
+                                        {{ $s }}
                                     </a>
                                 </li>
                             @endforeach

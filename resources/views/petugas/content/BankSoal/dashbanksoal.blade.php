@@ -8,6 +8,9 @@
 @section('content')
 
     {{-- konten --}}
+    @php
+        $existingSessions = \Illuminate\Support\Facades\DB::table('peserta')->whereNotNull('sesi')->distinct()->pluck('sesi')->sort()->values();
+    @endphp
     <section class="p-4 md:ml-64 h-auto pt-20">
         <h1>Bank Question Data</h1>
 
@@ -207,13 +210,21 @@
                         {{-- Session — hidden when Self Study --}}
                         <div id="tambah-session-group">
                             <label for="tambah-sesi" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Session</label>
-                            <select id="tambah-sesi" name="sesi_bank"
+                            <select id="tambah-sesi" name="sesi_bank" onchange="toggleNewSessionInputTambah()"
                                 class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                 <option selected hidden value="">-- Select --</option>
-                                <option value="Session 1">Session 1</option>
-                                <option value="Session 2">Session 2</option>
-                                <option value="Session 3">Session 3</option>
+                                @foreach($existingSessions as $es)
+                                    <option value="{{ $es }}">{{ $es }}</option>
+                                @endforeach
+                                <option value="__NEW__" class="font-bold text-blue-600">+ Create New Session</option>
                             </select>
+                            
+                            <div id="new_sesi_container_tambah" class="hidden mt-3">
+                                <label for="new_sesi_tambah" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">New Session Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="new_sesi_tambah" name="new_sesi" disabled
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
+                                    placeholder="e.g. Session 4" required />
+                            </div>
                         </div>
                         <input type="hidden" id="tambah-sesi-hidden" name="sesi_bank" value="Self Study" disabled>
 
@@ -225,7 +236,7 @@
                         </div>
 
                         <button type="submit"
-                            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer mt-2">Submit</button>
+                            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer !mt-6">Submit</button>
                     </form>
                 </div>
             </div>
@@ -286,13 +297,21 @@
                             {{-- Session — hidden when Self Study --}}
                             <div id="update-session-group-{{ $data->id_bank }}" {{ $data->mode === 'self_study' ? 'style=display:none' : '' }}>
                                 <label class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Session</label>
-                                <select id="update-sesi-{{ $data->id_bank }}" name="sesi_bank"
+                                <select id="update-sesi-{{ $data->id_bank }}" name="sesi_bank" onchange="toggleNewSessionInputUpdate({{ $data->id_bank }})"
                                     class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
                                     <option selected hidden value="{{ $data->sesi_bank }}">{{ $data->sesi_bank }}</option>
-                                    <option value="Session 1">Session 1</option>
-                                    <option value="Session 2">Session 2</option>
-                                    <option value="Session 3">Session 3</option>
+                                    @foreach($existingSessions as $es)
+                                        <option value="{{ $es }}">{{ $es }}</option>
+                                    @endforeach
+                                    <option value="__NEW__" class="font-bold text-blue-600">+ Create New Session</option>
                                 </select>
+                                
+                                <div id="new_sesi_container_{{ $data->id_bank }}" class="hidden mt-3">
+                                    <label for="new_sesi_{{ $data->id_bank }}" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">New Session Name <span class="text-red-500">*</span></label>
+                                    <input type="text" id="new_sesi_{{ $data->id_bank }}" name="new_sesi" disabled
+                                        class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
+                                        placeholder="e.g. Session 4" required />
+                                </div>
                             </div>
                             <input type="hidden" id="update-sesi-hidden-{{ $data->id_bank }}" name="sesi_bank" value="Self Study"
                                 {{ $data->mode !== 'self_study' ? 'disabled' : '' }}>
@@ -306,7 +325,7 @@
                             </div>
 
                             <button type="submit"
-                                class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer mt-2">Submit</button>
+                                class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer !mt-6">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -366,6 +385,36 @@
     <script>
         function hapus(baris, id) {
             document.getElementById('hapus-bank').value = id;
+        }
+
+        function toggleNewSessionInputTambah() {
+            const select = document.getElementById('tambah-sesi');
+            const container = document.getElementById('new_sesi_container_tambah');
+            const input = document.getElementById('new_sesi_tambah');
+
+            if (select.value === '__NEW__') {
+                container.classList.remove('hidden');
+                input.disabled = false;
+                input.focus();
+            } else {
+                container.classList.add('hidden');
+                input.disabled = true;
+            }
+        }
+
+        function toggleNewSessionInputUpdate(id) {
+            const select = document.getElementById('update-sesi-' + id);
+            const container = document.getElementById('new_sesi_container_' + id);
+            const input = document.getElementById('new_sesi_' + id);
+
+            if (select.value === '__NEW__') {
+                container.classList.remove('hidden');
+                input.disabled = false;
+                input.focus();
+            } else {
+                container.classList.add('hidden');
+                input.disabled = true;
+            }
         }
 
         /* ── Create modal: Mode → show/hide Session & Time ── */

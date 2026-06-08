@@ -91,12 +91,14 @@ class PesertaService
 
         DB::beginTransaction();
         try {
+            $finalSesi = $request->sesi === '__NEW__' ? $request->new_sesi : $request->sesi;
+
             Peserta::where('id_peserta', $request->id_peserta)->update([
                 'nama_peserta'   => $request->name,
                 'nim'            => $request->nim,
                 'tanggal_lahir'  => $request->tanggal_lahir,
                 'jurusan'        => $request->jurusan,
-                'sesi'           => $request->sesi,
+                'sesi'           => $finalSesi,
             ]);
 
             User::where('id', $user->id)->update([
