@@ -12,11 +12,15 @@ use Illuminate\Support\Facades\Storage;
 
 class MediaService
 {
-    public function getGambarAll()
+    public function getGambarAll($search = null)
     {
-        Log::info('[MediaService::getGambarAll] Mengambil semua gambar');
+        Log::info('[MediaService::getGambarAll] Mengambil semua gambar', ['search' => $search]);
 
-        return Gambar::latest()->paginate(20);
+        $query = Gambar::latest();
+        if ($search) {
+            $query->where('gambar', 'like', "%{$search}%");
+        }
+        return $query->paginate(20);
     }
 
     public function storeGambar(Request $request): bool
@@ -69,11 +73,15 @@ class MediaService
         }
     }
 
-    public function getAudioAll()
+    public function getAudioAll($search = null)
     {
-        Log::info('[MediaService::getAudioAll] Mengambil semua audio');
+        Log::info('[MediaService::getAudioAll] Mengambil semua audio', ['search' => $search]);
 
-        return Audio::latest()->paginate(20);
+        $query = Audio::latest();
+        if ($search) {
+            $query->where('audio', 'like', "%{$search}%");
+        }
+        return $query->paginate(20);
     }
 
     public function storeAudio(Request $request): bool

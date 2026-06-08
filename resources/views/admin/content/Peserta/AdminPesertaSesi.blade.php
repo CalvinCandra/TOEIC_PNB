@@ -8,8 +8,11 @@
 @section('content')
 
     {{-- konten --}}
+    @php
+        $existingSessions = \Illuminate\Support\Facades\DB::table('peserta')->whereNotNull('sesi')->distinct()->pluck('sesi')->sort()->values();
+    @endphp
     <section class="p-4 md:ml-64 h-auto pt-20">
-        <h1>Participants Data Session 2</h1>
+        <h1>Participants Data {{ $sesi }}</h1>
 
         <div class="p-3 sm:p-5 antialiased">
             @if (count($errors) > 0)
@@ -30,26 +33,9 @@
                     </ul>
                 </div>
             @endif
-            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-3">
-                <!-- search form -->
-                <div class="w-full">
-                    <form class="flex items-center" method="GET">
-                        <label for="simple-search" class="sr-only">Search</label>
-                        <div class="relative w-full">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
-                                    viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <input type="text" id="simple-search" name="search"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Search" autocomplete="off">
-                        </div>
-                    </form>
-                </div>
+            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg p-3">
+                <!-- live search -->
+                @include('layouts.dashboard.live-search', ['placeholder' => 'Search by name, NIM, major...'])
                 {{-- end search --}}
                 <div class="block lg:flex justify-end mt-5 ">
                     {{-- action --}}
@@ -64,6 +50,7 @@
                     </button>
                 </div>
 
+                <div id="search-results-container">
                 <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <div class="overflow-x-auto w-full">
                         <!-- table data -->
@@ -72,11 +59,11 @@
                                 <tr>
                                     <th scope="col" class="px-4 py-4 border-2">No</th>
                                     <th scope="col" class="px-4 py-3 border-2">Participants Name</th>
-                                    <th scope="col" class="px-4 py-3 border-2">Participants Email</th>
                                     <th scope="col" class="px-4 py-3 border-2">Participants NIM</th>
                                     <th scope="col" class="px-4 py-3 border-2">Major</th>
-                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status
-                                    </th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Date of Birth</th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Password Status</th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status</th>
                                     <th scope="col" class="px-4 py-3 border-2">Score Listening</th>
                                     <th scope="col" class="px-4 py-3 border-2">Score Reading</th>
                                     <th scope="col" class="px-4 py-3 border-2">Total Score</th>
@@ -88,9 +75,10 @@
                                     <tr class="border-b" id="baris{{ $loop->iteration }}">
                                         <th class="px-4 py-3 border-2">{{ $loop->iteration }}</th>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->nama_peserta }}</td>
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->user->email }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->nim }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jurusan }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ \Carbon\Carbon::parse($data->tanggal_lahir)->format('d-m-Y') }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->user->is_password_changed ? 'Changed' : 'Not Change' }}</td>
 
                                         @if ($data->status == 'Sudah')
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">Done</td>
@@ -136,15 +124,7 @@
                                                                 Participation</span>
                                                         </button>
                                                     </li>
-                                                    <li>
-                                                        <a href="{{ url('/SendMail/Peserta/' . $data->id_peserta) }}"
-                                                            class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                                                            <i
-                                                                class="fa-solid fa-envelope w-5 text-green-500 mr-2 text-center"></i>
-                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Send
-                                                                Mail</span>
-                                                        </a>
-                                                    </li>
+                                                    {{-- Send Mail for peserta removed --}}
                                                     <li>
                                                         <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}"
                                                             class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
@@ -187,6 +167,7 @@
                 <div class="">
                     {{ $peserta->links() }}
                 </div>
+                </div> {{-- end search-results-container --}}
             </div>
         </div>
     </section>
@@ -196,16 +177,12 @@
     <div id="dropdownHover"
         class="relative z-20 hidden bg-white divide-y divide-gray-100 rounded-lg border-2 border-gray-300 w-44">
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-            {{-- <li>
-                <a href="{{ url('/SendMailPesertaAll/Sesione') }}"
-                    class="block px-4 py-2 hover:bg-gray-100 text-green-300">Send Email</a>
-            </li> --}}
             <li>
-                <a href="{{ url('/ExportExcelAdmin/Sesitwo') }}" target="_blank"
+                <a href="{{ url('/ExportExcelAdmin/' . rawurlencode($sesi)) }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Export Data (Excel)</a>
             </li>
             <li>
-                <a href="{{ url('/downloadresult/session_2') }}" target="_blank"
+                <a href="{{ url('/downloadresult/' . rawurlencode($sesi)) }}" target="_blank"
                     class="block px-4 py-2 hover:bg-gray-100 text-sky-600">Download Result (Zip)</a>
             </li>
             <li>
@@ -259,10 +236,10 @@
                             </div>
 
                             <div>
-                                <label for="email" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Email</label>
-                                <input type="email" name="email" value="{{ $data->user->email }}"
+                                <label for="tanggal_lahir" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Date of Birth</label>
+                                <input type="date" name="tanggal_lahir" value="{{ $data->tanggal_lahir }}"
                                     class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
-                                    placeholder="Example : youremail@gmail.com" required />
+                                    required />
                             </div>
 
                             <div>
@@ -289,35 +266,27 @@
                             </div>
 
                             <div>
-                                <label for="name" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Question Work
-                                    Status</label>
-                                <select id="countries" name="status"
-                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
-                                    @if ($data->status == 'Sudah')
-                                        <option selected hidden value="{{ $data->status }}">Done</option>
-                                    @elseif ($data->status == 'Kerjain')
-                                        <option selected hidden value="{{ $data->status }}">Work</option>
-                                    @else
-                                        <option selected hidden value="{{ $data->status }}">Not Yet</option>
-                                    @endif
-                                    <option value="Sudah">Done</option>
-                                    <option value="Belum">Not yet</option>
+                                <label for="sesi" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Session</label>
+                                <select id="sesi_{{ $data->id_peserta }}" name="sesi" onchange="toggleNewSessionInput({{ $data->id_peserta }})"
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium"
+                                    required>
+                                    <option value="{{ $data->sesi }}" selected hidden>{{ $data->sesi }}</option>
+                                    @foreach($existingSessions as $es)
+                                        <option value="{{ $es }}">{{ $es }}</option>
+                                    @endforeach
+                                    <option value="__NEW__" class="font-bold text-blue-600">+ Create New Session</option>
                                 </select>
                             </div>
-
-                            <div>
-                                <label for="name"
-                                    class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Session</label>
-                                <select id="countries" name="sesi"
-                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M7%209l3%203%203-3%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_14px_center] bg-[size:18px_18px] bg-no-repeat pr-10 font-medium">
-                                    <option selected hidden value="{{ $data->sesi }}">{{ $data->sesi }}</option>
-                                    <option value="Session 1">Session 1</option>
-                                    <option value="Session 2">Session 2</option>
-                                </select>
+                            
+                            <div id="new_sesi_container_{{ $data->id_peserta }}" class="hidden">
+                                <label for="new_sesi_{{ $data->id_peserta }}" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">New Session Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="new_sesi_{{ $data->id_peserta }}" name="new_sesi" disabled
+                                    class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
+                                    placeholder="e.g. Session 4" required />
                             </div>
 
                             <button type="submit"
-                                class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer mt-2">Submit</button>
+                                class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer !mt-6">Submit</button>
 
                         </form>
                     </div>
@@ -375,7 +344,7 @@
 
 
 
-    {{-- Modal Reset StatusS --}}
+    {{-- Modal Reset Status --}}
     <div id="ResetStatus" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-sm max-h-full">
@@ -402,7 +371,7 @@
                 <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to reset the exam status for all participants? They will be allowed to retake the test. This action cannot be undone.</p>
 
                 <div class="flex justify-center gap-3">
-                    <form class="modal-form w-full flex gap-3" action="{{ url('/ResetStatusAdmin/Sesitwo') }}" method="POST">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/ResetStatusAdmin/' . rawurlencode($sesi)) }}" method="POST">
                         @csrf
 
                         <button data-modal-toggle="ResetStatus" type="button"
@@ -446,7 +415,7 @@
                 <p class="mb-6 text-sm text-gray-500 leading-relaxed">Are you sure you want to delete all participants? This will permanently erase all participant records and exam history. This action is irreversible.</p>
 
                 <div class="flex justify-center gap-3">
-                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAllAdmin/Sesitwo') }}" method="POST">
+                    <form class="modal-form w-full flex gap-3" action="{{ url('/DeleteAllAdmin/' . rawurlencode($sesi)) }}" method="POST">
                         @csrf
 
                         <button data-modal-toggle="DeleteAll" type="button"
@@ -465,6 +434,21 @@
     {{-- End Modal Delete All --}}
 
     <script>
+        function toggleNewSessionInput(id) {
+            const select = document.getElementById('sesi_' + id);
+            const container = document.getElementById('new_sesi_container_' + id);
+            const input = document.getElementById('new_sesi_' + id);
+
+            if (select.value === '__NEW__') {
+                container.classList.remove('hidden');
+                input.disabled = false;
+                input.focus();
+            } else {
+                container.classList.add('hidden');
+                input.disabled = true;
+            }
+        }
+
         function hapus(baris, id) {
             const td = document.querySelectorAll('#' + baris + ' td');
 

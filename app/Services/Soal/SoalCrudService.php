@@ -30,7 +30,7 @@ class SoalCrudService
                 ->orWhere('soal', 'LIKE', '%'.$search.'%')
             )
             ->orderBy('nomor_soal', 'asc')
-            ->paginate(15);
+            ->paginate(15)->withQueryString();
 
         $audio = Audio::all();
         $gambar = Gambar::all();
@@ -151,7 +151,7 @@ class SoalCrudService
                 ->orWhere('soal', 'LIKE', '%'.$search.'%')
             )
             ->orderBy('nomor_soal', 'asc')
-            ->paginate(15);
+            ->paginate(15)->withQueryString();
 
         $gambar = Gambar::all();
 

@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\Log;
 
 class BankSoalService
 {
-    public function getBankSoalAll()
+    public function getBankSoalAll($search = null)
     {
-        Log::info('[BankSoalService::getBankSoalAll] Mengambil semua bank soal');
+        Log::info('[BankSoalService::getBankSoalAll] Mengambil semua bank soal', ['search' => $search]);
 
-        return BankSoal::latest()->paginate(15);
+        $query = BankSoal::latest();
+
+        if ($search) {
+            $query->where('bank', 'like', "%{$search}%")
+                  ->orWhere('sesi_bank', 'like', "%{$search}%")
+                  ->orWhere('mode', 'like', "%{$search}%");
+        }
+
+        return $query->paginate(15);
     }
 
     public function storeBankSoal(Request $request): bool
@@ -28,9 +36,11 @@ class BankSoalService
 
         DB::beginTransaction();
         try {
+            $finalSesi = $request->sesi_bank === '__NEW__' ? $request->new_sesi : $request->sesi_bank;
+
             BankSoal::create([
                 'bank' => $request->bank,
-                'sesi_bank' => $request->sesi_bank,
+                'sesi_bank' => $finalSesi,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_akhir' => $request->waktu_akhir,
                 'mode' => $request->mode ?? 'toeic',
@@ -61,22 +71,16 @@ class BankSoalService
 
         DB::beginTransaction();
         try {
+            $finalSesi = $request->sesi_bank === '__NEW__' ? $request->new_sesi : $request->sesi_bank;
+
             $updateData = [
                 'bank' => $request->bank,
-                'sesi_bank' => $request->sesi_bank,
+                'sesi_bank' => $finalSesi,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_akhir' => $request->waktu_akhir,
             ];
 
             if ($request->has('mode')) {
-                $hasAttempts = \App\Models\SelfStudyAttempt::where('id_bank', $request->id_bank)->exists();
-                $bank = BankSoal::find($request->id_bank);
-                if ($hasAttempts && $bank && $bank->mode !== $request->mode) {
-                    Log::warning('[BankSoalService::updateBankSoal] Cannot change mode, bank has attempts', [
-                        'id_bank' => $request->id_bank,
-                    ]);
-                    throw new \Exception('Cannot change mode: this bank already has participant attempts.');
-                }
                 $updateData['mode'] = $request->mode;
             }
 

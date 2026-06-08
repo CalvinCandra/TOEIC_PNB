@@ -8,6 +8,9 @@
 @section('content')
 
     {{-- konten --}}
+    @php
+        $existingSessions = \Illuminate\Support\Facades\DB::table('peserta')->whereNotNull('sesi')->distinct()->pluck('sesi')->sort()->values();
+    @endphp
     <section class="p-4 md:ml-64 h-auto pt-20">
         <h1>Participants Data</h1>
 
@@ -31,25 +34,8 @@
                 </div>
             @endif
             <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden p-3">
-                <!-- search form -->
-                <div class="w-full">
-                    <form class="flex items-center" method="GET">
-                        <label for="simple-search" class="sr-only">Search</label>
-                        <div class="relative w-full">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
-                                    viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <input type="text" id="simple-search" name="search"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Search" autocomplete="off">
-                        </div>
-                    </form>
-                </div>
+                <!-- live search -->
+                @include('layouts.dashboard.live-search', ['placeholder' => 'Search by name, NIM, major...'])
             {{-- end search --}}
             <div class="block lg:flex justify-between mt-5 ">
                 <!-- Modal toggle -->
@@ -70,6 +56,7 @@
                     </div>
                 </div>
 
+                <div id="search-results-container">
                 <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <div class="overflow-x-auto w-full">
                         <!-- table data -->
@@ -78,12 +65,13 @@
                                 <tr>
                                     <th scope="col" class="px-4 py-4 border-2">No</th>
                                     <th scope="col" class="px-4 py-3 border-2">Participants Name</th>
-                                    <th scope="col" class="px-4 py-3 border-2">Participants Email</th>
                                     <th scope="col" class="px-4 py-3 border-2">Participants NIM</th>
                                     <th scope="col" class="px-4 py-3 border-2">Major</th>
                                     <th scope="col" class="px-4 py-3 border-2">Session</th>
-                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status
-                                    </th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Date of Birth</th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Password Status</th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap">Question Work Status</th>
+                                    <th scope="col" class="px-4 py-3 border-2 whitespace-nowrap text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,16 +79,61 @@
                                     <tr class="border-b" id="baris{{ $loop->iteration }}">
                                         <th class="px-4 py-3 border-2">{{ $loop->iteration }}</th>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->nama_peserta }}</td>
-                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->user->email }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->nim }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->jurusan }}</td>
                                         <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->sesi }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ \Carbon\Carbon::parse($data->tanggal_lahir)->format('d-m-Y') }}</td>
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap">{{ $data->user->is_password_changed ? 'Changed' : 'Not Change' }}</td>
 
                                         @if ($data->status == 'Sudah')
                                             <td class="px-4 py-3 border-2 whitespace-nowrap">Done</td>
                                         @else
                                             <td class="px-4 py-3 border-2">Not yet</td>
                                         @endif
+
+                                        <td class="px-4 py-3 border-2 whitespace-nowrap text-center">
+                                            <button id="dropdownMenuIconButton{{ $data->id_peserta }}"
+                                                data-dropdown-toggle="dropdownDotsHorizontal{{ $data->id_peserta }}"
+                                                data-dropdown-placement="left"
+                                                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-700 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-700 transition duration-150 ease-in-out"
+                                                type="button">
+                                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                    fill="currentColor" viewBox="0 0 16 3">
+                                                    <path
+                                                        d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                                </svg>
+                                            </button>
+
+                                            <!-- Dropdown menu -->
+                                            <div id="dropdownDotsHorizontal{{ $data->id_peserta }}" class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-56 dark:bg-gray-700 dark:divide-gray-600 border border-gray-200 text-left">
+                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton{{ $data->id_peserta }}">
+                                                    <li>
+                                                        <button type="button" data-modal-target="UpdatePeserta{{ $data->id_peserta }}" data-modal-toggle="UpdatePeserta{{ $data->id_peserta }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i class="fa-solid fa-pen-to-square w-5 text-blue-500 mr-2 text-center"></i> 
+                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Update Participation</span>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ url('/reset-default-password/' . $data->id_peserta) }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i class="fa-solid fa-key w-5 text-yellow-500 mr-2 text-center"></i> 
+                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Reset Password</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ url('/reset-status-peserta-petugas/' . $data->id_peserta) }}" class="flex items-center w-full px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                                                            <i class="fa-solid fa-rotate-right w-5 text-orange-500 mr-2 text-center"></i> 
+                                                            <span class="font-medium text-gray-700 dark:text-gray-200">Reset Status</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div class="py-1">
+                                                    <button onclick="hapus('baris{{ $loop->iteration }}', '{{ $data->id_peserta }}')" type="button" data-modal-target="DeletePeserta" data-modal-toggle="DeletePeserta" class="flex items-center w-full px-4 py-2.5 text-red-600 hover:bg-red-50 dark:hover:bg-gray-600 dark:text-red-500 dark:hover:text-white transition-colors">
+                                                        <i class="fa-solid fa-trash w-5 mr-2 text-center"></i> 
+                                                        <span class="font-medium">Delete Participant</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -110,6 +143,7 @@
                 <div class="">
                     {{ $peserta->links() }}
                 </div>
+                </div> {{-- end search-results-container --}}
             </div>
         </div>
     </section>
@@ -120,15 +154,15 @@
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-md max-h-full p-4">
             <!-- Modal content -->
-            <div class="relative bg-white rounded-3xl shadow-xl border border-slate-100/50 overflow-hidden">
+            <div class="relative bg-white rounded-xl shadow dark:bg-gray-700">
 
                 <!-- Modal header -->
-                <div class="flex items-center justify-between p-5 border-b border-slate-100 rounded-t-3xl bg-slate-50/50">
-                    <h3 class="text-xl font-semibold text-gray-900">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                         Create Participants Data
                     </h3>
                     <button type="button"
-                        class="text-slate-400 hover:bg-slate-100 hover:text-slate-700 rounded-full w-8 h-8 inline-flex items-center justify-center transition-colors outline-none cursor-pointer absolute top-3.5 right-3.5"
+                        class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                         data-modal-hide="TambahPesertaExcel">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
@@ -138,10 +172,9 @@
                         <span class="sr-only">Close modal</span>
                     </button>
                 </div>
-
                 <!-- Modal body -->
                 <div class="p-4 md:p-5">
-                    <form class="space-y-4 modal-form" action="{{ url('/TambahPesertaExcelAdmin') }}" method="POST"
+                    <form class="space-y-4" action="{{ url('/TambahPesertaExcelPetugas') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <div>
@@ -152,12 +185,6 @@
                                 id="file_input" type="file" required>
                         </div>
 
-                    <button type="submit"
-                        class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all duration-200 shadow-md hover:shadow-blue-600/20 active:scale-95 cursor-pointer mt-2">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 {{-- End Modal Tambah Excel --}}
 
@@ -198,10 +225,10 @@
                     </div>
 
                     <div>
-                        <label for="email" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Email</label>
-                        <input type="email" name="email" id="email"
+                        <label for="tanggal_lahir" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Date of Birth</label>
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir"
                             class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
-                            placeholder="Example : youremail@gmail.com" required />
+                            required />
                     </div>
 
                     <div>
@@ -288,10 +315,10 @@
                         </div>
 
                         <div>
-                            <label for="email" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Email</label>
-                            <input type="email" name="email" value="{{$data->user->email}}"
+                            <label for="tanggal_lahir" class="block mb-1.5 text-xs font-bold text-slate-650 uppercase tracking-wider">Date of Birth</label>
+                            <input type="date" name="tanggal_lahir" value="{{$data->tanggal_lahir}}"
                                 class="bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white block w-full p-3.5 transition-all duration-200 outline-none placeholder:text-slate-400 font-medium"
-                                placeholder="Example : youremail@gmail.com" required />
+                                required />
                         </div>
 
                         <div>
@@ -496,6 +523,21 @@
 
 
 <script>
+    function toggleNewSessionInput(id) {
+        const select = document.getElementById('sesi_' + id);
+        const container = document.getElementById('new_sesi_container_' + id);
+        const input = document.getElementById('new_sesi_' + id);
+
+        if (select.value === '__NEW__') {
+            container.classList.remove('hidden');
+            input.disabled = false;
+            input.focus();
+        } else {
+            container.classList.add('hidden');
+            input.disabled = true;
+        }
+    }
+
     function hapus(baris, id) {
         const td = document.querySelectorAll('#' + baris + ' td');
 

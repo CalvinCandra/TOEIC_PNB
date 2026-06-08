@@ -33,11 +33,12 @@ class PetugasController extends Controller
             ->get();
 
         $sessions = $data->pluck('sesi')->unique()->sort()->values();
+
         $statuses = ['Sudah', 'Kerjain', 'Belum'];
 
-        $chartData = [];
+        $allChartData = [];
         foreach ($sessions as $sesi) {
-            $chartData[] = [
+            $allChartData[$sesi] = [
                 'sesi' => $sesi,
                 'data' => [
                     'Done' => $data->where('sesi', $sesi)->where('status', 'Sudah')->sum('total') ?? 0,
@@ -48,7 +49,42 @@ class PetugasController extends Controller
             ];
         }
 
-        return view('petugas.content.dashboard', compact('sessions', 'statuses', 'chartData'));
+        $allJurusanData = [];
+        foreach ($sessions as $sesi) {
+            $jurusanData = DB::table('peserta')
+                ->select('jurusan', 'status', DB::raw('COUNT(*) as total'))
+                ->where('sesi', $sesi)
+                ->groupBy('jurusan', 'status')
+                ->orderBy('jurusan')
+                ->get();
+
+            $jurusanList = $jurusanData->pluck('jurusan')->unique()->sort()->values();
+            $chartData = [];
+            foreach ($jurusanList as $j) {
+                $chartData[] = [
+                    'jurusan' => $j,
+                    'data' => [
+                        'Done' => $jurusanData->where('jurusan', $j)->where('status', 'Sudah')->sum('total') ?? 0,
+                        'Work' => $jurusanData->where('jurusan', $j)->where('status', 'Kerjain')->sum('total') ?? 0,
+                        'Not Yet' => $jurusanData->where('jurusan', $j)->where('status', 'Belum')->sum('total') ?? 0,
+                    ],
+                    'total' => $jurusanData->where('jurusan', $j)->sum('total'),
+                ];
+            }
+            $allJurusanData[$sesi] = $chartData;
+        }
+
+        $allTopScorers = [];
+        foreach ($sessions as $sesi) {
+            $allTopScorers[$sesi] = \App\Models\Peserta::with('user')
+                ->where('sesi', $sesi)
+                ->where('status', 'Sudah')
+                ->orderByRaw('(skor_listening + skor_reading) DESC')
+                ->take(10)
+                ->get();
+        }
+
+        return view('petugas.content.dashboard', compact('sessions', 'statuses', 'allChartData', 'allJurusanData', 'allTopScorers'));
     }
 
     public function dashPetugasPeserta()
@@ -58,18 +94,11 @@ class PetugasController extends Controller
         return view('petugas.content.Peserta.PetugasPeserta', compact('peserta'));
     }
 
-    public function dashPetugasPeserta1()
+    public function dashPetugasPesertaSesi($sesi)
     {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 1', request('search'));
+        $peserta = $this->pesertaService->getPesertaBySesi($sesi, request('search'));
 
-        return view('petugas.content.Peserta.PetugasPeserta1', compact('peserta'));
-    }
-
-    public function dashPetugasPeserta2()
-    {
-        $peserta = $this->pesertaService->getPesertaBySesi('Session 2', request('search'));
-
-        return view('petugas.content.Peserta.PetugasPeserta2', compact('peserta'));
+        return view('petugas.content.Peserta.PetugasPesertaSesi', compact('peserta', 'sesi'));
     }
 
     public function TambahPesertaExcel(Request $request)
@@ -101,8 +130,7 @@ class PetugasController extends Controller
 
     public function DeletePetugasAllPeserta($sesi)
     {
-        $sesiTran = $sesi === 'Sesione' ? 'Session 1' : ($sesi === 'Sesitwo' ? 'Session 2' : null);
-        $this->pesertaService->deleteAllPeserta($sesiTran);
+        $this->pesertaService->deleteAllPeserta($sesi);
         toast('Semua Peserta Dihapus', 'success');
 
         return redirect()->back();
@@ -132,7 +160,7 @@ class PetugasController extends Controller
 
     public function dashPetugasSoal()
     {
-        $bank = $this->bankSoalService->getBankSoalAll();
+        $bank = $this->bankSoalService->getBankSoalAll(request('search'));
 
         return view('petugas.content.BankSoal.dashbanksoal', compact('bank'));
     }
@@ -166,7 +194,7 @@ class PetugasController extends Controller
 
     public function dashPetugasGambar()
     {
-        $gambar = $this->mediaService->getGambarAll();
+        $gambar = $this->mediaService->getGambarAll(request('search'));
 
         $urlpathimage = Storage::disk('s3')->url('gambar/');
 
@@ -193,7 +221,7 @@ class PetugasController extends Controller
 
     public function dashPetugasAudio()
     {
-        $audio = $this->mediaService->getAudioAll();
+        $audio = $this->mediaService->getAudioAll(request('search'));
 
         $urlpathaudio = Storage::disk('s3')->url('audio/');
 

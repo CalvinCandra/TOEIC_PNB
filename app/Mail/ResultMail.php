@@ -15,7 +15,6 @@ class ResultMail extends Mailable
     use Queueable, SerializesModels;
 
     public $nama_peserta;
-    public $email;
     public $nim;
     public $jurusan;
     public $skorReading;
@@ -28,10 +27,9 @@ class ResultMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($nama_peserta, $email, $nim, $jurusan, $skorReading, $skorListening, $totalSkor, $kategori, $rangeSkor, $pdfPath)
+    public function __construct($nama_peserta, $nim, $jurusan, $skorReading, $skorListening, $totalSkor, $kategori, $rangeSkor, $pdfPath)
     {
         $this->nama_peserta = $nama_peserta;
-        $this->email = $email;
         $this->nim = $nim;
         $this->jurusan = $jurusan;
         $this->skorReading = $skorReading;

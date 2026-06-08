@@ -202,10 +202,7 @@
                     <span class="label">Full Name</span>
                     <span class="value">: {{ $nama_peserta }}</span>
                 </p>
-                <p>
-                    <span class="label">Email</span>
-                    <span class="value">: <a href="mailto:{{ $email }}">{{ $email }}</a></span>
-                </p>
+                {{-- Email removed --}}
                 <p>
                     <span class="label">NIM</span>
                     <span class="value">: {{ $nim }}</span>

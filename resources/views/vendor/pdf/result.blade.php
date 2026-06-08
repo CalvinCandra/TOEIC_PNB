@@ -180,12 +180,7 @@
                     <div class="label">Full Name</div>
                     <div class="value">: {{ $nama_peserta }}</div>
                 </div>
-                <div class="data-row">
-                    <div class="label">Email</div>
-                    <div class="value">
-                        : <a href="mailto:{{ $email }}">{{ $email }}</a>
-                    </div>
-                </div>
+                {{-- Email removed --}}
                 <div class="data-row">
                     <div class="label">NIM</div>
                     <div class="value">: {{ $nim }}</div>
