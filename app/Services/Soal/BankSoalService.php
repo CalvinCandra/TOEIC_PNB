@@ -22,7 +22,7 @@ class BankSoalService
                   ->orWhere('mode', 'like', "%{$search}%");
         }
 
-        return $query->paginate(15);
+        return $query->paginate(15)->withQueryString();
     }
 
     public function storeBankSoal(Request $request): bool
